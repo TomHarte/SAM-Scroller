@@ -1,0 +1,4964 @@
+	full_8:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x2222
+		push de
+		ld de, 0x2201
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x2222
+		push de
+		ld de, 0x2212
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x2222
+		push de
+		ld de, 0x0200
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x2212
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		ld de, 0x2222
+		push de
+		ld de, 0x2212
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x2222
+		push de
+		ld de, 0x1201
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x2222
+		push de
+		ld de, 0x0100
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1101
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+	@return:
+
+		jp 1234
+	full_9:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x2212
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x3222
+		push de
+		ld de, 0x0100
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1101
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x2312
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x2223
+		push de
+		ld de, 0x1200
+		push de
+		ld de, 0x0000
+		push de
+		push de
+	@return:
+
+		jp 1234
+	full_14:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x4444
+		push de
+		ld de, 0x4401
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4444
+		push de
+		ld de, 0x4414
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4444
+		push de
+		ld de, 0x0400
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4414
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		ld de, 0x4444
+		push de
+		ld de, 0x4414
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4444
+		push de
+		ld de, 0x1401
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4444
+		push de
+		ld de, 0x0100
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1101
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+	@return:
+
+		jp 1234
+	full_28:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+	@return:
+
+		jp 1234
+	full_29:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		ld de, 0x6666
+		push de
+		push de
+		ld de, 0x1611
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5655
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5655
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x1611
+		push de
+		ld de, 0x1111
+		push de
+		ld de, 0x5655
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5655
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5655
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x5655
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5655
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5655
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5655
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5655
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5655
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x6666
+		push de
+		ld de, 0x5655
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x6666
+		push de
+	@return:
+
+		jp 1234
+	full_15:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x4444
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4144
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x4474
+		push de
+		ld de, 0x4414
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4144
+		push de
+		ld de, 0x4447
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x1400
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0001
+		push de
+		ld de, 0x4144
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x1400
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		ld de, 0x1044
+		push de
+		ld de, 0x4401
+		push de
+		ld de, 0x0000
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		ld de, 0x4444
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4144
+		push de
+		ld de, 0x7444
+		push de
+		ld de, 0x7447
+		push de
+		ld de, 0x4401
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1014
+		push de
+		ld de, 0x4444
+		push de
+		push de
+		ld de, 0x1400
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		ld de, 0x4144
+		push de
+		ld de, 0x4414
+		push de
+		ld de, 0x0100
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		ld de, 0x0011
+		push de
+		ld de, 0x1100
+		push de
+		ld de, 0x0000
+		push de
+	@return:
+
+		jp 1234
+	full_17:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x8181
+		push de
+		ld de, 0x8811
+		push de
+		ld de, 0x8888
+		push de
+		ld de, 0x1858
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x8188
+		push de
+		ld de, 0x8858
+		push de
+		ld de, 0x8588
+		push de
+		ld de, 0x8858
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x8188
+		push de
+		ld de, 0x8851
+		push de
+		ld de, 0x8588
+		push de
+		ld de, 0x8858
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x8188
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x1881
+		push de
+		ld de, 0x8858
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x8188
+		push de
+		ld de, 0x5185
+		push de
+		ld de, 0x1855
+		push de
+		ld de, 0x8858
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x8188
+		push de
+		ld de, 0x8855
+		push de
+		ld de, 0x5585
+		push de
+		ld de, 0x8858
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x8188
+		push de
+		ld de, 0x8888
+		push de
+		push de
+		ld de, 0x8858
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		ld de, 0x8188
+		push de
+		ld de, 0x8888
+		push de
+		push de
+		ld de, 0x8858
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x8188
+		push de
+		ld de, 0x8851
+		push de
+		ld de, 0x8588
+		push de
+		ld de, 0x8858
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x8188
+		push de
+		ld de, 0x8811
+		push de
+		ld de, 0x8888
+		push de
+		ld de, 0x8858
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x8188
+		push de
+		ld de, 0x1151
+		push de
+		ld de, 0x8588
+		push de
+		ld de, 0x8858
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x8188
+		push de
+		ld de, 0x5185
+		push de
+		ld de, 0x1855
+		push de
+		ld de, 0x8858
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x8188
+		push de
+		ld de, 0x5815
+		push de
+		ld de, 0x1155
+		push de
+		ld de, 0x8858
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x8181
+		push de
+		ld de, 0x8888
+		push de
+		push de
+		ld de, 0x1858
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5055
+		push de
+		ld de, 0x5555
+		push de
+		push de
+		ld de, 0x5505
+		push de
+	@return:
+
+		jp 1234
+	full_16:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		ld de, 0x1044
+		push de
+		ld de, 0x4444
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		ld de, 0x4144
+		push de
+		ld de, 0x4444
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		ld de, 0x1010
+		push de
+		ld de, 0x4444
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		ld de, 0x0010
+		push de
+		ld de, 0x1410
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		push de
+		push de
+		ld de, 0x4144
+		push de
+		ld de, 0x4444
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		ld de, 0x4141
+		push de
+		ld de, 0x4444
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		ld de, 0x0010
+		push de
+		ld de, 0x4441
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		ld de, 0x0110
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+	@return:
+
+		jp 1234
+	full_12:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		ld de, 0x1022
+		push de
+		ld de, 0x2222
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		ld de, 0x2122
+		push de
+		ld de, 0x2222
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		ld de, 0x1010
+		push de
+		ld de, 0x2222
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		ld de, 0x0010
+		push de
+		ld de, 0x1210
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		push de
+		push de
+		ld de, 0x2122
+		push de
+		ld de, 0x2222
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		ld de, 0x2121
+		push de
+		ld de, 0x2222
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		ld de, 0x0010
+		push de
+		ld de, 0x2221
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		ld de, 0x0110
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+	@return:
+
+		jp 1234
+	full_13:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		ld de, 0x0010
+		push de
+		ld de, 0x2112
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		ld de, 0x2022
+		push de
+		ld de, 0x2222
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		ld de, 0x1022
+		push de
+		ld de, 0x2222
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		ld de, 0x1001
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		ld de, 0x1021
+		push de
+		ld de, 0x2222
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		ld de, 0x2122
+		push de
+		ld de, 0x2222
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		ld de, 0x0021
+		push de
+		ld de, 0x2222
+		push de
+	@return:
+
+		jp 1234
+	full_11:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0011
+		push de
+		ld de, 0x1100
+		push de
+		ld de, 0x0011
+		push de
+		ld de, 0x0100
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x2222
+		push de
+		push de
+		ld de, 0x2122
+		push de
+		ld de, 0x2212
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x2233
+		push de
+		ld de, 0x3323
+		push de
+		ld de, 0x3333
+		push de
+		ld de, 0x3322
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x2222
+		push de
+		ld de, 0x2232
+		push de
+		ld de, 0x2222
+		push de
+		ld de, 0x2223
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1122
+		push de
+		ld de, 0x2211
+		push de
+		ld de, 0x1022
+		push de
+		ld de, 0x1201
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x2232
+		push de
+		ld de, 0x3322
+		push de
+		ld de, 0x2233
+		push de
+		ld de, 0x2222
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x3222
+		push de
+		ld de, 0x2233
+		push de
+		ld de, 0x3322
+		push de
+		ld de, 0x3233
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x2222
+		push de
+		ld de, 0x2223
+		push de
+		ld de, 0x2222
+		push de
+		push de
+	@return:
+
+		jp 1234
+	full_10:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x2222
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x2122
+		push de
+		ld de, 0x2222
+		push de
+		ld de, 0x2232
+		push de
+		ld de, 0x2212
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x2122
+		push de
+		ld de, 0x2223
+		push de
+		ld de, 0x2222
+		push de
+		ld de, 0x1200
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0001
+		push de
+		ld de, 0x2122
+		push de
+		ld de, 0x2222
+		push de
+		ld de, 0x1200
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		ld de, 0x1022
+		push de
+		ld de, 0x2201
+		push de
+		ld de, 0x0000
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		ld de, 0x2222
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x2122
+		push de
+		ld de, 0x3222
+		push de
+		ld de, 0x3223
+		push de
+		ld de, 0x2201
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1012
+		push de
+		ld de, 0x2222
+		push de
+		push de
+		ld de, 0x1200
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		ld de, 0x2122
+		push de
+		ld de, 0x2212
+		push de
+		ld de, 0x0100
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		ld de, 0x0011
+		push de
+		ld de, 0x1100
+		push de
+		ld de, 0x0000
+		push de
+	@return:
+
+		jp 1234
+	full_21:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x0011
+		push de
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4174
+		push de
+		ld de, 0x7474
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4174
+		push de
+		ld de, 0x7474
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4174
+		push de
+		ld de, 0x7474
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4174
+		push de
+		ld de, 0x7474
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4174
+		push de
+		ld de, 0x7474
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4174
+		push de
+		ld de, 0x7474
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4144
+		push de
+		ld de, 0x4444
+		push de
+		push de
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4144
+		push de
+		ld de, 0x4777
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4144
+		push de
+		ld de, 0x4777
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4144
+		push de
+		ld de, 0x4777
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4144
+		push de
+		ld de, 0x4777
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4144
+		push de
+		ld de, 0x4777
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x7177
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+	@return:
+
+		jp 1234
+	full_20:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x4447
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x7744
+		push de
+		ld de, 0x1400
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4447
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x7744
+		push de
+		ld de, 0x1400
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4447
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x7744
+		push de
+		ld de, 0x1400
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4447
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x7744
+		push de
+		ld de, 0x1400
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4447
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x7744
+		push de
+		ld de, 0x1400
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4447
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x7744
+		push de
+		ld de, 0x1400
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4447
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x7744
+		push de
+		ld de, 0x1400
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4447
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x7744
+		push de
+		ld de, 0x1400
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		ld de, 0x4447
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x7744
+		push de
+		ld de, 0x1400
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4447
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x7744
+		push de
+		ld de, 0x1400
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4447
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x7744
+		push de
+		ld de, 0x1400
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4447
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x7744
+		push de
+		ld de, 0x1400
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4447
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x7744
+		push de
+		ld de, 0x1400
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4447
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x7744
+		push de
+		ld de, 0x1400
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4447
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x7744
+		push de
+		ld de, 0x1400
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4447
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x7744
+		push de
+		ld de, 0x1400
+		push de
+	@return:
+
+		jp 1234
+	full_22:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x0041
+		push de
+		ld de, 0x7474
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0041
+		push de
+		ld de, 0x7474
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0041
+		push de
+		ld de, 0x7474
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0041
+		push de
+		ld de, 0x7474
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0041
+		push de
+		ld de, 0x7474
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0041
+		push de
+		ld de, 0x7474
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0041
+		push de
+		ld de, 0x7474
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0041
+		push de
+		ld de, 0x7474
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		ld de, 0x0041
+		push de
+		ld de, 0x4447
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0041
+		push de
+		ld de, 0x4447
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0041
+		push de
+		ld de, 0x4447
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0041
+		push de
+		ld de, 0x4447
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0041
+		push de
+		ld de, 0x4447
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0041
+		push de
+		ld de, 0x4447
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0041
+		push de
+		ld de, 0x4447
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0041
+		push de
+		ld de, 0x4447
+		push de
+		ld de, 0x7777
+		push de
+		push de
+	@return:
+
+		jp 1234
+	full_23:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x1511
+		push de
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1115
+		push de
+		ld de, 0x1111
+		push de
+		push de
+		ld de, 0x1166
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		ld de, 0x5555
+		push de
+		push de
+		ld de, 0x6666
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		ld de, 0x5555
+		push de
+		push de
+		ld de, 0x6666
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		ld de, 0x5555
+		push de
+		push de
+		ld de, 0x6666
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		ld de, 0x5555
+		push de
+		push de
+		ld de, 0x6666
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		ld de, 0x6666
+		push de
+		push de
+		ld de, 0x6566
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1166
+		push de
+		ld de, 0x6666
+		push de
+		push de
+		ld de, 0x6665
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		ld de, 0x5111
+		push de
+		ld de, 0x1111
+		push de
+		push de
+		ld de, 0x1161
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1151
+		push de
+		ld de, 0x1111
+		push de
+		push de
+		ld de, 0x6166
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		ld de, 0x5555
+		push de
+		push de
+		ld de, 0x6666
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		ld de, 0x5555
+		push de
+		push de
+		ld de, 0x6666
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		ld de, 0x5555
+		push de
+		push de
+		ld de, 0x6666
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		ld de, 0x5555
+		push de
+		push de
+		ld de, 0x6666
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1161
+		push de
+		ld de, 0x6666
+		push de
+		push de
+		ld de, 0x5666
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x6166
+		push de
+		ld de, 0x6666
+		push de
+		push de
+		ld de, 0x6656
+		push de
+	@return:
+
+		jp 1234
+	full_27:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+	@return:
+
+		jp 1234
+	full_32:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x1111
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x1111
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x1111
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x1111
+		push de
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x1111
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x1111
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x1111
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x1111
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x1111
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x1111
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x1111
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x1111
+		push de
+		push de
+	@return:
+
+		jp 1234
+	full_26:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		ld de, 0x6666
+		push de
+		push de
+		ld de, 0x1611
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x0600
+		push de
+		ld de, 0x0000
+		push de
+		ld de, 0x5655
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x0600
+		push de
+		ld de, 0x0000
+		push de
+		ld de, 0x5655
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x0600
+		push de
+		ld de, 0x0000
+		push de
+		ld de, 0x5655
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x0600
+		push de
+		ld de, 0x0000
+		push de
+		ld de, 0x5655
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x0600
+		push de
+		ld de, 0x0000
+		push de
+		ld de, 0x5655
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x0600
+		push de
+		ld de, 0x0000
+		push de
+		ld de, 0x5655
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x6666
+		push de
+		ld de, 0x0600
+		push de
+		ld de, 0x0000
+		push de
+		ld de, 0x6666
+		push de
+	@return:
+
+		jp 1234
+	full_18:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5555
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x6666
+		push de
+		push de
+		push de
+		push de
+	@return:
+
+		jp 1234
+	full_30:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1511
+		push de
+		ld de, 0x1111
+		push de
+		push de
+		ld de, 0x1151
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5115
+		push de
+		ld de, 0x1111
+		push de
+		push de
+		ld de, 0x5155
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1511
+		push de
+		ld de, 0x1111
+		push de
+		push de
+		ld de, 0x1151
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5111
+		push de
+		ld de, 0x1111
+		push de
+		push de
+		ld de, 0x1155
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x1511
+		push de
+		ld de, 0x1151
+		push de
+		ld de, 0x5555
+		push de
+	@return:
+
+		jp 1234
+	full_24:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		ld de, 0x0011
+		push de
+		ld de, 0x1100
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x7177
+		push de
+		ld de, 0x7717
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x7177
+		push de
+		ld de, 0x7714
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x1077
+		push de
+		ld de, 0x4701
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		push de
+		ld de, 0x1077
+		push de
+		ld de, 0x7701
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x7177
+		push de
+		ld de, 0x7717
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x7177
+		push de
+		ld de, 0x7714
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x0011
+		push de
+		ld de, 0x1100
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+	@return:
+
+		jp 1234
+	full_25:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		ld de, 0x0040
+		push de
+		ld de, 0x0400
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x0040
+		push de
+		ld de, 0x0400
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x0040
+		push de
+		ld de, 0x0400
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x0040
+		push de
+		ld de, 0x0400
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x0040
+		push de
+		ld de, 0x0400
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x0040
+		push de
+		ld de, 0x0400
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x0040
+		push de
+		ld de, 0x0400
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x0040
+		push de
+		ld de, 0x0400
+		push de
+		ld de, 0x0000
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		push de
+		ld de, 0x0040
+		push de
+		ld de, 0x0400
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x0040
+		push de
+		ld de, 0x0400
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x0040
+		push de
+		ld de, 0x0400
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x0040
+		push de
+		ld de, 0x0400
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x0040
+		push de
+		ld de, 0x0400
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x0040
+		push de
+		ld de, 0x0400
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x0040
+		push de
+		ld de, 0x0400
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x0040
+		push de
+		ld de, 0x0400
+		push de
+		ld de, 0x0000
+		push de
+	@return:
+
+		jp 1234
+	full_31:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+	@return:
+
+		jp 1234
+	full_19:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		ld de, 0x1100
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4774
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x4477
+		push de
+		ld de, 0x4414
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4774
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x4477
+		push de
+		ld de, 0x4414
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4774
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x4477
+		push de
+		ld de, 0x4414
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4774
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x4477
+		push de
+		ld de, 0x4414
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4774
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x4477
+		push de
+		ld de, 0x4414
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4774
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x4477
+		push de
+		ld de, 0x4414
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4444
+		push de
+		push de
+		push de
+		ld de, 0x4414
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4774
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x4477
+		push de
+		ld de, 0x4414
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4774
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x4477
+		push de
+		ld de, 0x4414
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4774
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x4477
+		push de
+		ld de, 0x4414
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4774
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x4477
+		push de
+		ld de, 0x4414
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x4774
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x4477
+		push de
+		ld de, 0x4414
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x7777
+		push de
+		ld de, 0x4444
+		push de
+		ld de, 0x4477
+		push de
+		ld de, 0x7717
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1111
+		push de
+		push de
+		push de
+		push de
+	@return:
+
+		jp 1234
+	full_4:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x1177
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		ld de, 0x7711
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		ld de, 0x1011
+		push de
+		ld de, 0x1101
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		ld de, 0x0011
+		push de
+		ld de, 0x7177
+		push de
+		ld de, 0x7717
+		push de
+		ld de, 0x1100
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+	@return:
+
+		jp 1234
+	full_5:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x7777
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+	@return:
+
+		jp 1234
+	full_7:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x7777
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		ld de, 0x1771
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x7777
+		push de
+		push de
+		ld de, 0x7771
+		push de
+		ld de, 0x1771
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x7777
+		push de
+		push de
+		ld de, 0x1711
+		push de
+		ld de, 0x7777
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		ld de, 0x1711
+		push de
+		ld de, 0x7777
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		ld de, 0x1771
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x7777
+		push de
+		push de
+		ld de, 0x1711
+		push de
+		ld de, 0x1771
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x7777
+		push de
+		push de
+		ld de, 0x1711
+		push de
+		ld de, 0x7777
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		ld de, 0x7771
+		push de
+		ld de, 0x7777
+		push de
+	@return:
+
+		jp 1234
+	full_6:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x7177
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0071
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		ld de, 0x7177
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		ld de, 0x0071
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		ld de, 0x7177
+		push de
+		ld de, 0x7777
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		ld de, 0x0071
+		push de
+		ld de, 0x7777
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		ld de, 0x7177
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		ld de, 0x0071
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		ld de, 0x1077
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0010
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		ld de, 0x1077
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		ld de, 0x0010
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		ld de, 0x1077
+		push de
+		ld de, 0x7777
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		ld de, 0x0010
+		push de
+		ld de, 0x7777
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		ld de, 0x1077
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		ld de, 0x0010
+		push de
+	@return:
+
+		jp 1234
+	full_2:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x1511
+		push de
+		ld de, 0x1161
+		push de
+		ld de, 0x1511
+		push de
+		ld de, 0x1151
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x5565
+		push de
+		ld de, 0x6166
+		push de
+		ld de, 0x5565
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x5516
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x1166
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x6551
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5565
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x6551
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5565
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1511
+		push de
+		ld de, 0x5151
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5565
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x6551
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5565
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x6551
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5565
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		ld de, 0x1155
+		push de
+		ld de, 0x5565
+		push de
+		ld de, 0x5155
+		push de
+		ld de, 0x5565
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x5565
+		push de
+		ld de, 0x1111
+		push de
+		ld de, 0x6665
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x5516
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5511
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x6551
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5565
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x6166
+		push de
+		ld de, 0x6651
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5565
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x6151
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5565
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x5155
+		push de
+		ld de, 0x6551
+		push de
+		ld de, 0x5555
+		push de
+		ld de, 0x5565
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x6566
+		push de
+		ld de, 0x5661
+		push de
+		ld de, 0x6666
+		push de
+		ld de, 0x6656
+		push de
+	@return:
+
+		jp 1234
+	full_3:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x7777
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x1771
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x7771
+		push de
+		ld de, 0x1771
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1711
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1711
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		ld de, 0x1771
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1711
+		push de
+		ld de, 0x1771
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1711
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x7771
+		push de
+		ld de, 0x7777
+		push de
+		push de
+		push de
+	@return:
+
+		jp 1234
+	full_1:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x7777
+		push de
+		push de
+		push de
+		ld de, 0x7717
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x7777
+		push de
+		push de
+		push de
+		ld de, 0x1700
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x7777
+		push de
+		push de
+		ld de, 0x7717
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x7777
+		push de
+		push de
+		ld de, 0x1700
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x7777
+		push de
+		ld de, 0x7717
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x7777
+		push de
+		ld de, 0x1700
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x7717
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x1700
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		ld de, 0x7777
+		push de
+		push de
+		push de
+		ld de, 0x7701
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x7777
+		push de
+		push de
+		push de
+		ld de, 0x0100
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x7777
+		push de
+		push de
+		ld de, 0x7701
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x7777
+		push de
+		push de
+		ld de, 0x0100
+		push de
+		ld de, 0x0000
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x7777
+		push de
+		ld de, 0x7701
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x7777
+		push de
+		ld de, 0x0100
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x7701
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		ld de, 0x0100
+		push de
+		ld de, 0x0000
+		push de
+		push de
+		push de
+	@return:
+
+		jp 1234
+	full_0:
+		ld (@+return+1), de
+		ld sp, hl
+
+		ld de, 0x0000
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		ld bc, 1664
+		add hl, bc
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+		dec h
+		ld sp, hl
+
+		push de
+		push de
+		push de
+		push de
+	@return:
+
+		jp 1234
+	ds align 256
+	tiles_full:
+		dw full_0, full_1, full_2, full_3, full_4, full_5, full_6, full_7, full_8, full_9, full_10, full_11, full_12, full_13, full_14, full_15, full_16, full_17, full_18, full_19, full_20, full_21, full_22, full_23, full_24, full_25, full_26, full_27, full_28, full_29, full_30, full_31, full_32

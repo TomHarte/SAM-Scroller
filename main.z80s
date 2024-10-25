@@ -1,0 +1,226 @@
+LINE:		EQU 249
+STATUS:		EQU 249
+
+LMPR:		EQU 250
+HMPR:		EQU 251
+VMPR:		EQU 252
+BORDER:		EQU 254
+
+EXECPAGE:	EQU 16
+
+	ORG (32 + 24)*1024
+FLAGS_SIZE: 	EQU 3*17
+DIRTY_FLAGS:	ds FLAGS_SIZE
+COMBINED_FLAGS:	ds FLAGS_SIZE
+
+	ORG 0
+	DUMP EXECPAGE, 0
+	AUTOEXEC
+
+	di
+
+	; Establish line interrupts at line 191, which will be polled for later.
+	ld a, 191
+	out (LINE), a
+
+	; Page self to lower page and proceed with execution from there.
+	ld a, %00100000 + EXECPAGE
+	out (LMPR), a
+	jp @+relocate
+
+@relocate:
+	; Disable display until the following is complete.
+	ld a, %10000000
+	out (BORDER), a
+
+	; Establish palette.
+	ld bc, 0x10f8
+	ld hl, palette+15
+	otdr
+
+	; Setup all screens.
+	ld e, 16
+@setup_screen:
+	ld a, e
+	dec a
+	dec a
+	out (HMPR), a
+	ld e, a
+	jp m, @+break_setup_screen
+
+	ld sp, 0
+	ld bc, 32768 / 4
+	ld hl, 0
+@blank_loop:
+	push hl
+	push hl
+	dec bc
+	ld a, b
+	or c
+	jr nz, @-blank_loop
+
+	ld a, 0x1e
+	ld hl, DIRTY_FLAGS
+	ld b, 12*17
+@flags_loop:
+	ld (hl), a
+	inc l
+	dec b
+	jr nz, @-flags_loop
+
+	; TODO: seed dirty flags.
+
+	jp @-setup_screen
+
+@break_setup_screen:
+
+	; Reenable the display.
+	ld a, %00000000
+	out (BORDER), a
+
+;
+; Initial setup tasks are done now.
+;
+
+	; Set current far extent of map, scroll 0.
+	ld a, 0
+	ld (@+scroll_offset), a
+
+@draw_scene:
+	; Wait for start of lower border.
+@wait:
+	in a, (STATUS)
+	rra
+	jr c, @-wait
+
+	; Put next page into the upper page.
+	ld a, (@+scroll_offset)
+	out (HMPR), a
+
+	; OR per-page dirty bits with the fixed list to produce a composite diff.
+	ld c, FLAGS_SIZE
+	ld de, DIRTY_FLAGS + FLAGS_SIZE
+	ld iy, COMBINED_FLAGS + FLAGS_SIZE
+	ld hl, (@+diff_address)
+@flag_loop:
+	dec de
+	dec iy
+	dec hl
+
+	ld a, (de)
+	or (hl)
+	ld (iy+0), a
+
+	ld a, 0
+	ld (de), a
+
+	dec c
+	jr nz, @-flag_loop
+
+	; Seed pointers to map contents and to diffs list.
+	ld ix, (@+map_address)
+	ld iy, COMBINED_FLAGS + FLAGS_SIZE
+
+	; Establish bottom right of output (allowing for the fact that it'll be predecremented later).
+	ld hl, 128*192	+ 32768 + 8
+	ld a, (@+scroll_offset)
+	srl a
+	neg
+	add a, l
+	ld l, a
+	ld (@+column_target), hl
+
+	; Set column count and begin loop.
+	ld a, 15	
+	ld (@+column_count), a
+
+@draw_column:
+	;
+	; Calculate new display start address.
+	;
+	ld hl, (@+column_target)
+	ld bc, -8
+	add hl, bc
+	ld (@+column_target), hl
+
+	;
+	; Draw entire column.
+	;
+
+sliver_loop: EQU FOR 3
+
+		dec iy
+		ld a, (iy+0)	; Get diffs offset.
+		ld (@+get_sliver+2), a
+	@get_sliver:
+		ld de, (slivers)
+		ld (@+do_sliver+1), de
+
+		ld a, tiles_full >> 8
+		ld de, @+next
+	@do_sliver:
+		jp 1234
+	@next:
+
+NEXT sliver_loop
+
+
+;
+; Check for remaining columns.
+;
+
+	ld a, (@+column_count)
+	dec a
+	ld (@+column_count), a
+	jr nz, @-draw_column
+
+;
+; Loop is over, present results.
+;
+
+	; Set page 0 and mode 4 for video.
+	ld a, (@+scroll_offset)
+	add a, %01100000
+	out (VMPR), a
+
+	;
+	; Repeat.
+	;
+	ld a, (@+scroll_offset)
+	inc a
+	inc a
+	and 15
+	ld (@+scroll_offset), a
+	jp nz, @-draw_scene
+
+	; Add 12 to map address to move one column along.
+	; Correspondingly add 3 to the diff address.
+	ld hl, (@+map_address)
+	ld bc, 12
+	add hl, bc
+	ld (@+map_address), hl
+
+	ld hl, (@+diff_address)
+	ld bc, 3
+	add hl, bc
+	ld (@+diff_address), hl
+
+;
+; Loop for end of frame
+;
+	jp @-draw_scene
+
+	halt
+
+@scroll_offset:	db 0
+@map_address: dw map + 12*32
+@diff_address: dw diffs + 3*31
+
+@loop_count: db 0
+@column_count: db 0
+@column_target: dw 0
+
+INC "generated/palette.z80s"
+INC "generated/tiles.z80s"
+INC "generated/map.z80s"
+INC "generated/slivers.z80s"
