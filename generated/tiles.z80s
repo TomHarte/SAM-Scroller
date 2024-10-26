@@ -1,3 +1,18 @@
+	; The following tile outputters are automatically generated.
+	;
+	; Input:
+	;	* HL points to one after the lower right corner of the output location;
+	;	* DE is a link register, indicating where the function should return to.
+	;
+	; Rules:
+	;	* IX and IY should be preserved.
+	;
+	; Output:
+	;	* HL will point to the right end of the top line of the just-output tile.
+	; i.e. if stacking tiles from bottom to top, the caller will need to subtract a
+	; further 128 from HL before calling the next outputter.
+	;
+
 	full_8:
 		ld (@+return+1), de
 		ld sp, hl
