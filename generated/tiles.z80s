@@ -81,8 +81,8 @@
 		push de
 		push de
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		ld de, 0x2222
@@ -215,8 +215,8 @@
 		ld de, 0x0000
 		push de
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		push de
@@ -350,8 +350,8 @@
 		push de
 		push de
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		ld de, 0x4444
@@ -490,8 +490,8 @@
 		push de
 		ld de, 0x5555
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		ld de, 0x1111
@@ -656,8 +656,8 @@
 		push de
 		ld de, 0x5655
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		ld de, 0x5555
@@ -820,8 +820,8 @@
 		push de
 		ld de, 0x0000
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		ld de, 0x4444
@@ -981,8 +981,8 @@
 		push de
 		ld de, 0x8858
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		ld de, 0x8188
@@ -1140,8 +1140,8 @@
 		push de
 		push de
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		push de
@@ -1281,8 +1281,8 @@
 		push de
 		push de
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		push de
@@ -1418,8 +1418,8 @@
 		push de
 		ld de, 0x2222
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		ld de, 0x0000
@@ -1562,8 +1562,8 @@
 		push de
 		ld de, 0x2223
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		ld de, 0x0000
@@ -1712,8 +1712,8 @@
 		push de
 		ld de, 0x0000
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		ld de, 0x2222
@@ -1867,8 +1867,8 @@
 		push de
 		push de
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		ld de, 0x1111
@@ -2035,8 +2035,8 @@
 		push de
 		ld de, 0x1400
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		ld de, 0x4447
@@ -2208,8 +2208,8 @@
 		ld de, 0x7777
 		push de
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		ld de, 0x0041
@@ -2372,8 +2372,8 @@
 		push de
 		ld de, 0x6665
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		ld de, 0x5111
@@ -2533,8 +2533,8 @@
 		push de
 		ld de, 0x5555
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		push de
@@ -2691,8 +2691,8 @@
 		ld de, 0x1111
 		push de
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		ld de, 0x5555
@@ -2857,8 +2857,8 @@
 		push de
 		ld de, 0x5655
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		ld de, 0x5555
@@ -3024,8 +3024,8 @@
 		push de
 		ld de, 0x5555
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		push de
@@ -3174,8 +3174,8 @@
 		push de
 		ld de, 0x5155
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		ld de, 0x1111
@@ -3315,8 +3315,8 @@
 		push de
 		push de
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		push de
@@ -3469,8 +3469,8 @@
 		push de
 		ld de, 0x0000
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		push de
@@ -3611,8 +3611,8 @@
 		push de
 		push de
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		push de
@@ -3756,8 +3756,8 @@
 		push de
 		ld de, 0x4414
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		ld de, 0x1111
@@ -3906,8 +3906,8 @@
 		push de
 		push de
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		ld de, 0x0011
@@ -4029,8 +4029,8 @@
 		push de
 		push de
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		push de
@@ -4156,8 +4156,8 @@
 		push de
 		ld de, 0x7777
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		push de
@@ -4302,8 +4302,8 @@
 		push de
 		ld de, 0x0071
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		ld de, 0x1077
@@ -4471,8 +4471,8 @@
 		push de
 		ld de, 0x5565
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		ld de, 0x1155
@@ -4630,8 +4630,8 @@
 		push de
 		push de
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		push de
@@ -4776,8 +4776,8 @@
 		push de
 		push de
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		ld de, 0x7777
@@ -4914,8 +4914,8 @@
 		push de
 		push de
 		push de
-		ld bc, 1664
-		add hl, bc
+		ld hl, 1672
+		add hl, sp
 		ld sp, hl
 
 		push de
