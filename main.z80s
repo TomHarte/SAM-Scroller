@@ -87,17 +87,27 @@ COMBINED_FLAGS:	ds FLAGS_SIZE
 	ld (@+scroll_offset), a
 
 @draw_scene:
+
+	;
 	; Wait for start of lower border.
+	;
 @wait:
 	in a, (STATUS)
 	rra
 	jr c, @-wait
+	;
+	; Display is now beginning the first line of lower border.
+	;
+
 
 	; Put next page into the upper page.
 	ld a, (@+scroll_offset)
 	out (HMPR), a
 
+
+	;
 	; OR per-page dirty bits with the fixed list to produce a composite diff.
+	;
 	ld c, FLAGS_SIZE
 	ld de, DIRTY_FLAGS + FLAGS_SIZE
 	ld iy, COMBINED_FLAGS + FLAGS_SIZE
@@ -117,21 +127,26 @@ COMBINED_FLAGS:	ds FLAGS_SIZE
 	dec c
 	jr nz, @-flag_loop
 
+
+
+	;
+	; Segue into tile drawing.
+	;
 	ld de, @+tiles_drawn
 	jp draw_tiles
 @tiles_drawn:
 
-;
-; Loop is over, present results.
-;
 
-	; Set page 0 and mode 4 for video.
+
+	;
+	; Display page just drawn to.
+	;
 	ld a, (@+scroll_offset)
 	add a, %01100000
 	out (VMPR), a
 
 	;
-	; Repeat.
+	; Scroll over and repeat.
 	;
 	ld a, (@+scroll_offset)
 	inc a
