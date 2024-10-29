@@ -14,7 +14,19 @@
 	; further 128 from HL before calling the next outputter.
 	;
 
-	full_8:
+	ds align 256
+	tiles_full:
+		dw @+full_0, @+full_1, @+full_2, @+full_3
+		dw @+full_4, @+full_5, @+full_6, @+full_7
+		dw @+full_8, @+full_9, @+full_10, @+full_11
+		dw @+full_12, @+full_13, @+full_14, @+full_15
+		dw @+full_16, @+full_17, @+full_18, @+full_19
+		dw @+full_20, @+full_21, @+full_22, @+full_23
+		dw @+full_24, @+full_25, @+full_26, @+full_27
+		dw @+full_28, @+full_29, @+full_30, @+full_31
+		dw @+full_32
+
+	@full_8:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -153,7 +165,7 @@
 	@return:
 		jp 1234
 
-	full_9:
+	@full_9:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -283,7 +295,7 @@
 	@return:
 		jp 1234
 
-	full_14:
+	@full_14:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -422,7 +434,7 @@
 	@return:
 		jp 1234
 
-	full_28:
+	@full_28:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -575,7 +587,7 @@
 	@return:
 		jp 1234
 
-	full_29:
+	@full_29:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -747,7 +759,7 @@
 	@return:
 		jp 1234
 
-	full_15:
+	@full_15:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -897,7 +909,7 @@
 	@return:
 		jp 1234
 
-	full_17:
+	@full_17:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -1071,7 +1083,7 @@
 	@return:
 		jp 1234
 
-	full_16:
+	@full_16:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -1212,7 +1224,7 @@
 	@return:
 		jp 1234
 
-	full_12:
+	@full_12:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -1353,7 +1365,7 @@
 	@return:
 		jp 1234
 
-	full_13:
+	@full_13:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -1490,7 +1502,7 @@
 	@return:
 		jp 1234
 
-	full_11:
+	@full_11:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -1639,7 +1651,7 @@
 	@return:
 		jp 1234
 
-	full_10:
+	@full_10:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -1789,7 +1801,7 @@
 	@return:
 		jp 1234
 
-	full_21:
+	@full_21:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -1947,7 +1959,7 @@
 	@return:
 		jp 1234
 
-	full_20:
+	@full_20:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -2128,7 +2140,7 @@
 	@return:
 		jp 1234
 
-	full_22:
+	@full_22:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -2293,7 +2305,7 @@
 	@return:
 		jp 1234
 
-	full_23:
+	@full_23:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -2457,7 +2469,7 @@
 	@return:
 		jp 1234
 
-	full_27:
+	@full_27:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -2622,7 +2634,7 @@
 	@return:
 		jp 1234
 
-	full_32:
+	@full_32:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -2776,7 +2788,7 @@
 	@return:
 		jp 1234
 
-	full_26:
+	@full_26:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -2948,7 +2960,7 @@
 	@return:
 		jp 1234
 
-	full_18:
+	@full_18:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -3110,7 +3122,7 @@
 	@return:
 		jp 1234
 
-	full_30:
+	@full_30:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -3246,7 +3258,7 @@
 	@return:
 		jp 1234
 
-	full_24:
+	@full_24:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -3388,7 +3400,7 @@
 	@return:
 		jp 1234
 
-	full_25:
+	@full_25:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -3554,7 +3566,7 @@
 	@return:
 		jp 1234
 
-	full_31:
+	@full_31:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -3672,7 +3684,7 @@
 	@return:
 		jp 1234
 
-	full_19:
+	@full_19:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -3843,7 +3855,7 @@
 	@return:
 		jp 1234
 
-	full_4:
+	@full_4:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -3972,7 +3984,7 @@
 	@return:
 		jp 1234
 
-	full_5:
+	@full_5:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -4090,7 +4102,7 @@
 	@return:
 		jp 1234
 
-	full_7:
+	@full_7:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -4226,7 +4238,7 @@
 	@return:
 		jp 1234
 
-	full_6:
+	@full_6:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -4383,7 +4395,7 @@
 	@return:
 		jp 1234
 
-	full_2:
+	@full_2:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -4564,7 +4576,7 @@
 	@return:
 		jp 1234
 
-	full_3:
+	@full_3:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -4700,7 +4712,7 @@
 	@return:
 		jp 1234
 
-	full_1:
+	@full_1:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -4857,7 +4869,7 @@
 	@return:
 		jp 1234
 
-	full_0:
+	@full_0:
 		ld (@+return+1), de
 		ld sp, hl
 
@@ -4975,6 +4987,3 @@
 	@return:
 		jp 1234
 
-	ds align 256
-	tiles_full:
-		dw full_0, full_1, full_2, full_3, full_4, full_5, full_6, full_7, full_8, full_9, full_10, full_11, full_12, full_13, full_14, full_15, full_16, full_17, full_18, full_19, full_20, full_21, full_22, full_23, full_24, full_25, full_26, full_27, full_28, full_29, full_30, full_31, full_32
