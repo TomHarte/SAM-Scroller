@@ -1,0 +1,68 @@
+ORG BUFFER_CODE
+draw_tiles:
+	; Store return address.
+	ld (@+return+1), de
+
+    ; Switch to proper page for tiles.
+    ld a, 16
+    add a, %00100000
+    out (LMPR), a
+
+	; Establish bottom right of output (allowing for the fact that it'll be predecremented later).
+buffer_start_address:
+	ld hl, 128*192 + 32768 + 8
+	ld (column_target), hl
+
+	; Set column count and begin loop.
+	ld a, 15	
+	ld (column_count), a
+
+@draw_column:
+	;
+	; Calculate new display start address.
+	;
+	ld hl, (column_target)
+	ld bc, -8
+	add hl, bc
+	ld (column_target), hl
+
+	;
+	; Draw entire column.
+	;
+
+sliver_loop: EQU FOR 3
+
+		dec iy
+		ld a, (iy+0)	; Get diffs offset.
+		ld (@+get_sliver+2), a
+	@get_sliver:
+		ld de, (slivers)
+		ld (@+do_sliver+1), de
+
+		ld a, tiles_full >> 8
+		ld de, @+next
+	@do_sliver:
+		jp 1234
+	@next:
+
+NEXT sliver_loop
+
+
+;
+; Check for remaining columns.
+;
+
+	ld a, (column_count)
+	dec a
+	ld (column_count), a
+	jr nz, @-draw_column
+
+
+    ; Switch back to main page.
+    ld a, EXECPAGE + %00100000
+    out (LMPR), a
+@return:
+	jp 1234
+
+INC "generated/slivers.z80s"
+INC "generated/map.z80s"
