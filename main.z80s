@@ -8,10 +8,7 @@ BORDER:		EQU 254
 
 EXECPAGE:	EQU 16
 
-	ORG (32 + 24)*1024
-FLAGS_SIZE: 	EQU 3*17
-DIRTY_FLAGS:	ds FLAGS_SIZE
-COMBINED_FLAGS:	ds FLAGS_SIZE
+INC "per_buffer.z80s"
 
 	ORG 0
 	DUMP EXECPAGE, 0
@@ -48,8 +45,8 @@ COMBINED_FLAGS:	ds FLAGS_SIZE
 	ld e, a
 	jp m, @+break_setup_screen
 
-	ld sp, 0
-	ld bc, 32768 / 4
+	ld sp, 0 - 8*1024
+	ld bc, 24*1024 / 4
 	ld hl, 0
 @blank_loop:
 	push hl
@@ -68,7 +65,13 @@ COMBINED_FLAGS:	ds FLAGS_SIZE
 	dec b
 	jr nz, @-flags_loop
 
-	; TODO: seed dirty flags.
+	; Copy down tile-drawing code.
+    ld a, e
+    ld hl, BUFFER_CODE_ORIGINAL
+    ld de, BUFFER_CODE
+    ld bc, BUFFER_CODE_DONE-BUFFER_CODE
+    ldir
+    ld e, a
 
 	jp @-setup_screen
 
@@ -173,37 +176,50 @@ COMBINED_FLAGS:	ds FLAGS_SIZE
 	jr @-draw_scene
 
 
+@scroll_offset:	db 0
+@map_address: dw map + 12*32
+@diff_address: dw diffs + 3*31
+
+@loop_count: db 0
+@column_count: db 0
+@column_target: dw 0
+
+INC "generated/palette.z80s"
+INC "generated/tiles.z80s"
+INC "generated/map.z80s"
 
 
+BUFFER_CODE_ORIGINAL:
+ORG BUFFER_CODE
 draw_tiles:
 	; Store return address.
 	ld (@+return+1), de
 
 	; Seed pointers to map contents and to diffs list.
-	ld ix, (@+map_address)
+	ld ix, (@-map_address)
 	ld iy, COMBINED_FLAGS + FLAGS_SIZE
 
 	; Establish bottom right of output (allowing for the fact that it'll be predecremented later).
 	ld hl, 128*192 + 32768 + 8
-	ld a, (@+scroll_offset)
+	ld a, (@-scroll_offset)
 	srl a
 	neg
 	add a, l
 	ld l, a
-	ld (@+column_target), hl
+	ld (@-column_target), hl
 
 	; Set column count and begin loop.
 	ld a, 15	
-	ld (@+column_count), a
+	ld (@-column_count), a
 
 @draw_column:
 	;
 	; Calculate new display start address.
 	;
-	ld hl, (@+column_target)
+	ld hl, (@-column_target)
 	ld bc, -8
 	add hl, bc
-	ld (@+column_target), hl
+	ld (@-column_target), hl
 
 	;
 	; Draw entire column.
@@ -231,24 +247,13 @@ NEXT sliver_loop
 ; Check for remaining columns.
 ;
 
-	ld a, (@+column_count)
+	ld a, (@-column_count)
 	dec a
-	ld (@+column_count), a
+	ld (@-column_count), a
 	jr nz, @-draw_column
 @return:
 	jp 1234
 
-
-
-@scroll_offset:	db 0
-@map_address: dw map + 12*32
-@diff_address: dw diffs + 3*31
-
-@loop_count: db 0
-@column_count: db 0
-@column_target: dw 0
-
-INC "generated/palette.z80s"
-INC "generated/tiles.z80s"
-INC "generated/map.z80s"
 INC "generated/slivers.z80s"
+
+BUFFER_CODE_DONE:
