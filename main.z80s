@@ -117,12 +117,59 @@ COMBINED_FLAGS:	ds FLAGS_SIZE
 	dec c
 	jr nz, @-flag_loop
 
+	ld de, @+tiles_drawn
+	jp draw_tiles
+@tiles_drawn:
+
+;
+; Loop is over, present results.
+;
+
+	; Set page 0 and mode 4 for video.
+	ld a, (@+scroll_offset)
+	add a, %01100000
+	out (VMPR), a
+
+	;
+	; Repeat.
+	;
+	ld a, (@+scroll_offset)
+	inc a
+	inc a
+	and 15
+	ld (@+scroll_offset), a
+	jp nz, @-draw_scene
+
+	; Add 12 to map address to move one column along.
+	; Correspondingly add 3 to the diff address.
+	ld hl, (@+map_address)
+	ld bc, 12
+	add hl, bc
+	ld (@+map_address), hl
+
+	ld hl, (@+diff_address)
+	ld bc, 3
+	add hl, bc
+	ld (@+diff_address), hl
+
+;
+; Loop for end of frame
+;
+	jr @-draw_scene
+
+
+
+
+draw_tiles:
+	; Store return address.
+	ld (@+return+1), de
+
 	; Seed pointers to map contents and to diffs list.
 	ld ix, (@+map_address)
 	ld iy, COMBINED_FLAGS + FLAGS_SIZE
 
 	; Establish bottom right of output (allowing for the fact that it'll be predecremented later).
-	ld hl, 128*192	+ 32768 + 8
+	ld hl, 128*192 + 32768 + 8
 	ld a, (@+scroll_offset)
 	srl a
 	neg
@@ -173,44 +220,10 @@ NEXT sliver_loop
 	dec a
 	ld (@+column_count), a
 	jr nz, @-draw_column
+@return:
+	jp 1234
 
-;
-; Loop is over, present results.
-;
 
-	; Set page 0 and mode 4 for video.
-	ld a, (@+scroll_offset)
-	add a, %01100000
-	out (VMPR), a
-
-	;
-	; Repeat.
-	;
-	ld a, (@+scroll_offset)
-	inc a
-	inc a
-	and 15
-	ld (@+scroll_offset), a
-	jp nz, @-draw_scene
-
-	; Add 12 to map address to move one column along.
-	; Correspondingly add 3 to the diff address.
-	ld hl, (@+map_address)
-	ld bc, 12
-	add hl, bc
-	ld (@+map_address), hl
-
-	ld hl, (@+diff_address)
-	ld bc, 3
-	add hl, bc
-	ld (@+diff_address), hl
-
-;
-; Loop for end of frame
-;
-	jp @-draw_scene
-
-	halt
 
 @scroll_offset:	db 0
 @map_address: dw map + 12*32
