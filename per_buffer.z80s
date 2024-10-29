@@ -4,4 +4,7 @@ ORG (32 + 24)*1024
     DIRTY_FLAGS:	ds FLAGS_SIZE
     COMBINED_FLAGS:	ds FLAGS_SIZE
 
+    column_target: dw 0
+    column_count: db 0
+
     BUFFER_CODE:

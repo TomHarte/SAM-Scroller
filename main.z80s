@@ -6,12 +6,13 @@ HMPR:		EQU 251
 VMPR:		EQU 252
 BORDER:		EQU 254
 
-EXECPAGE:	EQU 16
+EXECPAGE:	EQU 24
 
 INC "per_buffer.z80s"
 
 	ORG 0
 	DUMP EXECPAGE, 0
+INC "generated/palette.z80s"
 	AUTOEXEC
 
 	di
@@ -58,7 +59,7 @@ INC "per_buffer.z80s"
 
 	ld a, 0x1e
 	ld hl, DIRTY_FLAGS
-	ld b, 12*17
+	ld b, FLAGS_SIZE
 @flags_loop:
 	ld (hl), a
 	inc l
@@ -72,6 +73,14 @@ INC "per_buffer.z80s"
     ld bc, BUFFER_CODE_DONE-BUFFER_CODE
     ldir
     ld e, a
+
+    ; Adjust start address.
+    ld hl, 128*192 + 32768 + 8
+	srl a
+	neg
+	add a, l
+	ld l, a
+    ld (@+buffer_start_address+1), hl
 
 	jp @-setup_screen
 
@@ -131,6 +140,9 @@ INC "per_buffer.z80s"
 	jr nz, @-flag_loop
 
 
+	; Seed pointers to map contents and to diffs list.
+	ld ix, (@+map_address)
+	ld iy, COMBINED_FLAGS + FLAGS_SIZE
 
 	;
 	; Segue into tile drawing.
@@ -180,46 +192,39 @@ INC "per_buffer.z80s"
 @map_address: dw map + 12*32
 @diff_address: dw diffs + 3*31
 
-@loop_count: db 0
-@column_count: db 0
-@column_target: dw 0
-
-INC "generated/palette.z80s"
-INC "generated/tiles.z80s"
-INC "generated/map.z80s"
-
-
+;
+; The section from here to BUFFER_CODE_DONE is copied into place on
+; each video page individually, fixed up slightly for the appropriate
+; tile functions.
+;
 BUFFER_CODE_ORIGINAL:
 ORG BUFFER_CODE
 draw_tiles:
 	; Store return address.
 	ld (@+return+1), de
 
-	; Seed pointers to map contents and to diffs list.
-	ld ix, (@-map_address)
-	ld iy, COMBINED_FLAGS + FLAGS_SIZE
+    ; Switch to proper page for tiles.
+    ld a, 16
+    add a, %00100000
+    out (LMPR), a
 
 	; Establish bottom right of output (allowing for the fact that it'll be predecremented later).
+@buffer_start_address:
 	ld hl, 128*192 + 32768 + 8
-	ld a, (@-scroll_offset)
-	srl a
-	neg
-	add a, l
-	ld l, a
-	ld (@-column_target), hl
+	ld (column_target), hl
 
 	; Set column count and begin loop.
 	ld a, 15	
-	ld (@-column_count), a
+	ld (column_count), a
 
 @draw_column:
 	;
 	; Calculate new display start address.
 	;
-	ld hl, (@-column_target)
+	ld hl, (column_target)
 	ld bc, -8
 	add hl, bc
-	ld (@-column_target), hl
+	ld (column_target), hl
 
 	;
 	; Draw entire column.
@@ -247,13 +252,24 @@ NEXT sliver_loop
 ; Check for remaining columns.
 ;
 
-	ld a, (@-column_count)
+	ld a, (column_count)
 	dec a
-	ld (@-column_count), a
+	ld (column_count), a
 	jr nz, @-draw_column
+
+
+    ; Switch back to main page.
+    ld a, EXECPAGE + %00100000
+    out (LMPR), a
 @return:
 	jp 1234
 
 INC "generated/slivers.z80s"
+INC "generated/map.z80s"
 
 BUFFER_CODE_DONE:
+;
+; End relocated section.
+;
+
+INC "generated/tiles.z80s"
