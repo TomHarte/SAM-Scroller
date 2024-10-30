@@ -38,12 +38,15 @@ INC "generated/palette.z80s"
 
 	; Setup all screens.
 	ld e, 16
+	exx
 @setup_screen:
+	exx
 	ld a, e
 	dec a
 	dec a
 	out (HMPR), a
 	ld e, a
+	exx
 	jp m, @+break_setup_screen
 
 	ld sp, 0 - 8*1024
@@ -67,20 +70,40 @@ INC "generated/palette.z80s"
 	jr nz, @-flags_loop
 
 	; Copy down tile-drawing code.
-    ld a, e
-    ld hl, BUFFER_CODE_ORIGINAL
-    ld de, BUFFER_CODE
-    ld bc, BUFFER_CODE_DONE-BUFFER_CODE
-    ldir
-    ld e, a
+	exx
+	ld a, e
+	ld hl, BUFFER_CODE_ORIGINAL
+	ld de, BUFFER_CODE
+	ld bc, BUFFER_CODE_DONE-BUFFER_CODE
+	ldir
+	ld e, a
+	exx
 
-    ; Adjust start address.
-    ld hl, 128*192 + 32768 + 8
-	srl a
-	neg
-	add a, l
-	ld l, a
-    ld (buffer_start_address+1), hl
+	; Set start addresses.
+	ld hl, 128*192 + 32768		; Start of first column
+
+	srl a						; Subtract a distance for the target page.
+	ld c, a
+	ld b, 0
+	sbc hl, bc					; C is clear from the SRL above.
+	ex de, hl					; Move buffer address to DE.
+
+	ld hl, buffer_start_address+1	; Write the first target address to buffer_start_address+1.
+	ld a, column_count
+@address_loop:
+	ld (hl), e
+	inc l
+	ld (hl), d						; Write the buffer address
+	ld bc, buffer_start_offsets-1
+	add hl, bc						; Update HL to point to the next buffer address.
+
+	ex de, hl
+	ld bc, -8
+	add hl, bc
+	ex de, hl						; Subtract 8 from the buffer address.
+
+	dec a
+	jr nz, @-address_loop			; Loop until done.
 
 	jp @-setup_screen
 

@@ -1,10 +1,7 @@
 
 ORG (32 + 24)*1024
-    FLAGS_SIZE: 	EQU 3*17
-    DIRTY_FLAGS:	ds FLAGS_SIZE
-    COMBINED_FLAGS:	ds FLAGS_SIZE
+	FLAGS_SIZE: 	EQU 3*17
+	DIRTY_FLAGS:	ds FLAGS_SIZE
+	COMBINED_FLAGS:	ds FLAGS_SIZE
 
-    column_target: dw 0
-    column_count: db 0
-
-    BUFFER_CODE:
+	BUFFER_CODE:
