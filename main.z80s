@@ -82,34 +82,84 @@ INC "generated/palette.z80s"
 	; Set start addresses.
 	ld hl, 128*192 + 32768		; Start of first column
 
-	srl a						; Subtract a distance for the target page.
-	ld c, a
-	ld b, 0
-	sbc hl, bc					; C is clear from the SRL above.
-	ex de, hl					; Move buffer address to DE.
+	; If a is odd byte size, start one earlier.
+	srl a
+	srl a
+	jr nc, @+no_dec
+	dec hl
+@no_dec:
+
+;	srl a						; Subtract a distance for the target page.
+;	ld c, a
+;	ld b, 0
+;	sbc hl, bc					; C is clear from the SRL above.
+;	ex de, hl					; Move buffer address to DE.
 
 	ld ix, columns_start
-	ld a, column_count
+	ld a, 0
 @address_loop:
 	ld (ix + buffer_start_offset), e
 	ld (ix + buffer_start_offset + 1), d
 	ld bc, column_length
 	add ix, bc						; Update IX to point to the next buffer address.
 
+	or a
+	jr nc, @+sub8
+	exx
+	ex af, af'
+	ld a, e
+	exx
+
+	srl a						; Subtract a distance for the target page.
+	ld c, a
+	ld b, 0
+	sbc hl, bc					; C is clear from the SRL above.
+
+	ex af, af'
+
+	jr @+adjusted
+@sub8:
 	ex de, hl
 	ld bc, -8
 	add hl, bc
-	ex de, hl						; Subtract 8 from the buffer address.
+@adjusted:
+	ex de, hl						; Subtract the proper number from the buffer address.
 
-	dec a
+	inc a
+	cp column_count
 	jr nz, @-address_loop			; Loop until done.
 
 	jp @-setup_screen
 
 @break_setup_screen:
 
+	; Setup special-length drawers.
+
+	; First page: just do 16 columns by adding an extra JR.
+	ld a, 0
+	out (HMPR), a
+	ld ix, columns_end - column_length
+	ld (ix + 0), 0x18
+	ld (ix + 1), column_length - 2
+
+
+	; Second page: use left_1 and right_7.
+	ld a, 2
+	out (HMPR), a
+	ld ix, columns_start
+;	ld (ix + tile_page_offset), 22
+	ld (ix + tile_table_offset1), tiles_right_1 >> 8
+	ld (ix + tile_table_offset2), tiles_right_1 >> 8
+	ld (ix + tile_table_offset3), tiles_right_1 >> 8
+
+	ld ix, columns_end - column_length
+;	ld (ix + tile_page_offset), 22
+	ld (ix + tile_table_offset1), tiles_left_7 >> 8
+	ld (ix + tile_table_offset2), tiles_left_7 >> 8
+	ld (ix + tile_table_offset3), tiles_left_7 >> 8
+
 	; Reenable the display.
-	ld a, %00000000
+	ld a, %00000001
 	out (BORDER), a
 
 ;
@@ -117,8 +167,8 @@ INC "generated/palette.z80s"
 ;
 
 	; Set current far extent of map, scroll 0.
-	ld a, 0
-	ld (@+scroll_offset), a
+;	ld a, 0
+;	ld (@+scroll_offset), a
 
 @draw_scene:
 
@@ -181,6 +231,8 @@ INC "generated/palette.z80s"
 	ld a, (@+scroll_offset)
 	add a, %01100000
 	out (VMPR), a
+
+	jr @-draw_scene
 
 	;
 	; Scroll over and repeat.
