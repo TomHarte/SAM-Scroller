@@ -4,14 +4,26 @@ draw_tiles:
 	ld (@+return+1), de
 
 	; Switch to proper page for tiles.
-	ld a, 16
-	add a, %00100000
-	out (LMPR), a
+;tile_page:
+;	ld a, 16
+;	add a, %00100000
+;	out (LMPR), a
 
-buffer_start_address:
+columns_start:
 column_count: EQU 15
 @column_loop: EQU FOR column_count
 	ld hl, 128*192 + 32768
+
+	; Set page for tiles.
+	;
+	; Subnote: it'd be nice not to do this for every column independently,
+	; but I can find no way in Pyz80 to create unique labels within an EQU FOR.
+	; So here it is.
+	;
+	; It isn't safe to put behind a conditional because of the way buffer_start_address
+	; et al are used during setup.
+	ld a, 16 + %00100000
+	out (LMPR), a
 
 @sliver_loop: EQU FOR 3
 
@@ -22,7 +34,7 @@ column_count: EQU 15
 		ld de, (slivers)
 		ld (@+do_sliver+1), de
 
-		ld a, tiles_full >> 8	; TODO: use other tiles for first and last column
+		ld a, tiles_full >> 8	; TODO: use other tiles for first and last column.
 		ld de, @+next
 	@do_sliver:
 		jp 1234
@@ -30,9 +42,21 @@ column_count: EQU 15
 
 NEXT @sliver_loop
 NEXT @column_loop
-@column_loop_done:
+columns_end:
 
-buffer_start_offsets: EQU (@-column_loop_done - buffer_start_address) / column_count
+;
+; Super-yuckiness here!
+;
+; As above, I can't find a way to create unique labels within EQU FORs
+;
+column_length: EQU (columns_end - columns_start) / column_count
+sliver_length: EQU (column_length - 7) / 3
+
+buffer_start_offset: EQU 1
+tile_page_offset: EQU 5
+tile_table_offset1: EQU column_length - 7
+tile_table_offset2: EQU tile_table_offset1 - sliver_length
+tile_table_offset3: EQU tile_table_offset2 - sliver_length
 
 	; Switch back to main page.
 	ld a, EXECPAGE + %00100000

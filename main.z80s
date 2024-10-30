@@ -88,14 +88,13 @@ INC "generated/palette.z80s"
 	sbc hl, bc					; C is clear from the SRL above.
 	ex de, hl					; Move buffer address to DE.
 
-	ld hl, buffer_start_address+1	; Write the first target address to buffer_start_address+1.
+	ld ix, columns_start
 	ld a, column_count
 @address_loop:
-	ld (hl), e
-	inc l
-	ld (hl), d						; Write the buffer address
-	ld bc, buffer_start_offsets-1
-	add hl, bc						; Update HL to point to the next buffer address.
+	ld (ix + buffer_start_offset), e
+	ld (ix + buffer_start_offset + 1), d
+	ld bc, column_length
+	add ix, bc						; Update IX to point to the next buffer address.
 
 	ex de, hl
 	ld bc, -8
