@@ -53,7 +53,7 @@ column_length: EQU (columns_end - columns_start) / column_count
 sliver_length: EQU (column_length - 7) / 3
 
 buffer_start_offset: EQU 1
-tile_page_offset: EQU 5
+tile_page_offset: EQU 4
 tile_table_offset1: EQU column_length - 7
 tile_table_offset2: EQU tile_table_offset1 - sliver_length
 tile_table_offset3: EQU tile_table_offset2 - sliver_length

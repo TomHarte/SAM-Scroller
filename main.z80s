@@ -89,12 +89,6 @@ INC "generated/palette.z80s"
 	dec hl
 @no_dec:
 
-;	srl a						; Subtract a distance for the target page.
-;	ld c, a
-;	ld b, 0
-;	sbc hl, bc					; C is clear from the SRL above.
-;	ex de, hl					; Move buffer address to DE.
-
 	ld ix, columns_start
 	ld a, 0
 @address_loop:
@@ -104,7 +98,7 @@ INC "generated/palette.z80s"
 	add ix, bc						; Update IX to point to the next buffer address.
 
 	or a
-	jr nc, @+sub8
+	jr nz, @+sub8
 	exx
 	ex af, af'
 	ld a, e
@@ -147,16 +141,16 @@ INC "generated/palette.z80s"
 	ld a, 2
 	out (HMPR), a
 	ld ix, columns_start
-;	ld (ix + tile_page_offset), 22
-	ld (ix + tile_table_offset1), tiles_right_1 >> 8
-	ld (ix + tile_table_offset2), tiles_right_1 >> 8
-	ld (ix + tile_table_offset3), tiles_right_1 >> 8
+	ld (ix + tile_page_offset), tiles_left_1_page
+	ld (ix + tile_table_offset1), tiles_left_1 >> 8
+	ld (ix + tile_table_offset2), tiles_left_1 >> 8
+	ld (ix + tile_table_offset3), tiles_left_1 >> 8
 
 	ld ix, columns_end - column_length
-;	ld (ix + tile_page_offset), 22
-	ld (ix + tile_table_offset1), tiles_left_7 >> 8
-	ld (ix + tile_table_offset2), tiles_left_7 >> 8
-	ld (ix + tile_table_offset3), tiles_left_7 >> 8
+	ld (ix + tile_page_offset), tiles_right_7_page
+	ld (ix + tile_table_offset1), tiles_right_7 >> 8
+	ld (ix + tile_table_offset2), tiles_right_7 >> 8
+	ld (ix + tile_table_offset3), tiles_right_7 >> 8
 
 	; Reenable the display.
 	ld a, %00000001

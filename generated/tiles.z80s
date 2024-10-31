@@ -17,7 +17,7 @@
 ORG 0
 DUMP 16, 0
 ds align 256
-	tiles_full_page: EQU 16
+	tiles_full_page: EQU 16 + 0b00100000
 	tiles_full:
 		dw @+full_0, @+full_1, @+full_2, @+full_3
 		dw @+full_4, @+full_5, @+full_6, @+full_7
@@ -4584,7 +4584,7 @@ ds align 256
 		jp 1234
 
 ds align 256
-	tiles_left_7_page: EQU 16
+	tiles_left_7_page: EQU 16 + 0b00100000
 	tiles_left_7:
 		dw @+left_7_0, @+left_7_1, @+left_7_2, @+left_7_3
 		dw @+left_7_4, @+left_7_5, @+left_7_6, @+left_7_7
@@ -8939,7 +8939,7 @@ ds align 256
 		jp 1234
 
 ds align 256
-	tiles_right_1_page: EQU 16
+	tiles_right_1_page: EQU 16 + 0b00100000
 	tiles_right_1:
 		dw @+right_1_0, @+right_1_1, @+right_1_2, @+right_1_3
 		dw @+right_1_4, @+right_1_5, @+right_1_6, @+right_1_7
@@ -11231,7 +11231,7 @@ ds align 256
 ORG 0
 DUMP 18, 0
 ds align 256
-	tiles_left_6_page: EQU 18
+	tiles_left_6_page: EQU 18 + 0b00100000
 	tiles_left_6:
 		dw @+left_6_0, @+left_6_1, @+left_6_2, @+left_6_3
 		dw @+left_6_4, @+left_6_5, @+left_6_6, @+left_6_7
@@ -15058,7 +15058,7 @@ ds align 256
 		jp 1234
 
 ds align 256
-	tiles_right_2_page: EQU 18
+	tiles_right_2_page: EQU 18 + 0b00100000
 	tiles_right_2:
 		dw @+right_2_0, @+right_2_1, @+right_2_2, @+right_2_3
 		dw @+right_2_4, @+right_2_5, @+right_2_6, @+right_2_7
@@ -17476,7 +17476,7 @@ ds align 256
 		jp 1234
 
 ds align 256
-	tiles_left_5_page: EQU 18
+	tiles_left_5_page: EQU 18 + 0b00100000
 	tiles_left_5:
 		dw @+left_5_0, @+left_5_1, @+left_5_2, @+left_5_3
 		dw @+left_5_4, @+left_5_5, @+left_5_6, @+left_5_7
@@ -21092,7 +21092,7 @@ ds align 256
 		jp 1234
 
 ds align 256
-	tiles_right_3_page: EQU 18
+	tiles_right_3_page: EQU 18 + 0b00100000
 	tiles_right_3:
 		dw @+right_3_0, @+right_3_1, @+right_3_2, @+right_3_3
 		dw @+right_3_4, @+right_3_5, @+right_3_6, @+right_3_7
@@ -24066,7 +24066,7 @@ ds align 256
 ORG 0
 DUMP 20, 0
 ds align 256
-	tiles_left_4_page: EQU 20
+	tiles_left_4_page: EQU 20 + 0b00100000
 	tiles_left_4:
 		dw @+left_4_0, @+left_4_1, @+left_4_2, @+left_4_3
 		dw @+left_4_4, @+left_4_5, @+left_4_6, @+left_4_7
@@ -27154,7 +27154,7 @@ ds align 256
 		jp 1234
 
 ds align 256
-	tiles_right_4_page: EQU 20
+	tiles_right_4_page: EQU 20 + 0b00100000
 	tiles_right_4:
 		dw @+right_4_0, @+right_4_1, @+right_4_2, @+right_4_3
 		dw @+right_4_4, @+right_4_5, @+right_4_6, @+right_4_7
@@ -30234,7 +30234,7 @@ ds align 256
 		jp 1234
 
 ds align 256
-	tiles_left_3_page: EQU 20
+	tiles_left_3_page: EQU 20 + 0b00100000
 	tiles_left_3:
 		dw @+left_3_0, @+left_3_1, @+left_3_2, @+left_3_3
 		dw @+left_3_4, @+left_3_5, @+left_3_6, @+left_3_7
@@ -33184,7 +33184,7 @@ ds align 256
 		jp 1234
 
 ds align 256
-	tiles_right_5_page: EQU 20
+	tiles_right_5_page: EQU 20 + 0b00100000
 	tiles_right_5:
 		dw @+right_5_0, @+right_5_1, @+right_5_2, @+right_5_3
 		dw @+right_5_4, @+right_5_5, @+right_5_6, @+right_5_7
@@ -36822,7 +36822,7 @@ ds align 256
 ORG 0
 DUMP 22, 0
 ds align 256
-	tiles_left_2_page: EQU 22
+	tiles_left_2_page: EQU 22 + 0b00100000
 	tiles_left_2:
 		dw @+left_2_0, @+left_2_1, @+left_2_2, @+left_2_3
 		dw @+left_2_4, @+left_2_5, @+left_2_6, @+left_2_7
@@ -39244,7 +39244,7 @@ ds align 256
 		jp 1234
 
 ds align 256
-	tiles_right_6_page: EQU 22
+	tiles_right_6_page: EQU 22 + 0b00100000
 	tiles_right_6:
 		dw @+right_6_0, @+right_6_1, @+right_6_2, @+right_6_3
 		dw @+right_6_4, @+right_6_5, @+right_6_6, @+right_6_7
@@ -43115,7 +43115,7 @@ ds align 256
 		jp 1234
 
 ds align 256
-	tiles_left_1_page: EQU 22
+	tiles_left_1_page: EQU 22 + 0b00100000
 	tiles_left_1:
 		dw @+left_1_0, @+left_1_1, @+left_1_2, @+left_1_3
 		dw @+left_1_4, @+left_1_5, @+left_1_6, @+left_1_7
@@ -45405,7 +45405,7 @@ ds align 256
 		jp 1234
 
 ds align 256
-	tiles_right_7_page: EQU 22
+	tiles_right_7_page: EQU 22 + 0b00100000
 	tiles_right_7:
 		dw @+right_7_0, @+right_7_1, @+right_7_2, @+right_7_3
 		dw @+right_7_4, @+right_7_5, @+right_7_6, @+right_7_7
