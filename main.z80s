@@ -270,20 +270,8 @@ INC "generated/palette.z80s"
 
 	ld ix, (@+map_address)
 	ld iy, DIRTY_FLAGS + FLAGS_SIZE
-	ld de, @+tiles_drawn
+	ld de, @-seed_tiles
 	jp draw_tiles
-@tiles_drawn:
-
-	ld a, 0
-	ld hl, DIRTY_FLAGS
-	ld b, FLAGS_SIZE
-@flags_loop:
-	ld (hl), a
-	inc l
-	dec b
-	jr nz, @-flags_loop
-
-	jr @-seed_tiles
 
 @end_seed:
 	ld a, 0
@@ -521,7 +509,6 @@ INC "generated/palette.z80s"
 BUFFER_CODE_ORIGINAL:
 include "per_buffer_code.z80s"
 BUFFER_CODE_DONE:
-
 ;
 ; End relocated section.
 ;
