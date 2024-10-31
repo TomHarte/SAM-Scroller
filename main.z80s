@@ -292,80 +292,80 @@ INC "generated/palette.z80s"
 	ld (@+return+1), de
 
 	; Setup all screens.
-	ld e, 16
-	exx
-@setup_screen:
-	exx
-	ld a, e
-	dec a
-	dec a
+	;
+	; (1) copy tile-drawing code, unmodified.
+	;
+	ld a, 0
+@copy_buffer_code:
 	out (HMPR), a
-	ld e, a
-	exx
-	jp m, @+break_setup_screen
 
 	; Copy down tile-drawing code.
-	exx
-	ld a, e
 	ld hl, BUFFER_CODE_ORIGINAL
 	ld de, BUFFER_CODE
 	ld bc, BUFFER_CODE_DONE-BUFFER_CODE
 	ldir
-	ld e, a
-	exx
 
-	; Set start addresses.
-	ld de, 128*192 + 32768		; Start of first column
+	; Set first two start addresses.
+	ld ix, columns_start
+	ld hl, 128*192 + 32768		; Start of rightmost column.
 
-	; If a is odd byte size, start one earlier.
-	srl a
-	srl a
+	; If a is odd byte size, start one earlier, per the different rules for even-sized
+	; and odd-sized tile output functions.
+	ld c, a
+	srl c
+	srl c
 	jr nc, @+no_dec
-	dec de
+	dec hl
 @no_dec:
 
-	ld ix, columns_start
-	ld a, 0
+	; Store first address.
+	ld (ix + buffer_start_offset), l
+	ld (ix + buffer_start_offset + 1), h
+
+	; Next will be at de - (a >> 1) [+ 8 for page 0].
+	or a
+	jr z, @+sub8
+	ld c, a
+	ld b, 0
+	srl c
+	sbc hl, bc
+	jr @+store
+
+@sub8:
+	ld bc, -8
+	add hl, bc
+
+	; Store second address
+@store:
+	ld (ix + buffer_start_offset + column_length), l
+	ld (ix + buffer_start_offset + column_length + 1), h
+
+	;
+	; Proceed from the second column address, decreasing by 8 across the
+	; rest of the set.
+	;
+	ld ix, columns_start + column_length * 2
+	ld e, column_count - 2
 @address_loop:
-	ld (ix + buffer_start_offset), e
-	ld (ix + buffer_start_offset + 1), d
+	ld (ix + buffer_start_offset), l
+	ld (ix + buffer_start_offset + 1), h
 	ld bc, column_length
 	add ix, bc						; Update IX to point to the next buffer address.
 
-	or a
-	jr nz, @+sub8
-	exx
-	ex af, af'
-	ld a, e
-	exx
-
-	or a
-	jr z, @+sub8
-
-	ex de, hl
-	srl a						; Subtract a distance for the target page.
-	and 0xfe
-	ld c, a
-	ld b, 0
-	sbc hl, bc					; C is clear from the SRL above.
-
-	ex af, af'
-
-	jr @+adjusted
-@sub8:
-	ex de, hl
 	ld bc, -8
 	add hl, bc
 @adjusted:
-	ex de, hl
-
-	inc a
-	cp column_count
+	dec e
 	jr nz, @-address_loop			; Loop until done.
 
-	jp @-setup_screen
+	; Continue to next page.
+	add 2
+	cp 16
+	jr nz, @-copy_buffer_code
 
-@break_setup_screen:
+	;
+	; Apply per-page adjustments to locate proper tile pages.
+	;
 
 	; First page: just do 16 columns by adding an extra JR.
 	ld a, 0
