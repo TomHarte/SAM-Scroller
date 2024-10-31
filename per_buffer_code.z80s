@@ -59,4 +59,6 @@ tile_table_offset3: EQU tile_table_offset2 - sliver_length
 	jp 1234
 
 INC "generated/slivers.z80s"
+
+map:
 INC "generated/map.z80s"

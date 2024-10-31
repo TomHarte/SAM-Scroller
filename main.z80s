@@ -344,6 +344,21 @@ INC "generated/palette.z80s"
 	ld hl, (@+map_address)
 	ld bc, 12
 	add hl, bc
+
+	; Stop scrolling if at end of bounds.
+	scf
+	ccf
+	ld bc, diffs - 12*column_count
+	sbc hl, bc
+	jr nz, @+keep_scrolling
+
+	ld a, 0
+	ld (@+scroll_offset), a
+	jr @-draw_scene
+
+@keep_scrolling:
+	add hl, bc
+
 	ld (@+map_address), hl
 
 	ld hl, (@+diff_address)
@@ -358,8 +373,8 @@ INC "generated/palette.z80s"
 
 
 @scroll_offset:	db 2
-@map_address: dw map + 12*32
-@diff_address: dw diffs + 3*31
+@map_address: dw map + 12*(column_count + 1)
+@diff_address: dw diffs + 3*column_count
 
 ;
 ; The section from here to BUFFER_CODE_DONE is copied into place on
