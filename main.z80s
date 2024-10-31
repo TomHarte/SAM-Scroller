@@ -256,7 +256,40 @@ INC "generated/palette.z80s"
 	ld ix, columns_start + (column_count - 1) * column_length
 	dec (ix + buffer_start_offset)
 
-@skip:
+	; Seed all buffers.
+	ld a, 16
+	ld (@+scroll_offset), a
+@seed_tiles:
+	ld a, (@+scroll_offset)
+	or a
+	jr z, @+end_seed
+	dec a
+	dec a
+	ld (@+scroll_offset), a
+	out (HMPR), a
+
+	ld ix, (@+map_address)
+	ld iy, DIRTY_FLAGS + FLAGS_SIZE
+	ld de, @+tiles_drawn
+	jp draw_tiles
+@tiles_drawn:
+
+	ld a, 0
+	ld hl, DIRTY_FLAGS
+	ld b, FLAGS_SIZE
+@flags_loop:
+	ld (hl), a
+	inc l
+	dec b
+	jr nz, @-flags_loop
+
+	jr @-seed_tiles
+
+@end_seed:
+	ld a, 0
+	ld (@+scroll_offset), a
+
+
 	; Reenable the display.
 	ld a, %00000000
 	out (BORDER), a
@@ -372,7 +405,7 @@ INC "generated/palette.z80s"
 	jr @-draw_scene
 
 
-@scroll_offset:	db 2
+@scroll_offset:	db 0
 @map_address: dw map + 12*(column_count + 1)
 @diff_address: dw diffs + 3*column_count
 
