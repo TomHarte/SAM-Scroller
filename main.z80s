@@ -258,16 +258,12 @@ INC "generated/palette.z80s"
 
 @skip:
 	; Reenable the display.
-	ld a, %00000001
+	ld a, %00000000
 	out (BORDER), a
 
 ;
 ; Initial setup tasks are done now.
 ;
-
-	; Set current far extent of map, scroll 0.
-;	ld a, 0
-;	ld (@+scroll_offset), a
 
 @draw_scene:
 
