@@ -24,6 +24,8 @@ column_count: EQU 17
 		dec iy
 		ld a, (iy+0)	; Get diffs offset.
 		ld (@+get_sliver+2), a
+		xor a			; Zero diffs while passing.
+		ld (iy+0), a
 	@get_sliver:
 		ld de, (slivers)
 		ld (@+do_sliver+1), de

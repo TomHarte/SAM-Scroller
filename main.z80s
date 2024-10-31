@@ -315,38 +315,80 @@ INC "generated/palette.z80s"
 	ld a, (@+next_vmpr)
 	out (VMPR), a
 
+	; Record no scroll as having occurred.
+	xor a
+	ld (@+scroll_change), a
 
+	; Check and apply keyboard input — cursor left/right only at present.
+	ld bc, 0xfffe
+	in a, (c)
+	rra
+	rra
+	rra
+
+	; Lazily set b0 = 1 if a scroll to the left happened;
+	; b1 = 1 if a scroll to the right happened (and there wasn't a scroll to the left).
+	and 3
+	xor 3
+	ld (@+scroll_change), a
+
+	rra	; left is now in carry
+	jr nc, @+test_right
+
+	ld de, @+redraw
+	jp @+scroll_left
+
+@test_right:
+	rra	; right is now in carry
+	jr nc, @+redraw
+
+	ld de, @+redraw
+	jp @+scroll_right
+
+@redraw:
 	; Put next page into the upper page.
 	ld a, (@+scroll_offset)
 	out (HMPR), a
 
+	; Don't OR anything in if there was no scroll.
+	ld a, (@+scroll_change)
+	or a
+	jr z, @+begin_map
+
+@or_diff_map:
 
 	;
 	; OR per-page dirty bits with the fixed list to produce a composite diff.
 	;
-	ld c, FLAGS_SIZE
+	; TODO: don't OR in dirty bits if there was no scrolling, OR them in but
+	; off by one if scrolling went leftward.
 	ld de, DIRTY_FLAGS + FLAGS_SIZE
-	ld iy, COMBINED_FLAGS + FLAGS_SIZE
 	ld hl, (@+diff_address)
+
+	; The above assumes a scroll to the right; adjust for a scroll to the left.
+	rra
+	jr nc, @+or_flags
+
+	ld bc, -3
+	add hl, bc
+
+@or_flags:
+	ld c, FLAGS_SIZE
 @flag_loop:
 	dec de
-	dec iy
 	dec hl
 
 	ld a, (de)
 	or (hl)
-	ld (iy+0), a
-
-	ld a, 0
 	ld (de), a
 
 	dec c
 	jr nz, @-flag_loop
 
-
-	; Seed pointers to map contents and to diffs list.
+@begin_map:
+	; Grab map address and set diffs list pointer.
 	ld ix, (@+map_address)
-	ld iy, COMBINED_FLAGS + FLAGS_SIZE
+	ld iy, DIRTY_FLAGS + FLAGS_SIZE
 
 	;
 	; Segue into tile drawing.
@@ -356,14 +398,53 @@ INC "generated/palette.z80s"
 @tiles_drawn:
 
 	;
-	; Display page just drawn to.
+	; Set the page just drawn to as next to display
 	;
 	ld a, (@+scroll_offset)
 	add a, %01100000
 	ld (@+next_vmpr), a
 
+;
+; Loop for end of frame
+;
+	jr @-draw_scene
+
+
+@scroll_left:
+	ld (@+return+1), de
+
 	;
-	; Scroll over and repeat.
+	; Subtract two from scroll offset.
+	;
+	ld a, (@+scroll_offset)
+	ld d, a
+	dec a
+	dec a
+	and 15
+	ld (@+scroll_offset), a
+
+	;
+	; Update map pointer if the scroll offset just decremented to 0.
+	;
+	jp nz, @+return
+
+	ld hl, (@+map_address)
+	ld bc, -12
+	add hl, bc
+
+	ld hl, (@+diff_address)
+	ld bc, -3
+	add hl, bc
+	ld (@+diff_address), hl
+
+@return:
+	jp 1234
+
+@scroll_right:
+	ld (@+return+1), de
+
+	;
+	; Add two to scroll offset.
 	;
 	ld a, (@+scroll_offset)
 	ld d, a
@@ -372,9 +453,16 @@ INC "generated/palette.z80s"
 	and 15
 	ld (@+scroll_offset), a
 
+	;
+	; Do not update map pointer if the scroll offset didn't just increment from 0.
+	;
+	; Logic here is that offset 1 is the map at offset 0 but moved one position to
+	; the left. Therefore the step up from 0 is the point at which the far extent
+	; of the map changes.
+	;
 	ld a, d
 	or a
-	jp nz, @-draw_scene
+	jp nz, @+return
 
 	; Add 12 to map address to move one column along.
 	; Correspondingly add 3 to the diff address.
@@ -391,7 +479,7 @@ INC "generated/palette.z80s"
 
 	ld a, 0
 	ld (@+scroll_offset), a
-	jr @-draw_scene
+	jr @+return
 
 @keep_scrolling:
 	add hl, bc
@@ -403,16 +491,15 @@ INC "generated/palette.z80s"
 	add hl, bc
 	ld (@+diff_address), hl
 
-;
-; Loop for end of frame
-;
-	jr @-draw_scene
+@return:
+	jp 1234
 
 
 @scroll_offset:	db 0
 @map_address: dw map + 12*(column_count + 1)
 @diff_address: dw diffs + 3*column_count
 @next_vmpr: db 0
+@scroll_change: db 0
 
 ;
 ; The section from here to BUFFER_CODE_DONE is copied into place on
