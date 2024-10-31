@@ -414,6 +414,17 @@ INC "generated/palette.z80s"
 	ld (@+return+1), de
 
 	;
+	; Check that total offset is greater than 0; if so then subtract 1
+	; and continue. Otherwise return early.
+	;
+	ld hl, (@+total_x)
+	ld a, h
+	or l
+	jr z, @+return
+	dec hl
+	ld (@+total_x), hl
+
+	;
 	; Subtract two from scroll offset.
 	;
 	ld a, (@+scroll_offset)
@@ -431,7 +442,7 @@ INC "generated/palette.z80s"
 	ld hl, (@+map_address)
 	ld bc, -12
 	add hl, bc
-	ld (@+map_address), hl	; TODO: bounds check
+	ld (@+map_address), hl
 
 	ld hl, (@+diff_address)
 	ld bc, -3
@@ -443,6 +454,20 @@ INC "generated/palette.z80s"
 
 @scroll_right:
 	ld (@+return+1), de
+
+	;
+	; Check that total offset is less than the map size; if so then add 1
+	; and continue. Otherwise return early.
+	;
+	ld hl, (@+total_x)
+	ld bc, (((diffs - map) / 12) - column_count) * 8
+	scf
+	ccf
+	sbc hl, bc
+	jr z, @+return
+	add hl, bc
+	inc hl
+	ld (@+total_x), hl
 
 	;
 	; Add two to scroll offset.
@@ -470,21 +495,6 @@ INC "generated/palette.z80s"
 	ld hl, (@+map_address)
 	ld bc, 12
 	add hl, bc
-
-	; Stop scrolling if at end of bounds.
-	scf
-	ccf
-	ld bc, diffs - 12*column_count
-	sbc hl, bc
-	jr nz, @+keep_scrolling
-
-	ld a, 0
-	ld (@+scroll_offset), a
-	jr @+return
-
-@keep_scrolling:
-	add hl, bc
-
 	ld (@+map_address), hl
 
 	ld hl, (@+diff_address)
@@ -497,10 +507,11 @@ INC "generated/palette.z80s"
 
 
 @scroll_offset:	db 0
-@map_address: dw map + 12*(column_count + 1)
-@diff_address: dw diffs + 3*column_count
+@map_address: dw map + 12*(column_count)
+@diff_address: dw diffs + 3*(column_count - 1)
 @next_vmpr: db 0
 @scroll_change: db 0
+@total_x: dw 0
 
 ;
 ; The section from here to BUFFER_CODE_DONE is copied into place on
