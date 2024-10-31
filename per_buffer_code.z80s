@@ -3,14 +3,8 @@ draw_tiles:
 	; Store return address.
 	ld (@+return+1), de
 
-	; Switch to proper page for tiles.
-;tile_page:
-;	ld a, 16
-;	add a, %00100000
-;	out (LMPR), a
-
 columns_start:
-column_count: EQU 15
+column_count: EQU 17
 @column_loop: EQU FOR column_count
 	ld hl, 128*192 + 32768
 
