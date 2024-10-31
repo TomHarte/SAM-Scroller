@@ -369,7 +369,7 @@ INC "generated/palette.z80s"
 	rra
 	jr nc, @+or_flags
 
-	ld bc, -3
+	ld bc, 3
 	add hl, bc
 
 @or_flags:
@@ -431,6 +431,7 @@ INC "generated/palette.z80s"
 	ld hl, (@+map_address)
 	ld bc, -12
 	add hl, bc
+	ld (@+map_address), hl	; TODO: bounds check
 
 	ld hl, (@+diff_address)
 	ld bc, -3
