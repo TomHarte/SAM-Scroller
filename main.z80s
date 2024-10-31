@@ -49,17 +49,6 @@ INC "generated/palette.z80s"
 	exx
 	jp m, @+break_setup_screen
 
-	ld sp, 0 - 8*1024
-	ld bc, 24*1024 / 4
-	ld hl, 0
-@blank_loop:
-	push hl
-	push hl
-	dec bc
-	ld a, b
-	or c
-	jr nz, @-blank_loop
-
 	ld a, 0x1e
 	ld hl, DIRTY_FLAGS
 	ld b, FLAGS_SIZE
