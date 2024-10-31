@@ -311,6 +311,10 @@ INC "generated/palette.z80s"
 	; Display is now beginning the first line of lower border.
 	;
 
+	; Switch to displaying whatever is the correct screen.
+	ld a, (@+next_vmpr)
+	out (VMPR), a
+
 
 	; Put next page into the upper page.
 	ld a, (@+scroll_offset)
@@ -356,7 +360,7 @@ INC "generated/palette.z80s"
 	;
 	ld a, (@+scroll_offset)
 	add a, %01100000
-	out (VMPR), a
+	ld (@+next_vmpr), a
 
 	;
 	; Scroll over and repeat.
@@ -408,6 +412,7 @@ INC "generated/palette.z80s"
 @scroll_offset:	db 0
 @map_address: dw map + 12*(column_count + 1)
 @diff_address: dw diffs + 3*column_count
+@next_vmpr: db 0
 
 ;
 ; The section from here to BUFFER_CODE_DONE is copied into place on
