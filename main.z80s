@@ -287,6 +287,9 @@ INC "generated/palette.z80s"
 @return:
 	jp 1234
 
+;
+; TODO: this is purely startup stuff; relocate it into one of the initial video buffers.
+;
 
 @setup_per_screen_code:
 	ld (@+return+1), de
@@ -316,13 +319,15 @@ INC "generated/palette.z80s"
 	srl c
 	jr nc, @+no_dec
 	dec hl
-@no_dec:
 
+@no_dec:
 	; Store first address.
 	ld (ix + buffer_start_offset), l
 	ld (ix + buffer_start_offset + 1), h
 
-	; Next will be at de - (a >> 1) [+ 8 for page 0].
+	; Next will be at [screen end] - (a >> 1) {- 8 for page 0}.
+	ld hl, 128*192 + 32768
+
 	or a
 	jr z, @+sub8
 	ld c, a
@@ -344,17 +349,17 @@ INC "generated/palette.z80s"
 	; Proceed from the second column address, decreasing by 8 across the
 	; rest of the set.
 	;
-	ld ix, columns_start + column_length * 2
+	ld ix, columns_start + column_length
 	ld e, column_count - 2
 @address_loop:
-	ld (ix + buffer_start_offset), l
-	ld (ix + buffer_start_offset + 1), h
 	ld bc, column_length
 	add ix, bc						; Update IX to point to the next buffer address.
 
 	ld bc, -8
 	add hl, bc
-@adjusted:
+	ld (ix + buffer_start_offset), l
+	ld (ix + buffer_start_offset + 1), h
+
 	dec e
 	jr nz, @-address_loop			; Loop until done.
 
