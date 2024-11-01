@@ -7,19 +7,38 @@ VMPR:		EQU 252
 BORDER:		EQU 254
 
 EXECPAGE:	EQU 24
+SETUPPAGE:	EQU 14
 
 INC "per_buffer_layout.z80s"
 
 	ORG 0
 	DUMP EXECPAGE, 0
-INC "generated/palette.z80s"
 	AUTOEXEC
 
+	; This program does not use interrupts
 	di
+
+	; Disable display until the following is complete.
+	ld a, %10000000
+	out (BORDER), a
 
 	; Establish line interrupts at line 191, which will be polled for later.
 	ld a, 191
 	out (LINE), a
+
+	;
+	; The SAM being what it is, execution will actually begin with this code in
+	; the upper page.
+	;
+	; But that's convenient for taking advantage of the setup code.
+	;
+	ld a, %00100000 + SETUPPAGE
+	out (LMPR), a
+
+	; Copy the per-screen code segments far and wide.
+	ld de, @+redraw_all + 0x8000
+	jp @+setup_per_screen_code
+@redraw_all:
 
 	; Page self to lower page and proceed with execution from there.
 	ld a, %00100000 + EXECPAGE
@@ -27,19 +46,6 @@ INC "generated/palette.z80s"
 	jp @+relocate
 
 @relocate:
-	; Disable display until the following is complete.
-	ld a, %10000000
-	out (BORDER), a
-
-	; Establish palette.
-	ld bc, 0x10f8
-	ld hl, palette+15
-	otdr
-
-	; Copy the per-screen code segments far and wide.
-	ld de, @+redraw_all
-	jp @+setup_per_screen_code
-@redraw_all:
 
 	; Seed all buffers.
 	ld a, 16
@@ -287,12 +293,28 @@ INC "generated/palette.z80s"
 @return:
 	jp 1234
 
+@scroll_offset:	db 0
+@map_address: dw map + 12*(column_count)
+@diff_address: dw diffs + 3*(column_count - 1)
+@next_vmpr: db 0
+@scroll_change: db 0
+@total_x: dw 0
+
+
 ;
 ; TODO: this is purely startup stuff; relocate it into one of the initial video buffers.
 ;
 
+DUMP SETUPPAGE, 0
+ORG 0
+
 @setup_per_screen_code:
 	ld (@+return+1), de
+
+	; Establish palette.
+	ld bc, 0x10f8
+	ld hl, palette+15
+	otdr
 
 	; Setup all screens.
 	;
@@ -496,15 +518,12 @@ INC "generated/palette.z80s"
 	ld ix, columns_start + (column_count - 1) * column_length
 	dec (ix + buffer_start_offset)
 
+	ld a, EXECPAGE
+	out (HMPR), a
 @return:
 	jp 1234
 
-@scroll_offset:	db 0
-@map_address: dw map + 12*(column_count)
-@diff_address: dw diffs + 3*(column_count - 1)
-@next_vmpr: db 0
-@scroll_change: db 0
-@total_x: dw 0
+INC "generated/palette.z80s"
 
 ;
 ; The section from here to BUFFER_CODE_DONE is copied into place on
