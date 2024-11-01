@@ -148,8 +148,6 @@ INC "per_buffer_layout.z80s"
 	;
 	; OR per-page dirty bits with the fixed list to produce a composite diff.
 	;
-	; TODO: don't OR in dirty bits if there was no scrolling, OR them in but
-	; off by one if scrolling went leftward.
 	ld de, DIRTY_FLAGS + FLAGS_SIZE
 	ld hl, (@+diff_address)
 
@@ -302,7 +300,8 @@ INC "per_buffer_layout.z80s"
 
 
 ;
-; TODO: this is purely startup stuff; relocate it into one of the initial video buffers.
+; This is purely one-time startup stuff; relocate it into one of the initial video buffers
+; so that it naturally doesn't have an ongoing footprint.
 ;
 
 DUMP SETUPPAGE, 0
