@@ -30,7 +30,7 @@ column_count: EQU 17
 		ld de, (slivers)
 		ld (@+do_sliver+1), de
 
-		ld a, tiles_full >> 8	; TODO: use other tiles for first and last column.
+		ld a, tiles_full >> 8
 		ld de, @+next
 	@do_sliver:
 		jp 1234
