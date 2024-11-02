@@ -16,7 +16,7 @@ column_count: EQU 17
 	;
 	; It isn't safe to put behind a conditional because of the way buffer_start_address
 	; et al are used during setup.
-	ld a, 16 + %00100000
+	ld a, tiles_full_page
 	out (LMPR), a
 
 @sliver_loop: EQU FOR 3
