@@ -8,7 +8,7 @@ The SAM Coupé is an 8-bit computer from the 1980s with a 6Mhz Z80 and a 24kb fr
 
 Display is active on 192 lines out of 312, for 256 out of 384 cycles per line.
 
-Per my arithmetic, that gives 120 lines where the CPU may access RAM 96 times a line plus 192 lines where the CPU may access RAM 32 times during the border plus 32 times during the active display for 64 accesses total. So there are a total of 120*96 + 192*64 = 23,808 available access windows per frame.
+Per my arithmetic, that gives 120 lines where the CPU may access RAM 96 times a line plus 192 lines where the CPU may access RAM 32 times during the border plus 32 times during the active display for 64 accesses total. So there are a total of 120×96 + 192×64 = 23,808 available access windows per frame.
 
 So it would be impossible to touch every one of the 24,576 bytes of the display in a single frame even if the CPU didn't also have its own instruction stream to fetch and somehow knew which colour to paint where of its own volition.
 
