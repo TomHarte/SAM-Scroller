@@ -347,14 +347,14 @@ test_sprite:
 	jr nz, @+not_zero
 	add a, 16
 @not_zero:
-	sra a
+	srl a
 @add_x:
 	ld b, a
 	ld a, (@+sprite_x)
 	add b
-	sra a
-	sra a
-	sra a
+	srl a
+	srl a
+	srl a
 
 	; Multiply by 3.
 	ld b, a
@@ -365,11 +365,23 @@ test_sprite:
 	ld l, a
 	ld h, DIRTY_FLAGS >> 8
 
-	; Just set all bits in that column, as a first test.
-	ld (hl), 0x1e
-	inc hl
-	ld (hl), 0x1e
-	inc hl
+	; Find proper bit to set.
+	ld a, (@+sprite_y)
+	srl a
+	srl a
+	srl a
+	srl a	; Now a = tile to set.
+
+	; a / 4 = byte offset
+	; 2 << (a & 3) = bit to set
+	ld b, a
+	srl a
+	srl a
+	ld c, a
+	ld b, 0
+	add hl, bc
+
+	; Just set all bits in that 1/3 of a column, as a test.
 	ld (hl), 0x1e
 
 	;
