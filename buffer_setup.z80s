@@ -1,0 +1,236 @@
+;
+; This is purely one-time startup stuff; relocate it into one of the initial video buffers
+; so that it naturally doesn't have an ongoing footprint.
+;
+
+DUMP SETUPPAGE, 0
+ORG 0
+
+setup_per_screen_code:
+	ld (@+return+1), de
+
+	; Establish palette.
+	ld bc, 0x10f8
+	ld hl, palette+15
+	otdr
+
+	; Setup all screens.
+	;
+	; (1) copy tile-drawing code, unmodified.
+	;
+	ld a, 0
+@copy_buffer_code:
+	out (HMPR), a
+
+	; Copy down tile-drawing code.
+	ld hl, BUFFER_CODE_ORIGINAL
+	ld de, BUFFER_CODE
+	ld bc, BUFFER_CODE_DONE-BUFFER_CODE
+	ldir
+
+	; Set first two start addresses.
+	ld ix, columns_start
+	ld hl, 128*192 + 32768		; Start of rightmost column.
+
+	; If a is odd byte size, start one earlier, per the different rules for even-sized
+	; and odd-sized tile output functions.
+	ld c, a
+	srl c
+	srl c
+	jr nc, @+no_dec
+	dec hl
+
+@no_dec:
+	; Store first address.
+	ld (ix + buffer_start_offset), l
+	ld (ix + buffer_start_offset + 1), h
+
+	; Next will be at [screen end] - (a >> 1) {- 8 for page 0}.
+	ld hl, 128*192 + 32768
+
+	or a
+	jr z, @+sub8
+	ld c, a
+	ld b, 0
+	srl c
+	sbc hl, bc
+	jr @+store
+
+@sub8:
+	ld bc, -8
+	add hl, bc
+
+	; Store second address
+@store:
+	ld (ix + buffer_start_offset + column_length), l
+	ld (ix + buffer_start_offset + column_length + 1), h
+
+	;
+	; Proceed from the second column address, decreasing by 8 across the
+	; rest of the set.
+	;
+	ld ix, columns_start + column_length
+	ld e, column_count - 2
+@address_loop:
+	ld bc, column_length
+	add ix, bc						; Update IX to point to the next buffer address.
+
+	ld bc, -8
+	add hl, bc
+	ld (ix + buffer_start_offset), l
+	ld (ix + buffer_start_offset + 1), h
+
+	dec e
+	jr nz, @-address_loop			; Loop until done.
+
+	; Continue to next page.
+	add 2
+	cp 16
+	jr nz, @-copy_buffer_code
+
+	;
+	; Apply per-page adjustments to locate proper tile pages.
+	;
+
+	; First page: just do 16 columns by adding an extra JR.
+	ld a, 0
+	out (HMPR), a
+	ld ix, columns_end - column_length
+	ld (ix + 0), 0x18
+	ld (ix + 1), column_length - 2
+
+	; Second page: use left_1 and right_7.
+	ld a, 2
+	out (HMPR), a
+	ld ix, columns_start
+	ld (ix + tile_page_offset), tiles_left_1_page
+	ld (ix + tile_table_offset1), tiles_left_1 >> 8
+	ld (ix + tile_table_offset2), tiles_left_1 >> 8
+	ld (ix + tile_table_offset3), tiles_left_1 >> 8
+
+	ld ix, columns_end - column_length
+	ld (ix + tile_page_offset), tiles_right_7_page
+	ld (ix + tile_table_offset1), tiles_right_7 >> 8
+	ld (ix + tile_table_offset2), tiles_right_7 >> 8
+	ld (ix + tile_table_offset3), tiles_right_7 >> 8
+
+	ld ix, columns_start + (column_count - 1) * column_length
+	dec (ix + buffer_start_offset)
+
+	; Third page: use left_2 and right_6.
+	ld a, 4
+	out (HMPR), a
+	ld ix, columns_start
+	ld (ix + tile_page_offset), tiles_left_2_page
+	ld (ix + tile_table_offset1), tiles_left_2 >> 8
+	ld (ix + tile_table_offset2), tiles_left_2 >> 8
+	ld (ix + tile_table_offset3), tiles_left_2 >> 8
+
+	ld ix, columns_end - column_length
+	ld (ix + tile_page_offset), tiles_right_6_page
+	ld (ix + tile_table_offset1), tiles_right_6 >> 8
+	ld (ix + tile_table_offset2), tiles_right_6 >> 8
+	ld (ix + tile_table_offset3), tiles_right_6 >> 8
+
+	; Fourth page: use left_3 and right_5.
+	ld a, 6
+	out (HMPR), a
+	ld ix, columns_start
+	ld (ix + tile_page_offset), tiles_left_3_page
+	ld (ix + tile_table_offset1), tiles_left_3 >> 8
+	ld (ix + tile_table_offset2), tiles_left_3 >> 8
+	ld (ix + tile_table_offset3), tiles_left_3 >> 8
+
+	ld ix, columns_end - column_length
+	ld (ix + tile_page_offset), tiles_right_5_page
+	ld (ix + tile_table_offset1), tiles_right_5 >> 8
+	ld (ix + tile_table_offset2), tiles_right_5 >> 8
+	ld (ix + tile_table_offset3), tiles_right_5 >> 8
+
+	ld ix, columns_start + (column_count - 1) * column_length
+	dec (ix + buffer_start_offset)
+
+	; Fifth page: use left_4 and right_4.
+	ld a, 8
+	out (HMPR), a
+	ld ix, columns_start
+	ld (ix + tile_page_offset), tiles_left_4_page
+	ld (ix + tile_table_offset1), tiles_left_4 >> 8
+	ld (ix + tile_table_offset2), tiles_left_4 >> 8
+	ld (ix + tile_table_offset3), tiles_left_4 >> 8
+
+	ld ix, columns_end - column_length
+	ld (ix + tile_page_offset), tiles_right_4_page
+	ld (ix + tile_table_offset1), tiles_right_4 >> 8
+	ld (ix + tile_table_offset2), tiles_right_4 >> 8
+	ld (ix + tile_table_offset3), tiles_right_4 >> 8
+
+	; Sixth page: use left_5 and right_3.
+	ld a, 10
+	out (HMPR), a
+	ld ix, columns_start
+	ld (ix + tile_page_offset), tiles_left_5_page
+	ld (ix + tile_table_offset1), tiles_left_5 >> 8
+	ld (ix + tile_table_offset2), tiles_left_5 >> 8
+	ld (ix + tile_table_offset3), tiles_left_5 >> 8
+
+	ld ix, columns_end - column_length
+	ld (ix + tile_page_offset), tiles_right_3_page
+	ld (ix + tile_table_offset1), tiles_right_3 >> 8
+	ld (ix + tile_table_offset2), tiles_right_3 >> 8
+	ld (ix + tile_table_offset3), tiles_right_3 >> 8
+
+	ld ix, columns_start + (column_count - 1) * column_length
+	dec (ix + buffer_start_offset)
+
+	; Seventh page: use left_6 and right_2.
+	ld a, 12
+	out (HMPR), a
+	ld ix, columns_start
+	ld (ix + tile_page_offset), tiles_left_6_page
+	ld (ix + tile_table_offset1), tiles_left_6 >> 8
+	ld (ix + tile_table_offset2), tiles_left_6 >> 8
+	ld (ix + tile_table_offset3), tiles_left_6 >> 8
+
+	ld ix, columns_end - column_length
+	ld (ix + tile_page_offset), tiles_right_2_page
+	ld (ix + tile_table_offset1), tiles_right_2 >> 8
+	ld (ix + tile_table_offset2), tiles_right_2 >> 8
+	ld (ix + tile_table_offset3), tiles_right_2 >> 8
+
+	; Eighth page: use left_7 and right_1.
+	ld a, 14
+	out (HMPR), a
+	ld ix, columns_start
+	ld (ix + tile_page_offset), tiles_left_7_page
+	ld (ix + tile_table_offset1), tiles_left_7 >> 8
+	ld (ix + tile_table_offset2), tiles_left_7 >> 8
+	ld (ix + tile_table_offset3), tiles_left_7 >> 8
+
+	ld ix, columns_end - column_length
+	ld (ix + tile_page_offset), tiles_right_1_page
+	ld (ix + tile_table_offset1), tiles_right_1 >> 8
+	ld (ix + tile_table_offset2), tiles_right_1 >> 8
+	ld (ix + tile_table_offset3), tiles_right_1 >> 8
+
+	ld ix, columns_start + (column_count - 1) * column_length
+	dec (ix + buffer_start_offset)
+
+	ld a, EXECPAGE
+	out (HMPR), a
+@return:
+	jp 1234
+
+INC "generated/palette.z80s"
+
+;
+; The section from here to BUFFER_CODE_DONE is copied into place on
+; each video page individually, fixed up slightly for the appropriate
+; tile functions.
+;
+BUFFER_CODE_ORIGINAL:
+include "per_buffer_code.z80s"
+BUFFER_CODE_DONE:
+;
+; End relocated section.
+;
