@@ -338,7 +338,7 @@ test_sprite:
 	ld (ix + 0), 0x11
 
 	;
-	; TODO: dirty bits.
+	; Mark proper dirty bit.
 	;
 
 	; Calculate first dirty column
@@ -374,15 +374,27 @@ test_sprite:
 
 	; a / 4 = byte offset
 	; 2 << (a & 3) = bit to set
-	ld b, a
+	ld e, a
 	srl a
 	srl a
 	ld c, a
 	ld b, 0
 	add hl, bc
 
-	; Just set all bits in that 1/3 of a column, as a test.
-	ld (hl), 0x1e
+	ld a, e
+	and 3
+
+	; TODO: don't loop here.
+	ld b, a
+	inc b
+	ld a, 0x20
+@shift_loop:
+	srl a
+	dec b
+	jr nz, @-shift_loop
+
+	; Set that bit.
+	ld (hl), a
 
 	;
 	; Move vertically.
@@ -417,6 +429,7 @@ db 0
 @sprite_y: db 88
 @sprite_x: db 65
 db 0
+
 
 INC "buffer_setup.z80s"
 INC "generated/tiles.z80s"
