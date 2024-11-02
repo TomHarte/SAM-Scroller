@@ -146,6 +146,13 @@ INC "per_buffer_layout.z80s"
 @tiles_drawn:
 
 	;
+	; Add test sprite.
+	;
+	ld de, @+sprite_drawn
+	jp test_sprite
+@sprite_drawn:
+
+	;
 	; Set the page just drawn to as next to display
 	;
 	ld a, (@+scroll_offset)
@@ -306,12 +313,123 @@ INC "per_buffer_layout.z80s"
 @return:
 	jp 1234
 
+;
+; Experimental: draws a single, rectangular sprite.
+;
+test_sprite:
+	ld (@+return+1), de
+
+	; Load y, multiply it by 128 and set the top bit.
+	ld hl, (@+sprite_y - 1)
+	srl h
+	set 7, h
+	rr l
+
+	; Add x.
+	ld bc, (@+sprite_x)
+	add hl, bc
+
+	; Transfer, painfully, to IX.
+	ex de, hl
+	ld ixl, e
+	ld ixh, d
+
+	; Plot two pixels.
+	ld (ix + 0), 0x11
+
+	;
+	; Mark proper dirty bit.
+	;
+
+	; Calculate first dirty column
+	ld a, (@+scroll_offset)
+	or a
+	jr nz, @+not_zero
+	add a, 16
+@not_zero:
+	srl a
+@add_x:
+	ld b, a
+	ld a, (@+sprite_x)
+	add b
+	srl a
+	srl a
+	srl a
+
+	; Multiply by 3.
+	ld b, a
+	add a
+	add b
+
+	; Relocate into dirty flags.
+	ld l, a
+	ld h, DIRTY_FLAGS >> 8
+
+	; Find proper bit to set.
+	ld a, (@+sprite_y)
+	srl a
+	srl a
+	srl a
+	srl a	; Now a = tile to set.
+
+	; a / 4 = byte offset
+	; 2 << (a & 3) = bit to set
+	ld e, a
+	srl a
+	srl a
+	ld c, a
+	ld b, 0
+	add hl, bc
+
+	ld a, e
+	and 3
+
+	; TODO: don't loop here.
+	ld b, a
+	inc b
+	ld a, 0x20
+@shift_loop:
+	srl a
+	dec b
+	jr nz, @-shift_loop
+
+	; Set that bit.
+	ld (hl), a
+
+	;
+	; Move vertically.
+	;
+	ld a, (@+sprite_y)
+	dec a
+	jr nz, @+moved
+	ld a, 191
+@moved:
+	ld (@+sprite_y), a
+
+	;
+	; First affected row should be:
+	;
+	;	((x + (scroll_offset >> 1)) >> 3)
+	;
+	;	(so: DIRTY_FLAGS + 3*((x + (scroll_offset >> 1)) >> 3))
+	;
+
+
+@return:
+	jp 1234
+
 @scroll_offset:	db 0
 @map_address: dw map + 12*(column_count)
 @diff_address: dw diffs + 3*(column_count - 1)
 @next_vmpr: db 0
 @scroll_change: db 0
 @total_x: dw 0
+
+db 0
+@sprite_y: db 88
+@sprite_x: db 65
+db 0
+
 
 INC "buffer_setup.z80s"
 INC "generated/tiles.z80s"
