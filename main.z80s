@@ -15,10 +15,10 @@ INC "per_buffer_layout.z80s"
 	DUMP EXECPAGE, 0
 	AUTOEXEC
 
-	; This program does not use interrupts
+	; This program does not use interrupts.
 	di
 
-	; Disable display until the following is complete.
+	; Disable display until setup is complete.
 	ld a, %10000000
 	out (BORDER), a
 
@@ -30,12 +30,11 @@ INC "per_buffer_layout.z80s"
 	; The SAM being what it is, execution will actually begin with this code in
 	; the upper page.
 	;
-	; But that's convenient for taking advantage of the setup code.
+	; But that's convenient for taking advantage of the setup code — put that
+	; initially into the lower page and give it a modified return address.
 	;
 	ld a, %00100000 + SETUPPAGE
 	out (LMPR), a
-
-	; Copy the per-screen code segments far and wide.
 	ld de, @+fix_page + 0x8000
 	jp setup_per_screen_code
 
@@ -45,6 +44,7 @@ INC "per_buffer_layout.z80s"
 	out (LMPR), a
 
 @redraw_all:
+	; Do a full redraw at the current scroll position.
 	ld de, @+enter_loop
 	jp @+reset_scrolling
 
@@ -84,37 +84,28 @@ INC "per_buffer_layout.z80s"
 	rra
 	rra
 	rra
-
-	; Lazily set b0 = 1 if a scroll to the left happened;
-	; b1 = 1 if a scroll to the right happened (and there wasn't a scroll to the left).
-	and 3
-	xor 3
-	ld (@+scroll_change), a
-
 	rra	; left is now in carry
-	jr nc, @+test_right
+	jr c, @+test_right
 
 	ld de, @+redraw
 	jp @+scroll_left
 
 @test_right:
 	rra	; right is now in carry
-	jr nc, @+redraw
+	jr c, @+redraw
 
 	ld de, @+redraw
 	jp @+scroll_right
 
 @redraw:
-	; Put next page into the upper page.
+	; Put next target buffer into the upper page.
 	ld a, (@+scroll_offset)
 	out (HMPR), a
 
-	; Don't OR anything in if there was no scroll.
+	; Don't OR anything into the dirty map if there was no scroll.
 	ld a, (@+scroll_change)
 	or a
 	jr z, @+begin_map
-
-@or_diff_map:
 
 	;
 	; OR per-page dirty bits with the fixed list to produce a composite diff.
@@ -184,6 +175,10 @@ INC "per_buffer_layout.z80s"
 	dec hl
 	ld (@+total_x), hl
 
+	; Record that a scroll left happened.
+	ld a, 1
+	ld (@+scroll_change), a
+
 	;
 	; Subtract two from scroll offset.
 	;
@@ -231,6 +226,10 @@ INC "per_buffer_layout.z80s"
 	add hl, bc
 	inc hl
 	ld (@+total_x), hl
+
+	; Record that a scroll right happened.
+	ld a, 2
+	ld (@+scroll_change), a
 
 	;
 	; Add two to scroll offset.
