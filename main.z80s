@@ -343,7 +343,12 @@ test_sprite:
 
 	; Calculate first dirty column
 	ld a, (@+scroll_offset)
+	or a
+	jr nz, @+not_zero
+	add a, 16
+@not_zero:
 	sra a
+@add_x:
 	ld b, a
 	ld a, (@+sprite_x)
 	add b
@@ -361,11 +366,11 @@ test_sprite:
 	ld h, DIRTY_FLAGS >> 8
 
 	; Just set all bits in that column, as a first test.
-;	ld (hl), 0x1f
-;	inc hl
-;	ld (hl), 0x1f
-;	inc hl
-;	ld (hl), 0x1f
+	ld (hl), 0x1e
+	inc hl
+	ld (hl), 0x1e
+	inc hl
+	ld (hl), 0x1e
 
 	;
 	; Move vertically.
