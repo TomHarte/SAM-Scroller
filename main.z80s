@@ -370,6 +370,8 @@ test_sprite:
 	; TEMPORARY: assume only a single bit to set.
 	; So no need to calculate a new (hl), just XOR
 	; in the very next three bytes.
+	;
+	; Otherwise would need to add more to hl.
 	xor (hl)
 	inc hl
 	ld d, a
@@ -387,31 +389,30 @@ test_sprite:
 	; Now D:BC = mask to set per column.
 	;
 
-	; Calculate first dirty column
+	; Calculate first dirty column, multiplied by three.
 	ld a, (@+scroll_offset)
 	or a
 	jr nz, @+not_zero
 	add a, 16
 @not_zero:
-	srl a
-@add_x:
+	rra
+
 	ld e, a
 	ld a, (@+sprite_x)
 	add e
-	srl a
-	srl a
-	srl a
 
-	; Multiply by 3.
+	and 0xf8
+	rra
+	rra
 	ld e, a
-	add a
+	rra
 	add e
 
 	; Relocate into dirty flags.
 	ld l, a
 	ld h, DIRTY_FLAGS >> 8
 
-	; OR in the collectd mask.
+	; OR in the collected mask.
 	ld a, (hl)
 	or d
 	ld (hl), a
