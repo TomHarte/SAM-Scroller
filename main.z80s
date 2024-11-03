@@ -341,6 +341,52 @@ test_sprite:
 	; Mark proper dirty bit.
 	;
 
+	; Find proper bit(s) to set.
+	ld a, (@+sprite_y)
+	and 0xf0
+	rra
+	rra
+	rra
+	rra		; Now a = tile to set.
+
+	; Triple that to get a byte offset and add the start of
+	; dirty_masks.
+	ld b, a
+	add a
+	add b
+	ld c, a
+	ld b, 0
+	ld hl, dirty_masks
+	add hl, bc
+
+	; Load three-byte mask.
+	ld a, (hl)
+	inc hl
+	ld b, (hl)
+	inc hl
+	ld c, (hl)
+	inc hl
+
+	; TEMPORARY: assume only a single bit to set.
+	; So no need to calculate a new (hl), just XOR
+	; in the very next three bytes.
+	xor (hl)
+	inc hl
+	ld d, a
+
+	ld a, b
+	xor (hl)
+	ld b, a
+	inc hl
+
+	ld a, c
+	xor (hl)
+	ld c, a
+
+	;
+	; Now D:BC = mask to set per column.
+	;
+
 	; Calculate first dirty column
 	ld a, (@+scroll_offset)
 	or a
@@ -349,52 +395,38 @@ test_sprite:
 @not_zero:
 	srl a
 @add_x:
-	ld b, a
+	ld e, a
 	ld a, (@+sprite_x)
-	add b
+	add e
 	srl a
 	srl a
 	srl a
 
 	; Multiply by 3.
-	ld b, a
+	ld e, a
 	add a
-	add b
+	add e
 
 	; Relocate into dirty flags.
 	ld l, a
 	ld h, DIRTY_FLAGS >> 8
 
-	; Find proper bit to set.
-	ld a, (@+sprite_y)
-	srl a
-	srl a
-	srl a
-	srl a	; Now a = tile to set.
-
-	; a / 4 = byte offset
-	; 2 << (a & 3) = bit to set
-	ld e, a
-	srl a
-	srl a
-	ld c, a
-	ld b, 0
-	add hl, bc
-
-	ld a, e
-	and 3
-
-	; TODO: don't loop here.
-	ld b, a
-	inc b
-	ld a, 0x20
-@shift_loop:
-	srl a
-	dec b
-	jr nz, @-shift_loop
-
-	; Set that bit.
+	; OR in the collectd mask.
+	ld a, (hl)
+	or d
 	ld (hl), a
+	inc hl
+
+	ld a, (hl)
+	or b
+	ld (hl), a
+	inc hl
+
+	ld a, (hl)
+	or c
+	ld (hl), a
+
+
 
 	;
 	; Move vertically.
@@ -406,17 +438,31 @@ test_sprite:
 @moved:
 	ld (@+sprite_y), a
 
-	;
-	; First affected row should be:
-	;
-	;	((x + (scroll_offset >> 1)) >> 3)
-	;
-	;	(so: DIRTY_FLAGS + 3*((x + (scroll_offset >> 1)) >> 3))
-	;
-
 
 @return:
 	jp 1234
+
+;
+; A table in which the three bytes on line n represent all tiles
+; set as dirty from row n downwards.
+;
+dirty_masks:
+	db 0x1e, 0x1e, 0x1e
+	db 0x0e, 0x1e, 0x1e
+	db 0x06, 0x1e, 0x1e
+	db 0x02, 0x1e, 0x1e
+
+	db 0x00, 0x1e, 0x1e
+	db 0x00, 0x0e, 0x1e
+	db 0x00, 0x06, 0x1e
+	db 0x00, 0x02, 0x1e
+
+	db 0x00, 0x00, 0x1e
+	db 0x00, 0x00, 0x0e
+	db 0x00, 0x00, 0x06
+	db 0x00, 0x00, 0x02
+
+	db 0x00, 0x00, 0x00
 
 @scroll_offset:	db 0
 @map_address: dw map + 12*(column_count)
