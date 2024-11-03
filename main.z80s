@@ -334,8 +334,45 @@ test_sprite:
 	ld ixl, e
 	ld ixh, d
 
-	; Plot two pixels.
+	; Plot a 16x4 box of pixels.
 	ld (ix + 0), 0x11
+	ld (ix + 1), 0x11
+	ld (ix + 2), 0x11
+	ld (ix + 3), 0x11
+	ld (ix + 4), 0x11
+	ld (ix + 5), 0x11
+	ld (ix + 6), 0x11
+	ld (ix + 7), 0x11
+
+	inc ixh
+	ld (ix + 0), 0x11
+	ld (ix + 1), 0x11
+	ld (ix + 2), 0x11
+	ld (ix + 3), 0x11
+	ld (ix + 4), 0x11
+	ld (ix + 5), 0x11
+	ld (ix + 6), 0x11
+	ld (ix + 7), 0x11
+
+	inc ixh
+	ld (ix + 0), 0x11
+	ld (ix + 1), 0x11
+	ld (ix + 2), 0x11
+	ld (ix + 3), 0x11
+	ld (ix + 4), 0x11
+	ld (ix + 5), 0x11
+	ld (ix + 6), 0x11
+	ld (ix + 7), 0x11
+
+	inc ixh
+	ld (ix + 0), 0x11
+	ld (ix + 1), 0x11
+	ld (ix + 2), 0x11
+	ld (ix + 3), 0x11
+	ld (ix + 4), 0x11
+	ld (ix + 5), 0x11
+	ld (ix + 6), 0x11
+	ld (ix + 7), 0x11
 
 	;
 	; Mark proper dirty bit.
@@ -367,11 +404,15 @@ test_sprite:
 	ld c, (hl)
 	inc hl
 
-	; TEMPORARY: assume only a single bit to set.
+	; TEMPORARY: assume exactly two bits to set.
 	; So no need to calculate a new (hl), just XOR
 	; in the very next three bytes.
 	;
-	; Otherwise would need to add more to hl.
+	; Otherwise would need to add some other amount to hl.
+	inc hl
+	inc hl
+	inc hl
+
 	xor (hl)
 	inc hl
 	ld d, a
@@ -412,6 +453,14 @@ test_sprite:
 	ld l, a
 	ld h, DIRTY_FLAGS >> 8
 
+	; TODO: get real number of touched columns into E.
+	; For a 1px-wide sprite it's 1.
+	; For a [2, 16]px-wide sprite it's 1 or 2.
+	; For a [17, 32]px-wide sprite it's 2 or 3.
+	; Etc. Etc.
+	ld e, 2
+
+@or_column:
 	; OR in the collected mask.
 	ld a, (hl)
 	or d
@@ -426,6 +475,10 @@ test_sprite:
 	ld a, (hl)
 	or c
 	ld (hl), a
+	inc hl
+
+	dec e
+	jr nz, @-or_column
 
 
 
@@ -435,7 +488,7 @@ test_sprite:
 	ld a, (@+sprite_y)
 	dec a
 	jr nz, @+moved
-	ld a, 191
+	ld a, 192 - 32
 @moved:
 	ld (@+sprite_y), a
 
