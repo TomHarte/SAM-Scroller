@@ -26,7 +26,8 @@ class PixelAccessor {
 
 			width_ = CGBitmapContextGetWidth(bitmap_);
 			height_ = CGBitmapContextGetHeight(bitmap_);
-			pixels_ = reinterpret_cast<uint32_t *>(CGBitmapContextGetData(bitmap_));
+			bytes_per_row_ = CGBitmapContextGetBytesPerRow(bitmap_);
+			pixels_ = reinterpret_cast<uint8_t *>(CGBitmapContextGetData(bitmap_));
 		}
 
 		~PixelAccessor() {
@@ -35,15 +36,16 @@ class PixelAccessor {
 			CGColorSpaceRelease(colour_space_);
 		}
 
+		size_t bytes_per_row() { return bytes_per_row_; }
 		size_t width() { return width_; }
 		size_t height() { return height_; }
-		uint32_t *pixels() { return pixels_; }
-		uint32_t *pixels(size_t x, size_t y) { return &pixels_[y*width_ + x]; }
-		uint32_t pixel(size_t x, size_t y) { return pixels_[y*width_ + x]; }
+		uint32_t *pixels(size_t x, size_t y) { return reinterpret_cast<uint32_t *>(&pixels_[y*bytes_per_row_ + x*4]); }
+		uint32_t pixel(size_t x, size_t y) { return *pixels(x, y); }
 
 	private:
 		size_t width_, height_;
 		CGContextRef bitmap_;
 		CGColorSpaceRef colour_space_;
-		uint32_t *pixels_;
+		uint8_t *pixels_;
+		size_t bytes_per_row_;
 };

@@ -141,7 +141,7 @@ static constexpr int TileSize = 16;
 						hasAlpha:YES
 						isPlanar:NO
 						colorSpaceName:NSDeviceRGBColorSpace
-						bytesPerRow:4 * accessor.width()
+						bytesPerRow:accessor.bytes_per_row()
 						bitsPerPixel:0];
 
 				NSData *const data = [image_representation representationUsingType:NSBitmapImageFileTypePNG properties:@{}];
