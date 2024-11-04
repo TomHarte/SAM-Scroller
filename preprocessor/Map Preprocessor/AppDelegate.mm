@@ -308,12 +308,18 @@ static constexpr int TileSize = 16;
 		if([name rangeOfString:@"tile_"].location != 0) {
 			continue;
 		}
+		// TODO: for sprite_ prefix, also accumulate palette entries.
 
 		tile.index = [[name substringFromIndex:5] intValue];
 		auto pixel = tile.contents.end();
 		for(size_t y = 0; y < accessor.height(); y++) {
 			for(size_t x = 0; x < accessor.width(); x++) {
 				const uint8_t palette_index = static_cast<uint8_t>(palette.size());
+
+				// TODO: map to Sam palette here, so that multiple different input RGBs that map to the same
+				// thing on the Sam don't get unique palette locations.
+				//
+				// (or, possibly, defer to a palette reduction step?)
 
 				// Quick hack! Just don't allow more than 15 colours. Overflow will compete.
 				auto colour = palette.try_emplace(accessor.pixel(x, y), std::min(palette_index, uint8_t(15)));
