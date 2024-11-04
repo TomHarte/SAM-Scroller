@@ -145,7 +145,7 @@ static constexpr int TileSize = 16;
 						bitsPerPixel:0];
 
 				NSData *const data = [image_representation representationUsingType:NSBitmapImageFileTypePNG properties:@{}];
-				NSString *const name = [directory stringByAppendingPathComponent:[NSString stringWithFormat:@"%d.png", it->second]];
+				NSString *const name = [directory stringByAppendingPathComponent:[NSString stringWithFormat:@"tile_%d.png", it->second]];
 				const BOOL didSucceed = [data
 					writeToFile:name
 					atomically:NO];
@@ -303,8 +303,12 @@ static constexpr int TileSize = 16;
 		PixelAccessor accessor([[NSImage alloc] initWithData:fileData]);
 
 		auto &tile = tiles.emplace_back();
-		tile.index = [[file lastPathComponent] intValue];
+		NSString *name = [file lastPathComponent];
+		if([name rangeOfString:@"tile_"].location != 0) {
+			continue;
+		}
 
+		tile.index = [[name substringFromIndex:5] intValue];
 		auto pixel = tile.contents.end();
 		for(size_t y = 0; y < accessor.height(); y++) {
 			for(size_t x = 0; x < accessor.width(); x++) {
