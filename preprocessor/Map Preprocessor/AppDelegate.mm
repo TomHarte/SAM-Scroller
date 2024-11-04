@@ -10,6 +10,7 @@
 #include "PixelAccessor.h"
 #include "TileSerialiser.h"
 #include "RegisterAllocator.h"
+#include "SpriteSerialiser.h"
 
 #include <array>
 #include <bit>
