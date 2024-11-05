@@ -53,6 +53,10 @@ class PixelAccessor {
 			return reinterpret_cast<uint32_t *>(&pixels_[y*bytes_per_row_ + x*4]);
 		}
 
+		static constexpr bool is_transparent(uint32_t colour) {
+			return !(colour >> 24);
+		}
+
 	private:
 		size_t width_, height_;
 		CGContextRef bitmap_;
@@ -60,10 +64,6 @@ class PixelAccessor {
 		uint8_t *pixels_;
 		size_t bytes_per_row_;
 };
-
-constexpr bool is_transparent(uint32_t colour) {
-	return !(colour >> 24);
-}
 
 /*!
 	Takes a PixelAccessor and an active palette, maps it through the paltte and subsequently
@@ -79,8 +79,12 @@ class PalettedPixelAccessor {
 			for(size_t y = 0; y < height_; y++) {
 				for(size_t x = 0; x < width_; x++) {
 					const uint32_t source_colour = accessor.pixel(x, y);
-					const auto iterator = palette.find(source_colour);
-					pixels_[y * width_ + x] = iterator != palette.end() ? iterator->second : 0;
+					if(PixelAccessor::is_transparent(source_colour)) {
+						pixels_[y * width_ + x] = 0xff;
+					} else {
+						const auto iterator = palette.find(source_colour);
+						pixels_[y * width_ + x] = iterator != palette.end() ? iterator->second : 0;
+					}
 				}
 			}
 		}
@@ -89,6 +93,10 @@ class PalettedPixelAccessor {
 		size_t height() const { return height_; }
 		uint8_t pixel(size_t x, size_t y) const { return *pixels(x, y); }
 		const uint8_t *pixels(size_t x, size_t y) const { return &pixels_[y * width_ + x]; }
+
+		static constexpr bool is_transparent(uint8_t colour) {
+			return colour == 0xff;
+		}
 
 	private:
 		size_t width_, height_;

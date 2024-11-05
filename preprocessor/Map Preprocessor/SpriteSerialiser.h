@@ -11,7 +11,13 @@
 
 class SpriteSerialiser {
 	public:
-		SpriteSerialiser(PixelAccessor &accessor) : accessor_(accessor) {
+		SpriteSerialiser(
+			uint8_t index,
+			const PixelAccessor &accessor,
+			const std::map<uint32_t, uint8_t> &palette) :
+				index_(index),
+				contents_(accessor, palette)
+		{
 			// Evaluate cost of using HL as the output cursor.
 			int hl_cost = 0;
 			int hl = 0;
@@ -67,17 +73,18 @@ class SpriteSerialiser {
 		}
 
 	private:
-		PixelAccessor &accessor_;
+		uint8_t index_;
+		PalettedPixelAccessor contents_;
 
 		enum class OutputStrategy {
 			IX, HL,
 		} strategy;
 
 		bool has_pixels_at(size_t x, size_t y) {
-			const uint32_t left = accessor_.pixel(x, y);
-			const uint32_t right = accessor_.pixel(x + 1, y);
+			const auto left = contents_.pixel(x, y);
+			const auto right = contents_.pixel(x + 1, y);
 
-			return (left >> 24) != 0 || (right >> 24) != 0;
+			return !PalettedPixelAccessor::is_transparent(left) && !PalettedPixelAccessor::is_transparent(right);
 		}
 };
 

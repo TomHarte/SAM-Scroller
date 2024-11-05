@@ -335,21 +335,30 @@ static constexpr int TileSize = 16;
 
 				// Quick hack! Just don't allow more than 15 colours. Overflow will compete.
 				const auto colour = accessor.pixel(x, y);
-				if(!is_transparent(colour)) {
+				if(!PixelAccessor::is_transparent(colour)) {
 					palette.try_emplace(colour, std::min(palette_index, uint8_t(15)));
 				}
 			}
 		}
 	}
 
-	// Prepare list of tiles for future dicing and writing.
+	// Prepare lists of tiles and sprites for future dicing and writing.
 	std::vector<TileSerialiser<TileSize>> tiles;
 	for(NSString *file in tile_files) {
 		NSData *fileData = [NSData dataWithContentsOfFile:file];
 		PixelAccessor accessor([[NSImage alloc] initWithData:fileData]);
-
 		tiles.emplace_back(
-			[[[file lastPathComponent] substringFromIndex:5] intValue],
+			[[file lastPathComponent] intValue],
+			accessor,
+			palette);
+	}
+
+	std::vector<SpriteSerialiser> sprites;
+	for(NSString *file in sprite_files) {
+		NSData *fileData = [NSData dataWithContentsOfFile:file];
+		PixelAccessor accessor([[NSImage alloc] initWithData:fileData]);
+		sprites.emplace_back(
+			[[file lastPathComponent] intValue],
 			accessor,
 			palette);
 	}
