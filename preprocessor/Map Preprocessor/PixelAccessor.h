@@ -87,7 +87,8 @@ class PalettedPixelAccessor {
 
 		size_t width() const { return width_; }
 		size_t height() const { return height_; }
-		uint32_t pixel(size_t x, size_t y) const { return pixels_[y * width_ + x]; }
+		uint8_t pixel(size_t x, size_t y) const { return *pixels(x, y); }
+		const uint8_t *pixels(size_t x, size_t y) const { return &pixels_[y * width_ + x]; }
 
 	private:
 		size_t width_, height_;

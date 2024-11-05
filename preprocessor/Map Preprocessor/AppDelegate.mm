@@ -225,7 +225,7 @@ static constexpr int TileSize = 16;
 		tile.set_slice(slice);
 		RegisterAllocator<TileSize> allocator(tile);
 
-		[code appendFormat:@"\t@%@_%d:\n", name, tile.index];
+		[code appendFormat:@"\t@%@_%d:\n", name, tile.index()];
 		[code appendString:@"\t\tld (@+return+1), de\n"];
 		[code appendString:@"\t\tld sp, hl\n\n"];
 
@@ -342,23 +342,16 @@ static constexpr int TileSize = 16;
 		}
 	}
 
-	// Capture palette, along with mapped tile contents.
+	// Prepare list of tiles for future dicing and writing.
 	std::vector<TileSerialiser<TileSize>> tiles;
 	for(NSString *file in tile_files) {
 		NSData *fileData = [NSData dataWithContentsOfFile:file];
 		PixelAccessor accessor([[NSImage alloc] initWithData:fileData]);
 
-		auto &tile = tiles.emplace_back();
-		tile.index = [[[file lastPathComponent] substringFromIndex:5] intValue];
-
-		// TODO: use paletted pixel accessor here.
-		auto pixel = tile.contents.end();
-		for(size_t y = 0; y < accessor.height(); y++) {
-			for(size_t x = 0; x < accessor.width(); x++) {
-				--pixel;
-				*pixel = palette[accessor.pixel(x, y)];
-			}
-		}
+		tiles.emplace_back(
+			[[[file lastPathComponent] substringFromIndex:5] intValue],
+			accessor,
+			palette);
 	}
 
 	// Write palette, in Sam format.
