@@ -17,8 +17,8 @@ struct RegisterEvent {
 		Load, Reuse, UseConstant
 	} type;
 	enum class Register {
-		BC, DE,
-		B, C, D, E, A,
+		BC, DE, HL, IX, IY,
+		B, C, D, E, A, H, L,
 	} reg;
 	uint16_t value;
 
@@ -26,21 +26,33 @@ struct RegisterEvent {
 		switch(reg) {
 			case RegisterEvent::Register::BC:	return "bc";
 			case RegisterEvent::Register::DE:	return "de";
+			case RegisterEvent::Register::HL:	return "bc";
+			case RegisterEvent::Register::IX:	return "ix";
+			case RegisterEvent::Register::IY:	return "iy";
+
 			case RegisterEvent::Register::B:	return "bc";
 			case RegisterEvent::Register::C:	return "bc";
 			case RegisterEvent::Register::D:	return "de";
 			case RegisterEvent::Register::E:	return "de";
-			case RegisterEvent::Register::A:	return "XXX";
+			case RegisterEvent::Register::H:	return "hl";
+			case RegisterEvent::Register::L:	return "hl";
+			case RegisterEvent::Register::A:	return "af";
 		}
 	}
 	const char *load_register() const {
 		switch(reg) {
 			case RegisterEvent::Register::BC:	return "bc";
 			case RegisterEvent::Register::DE:	return "de";
+			case RegisterEvent::Register::HL:	return "bc";
+			case RegisterEvent::Register::IX:	return "ix";
+			case RegisterEvent::Register::IY:	return "iy";
+
 			case RegisterEvent::Register::B:	return "b";
 			case RegisterEvent::Register::C:	return "c";
 			case RegisterEvent::Register::D:	return "d";
 			case RegisterEvent::Register::E:	return "e";
+			case RegisterEvent::Register::H:	return "h";
+			case RegisterEvent::Register::L:	return "l";
 			case RegisterEvent::Register::A:	return "a";
 		}
 	}
