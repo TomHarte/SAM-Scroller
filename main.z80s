@@ -329,53 +329,13 @@ test_sprite:
 	ld bc, (@+sprite_x)
 	add hl, bc
 
-	; Transfer, painfully, to IX.
-	ex de, hl
-	ld ixl, e
-	ld ixh, d
-
-	; Plot a 16x4 box of pixels.
-	ld (ix + 0), 0x11
-	ld (ix + 1), 0x11
-	ld (ix + 2), 0x11
-	ld (ix + 3), 0x11
-	ld (ix + 4), 0x11
-	ld (ix + 5), 0x11
-	ld (ix + 6), 0x11
-	ld (ix + 7), 0x11
-
-	inc ixh
-	ld (ix + 0), 0x11
-	ld (ix + 1), 0x11
-	ld (ix + 2), 0x11
-	ld (ix + 3), 0x11
-	ld (ix + 4), 0x11
-	ld (ix + 5), 0x11
-	ld (ix + 6), 0x11
-	ld (ix + 7), 0x11
-
-	inc ixh
-	ld (ix + 0), 0x11
-	ld (ix + 1), 0x11
-	ld (ix + 2), 0x11
-	ld (ix + 3), 0x11
-	ld (ix + 4), 0x11
-	ld (ix + 5), 0x11
-	ld (ix + 6), 0x11
-	ld (ix + 7), 0x11
-
-	inc ixh
-	ld (ix + 0), 0x11
-	ld (ix + 1), 0x11
-	ld (ix + 2), 0x11
-	ld (ix + 3), 0x11
-	ld (ix + 4), 0x11
-	ld (ix + 5), 0x11
-	ld (ix + 6), 0x11
-	ld (ix + 7), 0x11
+	; Call preformed sprite plotter
+	ld de, @+mark_dirty
+	jp sprite_0
+@mark_dirty:
 
 	;
-	; Mark proper dirty bit.
+	; Mark proper dirty bits.
 	;
 
 	; Find proper bit(s) to set.
@@ -529,6 +489,8 @@ db 0
 @sprite_y: db 88
 @sprite_x: db 65
 db 0
+
+INC "generated/sprites.z80s"
 
 
 INC "buffer_setup.z80s"
