@@ -437,7 +437,7 @@ static constexpr int TileSize = 16;
 				const uint16_t offset = target - hl;
 				hl = target;
 
-				[code appendFormat:@"\t\tld bc, %04x\n", offset];
+				[code appendFormat:@"\t\tld bc, 0x%04x\n", offset];
 				[code appendString:@"\t\tadd hl, bc\n\n"];
 			} else {
 				if(!moved) {
@@ -445,7 +445,7 @@ static constexpr int TileSize = 16;
 					++hl;
 				}
 				moved = false;
-				[code appendFormat:@"\t\tld (hl), %02x\n", event.content.output];
+				[code appendFormat:@"\t\tld (hl), 0x%02x\n", event.content.output];
 			}
 		}
 
