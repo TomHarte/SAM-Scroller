@@ -35,7 +35,7 @@ class SpriteSerialiser {
 			const PixelAccessor &accessor,
 			const std::map<uint32_t, uint8_t> &palette) :
 				index_(index),
-				contents_(accessor, palette)
+				contents_(accessor, palette, false)
 		{
 			// TODO: reinstate the below, with some sense of register allocation,
 			// owned elsewhere.
@@ -121,7 +121,7 @@ class SpriteSerialiser {
 						enqueued_ = output;
 						return SpriteEvent{
 							.type = SpriteEvent::Type::Move,
-							.content.move.x = x,
+							.content.move.x = x >> 1,
 							.content.move.y = y_,
 						};
 					}

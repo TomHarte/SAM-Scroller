@@ -35,7 +35,7 @@ struct TileSerialiser {
 		const PixelAccessor &accessor,
 		const std::map<uint32_t, uint8_t> &palette) :
 			index_(index),
-			contents_(accessor, palette)
+			contents_(accessor, palette, true)
 	{
 		set_slice(0);
 	}

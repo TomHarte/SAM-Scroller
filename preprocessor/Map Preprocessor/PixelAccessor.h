@@ -71,19 +71,22 @@ class PixelAccessor {
 */
 class PalettedPixelAccessor {
 	public:
-		PalettedPixelAccessor(const PixelAccessor &accessor, const std::map<uint32_t, uint8_t> &palette) :
+		PalettedPixelAccessor(const PixelAccessor &accessor, const std::map<uint32_t, uint8_t> &palette, bool flip_content) :
 			width_(accessor.width()),
 			height_(accessor.height())
 		{
 			pixels_.resize(width_ * height_);
 			for(size_t y = 0; y < height_; y++) {
 				for(size_t x = 0; x < width_; x++) {
+					size_t destination = y * width_ + x;
+					if(flip_content) destination = pixels_.size() - 1 - destination;
+
 					const uint32_t source_colour = accessor.pixel(x, y);
 					if(PixelAccessor::is_transparent(source_colour)) {
-						pixels_[y * width_ + x] = 0xff;
+						pixels_[destination] = 0xff;
 					} else {
 						const auto iterator = palette.find(source_colour);
-						pixels_[y * width_ + x] = iterator != palette.end() ? iterator->second : 0;
+						pixels_[destination] = iterator != palette.end() ? iterator->second : 0;
 					}
 				}
 			}
