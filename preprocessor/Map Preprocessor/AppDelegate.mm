@@ -420,6 +420,7 @@ static constexpr int TileSize = 16;
 	for(auto &sprite: sprites) {
 		[code appendFormat:@"\tsprite_%d:\n", sprite.index()];
 		[code appendString:@"\t\tld (@+return+1), de\n\n"];
+		std::optional<uint16_t> bc;
 
 		bool moved = true;
 		uint16_t hl = 0;
@@ -435,7 +436,12 @@ static constexpr int TileSize = 16;
 				const uint16_t offset = target - hl;
 				hl = target;
 
-				[code appendFormat:@"\t\tld bc, 0x%04x\n", offset];
+				if(!bc || (*bc&0xff00) != (offset&0xff00)) {
+					[code appendFormat:@"\t\tld bc, 0x%04x\n", offset];
+				} else {
+					[code appendFormat:@"\t\tld c, 0x%02x\n", offset&0xff];
+				}
+				bc = offset;
 				[code appendString:@"\t\tadd hl, bc\n\n"];
 			} else {
 				if(!moved) {
