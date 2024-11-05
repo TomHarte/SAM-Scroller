@@ -366,7 +366,12 @@ static constexpr int TileSize = 16;
 	// Write palette, in Sam format.
 	[self writePalette:palette file:[directory stringByAppendingPathComponent:@"palette.z80s"]];
 
-	// Compile tiles. Very densely for now.
+	// Compile all
+	[self compileTiles:tiles directory:directory];
+	[self compileSprites:sprites directory:directory];
+}
+
+- (void)compileTiles:(std::vector<TileSerialiser<TileSize>> &)tiles directory:(NSString *)directory {
 	NSMutableString *code = [[NSMutableString alloc] init];
 	[code appendString:@"\t; The following tile outputters are automatically generated.\n"];
 	[code appendString:@"\t;\n"];
@@ -408,6 +413,47 @@ static constexpr int TileSize = 16;
 	[code appendString:[self tiles:@"right_7" slice:1 source:tiles page:22]];
 
 	[code writeToFile:[directory stringByAppendingPathComponent:@"tiles.z80s"] atomically:NO encoding:NSUTF8StringEncoding error:nil];
+}
+
+- (void)compileSprites:(std::vector<SpriteSerialiser> &)sprites directory:(NSString *)directory {
+	// TODO: be MUCH less dense than this, document precepts.
+	NSMutableString *code = [[NSMutableString alloc] init];
+
+	for(auto &sprite: sprites) {
+		[code appendFormat:@"\tsprite_%d:\n", sprite.index()];
+		[code appendString:@"\t\tld (@+return+1), de\n\n"];
+
+		bool moved = true;
+		uint16_t hl = 0;
+		while(true) {
+			const auto event = sprite.next();
+			if(event.type == SpriteEvent::Type::Stop) {
+				break;
+			}
+
+			if(event.type == SpriteEvent::Type::Move) {
+				moved = true;
+				const uint16_t target = (event.content.move.y * 128) + event.content.move.x;
+				const uint16_t offset = target - hl;
+				hl = target;
+
+				[code appendFormat:@"\t\tld bc, %04x\n", offset];
+				[code appendString:@"\t\tadd hl, bc\n\n"];
+			} else {
+				if(!moved) {
+					[code appendString:@"\t\tinc l\n"];
+					++hl;
+				}
+				moved = false;
+				[code appendFormat:@"\t\tld (hl), %02x\n", event.content.output];
+			}
+		}
+
+		[code appendFormat:@"\t@return:\n"];
+		[code appendString:@"\t\tjp 1234\n\n"];
+	}
+
+	[code writeToFile:[directory stringByAppendingPathComponent:@"sprites.z80s"] atomically:NO encoding:NSUTF8StringEncoding error:nil];
 }
 
 - (void)writePalette:(std::map<uint32_t, uint8_t> &)palette file:(NSString *)file {

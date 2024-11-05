@@ -9,6 +9,25 @@
 
 #include "PixelAccessor.h"
 
+struct SpriteEvent {
+	enum class Type {
+		/// Moves the cursor location.
+		Move,
+		/// Writes a uint8_t value and advances one position to the right.
+		OutputByte,
+		/// Stop outputting. Subsequent events will be undefined.
+		Stop
+	};
+	Type type = Type::Stop;
+
+	union {
+		uint8_t output;
+		struct {
+			size_t x;
+			size_t y;
+		} move;
+	} content;
+};
 class SpriteSerialiser {
 	public:
 		SpriteSerialiser(
@@ -18,12 +37,15 @@ class SpriteSerialiser {
 				index_(index),
 				contents_(accessor, palette)
 		{
-			// Evaluate cost of using HL as the output cursor.
+			// TODO: reinstate the below, with some sense of register allocation,
+			// owned elsewhere.
+
+/*			// Evaluate cost of using HL as the output cursor.
 			int hl_cost = 0;
 			int hl = 0;
 			for(size_t y = 0; y < accessor.height(); y ++) {
 				for(size_t x = 0; x < accessor.width(); x += 2) {
-					if(!has_pixels_at(x, y)) {
+					if(!pixels_at(x, y)) {
 						continue;
 					}
 
@@ -52,7 +74,7 @@ class SpriteSerialiser {
 				if(y&1) ix_cost += 8;	// INC IXh
 
 				for(size_t x = 0; x < accessor.width(); x += 2) {
-					if(!has_pixels_at(x, y)) {
+					if(!pixels_at(x, y)) {
 						continue;
 					}
 					ix_cost += 19;		// LD (IX+d), n
@@ -69,22 +91,83 @@ class SpriteSerialiser {
 //				}
 //			}
 
-			strategy = hl_cost < ix_cost ? OutputStrategy::HL : OutputStrategy::IX;
+			strategy = hl_cost < ix_cost ? OutputStrategy::HL : OutputStrategy::IX;*/
+		}
+
+		SpriteEvent next() {
+			if(enqueued_) {
+				const auto result = *enqueued_;
+				enqueued_ = {};
+				return result;
+			}
+
+			while(y_ < contents_.height()) {
+				while(x_ < contents_.width()) {
+					const auto x = x_;
+					x_ += 2;
+
+					const auto pixels = pixels_at(x, y_);
+					if(pixels) {
+						SpriteEvent output = {
+							.type = SpriteEvent::Type::OutputByte,
+							.content.output = *pixels
+						};
+
+						if(continuous_) {
+							return output;
+						}
+
+						continuous_ = true;
+						enqueued_ = output;
+						return SpriteEvent{
+							.type = SpriteEvent::Type::Move,
+							.content.move.x = x,
+							.content.move.y = y_,
+						};
+					}
+
+					continuous_ = false;
+				}
+
+				++y_;
+				x_ = 0;
+			}
+
+			return SpriteEvent{.type = SpriteEvent::Type::Stop};
+		}
+
+		void reset() {
+			x_ = y_ = 0;
+			continuous_ = true;
+			enqueued_ = {};
+		}
+
+		uint8_t index() const {
+			return index_;
 		}
 
 	private:
 		uint8_t index_;
 		PalettedPixelAccessor contents_;
 
+		size_t x_ = 0, y_ = 0;
+		bool continuous_ = true;
+		std::optional<SpriteEvent> enqueued_;
+
 		enum class OutputStrategy {
 			IX, HL,
 		} strategy;
 
-		bool has_pixels_at(size_t x, size_t y) {
+		std::optional<uint8_t> pixels_at(size_t x, size_t y) {
 			const auto left = contents_.pixel(x, y);
 			const auto right = contents_.pixel(x + 1, y);
 
-			return !PalettedPixelAccessor::is_transparent(left) && !PalettedPixelAccessor::is_transparent(right);
+			if(!PalettedPixelAccessor::is_transparent(left) && !PalettedPixelAccessor::is_transparent(right)) return {};
+
+			uint8_t value = 0;
+			if(!PalettedPixelAccessor::is_transparent(left)) value |= left << 4;
+			if(!PalettedPixelAccessor::is_transparent(right)) value |= right;
+			return value;
 		}
 };
 
