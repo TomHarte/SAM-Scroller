@@ -110,7 +110,7 @@ struct TileSerialiser {
 
 	private:
 		const uint8_t *swizzled_offset() {
-			const auto y = ((y_ & ~8) * 32) + ((y_ >> 3) * 16);
+			const auto y = ((y_ & ~8) * 2) + (y_ >> 3);
 			return contents_.pixels(x_, y);
 		}
 
