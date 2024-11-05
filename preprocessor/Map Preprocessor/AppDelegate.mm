@@ -112,8 +112,7 @@ static constexpr int TileSize = 16;
 	std::vector<Column> columns;
 
 	// Select vertical range.
-	const int bottom = accessor.height() > 192 ? (int(accessor.height()) - 8) : 192;
-//	const int bottom = accessor.height() > 192 ? (int(accessor.height()) - 16) : 192;
+	const int bottom = static_cast<int>(accessor.height());
 	const int top = bottom - 192;
 
 	// Find unique tiles in that range, populating the tile map.
@@ -146,7 +145,7 @@ static constexpr int TileSize = 16;
 						bitsPerPixel:0];
 
 				NSData *const data = [image_representation representationUsingType:NSBitmapImageFileTypePNG properties:@{}];
-				NSString *const name = [directory stringByAppendingPathComponent:[NSString stringWithFormat:@"tile_%d.png", it->second]];
+				NSString *const name = [directory stringByAppendingPathComponent:[NSString stringWithFormat:@"tiles/%d.png", it->second]];
 				const BOOL didSucceed = [data
 					writeToFile:name
 					atomically:NO];
@@ -286,32 +285,45 @@ static constexpr int TileSize = 16;
 	return code;
 }
 
+- (NSArray<NSString *> *)files:(NSArray<NSString *> *)files withPrefix:(NSString *)prefix {
+	NSMutableArray<NSString *> *result = [[NSMutableArray alloc] init];
+	[files enumerateObjectsUsingBlock:^(NSString *name, NSUInteger, BOOL *) {
+		[result addObject:[prefix stringByAppendingPathComponent:name]];
+	}];
+	return result;
+}
+
+- (NSArray<NSString *> *)imageFiles:(NSString *)directory {
+	return
+		[self files:
+			[[[NSFileManager defaultManager]
+				contentsOfDirectoryAtPath:directory error:nil]
+				filteredArrayUsingPredicate:
+					[NSPredicate predicateWithBlock:^BOOL(NSString *string, NSDictionary<NSString *,id> *) {
+						return [string hasSuffix:@"png"];
+					}]]
+			withPrefix:directory];
+}
+
+- (NSArray<NSString *> *)tileFiles:(NSString *)directory {
+	return [self imageFiles:[directory stringByAppendingPathComponent:@"tiles"]];
+}
+
+- (NSArray<NSString *> *)spriteFiles:(NSString *)directory {
+	return [self imageFiles:[directory stringByAppendingPathComponent:@"sprites"]];
+}
+
 - (void)encode:(NSString *)directory {
 	// Get list of all PNGs.
-	NSArray<NSString *> *files =
-		[[[NSFileManager defaultManager]
-			contentsOfDirectoryAtPath:directory error:nil]
-			filteredArrayUsingPredicate:
-				[NSPredicate predicateWithBlock:^BOOL(NSString *string, NSDictionary<NSString *,id> *) {
-					return [string hasSuffix:@"png"];
-				}]];
+	NSArray<NSString *> *tile_files = [self tileFiles:directory];
+	NSArray<NSString *> *sprite_files = [self spriteFiles:directory];
 
-	// Capture palette, along with mapped tile contents.
+	// Build palette based on tiels and sprites.
 	std::map<uint32_t, uint8_t> palette;
-	std::vector<TileSerialiser<TileSize>> tiles;
-	for(NSString *file in files) {
-		NSData *fileData = [NSData dataWithContentsOfFile:[directory stringByAppendingPathComponent:file]];
+	for(NSString *file in [tile_files arrayByAddingObjectsFromArray:sprite_files]) {
+		// Tiles: grab all included colours.
+		NSData *fileData = [NSData dataWithContentsOfFile:file];
 		PixelAccessor accessor([[NSImage alloc] initWithData:fileData]);
-
-		auto &tile = tiles.emplace_back();
-		NSString *name = [file lastPathComponent];
-		if([name rangeOfString:@"tile_"].location != 0) {
-			continue;
-		}
-		// TODO: for sprite_ prefix, also accumulate palette entries.
-
-		tile.index = [[name substringFromIndex:5] intValue];
-		auto pixel = tile.contents.end();
 		for(size_t y = 0; y < accessor.height(); y++) {
 			for(size_t x = 0; x < accessor.width(); x++) {
 				const uint8_t palette_index = static_cast<uint8_t>(palette.size());
@@ -322,9 +334,29 @@ static constexpr int TileSize = 16;
 				// (or, possibly, defer to a palette reduction step?)
 
 				// Quick hack! Just don't allow more than 15 colours. Overflow will compete.
-				auto colour = palette.try_emplace(accessor.pixel(x, y), std::min(palette_index, uint8_t(15)));
+				const auto colour = accessor.pixel(x, y);
+				if(!is_transparent(colour)) {
+					palette.try_emplace(colour, std::min(palette_index, uint8_t(15)));
+				}
+			}
+		}
+	}
+
+	// Capture palette, along with mapped tile contents.
+	std::vector<TileSerialiser<TileSize>> tiles;
+	for(NSString *file in tile_files) {
+		NSData *fileData = [NSData dataWithContentsOfFile:file];
+		PixelAccessor accessor([[NSImage alloc] initWithData:fileData]);
+
+		auto &tile = tiles.emplace_back();
+		tile.index = [[[file lastPathComponent] substringFromIndex:5] intValue];
+
+		// TODO: use paletted pixel accessor here.
+		auto pixel = tile.contents.end();
+		for(size_t y = 0; y < accessor.height(); y++) {
+			for(size_t x = 0; x < accessor.width(); x++) {
 				--pixel;
-				*pixel = colour.first->second;
+				*pixel = palette[accessor.pixel(x, y)];
 			}
 		}
 	}

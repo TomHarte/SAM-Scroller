@@ -61,6 +61,10 @@ class PixelAccessor {
 		size_t bytes_per_row_;
 };
 
+constexpr bool is_transparent(uint32_t colour) {
+	return !(colour >> 24);
+}
+
 /*!
 	Takes a PixelAccessor and an active palette, maps it through the paltte and subsequently
 	provides pixels as 4bpp palette entries.
