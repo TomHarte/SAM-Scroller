@@ -30,8 +30,15 @@ struct TileEvent {
 
 template <int TileSize>
 struct TileSerialiser {
-	std::array<uint8_t, TileSize*TileSize> contents;
-	uint8_t index;
+	TileSerialiser(
+		uint8_t index,
+		const PixelAccessor &accessor,
+		const std::map<uint32_t, uint8_t> &palette) :
+			index_(index),
+			contents_(accessor, palette, true)
+	{
+		set_slice(0);
+	}
 
 	/// Sets the portion of the tile to serialise and resets serialisation.
 	///
@@ -49,10 +56,6 @@ struct TileSerialiser {
 		words_wide_ = (TileSize >> 2) - ((abs(slice) + 1) >> 1);
 		byte_begin_ = (slice >= 0) ? 0 : (-slice << 1);
 		reset();
-	}
-
-	TileSerialiser() {
-		set_slice(0);
 	}
 
 	TileEvent next() {
@@ -73,22 +76,22 @@ struct TileSerialiser {
 		}
 
 		// Swizzle address.
-		const int base = swizzled_offset() + byte_begin_;
+		const uint8_t *base = swizzled_offset() + byte_begin_;
 
 		// If at start of line and with an odd width, send an introductory byte.
 		if(!x_ && odd_width_ && previous_.type != TileEvent::Type::OutputByte) {
 			previous_.type = TileEvent::Type::OutputByte;
 			previous_.content =
-				(contents[base + 1] << 4) |
-				(contents[base + 0] << 0);
+				(base[1] << 4) |
+				(base[0] << 0);
 			x_ += 2;
 		} else {
 			previous_.type = TileEvent::Type::OutputWord;
 			previous_.content =
-				(contents[base + 1] << 12) |
-				(contents[base + 0] << 8) |
-				(contents[base + 3] << 4) |
-				(contents[base + 2] << 0);
+				(base[1] << 12) |
+				(base[0] << 8) |
+				(base[3] << 4) |
+				(base[2] << 0);
 			x_ += 4;
 		}
 
@@ -101,9 +104,14 @@ struct TileSerialiser {
 		previous_ = TileEvent{};
 	}
 
+	uint8_t index() const {
+		return index_;
+	}
+
 	private:
-		int swizzled_offset() {
-			return x_ + ((y_ & ~8) * 32) + ((y_ >> 3) * 16);
+		const uint8_t *swizzled_offset() {
+			const auto y = ((y_ & ~8) * 2) + (y_ >> 3);
+			return contents_.pixels(x_, y);
 		}
 
 		int x_, y_;
@@ -112,4 +120,7 @@ struct TileSerialiser {
 		int words_wide_;
 
 		TileEvent previous_;
+
+		uint8_t index_;
+		PalettedPixelAccessor contents_;
 };

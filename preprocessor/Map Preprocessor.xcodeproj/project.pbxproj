@@ -14,6 +14,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4B1372512CD90D180028C367 /* SpriteSerialiser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpriteSerialiser.h; sourceTree = "<group>"; };
 		4B797B142CC3363500E18E96 /* Map Preprocessor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Map Preprocessor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B797B172CC3363500E18E96 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4B797B182CC3363500E18E96 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
@@ -60,6 +61,7 @@
 				4B797B172CC3363500E18E96 /* AppDelegate.h */,
 				4B797B272CCD6E9500E18E96 /* PixelAccessor.h */,
 				4B797B292CD1866400E18E96 /* RegisterAllocator.h */,
+				4B1372512CD90D180028C367 /* SpriteSerialiser.h */,
 				4B797B282CCDC14000E18E96 /* TileSerialiser.h */,
 				4B797B1F2CC3363B00E18E96 /* main.m */,
 				4B797B182CC3363500E18E96 /* AppDelegate.mm */,

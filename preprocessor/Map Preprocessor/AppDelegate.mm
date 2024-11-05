@@ -10,6 +10,7 @@
 #include "PixelAccessor.h"
 #include "TileSerialiser.h"
 #include "RegisterAllocator.h"
+#include "SpriteSerialiser.h"
 
 #include <array>
 #include <bit>
@@ -111,8 +112,7 @@ static constexpr int TileSize = 16;
 	std::vector<Column> columns;
 
 	// Select vertical range.
-	const int bottom = accessor.height() > 192 ? (int(accessor.height()) - 8) : 192;
-//	const int bottom = accessor.height() > 192 ? (int(accessor.height()) - 16) : 192;
+	const int bottom = static_cast<int>(accessor.height());
 	const int top = bottom - 192;
 
 	// Find unique tiles in that range, populating the tile map.
@@ -141,16 +141,14 @@ static constexpr int TileSize = 16;
 						hasAlpha:YES
 						isPlanar:NO
 						colorSpaceName:NSDeviceRGBColorSpace
-						bytesPerRow:4 * accessor.width()
+						bytesPerRow:accessor.bytes_per_row()
 						bitsPerPixel:0];
 
 				NSData *const data = [image_representation representationUsingType:NSBitmapImageFileTypePNG properties:@{}];
-				NSString *const name = [directory stringByAppendingPathComponent:[NSString stringWithFormat:@"%d.png", it->second]];
-				const BOOL didSucceed = [data
+				NSString *const name = [directory stringByAppendingPathComponent:[NSString stringWithFormat:@"tiles/%d.png", it->second]];
+				[data
 					writeToFile:name
 					atomically:NO];
-
-				NSLog(@"When writing %@: %d", name, didSucceed);
 			}
 			column[(y - top) / TileSize] = it->second << 1;
 		}
@@ -225,7 +223,7 @@ static constexpr int TileSize = 16;
 		tile.set_slice(slice);
 		RegisterAllocator<TileSize> allocator(tile);
 
-		[code appendFormat:@"\t@%@_%d:\n", name, tile.index];
+		[code appendFormat:@"\t@%@_%d:\n", name, tile.index()];
 		[code appendString:@"\t\tld (@+return+1), de\n"];
 		[code appendString:@"\t\tld sp, hl\n\n"];
 
@@ -285,43 +283,93 @@ static constexpr int TileSize = 16;
 	return code;
 }
 
+- (NSArray<NSString *> *)files:(NSArray<NSString *> *)files withPrefix:(NSString *)prefix {
+	NSMutableArray<NSString *> *result = [[NSMutableArray alloc] init];
+	[files enumerateObjectsUsingBlock:^(NSString *name, NSUInteger, BOOL *) {
+		[result addObject:[prefix stringByAppendingPathComponent:name]];
+	}];
+	return result;
+}
+
+- (NSArray<NSString *> *)imageFiles:(NSString *)directory {
+	return
+		[self files:
+			[[[NSFileManager defaultManager]
+				contentsOfDirectoryAtPath:directory error:nil]
+				filteredArrayUsingPredicate:
+					[NSPredicate predicateWithBlock:^BOOL(NSString *string, NSDictionary<NSString *,id> *) {
+						return [string hasSuffix:@"png"];
+					}]]
+			withPrefix:directory];
+}
+
+- (NSArray<NSString *> *)tileFiles:(NSString *)directory {
+	return [self imageFiles:[directory stringByAppendingPathComponent:@"tiles"]];
+}
+
+- (NSArray<NSString *> *)spriteFiles:(NSString *)directory {
+	return [self imageFiles:[directory stringByAppendingPathComponent:@"sprites"]];
+}
+
 - (void)encode:(NSString *)directory {
 	// Get list of all PNGs.
-	NSArray<NSString *> *files =
-		[[[NSFileManager defaultManager]
-			contentsOfDirectoryAtPath:directory error:nil]
-			filteredArrayUsingPredicate:
-				[NSPredicate predicateWithBlock:^BOOL(NSString *string, NSDictionary<NSString *,id> *) {
-					return [string hasSuffix:@"png"];
-				}]];
+	NSArray<NSString *> *tile_files = [self tileFiles:directory];
+	NSArray<NSString *> *sprite_files = [self spriteFiles:directory];
 
-	// Capture palette, along with mapped tile contents.
+	// Build palette based on tiels and sprites.
 	std::map<uint32_t, uint8_t> palette;
-	std::vector<TileSerialiser<TileSize>> tiles;
-	for(NSString *file in files) {
-		NSData *fileData = [NSData dataWithContentsOfFile:[directory stringByAppendingPathComponent:file]];
+	for(NSString *file in [tile_files arrayByAddingObjectsFromArray:sprite_files]) {
+		// Tiles: grab all included colours.
+		NSData *fileData = [NSData dataWithContentsOfFile:file];
 		PixelAccessor accessor([[NSImage alloc] initWithData:fileData]);
-
-		auto &tile = tiles.emplace_back();
-		tile.index = [[file lastPathComponent] intValue];
-
-		auto pixel = tile.contents.end();
 		for(size_t y = 0; y < accessor.height(); y++) {
 			for(size_t x = 0; x < accessor.width(); x++) {
 				const uint8_t palette_index = static_cast<uint8_t>(palette.size());
 
+				// TODO: map to Sam palette here, so that multiple different input RGBs that map to the same
+				// thing on the Sam don't get unique palette locations.
+				//
+				// (or, possibly, defer to a palette reduction step?)
+
 				// Quick hack! Just don't allow more than 15 colours. Overflow will compete.
-				auto colour = palette.try_emplace(accessor.pixel(x, y), std::min(palette_index, uint8_t(15)));
-				--pixel;
-				*pixel = colour.first->second;
+				const auto colour = accessor.pixel(x, y);
+				if(!PixelAccessor::is_transparent(colour)) {
+					palette.try_emplace(colour, std::min(palette_index, uint8_t(15)));
+				}
 			}
 		}
+	}
+
+	// Prepare lists of tiles and sprites for future dicing and writing.
+	std::vector<TileSerialiser<TileSize>> tiles;
+	for(NSString *file in tile_files) {
+		NSData *fileData = [NSData dataWithContentsOfFile:file];
+		PixelAccessor accessor([[NSImage alloc] initWithData:fileData]);
+		tiles.emplace_back(
+			[[file lastPathComponent] intValue],
+			accessor,
+			palette);
+	}
+
+	std::vector<SpriteSerialiser> sprites;
+	for(NSString *file in sprite_files) {
+		NSData *fileData = [NSData dataWithContentsOfFile:file];
+		PixelAccessor accessor([[NSImage alloc] initWithData:fileData]);
+		sprites.emplace_back(
+			[[file lastPathComponent] intValue],
+			accessor,
+			palette);
 	}
 
 	// Write palette, in Sam format.
 	[self writePalette:palette file:[directory stringByAppendingPathComponent:@"palette.z80s"]];
 
-	// Compile tiles. Very densely for now.
+	// Compile all
+	[self compileTiles:tiles directory:directory];
+	[self compileSprites:sprites directory:directory];
+}
+
+- (void)compileTiles:(std::vector<TileSerialiser<TileSize>> &)tiles directory:(NSString *)directory {
 	NSMutableString *code = [[NSMutableString alloc] init];
 	[code appendString:@"\t; The following tile outputters are automatically generated.\n"];
 	[code appendString:@"\t;\n"];
@@ -363,6 +411,47 @@ static constexpr int TileSize = 16;
 	[code appendString:[self tiles:@"right_7" slice:1 source:tiles page:22]];
 
 	[code writeToFile:[directory stringByAppendingPathComponent:@"tiles.z80s"] atomically:NO encoding:NSUTF8StringEncoding error:nil];
+}
+
+- (void)compileSprites:(std::vector<SpriteSerialiser> &)sprites directory:(NSString *)directory {
+	// TODO: be MUCH less dense than this, document precepts.
+	NSMutableString *code = [[NSMutableString alloc] init];
+
+	for(auto &sprite: sprites) {
+		[code appendFormat:@"\tsprite_%d:\n", sprite.index()];
+		[code appendString:@"\t\tld (@+return+1), de\n\n"];
+
+		bool moved = true;
+		uint16_t hl = 0;
+		while(true) {
+			const auto event = sprite.next();
+			if(event.type == SpriteEvent::Type::Stop) {
+				break;
+			}
+
+			if(event.type == SpriteEvent::Type::Move) {
+				moved = true;
+				const uint16_t target = (event.content.move.y * 128) + event.content.move.x;
+				const uint16_t offset = target - hl;
+				hl = target;
+
+				[code appendFormat:@"\t\tld bc, 0x%04x\n", offset];
+				[code appendString:@"\t\tadd hl, bc\n\n"];
+			} else {
+				if(!moved) {
+					[code appendString:@"\t\tinc l\n"];
+					++hl;
+				}
+				moved = false;
+				[code appendFormat:@"\t\tld (hl), 0x%02x\n", event.content.output];
+			}
+		}
+
+		[code appendFormat:@"\t@return:\n"];
+		[code appendString:@"\t\tjp 1234\n\n"];
+	}
+
+	[code writeToFile:[directory stringByAppendingPathComponent:@"sprites.z80s"] atomically:NO encoding:NSUTF8StringEncoding error:nil];
 }
 
 - (void)writePalette:(std::map<uint32_t, uint8_t> &)palette file:(NSString *)file {
