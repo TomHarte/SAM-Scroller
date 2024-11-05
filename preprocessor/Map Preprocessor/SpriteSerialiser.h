@@ -162,7 +162,7 @@ class SpriteSerialiser {
 			const auto left = contents_.pixel(x, y);
 			const auto right = contents_.pixel(x + 1, y);
 
-			if(!PalettedPixelAccessor::is_transparent(left) && !PalettedPixelAccessor::is_transparent(right)) return {};
+			if(PalettedPixelAccessor::is_transparent(left) && PalettedPixelAccessor::is_transparent(right)) return {};
 
 			uint8_t value = 0;
 			if(!PalettedPixelAccessor::is_transparent(left)) value |= left << 4;
