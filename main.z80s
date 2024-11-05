@@ -366,12 +366,11 @@ test_sprite:
 
 	; TEMPORARY: assume exactly two bits to set.
 	; So no need to calculate a new (hl), just XOR
-	; in the very next three bytes.
+	; in from six bytes in the future.
 	;
 	; Otherwise would need to add some other amount to hl.
-	inc hl
-	inc hl
-	inc hl
+	ld de, 6
+	add hl, de
 
 	xor (hl)
 	inc hl
@@ -448,7 +447,7 @@ test_sprite:
 	ld a, (@+sprite_y)
 	dec a
 	jr nz, @+moved
-	ld a, 192 - 32
+	ld a, 192 - 48		; Artificially pen-in bounds because there's no bounds checking on the dirty checks.
 @moved:
 	ld (@+sprite_y), a
 
