@@ -146,11 +146,9 @@ static constexpr int TileSize = 16;
 
 				NSData *const data = [image_representation representationUsingType:NSBitmapImageFileTypePNG properties:@{}];
 				NSString *const name = [directory stringByAppendingPathComponent:[NSString stringWithFormat:@"tiles/%d.png", it->second]];
-				const BOOL didSucceed = [data
+				[data
 					writeToFile:name
 					atomically:NO];
-
-				NSLog(@"When writing %@: %d", name, didSucceed);
 			}
 			column[(y - top) / TileSize] = it->second << 1;
 		}
