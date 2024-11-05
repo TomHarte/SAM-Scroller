@@ -131,6 +131,7 @@ class SpriteSerialiser {
 
 				++y_;
 				x_ = 0;
+				continuous_ = false;
 			}
 
 			return SpriteEvent{.type = SpriteEvent::Type::Stop};
