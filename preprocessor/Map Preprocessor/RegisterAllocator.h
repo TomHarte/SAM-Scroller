@@ -21,6 +21,7 @@ struct RegisterEvent {
 		B, C, D, E, A, H, L,
 	} reg;
 	uint16_t value;
+	std::optional<uint16_t> previous_value;
 
 	const char *push_register() const {
 		switch(reg) {
@@ -100,37 +101,25 @@ class RegisterAllocator {
 				event.type = RegisterEvent::Type::Load;
 				event.reg = RegisterEvent::Register::BC;
 				event.value = value;
+				event.previous_value = bc_;
 				bc_ = value;
 			} else if(!de_) {
 				event.type = RegisterEvent::Type::Load;
 				event.reg = RegisterEvent::Register::DE;
 				event.value = value;
+				event.previous_value = de_;
 				de_ = value;
 			} else {
 				event.type = RegisterEvent::Type::Load;
 				if(word_references_[*bc_] < word_references_[*de_]) {
-					if((*bc_ & 0xff00) == (value & 0xff00)) {
-						event.reg = RegisterEvent::Register::C;
-						event.value = value & 0xff;
-					} else if((*bc_ & 0x00ff) == (value & 0x00ff)) {
-						event.reg = RegisterEvent::Register::B;
-						event.value = value >> 8;
-					} else {
-						event.reg = RegisterEvent::Register::BC;
-						event.value = value;
-					}
+					event.reg = RegisterEvent::Register::BC;
+					event.value = value;
+					event.previous_value = bc_;
 					bc_ = value;
 				} else {
-					if((*de_ & 0xff00) == (value & 0xff00)) {
-						event.reg = RegisterEvent::Register::E;
-						event.value = value & 0xff;
-					} else if((*de_ & 0x00ff) == (value & 0x00ff)) {
-						event.reg = RegisterEvent::Register::D;
-						event.value = value >> 8;
-					} else {
-						event.reg = RegisterEvent::Register::DE;
-						event.value = value;
-					}
+					event.reg = RegisterEvent::Register::DE;
+					event.value = value;
+					event.previous_value = de_;
 					de_ = value;
 				}
 			}

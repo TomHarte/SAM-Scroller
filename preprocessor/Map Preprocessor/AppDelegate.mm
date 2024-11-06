@@ -101,6 +101,41 @@ static constexpr int TileSize = 16;
 
 // MARK: - Conversion functions.
 
+
+- (NSString *)loadRegister:(char)reg previous:(uint8_t)previous target:(uint8_t)target {
+	if(previous == target) {
+		return @"";
+	}
+
+	if(target == ((previous + 1) & 0xff)) {
+		return [NSString stringWithFormat:@"\t\tinc %c\n", reg];
+	}
+
+	if(target == ((previous - 1) & 0xff)) {
+		return [NSString stringWithFormat:@"\t\tdec %c\n", reg];
+	}
+
+	return [NSString stringWithFormat:@"\t\tld %c, 0x%02x\n", reg, target];
+}
+
+- (NSString *)loadPair:(const char *)pair previous:(std::optional<uint16_t>)previous target:(uint16_t)target {
+	if(previous) {
+		if(*previous == target){
+			return @"";
+		}
+
+		if((*previous&0xff00) == (target&0xff00)) {
+			return [self loadRegister:pair[1] previous:*previous & 0x00ff target:target & 0x00ff];
+		}
+
+		if((*previous&0x00ff) == (target&0x00ff)) {
+			return [self loadRegister:pair[0] previous:*previous >> 8 target:target >> 8];
+		}
+	}
+
+	return [NSString stringWithFormat:@"\t\tld %s, 0x%04x\n", pair, target];
+}
+
 - (void)dissect:(NSImage *)image destination:(NSString *)directory {
 	PixelAccessor accessor(image);
 	std::map<uint32_t, uint8_t> colours;
@@ -247,7 +282,9 @@ static constexpr int TileSize = 16;
 					const auto action = allocator.next_word(event.content);
 					switch(action.type) {
 						case RegisterEvent::Type::Load:
-							[code appendFormat:@"\t\tld %s, 0x%04x\n", action.load_register(), action.value];
+							[code appendString:
+								[self loadPair:action.load_register() previous:action.previous_value target:action.value]
+							];
 							[[fallthrough]];
 						case RegisterEvent::Type::Reuse:
 							[code appendFormat:@"\t\tpush %s\n", action.push_register()];
@@ -413,40 +450,6 @@ static constexpr int TileSize = 16;
 	[code writeToFile:[directory stringByAppendingPathComponent:@"tiles.z80s"] atomically:NO encoding:NSUTF8StringEncoding error:nil];
 }
 
-- (NSString *)loadRegister:(unichar)reg previous:(uint8_t)previous target:(uint8_t)target {
-	if(previous == target) {
-		return @"";
-	}
-
-	if(target == ((previous + 1) & 0xff)) {
-		return [NSString stringWithFormat:@"\t\tinc %c\n", reg];
-	}
-
-	if(target == ((previous - 1) & 0xff)) {
-		return [NSString stringWithFormat:@"\t\tdec %c\n", reg];
-	}
-
-	return [NSString stringWithFormat:@"\t\tld %c, 0x%02x\n", reg, target];
-}
-
-- (NSString *)loadPair:(NSString *)pair previous:(std::optional<uint16_t>)previous target:(uint16_t)target {
-	if(previous) {
-		if(*previous == target){
-			return @"";
-		}
-
-		if((*previous&0xff00) == (target&0xff00)) {
-			return [self loadRegister:[pair characterAtIndex:1] previous:*previous & 0x00ff target:target & 0x00ff];
-		}
-
-		if((*previous&0x00ff) == (target&0x00ff)) {
-			return [self loadRegister:[pair characterAtIndex:0] previous:*previous >> 8 target:target >> 8];
-		}
-	}
-
-	return [NSString stringWithFormat:@"\t\tld %@, 0x%04x\n", pair, target];
-}
-
 - (void)compileSprites:(std::vector<SpriteSerialiser> &)sprites directory:(NSString *)directory {
 	// TODO: be MUCH less dense than this, document precepts.
 	NSMutableString *code = [[NSMutableString alloc] init];
@@ -470,7 +473,7 @@ static constexpr int TileSize = 16;
 				const uint16_t offset = target - hl;
 				hl = target;
 
-				[code appendString:[self loadPair:@"bc" previous:bc target:offset]];
+				[code appendString:[self loadPair:"bc" previous:bc target:offset]];
 				bc = offset;
 				[code appendString:@"\t\tadd hl, bc\n\n"];
 			} else {
