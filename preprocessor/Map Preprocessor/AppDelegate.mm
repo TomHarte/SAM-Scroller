@@ -9,6 +9,7 @@
 
 #include "PixelAccessor.h"
 #include "TileSerialiser.h"
+#include "RangeAllocator.h"
 #include "RegisterAllocator.h"
 #include "SpriteSerialiser.h"
 
