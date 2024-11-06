@@ -503,8 +503,8 @@ static constexpr int TileSize = 16;
 		const uint8_t green = (colour.first >> 8) & 0xff;
 		const uint8_t blue = (colour.first >> 16) & 0xff;
 
-		const uint8_t bright = ((red & 0x20) + (green & 0x20) + (blue & 0x20)) / 3;
-		values[colour.second] =
+		const uint8_t bright = (red & 0x20) + (green & 0x20) + (blue & 0x20);
+		const uint8_t sam_colour =
 			((green & 0x80) ? 0x40 : 0x00) |
 			((red & 0x80) ? 0x20 : 0x00) |
 			((blue & 0x80) ? 0x10 : 0x00) |
@@ -513,7 +513,8 @@ static constexpr int TileSize = 16;
 			((red & 0x40) ? 0x04 : 0x00) |
 			((blue & 0x40) ? 0x02 : 0x00) |
 
-			((bright & 0x20) ? 0x01 : 0x00);
+			((bright >= 0x30) ? 0x01 : 0x00);
+		values[colour.second] = sam_colour;
 	}
 
 	bool is_first = true;

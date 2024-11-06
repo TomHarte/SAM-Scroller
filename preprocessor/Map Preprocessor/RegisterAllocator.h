@@ -203,7 +203,6 @@ class RegisterAllocator {
 		void reset() {
 			bc_ = {};
 			de_ = {};
-			a_ = {};
 		}
 
 	private:
