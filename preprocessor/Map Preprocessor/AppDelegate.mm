@@ -436,10 +436,21 @@ static constexpr int TileSize = 16;
 				const uint16_t offset = target - hl;
 				hl = target;
 
-				if(!bc || (*bc&0xff00) != (offset&0xff00)) {
+				if(!bc) {
 					[code appendFormat:@"\t\tld bc, 0x%04x\n", offset];
+				} else if((*bc&0xff00) == (offset&0xff00)) {
+					const auto previous = *bc & 0x00ff;
+					const auto c = offset & 0x00ff;
+
+					if(c == ((previous + 1) & 0xff)) {
+						[code appendString:@"\t\tinc c\n"];
+					} else if(c == ((previous - 1) & 0xff)) {
+						[code appendString:@"\t\tdec c\n"];
+					} else if(c != previous) {
+						[code appendFormat:@"\t\tld c, 0x%02x\n", c];
+					}
 				} else {
-					[code appendFormat:@"\t\tld c, 0x%02x\n", offset&0xff];
+					[code appendFormat:@"\t\tld bc, 0x%04x\n", offset];
 				}
 				bc = offset;
 				[code appendString:@"\t\tadd hl, bc\n\n"];

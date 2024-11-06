@@ -37,7 +37,7 @@
 		ld (hl), 0x99
 		inc l
 		ld (hl), 0x91
-		ld c, 0x7a
+		dec c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -53,7 +53,6 @@
 		ld (hl), 0x99
 		inc l
 		ld (hl), 0x91
-		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), 0x01
@@ -71,7 +70,7 @@
 		ld (hl), 0xa9
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
+		dec c
 		add hl, bc
 
 		ld (hl), 0x19
@@ -89,7 +88,6 @@
 		ld (hl), 0xa9
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
 		add hl, bc
 
 		ld (hl), 0x19
@@ -105,7 +103,7 @@
 		ld (hl), 0xcc
 		inc l
 		ld (hl), 0xa1
-		ld c, 0x7a
+		inc c
 		add hl, bc
 
 		ld (hl), 0x19
@@ -121,7 +119,6 @@
 		ld (hl), 0xc1
 		inc l
 		ld (hl), 0xa1
-		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), 0x01
@@ -137,7 +134,6 @@
 		ld (hl), 0xc1
 		inc l
 		ld (hl), 0xa1
-		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), 0x19
@@ -155,7 +151,7 @@
 		ld (hl), 0xaa
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
+		dec c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -173,7 +169,6 @@
 		ld (hl), 0xaa
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
 		add hl, bc
 
 		ld (hl), 0x01
@@ -191,7 +186,6 @@
 		ld (hl), 0xa1
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
 		add hl, bc
 
 		ld (hl), 0x1a
@@ -209,7 +203,6 @@
 		ld (hl), 0x1a
 		inc l
 		ld (hl), 0xa1
-		ld c, 0x79
 		add hl, bc
 
 		ld (hl), 0x1a
@@ -227,7 +220,6 @@
 		ld (hl), 0xca
 		inc l
 		ld (hl), 0xa1
-		ld c, 0x79
 		add hl, bc
 
 		ld (hl), 0x01
@@ -245,7 +237,7 @@
 		ld (hl), 0x11
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7a
+		inc c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -261,7 +253,6 @@
 		ld (hl), 0x01
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), 0x11
@@ -277,7 +268,7 @@
 		ld (hl), 0x1e
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
+		dec c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -295,7 +286,6 @@
 		ld (hl), 0xee
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
 		add hl, bc
 
 		ld (hl), 0x01
@@ -313,7 +303,6 @@
 		ld (hl), 0xee
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
 		add hl, bc
 
 		ld (hl), 0x01
@@ -331,7 +320,6 @@
 		ld (hl), 0xee
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
 		add hl, bc
 
 		ld (hl), 0x01
@@ -395,7 +383,7 @@
 		ld (hl), 0x99
 		inc l
 		ld (hl), 0x91
-		ld c, 0x7a
+		dec c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -411,7 +399,6 @@
 		ld (hl), 0x99
 		inc l
 		ld (hl), 0x91
-		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), 0x01
@@ -429,7 +416,7 @@
 		ld (hl), 0xa9
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
+		dec c
 		add hl, bc
 
 		ld (hl), 0x19
@@ -447,7 +434,6 @@
 		ld (hl), 0xa9
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
 		add hl, bc
 
 		ld (hl), 0x19
@@ -463,7 +449,7 @@
 		ld (hl), 0xcc
 		inc l
 		ld (hl), 0xa1
-		ld c, 0x7a
+		inc c
 		add hl, bc
 
 		ld (hl), 0x19
@@ -479,7 +465,6 @@
 		ld (hl), 0xc1
 		inc l
 		ld (hl), 0xa1
-		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), 0x01
@@ -495,7 +480,6 @@
 		ld (hl), 0xc1
 		inc l
 		ld (hl), 0xa1
-		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), 0x19
@@ -513,7 +497,7 @@
 		ld (hl), 0xaa
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
+		dec c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -531,7 +515,7 @@
 		ld (hl), 0xaa
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7a
+		inc c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -545,7 +529,7 @@
 		ld (hl), 0xaa
 		inc l
 		ld (hl), 0xa1
-		ld c, 0x7b
+		inc c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -559,7 +543,6 @@
 		ld (hl), 0x11
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7b
 		add hl, bc
 
 		ld (hl), 0x1c
@@ -569,7 +552,7 @@
 		ld (hl), 0xde
 		inc l
 		ld (hl), 0xe1
-		ld c, 0x7c
+		inc c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -583,7 +566,7 @@
 		ld (hl), 0xd1
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7b
+		dec c
 		add hl, bc
 
 		ld (hl), 0x1a
@@ -597,7 +580,6 @@
 		ld (hl), 0xd1
 		inc l
 		ld (hl), 0xc1
-		ld c, 0x7b
 		add hl, bc
 
 		ld (hl), 0x1a
@@ -613,7 +595,7 @@
 		ld (hl), 0x1a
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7a
+		dec c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -627,7 +609,7 @@
 		ld (hl), 0xed
 		inc l
 		ld (hl), 0xd1
-		ld c, 0x7b
+		inc c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -641,7 +623,7 @@
 		ld (hl), 0xee
 		inc l
 		ld (hl), 0xe1
-		ld c, 0x7c
+		inc c
 		add hl, bc
 
 		ld (hl), 0x11
@@ -695,7 +677,7 @@
 		ld (hl), 0x99
 		inc l
 		ld (hl), 0x91
-		ld c, 0x7a
+		dec c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -711,7 +693,6 @@
 		ld (hl), 0x99
 		inc l
 		ld (hl), 0x91
-		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), 0x01
@@ -729,7 +710,7 @@
 		ld (hl), 0xa9
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
+		dec c
 		add hl, bc
 
 		ld (hl), 0x19
@@ -747,7 +728,6 @@
 		ld (hl), 0xa9
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
 		add hl, bc
 
 		ld (hl), 0x19
@@ -763,7 +743,7 @@
 		ld (hl), 0xcc
 		inc l
 		ld (hl), 0xa1
-		ld c, 0x7a
+		inc c
 		add hl, bc
 
 		ld (hl), 0x19
@@ -779,7 +759,6 @@
 		ld (hl), 0xc1
 		inc l
 		ld (hl), 0xa1
-		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), 0x01
@@ -795,7 +774,6 @@
 		ld (hl), 0xc1
 		inc l
 		ld (hl), 0xa1
-		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), 0x19
@@ -813,7 +791,7 @@
 		ld (hl), 0xaa
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
+		dec c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -831,7 +809,7 @@
 		ld (hl), 0xaa
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7a
+		inc c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -857,7 +835,6 @@
 		ld (hl), 0x11
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7c
 		add hl, bc
 
 		ld (hl), 0x1d
@@ -867,7 +844,7 @@
 		ld (hl), 0xde
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7d
+		inc c
 		add hl, bc
 
 		ld (hl), 0x1d
@@ -877,7 +854,7 @@
 		ld (hl), 0xcd
 		inc l
 		ld (hl), 0xe1
-		ld c, 0x7c
+		dec c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -889,7 +866,6 @@
 		ld (hl), 0xdc
 		inc l
 		ld (hl), 0xc1
-		ld c, 0x7c
 		add hl, bc
 
 		ld (hl), 0x1a
@@ -903,7 +879,7 @@
 		ld (hl), 0xaa
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7b
+		dec c
 		add hl, bc
 
 		ld (hl), 0x1a
@@ -917,7 +893,6 @@
 		ld (hl), 0xaa
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7b
 		add hl, bc
 
 		ld (hl), 0x01
@@ -929,7 +904,7 @@
 		ld (hl), 0xd1
 		inc l
 		ld (hl), 0xa1
-		ld c, 0x7c
+		inc c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -943,7 +918,7 @@
 		ld (hl), 0x11
 		inc l
 		ld (hl), 0x11
-		ld c, 0x7b
+		dec c
 		add hl, bc
 
 		ld (hl), 0x1e
@@ -1043,7 +1018,7 @@
 		ld (hl), 0x99
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7a
+		dec c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1059,7 +1034,6 @@
 		ld (hl), 0x99
 		inc l
 		ld (hl), 0x91
-		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), 0x11
@@ -1075,7 +1049,6 @@
 		ld (hl), 0xa9
 		inc l
 		ld (hl), 0x91
-		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), 0x19
@@ -1093,7 +1066,7 @@
 		ld (hl), 0x99
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
+		dec c
 		add hl, bc
 
 		ld (hl), 0x19
@@ -1111,7 +1084,6 @@
 		ld (hl), 0xa9
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
 		add hl, bc
 
 		ld (hl), 0x19
@@ -1127,7 +1099,7 @@
 		ld (hl), 0xac
 		inc l
 		ld (hl), 0x11
-		ld c, 0x7a
+		inc c
 		add hl, bc
 
 		ld (hl), 0x19
@@ -1143,7 +1115,6 @@
 		ld (hl), 0xac
 		inc l
 		ld (hl), 0x11
-		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), 0x19
@@ -1161,7 +1132,7 @@
 		ld (hl), 0xca
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
+		dec c
 		add hl, bc
 
 		ld (hl), 0x19
@@ -1179,7 +1150,6 @@
 		ld (hl), 0xaa
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1209,7 +1179,7 @@
 		ld (hl), 0x11
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7a
+		dec c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1225,7 +1195,6 @@
 		ld (hl), 0xdd
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1241,7 +1210,6 @@
 		ld (hl), 0xdd
 		inc l
 		ld (hl), 0xc1
-		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), 0x1c
@@ -1259,7 +1227,7 @@
 		ld (hl), 0xdc
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
+		dec c
 		add hl, bc
 
 		ld (hl), 0x1c
@@ -1277,7 +1245,6 @@
 		ld (hl), 0xcc
 		inc l
 		ld (hl), 0xc1
-		ld c, 0x79
 		add hl, bc
 
 		ld (hl), 0x1a
@@ -1295,7 +1262,6 @@
 		ld (hl), 0x1a
 		inc l
 		ld (hl), 0xa1
-		ld c, 0x79
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1313,7 +1279,7 @@
 		ld (hl), 0x01
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7a
+		inc c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1337,7 +1303,6 @@
 		ld (hl), 0x1d
 		inc l
 		ld (hl), 0xd1
-		ld c, 0x7c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1351,7 +1316,7 @@
 		ld (hl), 0xee
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7b
+		dec c
 		add hl, bc
 
 		ld (hl), 0x1e
@@ -1365,7 +1330,6 @@
 		ld (hl), 0xee
 		inc l
 		ld (hl), 0xe1
-		ld c, 0x7b
 		add hl, bc
 
 		ld (hl), 0x11
@@ -1421,7 +1385,7 @@
 		ld (hl), 0x99
 		inc l
 		ld (hl), 0x91
-		ld c, 0x7a
+		dec c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1437,7 +1401,6 @@
 		ld (hl), 0x99
 		inc l
 		ld (hl), 0x91
-		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1455,7 +1418,7 @@
 		ld (hl), 0xa9
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
+		dec c
 		add hl, bc
 
 		ld (hl), 0x19
@@ -1473,7 +1436,6 @@
 		ld (hl), 0xa9
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
 		add hl, bc
 
 		ld (hl), 0x19
@@ -1489,7 +1451,7 @@
 		ld (hl), 0xcc
 		inc l
 		ld (hl), 0xa1
-		ld c, 0x7a
+		inc c
 		add hl, bc
 
 		ld (hl), 0x19
@@ -1505,7 +1467,6 @@
 		ld (hl), 0xc1
 		inc l
 		ld (hl), 0xa1
-		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1521,7 +1482,6 @@
 		ld (hl), 0xc1
 		inc l
 		ld (hl), 0xa1
-		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), 0x19
@@ -1539,7 +1499,7 @@
 		ld (hl), 0xaa
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
+		dec c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1557,7 +1517,7 @@
 		ld (hl), 0xaa
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7a
+		inc c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1583,7 +1543,6 @@
 		ld (hl), 0x11
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7c
 		add hl, bc
 
 		ld (hl), 0x1d
@@ -1601,7 +1560,7 @@
 		ld (hl), 0x1e
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7d
+		dec c
 		add hl, bc
 
 		ld (hl), 0x1d
@@ -1611,7 +1570,6 @@
 		ld (hl), 0x1d
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7d
 		add hl, bc
 
 		ld (hl), 0x1c
@@ -1621,7 +1579,6 @@
 		ld (hl), 0x1d
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7d
 		add hl, bc
 
 		ld (hl), 0x1a
@@ -1631,7 +1588,6 @@
 		ld (hl), 0xa1
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7d
 		add hl, bc
 
 		ld (hl), 0x1a
@@ -1641,7 +1597,6 @@
 		ld (hl), 0x1d
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7d
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1649,7 +1604,7 @@
 		ld (hl), 0x11
 		inc l
 		ld (hl), 0xd1
-		ld c, 0x7e
+		inc c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1657,7 +1612,6 @@
 		ld (hl), 0xdd
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7e
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1665,7 +1619,6 @@
 		ld (hl), 0xee
 		inc l
 		ld (hl), 0xe1
-		ld c, 0x7e
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1675,7 +1628,7 @@
 		ld (hl), 0xee
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7d
+		dec c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1727,7 +1680,7 @@
 		ld (hl), 0x99
 		inc l
 		ld (hl), 0x91
-		ld c, 0x7a
+		dec c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1743,7 +1696,6 @@
 		ld (hl), 0x99
 		inc l
 		ld (hl), 0x91
-		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1761,7 +1713,7 @@
 		ld (hl), 0xa9
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
+		dec c
 		add hl, bc
 
 		ld (hl), 0x19
@@ -1779,7 +1731,6 @@
 		ld (hl), 0xa9
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
 		add hl, bc
 
 		ld (hl), 0x19
@@ -1795,7 +1746,7 @@
 		ld (hl), 0xcc
 		inc l
 		ld (hl), 0xa1
-		ld c, 0x7a
+		inc c
 		add hl, bc
 
 		ld (hl), 0x19
@@ -1811,7 +1762,6 @@
 		ld (hl), 0xc1
 		inc l
 		ld (hl), 0xa1
-		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1827,7 +1777,6 @@
 		ld (hl), 0xc1
 		inc l
 		ld (hl), 0xa1
-		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), 0x19
@@ -1845,7 +1794,7 @@
 		ld (hl), 0xaa
 		inc l
 		ld (hl), 0x10
-		ld c, 0x79
+		dec c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1863,7 +1812,7 @@
 		ld (hl), 0xaa
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7a
+		inc c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1889,7 +1838,6 @@
 		ld (hl), 0x11
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7c
 		add hl, bc
 
 		ld (hl), 0x1d
@@ -1897,7 +1845,7 @@
 		ld (hl), 0xcd
 		inc l
 		ld (hl), 0xe1
-		ld c, 0x7d
+		inc c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1909,7 +1857,7 @@
 		ld (hl), 0xde
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7c
+		dec c
 		add hl, bc
 
 		ld (hl), 0x1c
@@ -1921,7 +1869,7 @@
 		ld (hl), 0xdd
 		inc l
 		ld (hl), 0x11
-		ld c, 0x7b
+		dec c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1937,7 +1885,7 @@
 		ld (hl), 0x1a
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7a
+		dec c
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1953,7 +1901,7 @@
 		ld (hl), 0xaa
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7b
+		inc c
 		add hl, bc
 
 		ld (hl), 0x11
@@ -1967,7 +1915,6 @@
 		ld (hl), 0x11
 		inc l
 		ld (hl), 0x10
-		ld c, 0x7b
 		add hl, bc
 
 		ld (hl), 0x1e
@@ -1981,7 +1928,6 @@
 		ld (hl), 0xde
 		inc l
 		ld (hl), 0xe1
-		ld c, 0x7b
 		add hl, bc
 
 		ld (hl), 0x1e
@@ -1995,7 +1941,6 @@
 		ld (hl), 0xee
 		inc l
 		ld (hl), 0xe1
-		ld c, 0x7b
 		add hl, bc
 
 		ld (hl), 0x1e
