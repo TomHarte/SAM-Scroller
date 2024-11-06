@@ -17,7 +17,7 @@
 class PixelAccessor {
 	public:
 		PixelAccessor(NSImage *image) {
-			colour_space_ = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+			colour_space_ = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
 			bitmap_ = CGBitmapContextCreate(
 				NULL,
 				image.size.width, image.size.height,
@@ -27,10 +27,10 @@ class PixelAccessor {
 			[NSGraphicsContext setCurrentContext:gctx];
 			[image drawInRect:NSMakeRect(0, 0, image.size.width, image.size.height)];
 
+			pixels_ = reinterpret_cast<uint8_t *>(CGBitmapContextGetData(bitmap_));
 			width_ = CGBitmapContextGetWidth(bitmap_);
 			height_ = CGBitmapContextGetHeight(bitmap_);
 			bytes_per_row_ = CGBitmapContextGetBytesPerRow(bitmap_);
-			pixels_ = reinterpret_cast<uint8_t *>(CGBitmapContextGetData(bitmap_));
 		}
 
 		~PixelAccessor() {
