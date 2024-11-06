@@ -191,20 +191,6 @@ class RegisterAllocator {
 				return RegisterEvent{.type = RegisterEvent::Type::Reuse, .reg = RegisterEvent::Register::D};
 			}
 
-//			if(!is_preview_) {
-//				const auto prior_refs = byte_references_[value];
-//				--byte_references_[value];
-//
-//				// Loading to a register only costs less if the value is reused
-//				// more than twice.
-//				if(prior_refs > 2) {
-//					if(!a_) {
-//						a_ = value;
-//						return RegisterEvent{.reg = RegisterEvent::Register::A, .type = RegisterEvent::Type::Load, .value = value};
-//					}
-//				}
-//			}
-
 			if(a_ && *a_ == value) {
 				bool is_load = !has_loaded_a_;
 				has_loaded_a_ = true;
