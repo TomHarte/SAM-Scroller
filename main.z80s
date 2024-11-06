@@ -70,6 +70,9 @@ INC "per_buffer_layout.z80s"
 	; Display is now beginning the first line of lower border.
 	;
 
+	; TODO: do keyboard stuff at end of frame, not top; check for a required scroll
+	; and do the flag ORing before updating VMPR, thereby avoiding the bottom-line tear.
+
 	; Switch to displaying whatever is the correct screen.
 	ld a, (@+next_vmpr)
 	out (VMPR), a

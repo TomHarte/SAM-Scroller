@@ -17,30 +17,43 @@ struct RegisterEvent {
 		Load, Reuse, UseConstant
 	} type;
 	enum class Register {
-		BC, DE,
-		B, C, D, E, A,
+		BC, DE, HL, IX, IY,
+		B, C, D, E, A, H, L,
 	} reg;
 	uint16_t value;
+	std::optional<uint16_t> previous_value;
 
 	const char *push_register() const {
 		switch(reg) {
 			case RegisterEvent::Register::BC:	return "bc";
 			case RegisterEvent::Register::DE:	return "de";
+			case RegisterEvent::Register::HL:	return "bc";
+			case RegisterEvent::Register::IX:	return "ix";
+			case RegisterEvent::Register::IY:	return "iy";
+
 			case RegisterEvent::Register::B:	return "bc";
 			case RegisterEvent::Register::C:	return "bc";
 			case RegisterEvent::Register::D:	return "de";
 			case RegisterEvent::Register::E:	return "de";
-			case RegisterEvent::Register::A:	return "XXX";
+			case RegisterEvent::Register::H:	return "hl";
+			case RegisterEvent::Register::L:	return "hl";
+			case RegisterEvent::Register::A:	return "af";
 		}
 	}
 	const char *load_register() const {
 		switch(reg) {
 			case RegisterEvent::Register::BC:	return "bc";
 			case RegisterEvent::Register::DE:	return "de";
+			case RegisterEvent::Register::HL:	return "bc";
+			case RegisterEvent::Register::IX:	return "ix";
+			case RegisterEvent::Register::IY:	return "iy";
+
 			case RegisterEvent::Register::B:	return "b";
 			case RegisterEvent::Register::C:	return "c";
 			case RegisterEvent::Register::D:	return "d";
 			case RegisterEvent::Register::E:	return "e";
+			case RegisterEvent::Register::H:	return "h";
+			case RegisterEvent::Register::L:	return "l";
 			case RegisterEvent::Register::A:	return "a";
 		}
 	}
@@ -62,14 +75,62 @@ class RegisterAllocator {
 					case TileEvent::Type::OutputWord:
 						++word_references_[event.content];
 					break;
-					case TileEvent::Type::OutputByte:
-						++byte_references_[event.content];
-					break;
 				}
 			}
 
-			// Reset state.
+			// Look for IY and A optimisations.
 			serialiser.reset();
+
+			// Reset state.
+			reset();
+			auto word_references = word_references_;
+			while(true) {
+				const auto next = serialiser.next();
+				if(next.type == TileEvent::Type::Stop) {
+					break;
+				}
+
+				switch(next.type) {
+					default: break;
+
+					case TileEvent::Type::OutputWord: {
+						// const auto event =
+						next_word(next.content);
+					} break;
+
+					case TileEvent::Type::OutputByte: {
+						const auto event = next_byte(next.content);
+						if(event.type == RegisterEvent::Type::UseConstant) {
+							++byte_references_[event.value];
+						}
+					} break;
+				}
+			}
+
+			// Restore original word references list.
+			word_references_ = word_references;
+
+			// A allocation strategy is as dense as can be: use the most-recurring
+			// value, as long as it's at least 3.
+			if(!byte_references_.empty()) {
+				auto greatest = byte_references_.begin();
+				auto current = greatest;
+				++current;
+				while(current != byte_references_.end()) {
+					if(current->second > greatest->second) {
+						greatest = current;
+					}
+					++current;
+				}
+				if(greatest->second > 2) {
+					a_ = greatest->first;
+				}
+			}
+
+			// Clear state.
+			is_preview_ = false;
+			serialiser.reset();
+			reset();
 		}
 
 		RegisterEvent next_word(uint16_t value) {
@@ -88,37 +149,25 @@ class RegisterAllocator {
 				event.type = RegisterEvent::Type::Load;
 				event.reg = RegisterEvent::Register::BC;
 				event.value = value;
+				event.previous_value = bc_;
 				bc_ = value;
 			} else if(!de_) {
 				event.type = RegisterEvent::Type::Load;
 				event.reg = RegisterEvent::Register::DE;
 				event.value = value;
+				event.previous_value = de_;
 				de_ = value;
 			} else {
 				event.type = RegisterEvent::Type::Load;
 				if(word_references_[*bc_] < word_references_[*de_]) {
-					if((*bc_ & 0xff00) == (value & 0xff00)) {
-						event.reg = RegisterEvent::Register::C;
-						event.value = value & 0xff;
-					} else if((*bc_ & 0x00ff) == (value & 0x00ff)) {
-						event.reg = RegisterEvent::Register::B;
-						event.value = value >> 8;
-					} else {
-						event.reg = RegisterEvent::Register::BC;
-						event.value = value;
-					}
+					event.reg = RegisterEvent::Register::BC;
+					event.value = value;
+					event.previous_value = bc_;
 					bc_ = value;
 				} else {
-					if((*de_ & 0xff00) == (value & 0xff00)) {
-						event.reg = RegisterEvent::Register::E;
-						event.value = value & 0xff;
-					} else if((*de_ & 0x00ff) == (value & 0x00ff)) {
-						event.reg = RegisterEvent::Register::D;
-						event.value = value >> 8;
-					} else {
-						event.reg = RegisterEvent::Register::DE;
-						event.value = value;
-					}
+					event.reg = RegisterEvent::Register::DE;
+					event.value = value;
+					event.previous_value = de_;
 					de_ = value;
 				}
 			}
@@ -142,8 +191,19 @@ class RegisterAllocator {
 				return RegisterEvent{.type = RegisterEvent::Type::Reuse, .reg = RegisterEvent::Register::D};
 			}
 
-			// TODO: intelligent use of A?
-			return RegisterEvent{.type = RegisterEvent::Type::UseConstant, .value = value};
+			if(a_ && *a_ == value) {
+				bool is_load = !has_loaded_a_;
+				has_loaded_a_ = true;
+				return RegisterEvent{.reg = RegisterEvent::Register::A, .type = is_load ? RegisterEvent::Type::Load : RegisterEvent::Type::Reuse, .value = value};
+			} else {
+				return RegisterEvent{.type = RegisterEvent::Type::UseConstant, .value = value};
+			}
+		}
+
+		void reset() {
+			bc_ = {};
+			de_ = {};
+			a_ = {};
 		}
 
 	private:
@@ -153,4 +213,7 @@ class RegisterAllocator {
 		std::optional<uint16_t> bc_;
 		std::optional<uint16_t> de_;
 		std::optional<uint8_t> a_;
+
+		bool is_preview_ = true;
+		bool has_loaded_a_ = false;
 };
