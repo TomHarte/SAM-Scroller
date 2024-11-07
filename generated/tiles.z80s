@@ -26,8 +26,7 @@ ds align 256
 		dw @+full_16, @+full_17, @+full_18, @+full_19
 		dw @+full_20, @+full_21, @+full_22, @+full_23
 		dw @+full_24, @+full_25, @+full_26, @+full_27
-		dw @+full_28, @+full_29, @+full_30, @+full_31
-		dw @+full_32
+		dw @+full_28, @+full_29, @+full_30
 
 	@full_8:
 		ld (@+return+1), de
@@ -2402,141 +2401,6 @@ ds align 256
 	@return:
 		jp 1234
 
-	@full_32:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld bc, 0x1111
-		push bc
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld de, 0x5555
-		push de
-		ld d, 0x51
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push de
-		ld d, 0x55
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push de
-		ld d, 0x51
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push de
-		ld d, 0x55
-		push de
-		push bc
-		push bc
-		ld hl, 1672
-		add hl, sp
-		ld sp, hl
-
-		push de
-		ld d, 0x51
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld d, 0x55
-		push de
-		ld d, 0x51
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push de
-		ld d, 0x55
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld d, 0x51
-		push de
-		ld d, 0x55
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push de
-		ld d, 0x51
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld d, 0x55
-		push de
-		ld d, 0x51
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push de
-		ld d, 0x55
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld d, 0x51
-		push de
-		ld d, 0x55
-		push de
-		push bc
-		push bc
-	@return:
-		jp 1234
-
 	@full_26:
 		ld (@+return+1), de
 		ld sp, hl
@@ -3202,124 +3066,6 @@ ds align 256
 		push de
 		push bc
 		push de
-	@return:
-		jp 1234
-
-	@full_31:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld bc, 0x1111
-		push bc
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		push bc
-		ld hl, 1672
-		add hl, sp
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		push bc
 	@return:
 		jp 1234
 
@@ -4562,8 +4308,7 @@ ds align 256
 		dw @+left_7_16, @+left_7_17, @+left_7_18, @+left_7_19
 		dw @+left_7_20, @+left_7_21, @+left_7_22, @+left_7_23
 		dw @+left_7_24, @+left_7_25, @+left_7_26, @+left_7_27
-		dw @+left_7_28, @+left_7_29, @+left_7_30, @+left_7_31
-		dw @+left_7_32
+		dw @+left_7_28, @+left_7_29, @+left_7_30
 
 	@left_7_8:
 		ld (@+return+1), de
@@ -6795,132 +6540,6 @@ ds align 256
 	@return:
 		jp 1234
 
-	@left_7_32:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld (hl), 0x11
-		ld bc, 0x1111
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), 0x55
-		ld de, 0x5155
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), e
-		ld d, 0x55
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), e
-		ld d, 0x51
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), e
-		ld d, 0x55
-		push de
-		push bc
-		push bc
-		ld hl, 1670
-		add hl, sp
-		ld sp, hl
-
-		ld (hl), e
-		ld d, 0x51
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), e
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), e
-		ld d, 0x55
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), e
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), e
-		ld d, 0x51
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), e
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), e
-		ld d, 0x55
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), e
-		push de
-		push bc
-		push bc
-	@return:
-		jp 1234
-
 	@left_7_26:
 		ld (@+return+1), de
 		ld sp, hl
@@ -7580,124 +7199,6 @@ ds align 256
 		ld (hl), c
 		push bc
 		push de
-		push bc
-	@return:
-		jp 1234
-
-	@left_7_31:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld (hl), 0x11
-		ld bc, 0x1111
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		ld hl, 1670
-		add hl, sp
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
 		push bc
 	@return:
 		jp 1234
@@ -8893,8 +8394,7 @@ ds align 256
 		dw @+right_1_16, @+right_1_17, @+right_1_18, @+right_1_19
 		dw @+right_1_20, @+right_1_21, @+right_1_22, @+right_1_23
 		dw @+right_1_24, @+right_1_25, @+right_1_26, @+right_1_27
-		dw @+right_1_28, @+right_1_29, @+right_1_30, @+right_1_31
-		dw @+right_1_32
+		dw @+right_1_28, @+right_1_29, @+right_1_30
 
 	@right_1_8:
 		ld (@+return+1), de
@@ -10086,76 +9586,6 @@ ds align 256
 	@return:
 		jp 1234
 
-	@right_1_32:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld (hl), 0x11
-		dec h
-		ld sp, hl
-
-		ld (hl), 0x55
-		dec h
-		ld sp, hl
-
-		ld (hl), 0x11
-		dec h
-		ld sp, hl
-
-		ld a, 0x51
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), 0x11
-		dec h
-		ld sp, hl
-
-		ld (hl), 0x55
-		dec h
-		ld sp, hl
-
-		ld (hl), 0x11
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		ld hl, 1664
-		add hl, sp
-		ld sp, hl
-
-		ld (hl), 0x55
-		dec h
-		ld sp, hl
-
-		ld (hl), 0x55
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), 0x55
-		dec h
-		ld sp, hl
-
-		ld (hl), 0x55
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-	@return:
-		jp 1234
-
 	@right_1_26:
 		ld (@+return+1), de
 		ld sp, hl
@@ -10495,76 +9925,6 @@ ds align 256
 		ld sp, hl
 
 		ld (hl), 0x55
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-	@return:
-		jp 1234
-
-	@right_1_31:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld a, 0x11
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		ld hl, 1664
-		add hl, sp
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
 		dec h
 		ld sp, hl
 
@@ -11218,8 +10578,7 @@ ds align 256
 		dw @+left_6_16, @+left_6_17, @+left_6_18, @+left_6_19
 		dw @+left_6_20, @+left_6_21, @+left_6_22, @+left_6_23
 		dw @+left_6_24, @+left_6_25, @+left_6_26, @+left_6_27
-		dw @+left_6_28, @+left_6_29, @+left_6_30, @+left_6_31
-		dw @+left_6_32
+		dw @+left_6_28, @+left_6_29, @+left_6_30
 
 	@left_6_8:
 		ld (@+return+1), de
@@ -13172,116 +12531,6 @@ ds align 256
 	@return:
 		jp 1234
 
-	@left_6_32:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld bc, 0x1111
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld de, 0x5155
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld d, 0x55
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld d, 0x51
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld d, 0x55
-		push de
-		push bc
-		push bc
-		ld hl, 1670
-		add hl, sp
-		ld sp, hl
-
-		ld d, 0x51
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld d, 0x55
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld d, 0x51
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld d, 0x55
-		push de
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push de
-		push bc
-		push bc
-	@return:
-		jp 1234
-
 	@left_6_26:
 		ld (@+return+1), de
 		ld sp, hl
@@ -13857,108 +13106,6 @@ ds align 256
 
 		push bc
 		push de
-		push bc
-	@return:
-		jp 1234
-
-	@left_6_31:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld bc, 0x1111
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		ld hl, 1670
-		add hl, sp
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
 		push bc
 	@return:
 		jp 1234
@@ -15006,8 +14153,7 @@ ds align 256
 		dw @+right_2_16, @+right_2_17, @+right_2_18, @+right_2_19
 		dw @+right_2_20, @+right_2_21, @+right_2_22, @+right_2_23
 		dw @+right_2_24, @+right_2_25, @+right_2_26, @+right_2_27
-		dw @+right_2_28, @+right_2_29, @+right_2_30, @+right_2_31
-		dw @+right_2_32
+		dw @+right_2_28, @+right_2_29, @+right_2_30
 
 	@right_2_8:
 		ld (@+return+1), de
@@ -16251,82 +15397,6 @@ ds align 256
 	@return:
 		jp 1234
 
-	@right_2_32:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld bc, 0x1111
-		push bc
-		dec h
-		ld sp, hl
-
-		ld de, 0x5555
-		push de
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		ld bc, 0x5155
-		push bc
-		dec h
-		ld sp, hl
-
-		ld de, 0x1111
-		push de
-		dec h
-		ld sp, hl
-
-		ld de, 0x5555
-		push de
-		dec h
-		ld sp, hl
-
-		ld de, 0x1111
-		push de
-		dec h
-		ld sp, hl
-
-		push bc
-		ld hl, 1666
-		add hl, sp
-		ld sp, hl
-
-		ld de, 0x5555
-		push de
-		dec h
-		ld sp, hl
-
-		push de
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push de
-		dec h
-		ld sp, hl
-
-		push de
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-	@return:
-		jp 1234
-
 	@right_2_26:
 		ld (@+return+1), de
 		ld sp, hl
@@ -16688,76 +15758,6 @@ ds align 256
 		ld sp, hl
 
 		push de
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-	@return:
-		jp 1234
-
-	@right_2_31:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld bc, 0x1111
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		ld hl, 1666
-		add hl, sp
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
 		dec h
 		ld sp, hl
 
@@ -17430,8 +16430,7 @@ ds align 256
 		dw @+left_5_16, @+left_5_17, @+left_5_18, @+left_5_19
 		dw @+left_5_20, @+left_5_21, @+left_5_22, @+left_5_23
 		dw @+left_5_24, @+left_5_25, @+left_5_26, @+left_5_27
-		dw @+left_5_28, @+left_5_29, @+left_5_30, @+left_5_31
-		dw @+left_5_32
+		dw @+left_5_28, @+left_5_29, @+left_5_30
 
 	@left_5_8:
 		ld (@+return+1), de
@@ -19302,109 +18301,6 @@ ds align 256
 	@return:
 		jp 1234
 
-	@left_5_32:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld (hl), 0x11
-		ld bc, 0x1111
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld a, 0x55
-		ld (hl), a
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		push bc
-		push bc
-		ld hl, 1668
-		add hl, sp
-		ld sp, hl
-
-		ld (hl), a
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		push bc
-		push bc
-	@return:
-		jp 1234
-
 	@left_5_26:
 		ld (@+return+1), de
 		ld sp, hl
@@ -19958,108 +18854,6 @@ ds align 256
 		ld (hl), c
 		push bc
 		push de
-	@return:
-		jp 1234
-
-	@left_5_31:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld (hl), 0x11
-		ld bc, 0x1111
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		ld hl, 1668
-		add hl, sp
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
 	@return:
 		jp 1234
 
@@ -21054,8 +19848,7 @@ ds align 256
 		dw @+right_3_16, @+right_3_17, @+right_3_18, @+right_3_19
 		dw @+right_3_20, @+right_3_21, @+right_3_22, @+right_3_23
 		dw @+right_3_24, @+right_3_25, @+right_3_26, @+right_3_27
-		dw @+right_3_28, @+right_3_29, @+right_3_30, @+right_3_31
-		dw @+right_3_32
+		dw @+right_3_28, @+right_3_29, @+right_3_30
 
 	@right_3_8:
 		ld (@+return+1), de
@@ -22589,99 +21382,6 @@ ds align 256
 	@return:
 		jp 1234
 
-	@right_3_32:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld a, 0x11
-		ld (hl), a
-		ld bc, 0x1111
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), 0x55
-		ld de, 0x5551
-		push de
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), e
-		ld bc, 0x5555
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		ld de, 0x1111
-		push de
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		ld de, 0x5551
-		push de
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		ld de, 0x1111
-		push de
-		dec h
-		ld sp, hl
-
-		ld (hl), 0x51
-		push bc
-		ld hl, 1666
-		add hl, sp
-		ld sp, hl
-
-		ld (hl), c
-		ld de, 0x5551
-		push de
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push de
-		dec h
-		ld sp, hl
-
-		ld (hl), e
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), e
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push de
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push de
-		dec h
-		ld sp, hl
-
-		ld (hl), e
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), e
-		push bc
-	@return:
-		jp 1234
-
 	@right_3_26:
 		ld (@+return+1), de
 		ld sp, hl
@@ -23134,92 +21834,6 @@ ds align 256
 		ld sp, hl
 
 		ld (hl), e
-		push bc
-	@return:
-		jp 1234
-
-	@right_3_31:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld (hl), 0x11
-		ld bc, 0x1111
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		ld hl, 1666
-		add hl, sp
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
 		push bc
 	@return:
 		jp 1234
@@ -24042,8 +22656,7 @@ ds align 256
 		dw @+left_4_16, @+left_4_17, @+left_4_18, @+left_4_19
 		dw @+left_4_20, @+left_4_21, @+left_4_22, @+left_4_23
 		dw @+left_4_24, @+left_4_25, @+left_4_26, @+left_4_27
-		dw @+left_4_28, @+left_4_29, @+left_4_30, @+left_4_31
-		dw @+left_4_32
+		dw @+left_4_28, @+left_4_29, @+left_4_30
 
 	@left_4_8:
 		ld (@+return+1), de
@@ -25635,92 +24248,6 @@ ds align 256
 	@return:
 		jp 1234
 
-	@left_4_32:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld bc, 0x1111
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		ld hl, 1668
-		add hl, sp
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-	@return:
-		jp 1234
-
 	@left_4_26:
 		ld (@+return+1), de
 		ld sp, hl
@@ -26190,92 +24717,6 @@ ds align 256
 
 		push bc
 		push de
-	@return:
-		jp 1234
-
-	@left_4_31:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld bc, 0x1111
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		ld hl, 1668
-		add hl, sp
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
 	@return:
 		jp 1234
 
@@ -27121,8 +25562,7 @@ ds align 256
 		dw @+right_4_16, @+right_4_17, @+right_4_18, @+right_4_19
 		dw @+right_4_20, @+right_4_21, @+right_4_22, @+right_4_23
 		dw @+right_4_24, @+right_4_25, @+right_4_26, @+right_4_27
-		dw @+right_4_28, @+right_4_29, @+right_4_30, @+right_4_31
-		dw @+right_4_32
+		dw @+right_4_28, @+right_4_29, @+right_4_30
 
 	@right_4_8:
 		ld (@+return+1), de
@@ -28714,100 +27154,6 @@ ds align 256
 	@return:
 		jp 1234
 
-	@right_4_32:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld bc, 0x1111
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld de, 0x5555
-		push de
-		ld bc, 0x5155
-		push bc
-		dec h
-		ld sp, hl
-
-		ld de, 0x1111
-		push de
-		push de
-		dec h
-		ld sp, hl
-
-		push bc
-		ld de, 0x5555
-		push de
-		dec h
-		ld sp, hl
-
-		ld de, 0x1111
-		push de
-		push de
-		dec h
-		ld sp, hl
-
-		ld de, 0x5555
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		ld de, 0x1111
-		push de
-		push de
-		dec h
-		ld sp, hl
-
-		push bc
-		ld de, 0x5555
-		push de
-		ld hl, 1668
-		add hl, sp
-		ld sp, hl
-
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push de
-		dec h
-		ld sp, hl
-
-		push bc
-		push de
-		dec h
-		ld sp, hl
-
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push de
-		dec h
-		ld sp, hl
-
-		push bc
-		push de
-	@return:
-		jp 1234
-
 	@right_4_26:
 		ld (@+return+1), de
 		ld sp, hl
@@ -29270,92 +27616,6 @@ ds align 256
 
 		push bc
 		push de
-	@return:
-		jp 1234
-
-	@right_4_31:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld bc, 0x1111
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		ld hl, 1668
-		add hl, sp
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
 	@return:
 		jp 1234
 
@@ -30203,8 +28463,7 @@ ds align 256
 		dw @+left_3_16, @+left_3_17, @+left_3_18, @+left_3_19
 		dw @+left_3_20, @+left_3_21, @+left_3_22, @+left_3_23
 		dw @+left_3_24, @+left_3_25, @+left_3_26, @+left_3_27
-		dw @+left_3_28, @+left_3_29, @+left_3_30, @+left_3_31
-		dw @+left_3_32
+		dw @+left_3_28, @+left_3_29, @+left_3_30
 
 	@left_3_8:
 		ld (@+return+1), de
@@ -31729,92 +29988,6 @@ ds align 256
 	@return:
 		jp 1234
 
-	@left_3_32:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld (hl), 0x11
-		ld bc, 0x1111
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		ld hl, 1666
-		add hl, sp
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-	@return:
-		jp 1234
-
 	@left_3_26:
 		ld (@+return+1), de
 		ld sp, hl
@@ -32259,92 +30432,6 @@ ds align 256
 
 		ld (hl), c
 		push de
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-	@return:
-		jp 1234
-
-	@left_3_31:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld (hl), 0x11
-		ld bc, 0x1111
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		ld hl, 1666
-		add hl, sp
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
 		dec h
 		ld sp, hl
 
@@ -33164,8 +31251,7 @@ ds align 256
 		dw @+right_5_16, @+right_5_17, @+right_5_18, @+right_5_19
 		dw @+right_5_20, @+right_5_21, @+right_5_22, @+right_5_23
 		dw @+right_5_24, @+right_5_25, @+right_5_26, @+right_5_27
-		dw @+right_5_28, @+right_5_29, @+right_5_30, @+right_5_31
-		dw @+right_5_32
+		dw @+right_5_28, @+right_5_29, @+right_5_30
 
 	@right_5_8:
 		ld (@+return+1), de
@@ -35033,120 +33119,6 @@ ds align 256
 	@return:
 		jp 1234
 
-	@right_5_32:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld (hl), 0x11
-		ld bc, 0x1111
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), 0x55
-		ld de, 0x5551
-		push de
-		ld e, 0x11
-		push de
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld a, 0x51
-		ld (hl), a
-		ld bc, 0x5555
-		push bc
-		push de
-		dec h
-		ld sp, hl
-
-		ld (hl), e
-		ld bc, 0x1111
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), d
-		ld bc, 0x5551
-		push bc
-		push de
-		dec h
-		ld sp, hl
-
-		ld (hl), e
-		ld bc, 0x1111
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		ld bc, 0x5555
-		push bc
-		push de
-		ld hl, 1668
-		add hl, sp
-		ld sp, hl
-
-		ld (hl), c
-		ld c, 0x51
-		push bc
-		push de
-		dec h
-		ld sp, hl
-
-		ld (hl), b
-		push bc
-		push de
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		ld c, 0x55
-		push bc
-		push de
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		push bc
-		push de
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		ld c, 0x51
-		push bc
-		push de
-		dec h
-		ld sp, hl
-
-		ld (hl), b
-		push bc
-		push de
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		ld c, 0x55
-		push bc
-		push de
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		push bc
-		push de
-	@return:
-		jp 1234
-
 	@right_5_26:
 		ld (@+return+1), de
 		ld sp, hl
@@ -35711,108 +33683,6 @@ ds align 256
 		ld (hl), e
 		push bc
 		push de
-	@return:
-		jp 1234
-
-	@right_5_31:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld (hl), 0x11
-		ld bc, 0x1111
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		ld hl, 1668
-		add hl, sp
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
 	@return:
 		jp 1234
 
@@ -36815,8 +34685,7 @@ ds align 256
 		dw @+left_2_16, @+left_2_17, @+left_2_18, @+left_2_19
 		dw @+left_2_20, @+left_2_21, @+left_2_22, @+left_2_23
 		dw @+left_2_24, @+left_2_25, @+left_2_26, @+left_2_27
-		dw @+left_2_28, @+left_2_29, @+left_2_30, @+left_2_31
-		dw @+left_2_32
+		dw @+left_2_28, @+left_2_29, @+left_2_30
 
 	@left_2_8:
 		ld (@+return+1), de
@@ -38064,76 +35933,6 @@ ds align 256
 	@return:
 		jp 1234
 
-	@left_2_32:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld bc, 0x1111
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		ld hl, 1666
-		add hl, sp
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-	@return:
-		jp 1234
-
 	@left_2_26:
 		ld (@+return+1), de
 		ld sp, hl
@@ -38497,76 +36296,6 @@ ds align 256
 		ld sp, hl
 
 		push de
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-	@return:
-		jp 1234
-
-	@left_2_31:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld bc, 0x1111
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		ld hl, 1666
-		add hl, sp
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
 		dec h
 		ld sp, hl
 
@@ -39237,8 +36966,7 @@ ds align 256
 		dw @+right_6_16, @+right_6_17, @+right_6_18, @+right_6_19
 		dw @+right_6_20, @+right_6_21, @+right_6_22, @+right_6_23
 		dw @+right_6_24, @+right_6_25, @+right_6_26, @+right_6_27
-		dw @+right_6_28, @+right_6_29, @+right_6_30, @+right_6_31
-		dw @+right_6_32
+		dw @+right_6_28, @+right_6_29, @+right_6_30
 
 	@right_6_8:
 		ld (@+return+1), de
@@ -41239,125 +38967,6 @@ ds align 256
 	@return:
 		jp 1234
 
-	@right_6_32:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld bc, 0x1111
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld de, 0x5555
-		push de
-		ld d, 0x51
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push de
-		ld d, 0x55
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push de
-		ld d, 0x51
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push de
-		ld d, 0x55
-		push de
-		push bc
-		ld hl, 1670
-		add hl, sp
-		ld sp, hl
-
-		push de
-		ld d, 0x51
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		ld d, 0x55
-		push de
-		ld d, 0x51
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		push de
-		ld d, 0x55
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		ld d, 0x51
-		push de
-		ld d, 0x55
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		push de
-		ld d, 0x51
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		ld d, 0x55
-		push de
-		ld d, 0x51
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		push de
-		ld d, 0x55
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		ld d, 0x51
-		push de
-		ld d, 0x55
-		push de
-		push bc
-	@return:
-		jp 1234
-
 	@right_6_26:
 		ld (@+return+1), de
 		ld sp, hl
@@ -41927,108 +39536,6 @@ ds align 256
 
 		push bc
 		push de
-		push bc
-	@return:
-		jp 1234
-
-	@right_6_31:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld bc, 0x1111
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		ld hl, 1670
-		add hl, sp
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		push bc
-		push bc
 		push bc
 	@return:
 		jp 1234
@@ -43078,8 +40585,7 @@ ds align 256
 		dw @+left_1_16, @+left_1_17, @+left_1_18, @+left_1_19
 		dw @+left_1_20, @+left_1_21, @+left_1_22, @+left_1_23
 		dw @+left_1_24, @+left_1_25, @+left_1_26, @+left_1_27
-		dw @+left_1_28, @+left_1_29, @+left_1_30, @+left_1_31
-		dw @+left_1_32
+		dw @+left_1_28, @+left_1_29, @+left_1_30
 
 	@left_1_8:
 		ld (@+return+1), de
@@ -44271,76 +41777,6 @@ ds align 256
 	@return:
 		jp 1234
 
-	@left_1_32:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld a, 0x11
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		ld hl, 1664
-		add hl, sp
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-	@return:
-		jp 1234
-
 	@left_1_26:
 		ld (@+return+1), de
 		ld sp, hl
@@ -44651,76 +42087,6 @@ ds align 256
 		ld sp, hl
 
 		ld (hl), 0x11
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		ld hl, 1664
-		add hl, sp
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-	@return:
-		jp 1234
-
-	@left_1_31:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld a, 0x11
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		dec h
-		ld sp, hl
-
-		ld (hl), a
 		dec h
 		ld sp, hl
 
@@ -45401,8 +42767,7 @@ ds align 256
 		dw @+right_7_16, @+right_7_17, @+right_7_18, @+right_7_19
 		dw @+right_7_20, @+right_7_21, @+right_7_22, @+right_7_23
 		dw @+right_7_24, @+right_7_25, @+right_7_26, @+right_7_27
-		dw @+right_7_28, @+right_7_29, @+right_7_30, @+right_7_31
-		dw @+right_7_32
+		dw @+right_7_28, @+right_7_29, @+right_7_30
 
 	@right_7_8:
 		ld (@+return+1), de
@@ -47690,149 +45055,6 @@ ds align 256
 	@return:
 		jp 1234
 
-	@right_7_32:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld (hl), 0x11
-		ld bc, 0x1111
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), 0x55
-		ld de, 0x5551
-		push de
-		ld e, 0x11
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld a, 0x51
-		ld (hl), a
-		ld e, 0x55
-		push de
-		ld e, 0x11
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), d
-		ld e, 0x51
-		push de
-		ld e, 0x11
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		ld e, 0x55
-		push de
-		ld e, 0x11
-		push de
-		push bc
-		ld hl, 1670
-		add hl, sp
-		ld sp, hl
-
-		ld (hl), d
-		ld e, 0x51
-		push de
-		ld e, 0x11
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), d
-		ld e, 0x51
-		push de
-		ld e, 0x11
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		ld e, 0x55
-		push de
-		ld e, 0x11
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		ld e, 0x55
-		push de
-		ld e, 0x11
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), d
-		ld e, 0x51
-		push de
-		ld e, 0x11
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), d
-		ld e, 0x51
-		push de
-		ld e, 0x11
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		ld e, 0x55
-		push de
-		ld e, 0x11
-		push de
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), a
-		ld e, 0x55
-		push de
-		ld e, 0x11
-		push de
-		push bc
-	@return:
-		jp 1234
-
 	@right_7_26:
 		ld (@+return+1), de
 		ld sp, hl
@@ -48513,124 +45735,6 @@ ds align 256
 		ld (hl), e
 		push bc
 		push de
-		push bc
-	@return:
-		jp 1234
-
-	@right_7_31:
-		ld (@+return+1), de
-		ld sp, hl
-
-		ld (hl), 0x11
-		ld bc, 0x1111
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		ld hl, 1670
-		add hl, sp
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
-		push bc
-		dec h
-		ld sp, hl
-
-		ld (hl), c
-		push bc
-		push bc
 		push bc
 	@return:
 		jp 1234
