@@ -546,21 +546,29 @@ static constexpr int TileSize = 16;
 
 	std::array<uint8_t, 16> values{};
 	for(const auto &colour: palette) {
-		const uint8_t red = (colour.first >> 0) & 0xff;
-		const uint8_t green = (colour.first >> 8) & 0xff;
-		const uint8_t blue = (colour.first >> 16) & 0xff;
+		const uint8_t wide_red = (colour.first >> 0) & 0xff;
+		const uint8_t wide_green = (colour.first >> 8) & 0xff;
+		const uint8_t wide_blue = (colour.first >> 16) & 0xff;
 
-		const uint8_t bright = (red & 0x20) + (green & 0x20) + (blue & 0x20);
+		const auto remap = [](uint8_t source) {
+			return int(roundf(7.0 * static_cast<float>(source) / 255.0));
+		};
+
+		const uint8_t red = remap(wide_red);
+		const uint8_t green = remap(wide_green);
+		const uint8_t blue = remap(wide_blue);
+
+		const uint8_t bright = (red & 1) + (green & 1) + (blue & 1);
 		const uint8_t sam_colour =
-			((green & 0x80) ? 0x40 : 0x00) |
-			((red & 0x80) ? 0x20 : 0x00) |
-			((blue & 0x80) ? 0x10 : 0x00) |
+			((green & 4) ? 0x40 : 0x00) |
+			((red & 4) ? 0x20 : 0x00) |
+			((blue & 4) ? 0x10 : 0x00) |
 
-			((green & 0x40) ? 0x08 : 0x00) |
-			((red & 0x40) ? 0x04 : 0x00) |
-			((blue & 0x40) ? 0x02 : 0x00) |
+			((green & 2) ? 0x08 : 0x00) |
+			((red & 2) ? 0x04 : 0x00) |
+			((blue & 2) ? 0x02 : 0x00) |
 
-			((bright >= 0x30) ? 0x01 : 0x00);
+			((bright >= 2) ? 0x01 : 0x00);
 		values[colour.second] = sam_colour;
 	}
 
