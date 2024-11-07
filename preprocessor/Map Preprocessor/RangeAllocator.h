@@ -11,13 +11,14 @@
 #include <map>
 #include <unordered_map>
 
+using Time = int;
+
 template <typename IntT>
 struct Allocation {
-	size_t reg;
+	Time time;
 	IntT value;
+	size_t reg;
 };
-
-using Time = int;
 
 template <typename IntT, size_t ReuseThreshold = 2>
 class RangeAllocator {
@@ -30,14 +31,19 @@ class RangeAllocator {
 		}
 
 		struct TimeSpan {
-			Time begin, end;
-		};
-		struct ValueSpan {
-			TimeSpan time;
-			IntT value;
+			Time begin = 0, end = 0;
+			
+			Time length() const {
+				return end - begin;
+			}
 		};
 
-		std::vector<std::vector<ValueSpan>> spans() {
+		std::vector<Allocation<IntT>> spans() {
+			std::vector<Allocation<IntT>> result;
+			if(values_.empty()) {
+				return result;
+			}
+			
 			// Mark all values as not-yet allocated.
 			for(auto &value: values_) {
 				value.second.is_allocated = false;
@@ -56,6 +62,83 @@ class RangeAllocator {
 			// Anecdotally: not an amazing algorithm, but acceptable for the
 			// limited range of likely integers in a given group and the small
 			// size of each group.
+			struct RegisterState {
+				struct AnnotatedValueSpan: public ValueSpan {
+					bool is_vacant = false;
+				};
+
+				std::map<Time, AnnotatedValueSpan> spans;
+				
+				TimeSpan largest_unoccupied(Time endpoint) {
+					Time location = 0;
+					TimeSpan largest = {.begin = 0, .end = 0};
+					for(const auto &span: spans) {
+						if(span.first - location > largest.length()) {
+							largest.begin = location;
+							largest.end = span.first;
+						}
+						location = span.second.time.end;
+					}
+					
+					if(endpoint - location > largest.length()) {
+						largest.begin = location;
+						largest.end = endpoint;
+					}
+					
+					return largest;
+				}
+			};
+			std::vector<RegisterState> states(num_registers_);
+			auto last = values_.end();
+			--last;
+			const auto end_time = last->first + 1;
+
+			while(true) {
+				size_t index = 0;
+				TimeSpan range;
+				for(size_t c = 0; c < num_registers_; c++) {
+					const auto largest = states[c].largest_unoccupied(end_time);
+					if(largest.length() > range.length()) {
+						range = largest;
+						index = c;
+					}
+				}
+
+				if(!range.length()) break;
+				const auto suggestion = remove_largest_in(range);
+				if(suggestion) {
+					typename RegisterState::AnnotatedValueSpan allocated;
+					allocated.time = suggestion->time;
+					allocated.value = suggestion->value;
+					states[index].spans[range.begin] = allocated;
+				} else {
+					typename RegisterState::AnnotatedValueSpan vacant;
+					vacant.is_vacant = true;
+					vacant.time = range;
+					states[index].spans[range.begin] = vacant;
+				}
+			}
+			
+			// Map down to return type.
+			std::map<Time, Allocation<IntT>> allocations;
+			size_t reg = 0;
+			for(auto &state: states) {
+				for(const auto &span: state.spans) {
+					if(!span.second.is_vacant) {
+						allocations[span.second.time.begin] = Allocation{
+							.time = span.second.time.begin,
+							.value = span.second.value,
+							.reg = reg,
+						};
+					}
+				}
+				++reg;
+			}
+
+			for(const auto &allocation: allocations) {
+				result.push_back(allocation.second);
+			}
+			return result;
 		}
 
 	private:
@@ -64,6 +147,10 @@ class RangeAllocator {
 		struct Value {
 			IntT value{};
 			bool is_allocated = false;
+		};
+		struct ValueSpan {
+			TimeSpan time;
+			IntT value;
 		};
 		std::map<Time, Value> values_;
 

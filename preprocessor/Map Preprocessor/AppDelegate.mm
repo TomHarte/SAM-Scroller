@@ -460,12 +460,45 @@ static constexpr int TileSize = 16;
 		[code appendString:@"\t\tld (@+return+1), de\n\n"];
 		std::optional<uint16_t> bc;
 
-		bool moved = true;
-		uint16_t hl = 0;
+		// Grab allocated register ranges.
+		static constexpr size_t NumRegisters = 3;
+		static constexpr char RegisterNames[3] = {'a', 'd', 'e'};
+
+		RangeAllocator<uint8_t> register_allocator(NumRegisters);
+		sprite.reset();
+		int time = 0;
 		while(true) {
 			const auto event = sprite.next();
 			if(event.type == SpriteEvent::Type::Stop) {
 				break;
+			}
+
+			if(event.type == SpriteEvent::Type::OutputByte) {
+				register_allocator.add_value(time, event.content.output);
+			}
+
+			++time;
+		}
+
+		const auto allocations = register_allocator.spans();
+		auto next_allocation = allocations.begin();
+		std::optional<uint8_t> registers[NumRegisters];
+
+		bool moved = true;
+		uint16_t hl = 0;
+		time = 0;
+		sprite.reset();
+		while(true) {
+			const auto event = sprite.next();
+			if(event.type == SpriteEvent::Type::Stop) {
+				break;
+			}
+			
+			// Apply a new allocation if one pops into existence here.
+			if(next_allocation != allocations.end() && next_allocation->time == time) {
+				registers[next_allocation->reg] = next_allocation->value;
+				[code appendFormat:@"\t\tld %c, 0x%02x\n", RegisterNames[next_allocation->reg], next_allocation->value];
+				++next_allocation;
 			}
 
 			if(event.type == SpriteEvent::Type::Move) {
@@ -483,8 +516,21 @@ static constexpr int TileSize = 16;
 					++hl;
 				}
 				moved = false;
-				[code appendFormat:@"\t\tld (hl), 0x%02x\n", event.content.output];
+				
+				bool loaded = false;
+				for(size_t c = 0; c < NumRegisters; c++) {
+					if(registers[c] && event.content.output == registers[c]) {
+						loaded = true;
+						[code appendFormat:@"\t\tld (hl), %c\n", RegisterNames[c]];
+						break;
+					}
+				}
+				if(!loaded) {
+					[code appendFormat:@"\t\tld (hl), 0x%02x\n", event.content.output];
+				}
 			}
+			
+			++time;
 		}
 
 		[code appendFormat:@"\t@return:\n"];
