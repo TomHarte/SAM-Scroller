@@ -108,7 +108,7 @@ INC "per_buffer_layout.z80s"
 	; Don't OR anything into the dirty map if there was no scroll.
 	ld a, (@+scroll_change)
 	or a
-	jr z, @+begin_map
+	jp z, @+begin_map
 
 	;
 	; OR per-page dirty bits with the fixed list to produce a composite diff.
@@ -124,17 +124,14 @@ INC "per_buffer_layout.z80s"
 	add hl, bc
 
 @or_flags:
-	ld c, FLAGS_SIZE
-@flag_loop:
-	dec de
+@or_loop: EQU FOR 51
+	dec e
 	dec hl
 
 	ld a, (de)
 	or (hl)
 	ld (de), a
-
-	dec c
-	jr nz, @-flag_loop
+NEXT @or_loop
 
 @begin_map:
 	; Grab map address and set diffs list pointer.
@@ -165,7 +162,7 @@ INC "per_buffer_layout.z80s"
 ;
 ; Loop for end of frame
 ;
-	jr @-draw_scene
+	jp @-draw_scene
 
 
 ;
