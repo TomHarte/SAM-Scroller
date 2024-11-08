@@ -8,6 +8,7 @@ ORG 0
 
 column_count: EQU 17
 
+; Setup all screens.
 setup_per_screen_code:
 	ld (@+return+1), de
 
@@ -16,38 +17,32 @@ setup_per_screen_code:
 	ld hl, palette+15
 	otdr
 
-	; Setup all screens.
-	;
-	; (1) copy tile-drawing code, unmodified.
-	;
+	; Proceed per-page...
 	ld a, 0
 @copy_buffer_code:
 	out (HMPR), a
 
-	; Copy down tile-drawing code.
+	; Copy tile-drawing code into place.
 	ld hl, BUFFER_CODE_ORIGINAL
 	ld de, BUFFER_CODE
 	ld bc, BUFFER_CODE_DONE-BUFFER_CODE
 	ldir
 
-	; The first address will already be correct, but
-	; set up to look across the screen setting as per
+	; The first address will already be correct (for now);
+	; set up to store across the screen setting as per
 	; this screen's offset.
 	ld hl, 128*192 + 32768		; Start of rightmost column.
 	ld bc, -8
 
 	; Next will be at [screen end] - (a >> 1) {- 8 for page 0}.
 	or a
-	jr z, @+sub8
+	jr z, @+store
 
 	ld d, 0
 	ld e, a
 	srl e
 	sbc hl, de
-	jr @+store
-
-@sub8:
-	add hl, bc
+	sbc hl, bc	; to undo the add that is built into the loop below.
 @store:
 
 	;
@@ -55,8 +50,8 @@ setup_per_screen_code:
 	; rest of the set.
 	;
 @address_loop: EQU FOR column_count - 1
-	ld (column_address{@address_loop+1} + 1), hl
 	add hl, bc
+	ld (column_address{@address_loop+1} + 1), hl
 NEXT @address_loop
 
 	; Continue to next page.
@@ -73,85 +68,44 @@ NEXT @address_loop
 	ld a, 0
 	out (HMPR), a
 
-	ld a, 0x18									; i.e. JR
-	ld (column_address16), a
-	ld a, columns_end - column_address16 - 2	; i.e. offset to return code.
-	ld (column_address16 + 1), a
+	ld a, 0x18												; i.e. JR
+	ld (column_address{column_count-1}), a
+	ld a, columns_end - column_address{column_count-1} - 2	; i.e. offset to return code.
+	ld (column_address{column_count-1} + 1), a
 
 	; Second page onwards: use appropriate left and right
 	; tables for first and last column; if this is an
 	; odd page (i.e. one in which the clipped tiles are
-	; an odd number of bytes wide), also decrease the final
-	; column start address by 1.
+	; an odd number of bytes wide), also decrease the initial
+	; and final column start address by 1 as per the different
+	; call semantics for tiles that are an odd number of
+	; bytes wide.
 @page_loop: EQU FOR 7
 	ld a, 2 + (@page_loop << 1)
 	out (HMPR), a
 
-IF @page_loop == 0
-	@tiles_left_page: 		EQU tiles_left_1_page
-	@tiles_left_address:	EQU tiles_left_1
-	@tiles_right_page: 		EQU tiles_right_7_page
-	@tiles_right_address:	EQU tiles_right_7
-ENDIF
-IF @page_loop == 1
-	@tiles_left_page: 		EQU tiles_left_2_page
-	@tiles_left_address:	EQU tiles_left_2
-	@tiles_right_page: 		EQU tiles_right_6_page
-	@tiles_right_address:	EQU tiles_right_6
-ENDIF
-IF @page_loop == 2
-	@tiles_left_page: 		EQU tiles_left_3_page
-	@tiles_left_address:	EQU tiles_left_3
-	@tiles_right_page: 		EQU tiles_right_5_page
-	@tiles_right_address:	EQU tiles_right_5
-ENDIF
-IF @page_loop == 3
-	@tiles_left_page: 		EQU tiles_left_4_page
-	@tiles_left_address:	EQU tiles_left_4
-	@tiles_right_page: 		EQU tiles_right_4_page
-	@tiles_right_address:	EQU tiles_right_4
-ENDIF
-IF @page_loop == 4
-	@tiles_left_page: 		EQU tiles_left_5_page
-	@tiles_left_address:	EQU tiles_left_5
-	@tiles_right_page: 		EQU tiles_right_3_page
-	@tiles_right_address:	EQU tiles_right_3
-ENDIF
-IF @page_loop == 5
-	@tiles_left_page: 		EQU tiles_left_6_page
-	@tiles_left_address:	EQU tiles_left_6
-	@tiles_right_page: 		EQU tiles_right_2_page
-	@tiles_right_address:	EQU tiles_right_2
-ENDIF
-IF @page_loop == 6
-	@tiles_left_page: 		EQU tiles_left_7_page
-	@tiles_left_address:	EQU tiles_left_7
-	@tiles_right_page: 		EQU tiles_right_1_page
-	@tiles_right_address:	EQU tiles_right_1
-ENDIF
-
-	ld a, @tiles_left_page
+	ld a, tiles_left_{@page_loop+1}_page
 	ld (tile_page0+1), a
-	ld a, @tiles_left_address >> 8
+	ld a, tiles_left_{@page_loop+1} >> 8
 	ld (tile_address0_0+1), a
 	ld (tile_address0_1+1), a
 	ld (tile_address0_2+1), a
 
-	ld a, @tiles_right_page
-	ld (tile_page16+1), a
-	ld a, @tiles_right_address >> 8
-	ld (tile_address16_0+1), a
-	ld (tile_address16_1+1), a
-	ld (tile_address16_2+1), a
+	ld a, tiles_right_{7-@page_loop}_page
+	ld (tile_page{column_count-1}+1), a
+	ld a, tiles_right_{7-@page_loop} >> 8
+	ld (tile_address{column_count-1}_0+1), a
+	ld (tile_address{column_count-1}_1+1), a
+	ld (tile_address{column_count-1}_2+1), a
 
 IF (@page_loop & 1) == 0
 	ld hl, (column_address0+1)
 	dec hl
 	ld (column_address0+1), hl
 
-	ld hl, (column_address16+1)
+	ld hl, (column_address{column_count-1}+1)
 	dec l
-	ld (column_address16+1), hl
+	ld (column_address{column_count-1}+1), hl
 ENDIF
 NEXT @page_loop
 
