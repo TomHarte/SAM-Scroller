@@ -4,32 +4,29 @@ draw_tiles:
 	ld (@+return+1), de
 
 columns_start:
-column_count: EQU 17
 @column_loop: EQU FOR column_count
+
+column_address{@column_loop}:
 	ld hl, 128*192 + 32768
 
-	; Set page for tiles.
-	;
-	; Subnote: it'd be nice not to do this for every column independently,
-	; but I can find no way in Pyz80 to create unique labels within an EQU FOR.
-	; So here it is.
-	;
-	; It isn't safe to put behind a conditional because of the way buffer_start_address
-	; et al are used during setup.
+IF (@column_loop - 2) & 0xff >= column_count - 3	; I can't find any way to do conjunctions in PyZ80; this should be
+tile_page{@column_loop}:							; equivalent to "if(column_loop < 2 || column_loop == column_count - 1)".
 	ld a, tiles_full_page
 	out (LMPR), a
+ENDIF
 
 @sliver_loop: EQU FOR 3
 
-		dec iy
-		ld a, (iy+0)	; Get diffs offset.
+		@diff_address: EQU DIRTY_FLAGS + FLAGS_SIZE - 1 - @sliver_loop - @column_loop*3
+
+		ld a, (@diff_address)		; Get dirty flags.
 		ld (@+get_sliver+2), a
-		xor a			; Zero diffs while passing.
-		ld (iy+0), a
+
 	@get_sliver:
 		ld de, (slivers)
 		ld (@+do_sliver+1), de
 
+tile_address{@column_loop}_{@sliver_loop}:
 		ld a, tiles_full >> 8
 		ld de, @+next
 	@do_sliver:
@@ -40,19 +37,14 @@ NEXT @sliver_loop
 NEXT @column_loop
 columns_end:
 
-;
-; Super-yuckiness here!
-;
-; As above, I can't find a way to create unique labels within EQU FORs
-;
-column_length: EQU (columns_end - columns_start) / column_count
-sliver_length: EQU (column_length - 7) / 3
-
-buffer_start_offset: EQU 1
-tile_page_offset: EQU 4
-tile_table_offset1: EQU column_length - 7
-tile_table_offset2: EQU tile_table_offset1 - sliver_length
-tile_table_offset3: EQU tile_table_offset2 - sliver_length
+	; Zero out the dirty flags.
+	ld bc, 0x0000
+	ld sp, DIRTY_FLAGS + FLAGS_SIZE
+@zero_loop: EQU FOR 25
+	push bc
+NEXT @zero_loop
+	xor a
+	ld (DIRTY_FLAGS + FLAGS_SIZE - 51), a
 
 	; Switch back to main page.
 	ld a, EXECPAGE + %00100000
