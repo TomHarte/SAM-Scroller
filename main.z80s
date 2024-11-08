@@ -305,7 +305,7 @@ NEXT @or_loop
 	jp draw_tiles
 
 @end_seed:
-	ld a, 8
+	xor a
 	ld (@+scroll_offset), a
 
 @return:
