@@ -6,6 +6,8 @@
 DUMP SETUPPAGE, 0
 ORG 0
 
+column_count: EQU 17
+
 setup_per_screen_code:
 	ld (@+return+1), de
 
@@ -29,7 +31,6 @@ setup_per_screen_code:
 	ldir
 
 	; Set first two start addresses.
-	ld ix, columns_start
 	ld hl, 128*192 + 32768		; Start of rightmost column.
 
 	; If a is odd byte size, start one earlier, per the different rules for even-sized
@@ -42,8 +43,7 @@ setup_per_screen_code:
 
 @no_dec:
 	; Store first address.
-	ld (ix + buffer_start_offset), l
-	ld (ix + buffer_start_offset + 1), h
+	ld (column_address0 + 1), hl
 
 	; Next will be at [screen end] - (a >> 1) {- 8 for page 0}.
 	ld hl, 128*192 + 32768
@@ -62,31 +62,21 @@ setup_per_screen_code:
 
 	; Store second address
 @store:
-	ld (ix + buffer_start_offset + column_length), l
-	ld (ix + buffer_start_offset + column_length + 1), h
+	ld bc, -8
 
 	;
 	; Proceed from the second column address, decreasing by 8 across the
 	; rest of the set.
 	;
-	ld ix, columns_start + column_length
-	ld e, column_count - 2
-@address_loop:
-	ld bc, column_length
-	add ix, bc						; Update IX to point to the next buffer address.
-
-	ld bc, -8
+@address_loop: EQU FOR column_count - 1
+	ld (column_address{@address_loop+1} + 1), hl
 	add hl, bc
-	ld (ix + buffer_start_offset), l
-	ld (ix + buffer_start_offset + 1), h
-
-	dec e
-	jr nz, @-address_loop			; Loop until done.
+NEXT @address_loop
 
 	; Continue to next page.
 	add 2
 	cp 16
-	jr nz, @-copy_buffer_code
+	jp nz, @-copy_buffer_code
 
 	;
 	; Apply per-page adjustments to locate proper tile pages.
@@ -95,131 +85,159 @@ setup_per_screen_code:
 	; First page: just do 16 columns by adding an extra JR.
 	ld a, 0
 	out (HMPR), a
-	ld ix, columns_end - column_length
-	ld (ix + 0), 0x18
-	ld (ix + 1), column_length - 2
+
+	ld a, 0x18
+	ld (column_address16), a
+	ld a, columns_end - column_address16 - 2
+	ld (column_address16 + 1), a
 
 	; Second page: use left_1 and right_7.
 	ld a, 2
 	out (HMPR), a
-	ld ix, columns_start
-	ld (ix + tile_page_offset), tiles_left_1_page
-	ld (ix + tile_table_offset1), tiles_left_1 >> 8
-	ld (ix + tile_table_offset2), tiles_left_1 >> 8
-	ld (ix + tile_table_offset3), tiles_left_1 >> 8
 
-	ld ix, columns_end - column_length
-	ld (ix + tile_page_offset), tiles_right_7_page
-	ld (ix + tile_table_offset1), tiles_right_7 >> 8
-	ld (ix + tile_table_offset2), tiles_right_7 >> 8
-	ld (ix + tile_table_offset3), tiles_right_7 >> 8
+	ld a, tiles_left_1_page
+	ld (tile_page0+1), a
+	ld a, tiles_left_1 >> 8
+	ld (tile_address0_0+1), a
+	ld (tile_address0_1+1), a
+	ld (tile_address0_2+1), a
 
-	ld ix, columns_start + (column_count - 1) * column_length
-	dec (ix + buffer_start_offset)
+	ld a, tiles_right_7_page
+	ld (tile_page16+1), a
+	ld a, tiles_right_7 >> 8
+	ld (tile_address16_0+1), a
+	ld (tile_address16_1+1), a
+	ld (tile_address16_2+1), a
+
+	ld a, (column_address16+1)
+	dec a
+	ld (column_address16+1), a
 
 	; Third page: use left_2 and right_6.
 	ld a, 4
 	out (HMPR), a
-	ld ix, columns_start
-	ld (ix + tile_page_offset), tiles_left_2_page
-	ld (ix + tile_table_offset1), tiles_left_2 >> 8
-	ld (ix + tile_table_offset2), tiles_left_2 >> 8
-	ld (ix + tile_table_offset3), tiles_left_2 >> 8
 
-	ld ix, columns_end - column_length
-	ld (ix + tile_page_offset), tiles_right_6_page
-	ld (ix + tile_table_offset1), tiles_right_6 >> 8
-	ld (ix + tile_table_offset2), tiles_right_6 >> 8
-	ld (ix + tile_table_offset3), tiles_right_6 >> 8
+	ld a, tiles_left_2_page
+	ld (tile_page0+1), a
+	ld a, tiles_left_2 >> 8
+	ld (tile_address0_0+1), a
+	ld (tile_address0_1+1), a
+	ld (tile_address0_2+1), a
+
+	ld a, tiles_right_6_page
+	ld (tile_page16+1), a
+	ld a, tiles_right_6 >> 8
+	ld (tile_address16_0+1), a
+	ld (tile_address16_1+1), a
+	ld (tile_address16_2+1), a
 
 	; Fourth page: use left_3 and right_5.
 	ld a, 6
 	out (HMPR), a
-	ld ix, columns_start
-	ld (ix + tile_page_offset), tiles_left_3_page
-	ld (ix + tile_table_offset1), tiles_left_3 >> 8
-	ld (ix + tile_table_offset2), tiles_left_3 >> 8
-	ld (ix + tile_table_offset3), tiles_left_3 >> 8
 
-	ld ix, columns_end - column_length
-	ld (ix + tile_page_offset), tiles_right_5_page
-	ld (ix + tile_table_offset1), tiles_right_5 >> 8
-	ld (ix + tile_table_offset2), tiles_right_5 >> 8
-	ld (ix + tile_table_offset3), tiles_right_5 >> 8
+	ld a, tiles_left_3_page
+	ld (tile_page0+1), a
+	ld a, tiles_left_3 >> 8
+	ld (tile_address0_0+1), a
+	ld (tile_address0_1+1), a
+	ld (tile_address0_2+1), a
 
-	ld ix, columns_start + (column_count - 1) * column_length
-	dec (ix + buffer_start_offset)
+	ld a, tiles_right_5_page
+	ld (tile_page16+1), a
+	ld a, tiles_right_5 >> 8
+	ld (tile_address16_0+1), a
+	ld (tile_address16_1+1), a
+	ld (tile_address16_2+1), a
+
+	ld a, (column_address16+1)
+	dec a
+	ld (column_address16+1), a
 
 	; Fifth page: use left_4 and right_4.
 	ld a, 8
 	out (HMPR), a
-	ld ix, columns_start
-	ld (ix + tile_page_offset), tiles_left_4_page
-	ld (ix + tile_table_offset1), tiles_left_4 >> 8
-	ld (ix + tile_table_offset2), tiles_left_4 >> 8
-	ld (ix + tile_table_offset3), tiles_left_4 >> 8
 
-	ld ix, columns_end - column_length
-	ld (ix + tile_page_offset), tiles_right_4_page
-	ld (ix + tile_table_offset1), tiles_right_4 >> 8
-	ld (ix + tile_table_offset2), tiles_right_4 >> 8
-	ld (ix + tile_table_offset3), tiles_right_4 >> 8
+	ld a, tiles_left_4_page
+	ld (tile_page0+1), a
+	ld a, tiles_left_4 >> 8
+	ld (tile_address0_0+1), a
+	ld (tile_address0_1+1), a
+	ld (tile_address0_2+1), a
+
+	ld a, tiles_right_4_page
+	ld (tile_page16+1), a
+	ld a, tiles_right_4 >> 8
+	ld (tile_address16_0+1), a
+	ld (tile_address16_1+1), a
+	ld (tile_address16_2+1), a
 
 	; Sixth page: use left_5 and right_3.
 	ld a, 10
 	out (HMPR), a
-	ld ix, columns_start
-	ld (ix + tile_page_offset), tiles_left_5_page
-	ld (ix + tile_table_offset1), tiles_left_5 >> 8
-	ld (ix + tile_table_offset2), tiles_left_5 >> 8
-	ld (ix + tile_table_offset3), tiles_left_5 >> 8
 
-	ld ix, columns_end - column_length
-	ld (ix + tile_page_offset), tiles_right_3_page
-	ld (ix + tile_table_offset1), tiles_right_3 >> 8
-	ld (ix + tile_table_offset2), tiles_right_3 >> 8
-	ld (ix + tile_table_offset3), tiles_right_3 >> 8
+	ld a, tiles_left_5_page
+	ld (tile_page0+1), a
+	ld a, tiles_left_5 >> 8
+	ld (tile_address0_0+1), a
+	ld (tile_address0_1+1), a
+	ld (tile_address0_2+1), a
 
-	ld ix, columns_start + (column_count - 1) * column_length
-	dec (ix + buffer_start_offset)
+	ld a, tiles_right_3_page
+	ld (tile_page16+1), a
+	ld a, tiles_right_3 >> 8
+	ld (tile_address16_0+1), a
+	ld (tile_address16_1+1), a
+	ld (tile_address16_2+1), a
+
+	ld a, (column_address16+1)
+	dec a
+	ld (column_address16+1), a
 
 	; Seventh page: use left_6 and right_2.
 	ld a, 12
 	out (HMPR), a
-	ld ix, columns_start
-	ld (ix + tile_page_offset), tiles_left_6_page
-	ld (ix + tile_table_offset1), tiles_left_6 >> 8
-	ld (ix + tile_table_offset2), tiles_left_6 >> 8
-	ld (ix + tile_table_offset3), tiles_left_6 >> 8
 
-	ld ix, columns_end - column_length
-	ld (ix + tile_page_offset), tiles_right_2_page
-	ld (ix + tile_table_offset1), tiles_right_2 >> 8
-	ld (ix + tile_table_offset2), tiles_right_2 >> 8
-	ld (ix + tile_table_offset3), tiles_right_2 >> 8
+	ld a, tiles_left_6_page
+	ld (tile_page0+1), a
+	ld a, tiles_left_6 >> 8
+	ld (tile_address0_0+1), a
+	ld (tile_address0_1+1), a
+	ld (tile_address0_2+1), a
+
+	ld a, tiles_right_2_page
+	ld (tile_page16+1), a
+	ld a, tiles_right_2 >> 8
+	ld (tile_address16_0+1), a
+	ld (tile_address16_1+1), a
+	ld (tile_address16_2+1), a
 
 	; Eighth page: use left_7 and right_1.
 	ld a, 14
 	out (HMPR), a
-	ld ix, columns_start
-	ld (ix + tile_page_offset), tiles_left_7_page
-	ld (ix + tile_table_offset1), tiles_left_7 >> 8
-	ld (ix + tile_table_offset2), tiles_left_7 >> 8
-	ld (ix + tile_table_offset3), tiles_left_7 >> 8
 
-	ld ix, columns_end - column_length
-	ld (ix + tile_page_offset), tiles_right_1_page
-	ld (ix + tile_table_offset1), tiles_right_1 >> 8
-	ld (ix + tile_table_offset2), tiles_right_1 >> 8
-	ld (ix + tile_table_offset3), tiles_right_1 >> 8
+	ld a, tiles_left_7_page
+	ld (tile_page0+1), a
+	ld a, tiles_left_7 >> 8
+	ld (tile_address0_0+1), a
+	ld (tile_address0_1+1), a
+	ld (tile_address0_2+1), a
 
-	ld ix, columns_start + (column_count - 1) * column_length
-	dec (ix + buffer_start_offset)
+	ld a, tiles_right_1_page
+	ld (tile_page16+1), a
+	ld a, tiles_right_1 >> 8
+	ld (tile_address16_0+1), a
+	ld (tile_address16_1+1), a
+	ld (tile_address16_2+1), a
+
+	ld a, (column_address16+1)
+	dec a
+	ld (column_address16+1), a
 
 	ld a, EXECPAGE
 	out (HMPR), a
 @return:
 	jp 1234
+
 
 INC "generated/palette.z80s"
 
