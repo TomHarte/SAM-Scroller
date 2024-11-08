@@ -1,11 +1,13 @@
 ;
-; This is purely one-time startup stuff; relocate it into one of the initial video buffers
-; so that it naturally doesn't have an ongoing footprint.
+; This is purely one-time startup stuff; relocate it into one of the initial
+; video buffers so that it naturally doesn't have an ongoing footprint.
 ;
 
 DUMP SETUPPAGE, 0
 ORG 0
 
+; The following should be one more than the number of whole
+; columns that should appear on the display.
 column_count: EQU 17
 
 ; Setup all screens.
@@ -42,7 +44,7 @@ setup_per_screen_code:
 	ld e, a
 	srl e
 	sbc hl, de
-	sbc hl, bc	; to undo the add that is built into the loop below.
+	sbc hl, bc	; To undo the add that is built into the loop below.
 @store:
 
 	;
