@@ -5477,7 +5477,7 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		ld bc, 0x0000
 		push bc
@@ -7742,7 +7742,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		ld de, 0x6166
 		push de
@@ -8420,7 +8420,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -8474,7 +8474,7 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -8560,7 +8560,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -8894,7 +8894,7 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -8964,7 +8964,7 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -9034,7 +9034,7 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -9104,7 +9104,7 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -9384,7 +9384,7 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -10018,7 +10018,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -10228,7 +10228,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -10504,7 +10504,7 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -17192,7 +17192,7 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		ld bc, 0x1044
 		push bc
@@ -17308,7 +17308,7 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		ld bc, 0x1022
 		push bc
@@ -17424,7 +17424,7 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		ld bc, 0x0000
 		push bc
@@ -19326,7 +19326,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		ld de, 0x6166
 		push de
@@ -20345,7 +20345,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		ld de, 0x0141
 		push de
@@ -20882,7 +20882,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		ld de, 0x0121
 		push de
@@ -21121,7 +21121,7 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		ld bc, 0x4164
 		push bc
@@ -22214,7 +22214,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		ld de, 0x6166
 		push de
@@ -30311,7 +30311,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		ld de, 0x5855
 		push de
@@ -30852,7 +30852,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		ld de, 0x6166
 		push de
@@ -31857,7 +31857,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		ld de, 0x0141
 		push de
@@ -32524,7 +32524,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		ld de, 0x0121
 		push de
@@ -32810,7 +32810,7 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		ld bc, 0x4164
 		push bc
@@ -33829,7 +33829,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		ld de, 0x0010
 		push de
@@ -34142,7 +34142,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		ld de, 0x6166
 		push de
@@ -40617,7 +40617,7 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -40687,7 +40687,7 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -40757,7 +40757,7 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -41123,7 +41123,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -41193,7 +41193,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -41247,7 +41247,7 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -41317,7 +41317,7 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -41527,7 +41527,7 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -42231,7 +42231,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -42651,7 +42651,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -42717,7 +42717,7 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		dec h
 		ld sp, hl
@@ -43470,7 +43470,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		ld de, 0x0141
 		push de
@@ -44277,7 +44277,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		ld de, 0x0121
 		push de
@@ -44650,7 +44650,7 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		ld bc, 0x4164
 		push bc
@@ -46297,7 +46297,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld a, 0x00
+		xor a
 		ld (hl), a
 		ld de, 0x6166
 		push de

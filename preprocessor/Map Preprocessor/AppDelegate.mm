@@ -100,20 +100,28 @@ static constexpr int TileSize = 16;
 	}
 }
 
-// MARK: - Conversion functions.
+// MARK: - Register load minimisation.
 
+- (NSString *)loadRegister:(char)reg previous:(std::optional<uint8_t>)previous target:(uint8_t)target {
+	if(previous) {
+		if(*previous == target) {
+			return @"";
+		}
 
-- (NSString *)loadRegister:(char)reg previous:(uint8_t)previous target:(uint8_t)target {
-	if(previous == target) {
-		return @"";
+		if(target == ((*previous + 1) & 0xff)) {
+			return [NSString stringWithFormat:@"\t\tinc %c\n", reg];
+		}
+
+		if(target == ((*previous - 1) & 0xff)) {
+			return [NSString stringWithFormat:@"\t\tdec %c\n", reg];
+		}
+
+		// To consider: RRA and RLA for A?
 	}
 
-	if(target == ((previous + 1) & 0xff)) {
-		return [NSString stringWithFormat:@"\t\tinc %c\n", reg];
-	}
-
-	if(target == ((previous - 1) & 0xff)) {
-		return [NSString stringWithFormat:@"\t\tdec %c\n", reg];
+	// Special trick for A only:
+	if(reg == 'a' && !target) {
+		return [NSString stringWithFormat:@"\t\txor a\n"];
 	}
 
 	return [NSString stringWithFormat:@"\t\tld %c, 0x%02x\n", reg, target];
@@ -137,6 +145,7 @@ static constexpr int TileSize = 16;
 	return [NSString stringWithFormat:@"\t\tld %s, 0x%04x\n", pair, target];
 }
 
+// MARK: - Conversion.
 - (void)dissect:(NSImage *)image destination:(NSString *)directory {
 	PixelAccessor accessor(image);
 	std::map<uint32_t, uint8_t> colours;
@@ -300,7 +309,7 @@ static constexpr int TileSize = 16;
 					const auto action = allocator.next_byte(event.content);
 					switch(action.type) {
 						case RegisterEvent::Type::Load:
-							[code appendFormat:@"\t\tld %s, 0x%02x\n", action.load_register(), action.value];
+							[code appendString:[self loadRegister:action.load_register()[0] previous:action.previous_value target:action.value]];
 							[[fallthrough]];
 						case RegisterEvent::Type::Reuse:
 							[code appendFormat:@"\t\tld (hl), %s\n", action.load_register()];
@@ -452,7 +461,7 @@ static constexpr int TileSize = 16;
 }
 
 - (void)compileSprites:(std::vector<SpriteSerialiser> &)sprites directory:(NSString *)directory {
-	// TODO: be MUCH less dense than this, document precepts.
+	// TODO: document precepts.
 	NSMutableString *code = [[NSMutableString alloc] init];
 
 	for(auto &sprite: sprites) {
@@ -460,7 +469,7 @@ static constexpr int TileSize = 16;
 		[code appendString:@"\t\tld (@+return+1), de\n\n"];
 		std::optional<uint16_t> bc;
 
-		// Grab allocated register ranges.
+		// Obtain register allocations.
 		static constexpr size_t NumRegisters = 3;
 		static constexpr char RegisterNames[3] = {'a', 'd', 'e'};
 
@@ -482,12 +491,13 @@ static constexpr int TileSize = 16;
 
 		const auto allocations = register_allocator.spans();
 		auto next_allocation = allocations.begin();
-		std::optional<uint8_t> registers[NumRegisters];
 
+		// Generate code.
 		bool moved = true;
 		uint16_t hl = 0;
 		time = 0;
 		sprite.reset();
+		std::optional<uint8_t> registers[NumRegisters];
 		while(true) {
 			const auto event = sprite.next();
 			if(event.type == SpriteEvent::Type::Stop) {
@@ -496,8 +506,8 @@ static constexpr int TileSize = 16;
 			
 			// Apply a new allocation if one pops into existence here.
 			if(next_allocation != allocations.end() && next_allocation->time == time) {
+				[code appendString:[self loadRegister:RegisterNames[next_allocation->reg] previous:registers[next_allocation->reg] target:next_allocation->value]];
 				registers[next_allocation->reg] = next_allocation->value;
-				[code appendFormat:@"\t\tld %c, 0x%02x\n", RegisterNames[next_allocation->reg], next_allocation->value];
 				++next_allocation;
 			}
 

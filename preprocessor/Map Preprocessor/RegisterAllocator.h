@@ -181,8 +181,9 @@ class RegisterAllocator {
 			// Is this a point at which A is loaded?
 			++a_time_;
 			if(a_cursor_ != a_allocations_.end() && a_time_ == a_cursor_->time) {
+				auto previous = a_;
 				a_ = value;
-				return RegisterEvent{.reg = RegisterEvent::Register::A, .type = RegisterEvent::Type::Load, .value = value};
+				return RegisterEvent{.reg = RegisterEvent::Register::A, .type = RegisterEvent::Type::Load, .previous_value = previous, .value = value};
 			}
 
 			// Otherwise, does A have the right value already?
