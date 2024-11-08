@@ -338,56 +338,6 @@ test_sprite:
 	; Mark proper dirty bits.
 	;
 
-	; Find proper bit(s) to set.
-	ld a, (@+sprite_y)
-	and 0xf0
-	rra
-	rra
-	rra
-	rra		; Now a = tile to set.
-
-	; Triple that to get a byte offset and add the start of
-	; dirty_masks.
-	ld b, a
-	add a
-	add b
-	ld c, a
-	ld b, 0
-	ld hl, dirty_masks
-	add hl, bc
-
-	; Load three-byte mask.
-	ld a, (hl)
-	inc hl
-	ld b, (hl)
-	inc hl
-	ld c, (hl)
-	inc hl
-
-	; TEMPORARY: assume exactly two bits to set.
-	; So no need to calculate a new (hl), just XOR
-	; in from six bytes in the future.
-	;
-	; Otherwise would need to add some other amount to hl.
-	ld de, 6
-	add hl, de
-
-	xor (hl)
-	inc hl
-	ld d, a
-
-	ld a, b
-	xor (hl)
-	ld b, a
-	inc hl
-
-	ld a, c
-	xor (hl)
-	ld c, a
-
-	;
-	; Now D:BC = mask to set per column.
-	;
 
 	; Calculate first dirty column, multiplied by three.
 	ld a, (@+scroll_offset)
@@ -412,48 +362,104 @@ test_sprite:
 	ld l, a
 	ld h, DIRTY_FLAGS >> 8
 
-	; TODO: get real number of touched columns into E.
-	; For a 1px-wide sprite it's 1.
-	; For a [2, 16]px-wide sprite it's 1 or 2.
-	; For a [17, 32]px-wide sprite it's 2 or 3.
-	; Etc. Etc.
-	ld e, 2
-
-@or_column:
-	; OR in the collected mask.
-	ld a, (hl)
-	or d
-	ld (hl), a
-	inc hl
-
-	ld a, (hl)
-	or b
-	ld (hl), a
-	inc hl
-
-	ld a, (hl)
-	or c
-	ld (hl), a
-	inc hl
-
-	dec e
-	jr nz, @-or_column
-
-
-
 	;
-	; Move vertically.
+	; HL = first dirty flags byte for the column the sprite is in.
 	;
+
 	ld a, (@+sprite_y)
-	dec a
-	jr nz, @+moved
-	ld a, 192 - 48		; Artificially pen-in bounds because there's no bounds checking on the dirty checks.
-@moved:
-	ld (@+sprite_y), a
+	ld b, 64
+@search_down:
+	cp b
+	jr c, @+search_done
+	sub b
+	inc l
+	jr @-search_down
+@search_done:
 
+	;
+	; HL = first dirty byte flag that sprite actually touches, A = offset within byte.
+	;
+
+	and 0xf8		; Divide A by 16 and use bit 3 to decide whether code needs to mark
+	rra				; three dirty bits, or only two.
+	rra
+	rra
+	rra
+
+	jr c, @+set_three
+
+		;
+		; If here: two bits need to be set, starting from the bit identified in A within
+		; the byte pointed to by HL (and possibly again at HL+3, if x&15 is not zero).
+		;
+
+		ex de, hl
+		ld hl, two_table
+		add l
+		ld l, a
+		ld a, (hl)
+		or a
+		ex de, hl
+
+		jr z, @+set_adjacent	; If the two bits to set overflow this byte, head elsewhere.
+
+		or (hl)					; Set bits in this byte.
+		ld (hl), a
+
+		ld b, a					; Check whether another column needs to be touched.
+		ld a, (@+sprite_x)
+		and 0x0f
+		jr z, @+return
+
+		inc l					; Mark second column
+		inc l
+		inc l
+		ld a, (hl)
+		or b
+		ld (hl), a
+
+		jr @+return
+
+@set_adjacent:
+		ld a, 0x02				; Set bit in this byte, and in next
+		or (hl)
+		ld (hl), a
+		inc l
+
+		ld a, 0x10
+		or (hl)
+		ld (hl), a
+
+		ld a, (@+sprite_x)		; Check whether another column needs to be touched.
+		and 0x0f
+		jr z, @+return
+
+		inc l					; Mark second column
+		inc l
+		ld a, (hl)
+		or 0x02
+		ld (hl), a
+		inc l
+		ld a, (hl)
+		or 0x10
+		ld (hl), a
+
+		jr @+return
+
+@set_three:
+
+		;
+		; If here: three bits need to be set, starting from the bit identified in A within
+		; the byte pointed to by HL (and possibly again at HL+3, if x&15 is not zero).
+		;
 
 @return:
 	jp 1234
+
+two_table:		db 0x18, 0x0c, 0x06, 0x00
+three_table:	db 0x1c, 0x0e, 0x00, 0x00
+
+
 
 ;
 ; A table in which the three bytes on line n represent all tiles
@@ -485,8 +491,8 @@ dirty_masks:
 @total_x: dw 0
 
 db 0
-@sprite_y: db 88
-@sprite_x: db 65
+@sprite_y: db 64
+@sprite_x: db 64
 db 0
 
 INC "generated/sprites.z80s"
