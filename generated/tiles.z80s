@@ -4482,7 +4482,8 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x12
+		ld a, 0x12
+		ld (hl), a
 		push bc
 		push bc
 		push bc
@@ -4540,7 +4541,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x12
+		ld (hl), a
 		push bc
 		push bc
 		push bc
@@ -5071,7 +5072,8 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x71
+		ld a, 0x71
+		ld (hl), a
 		ld de, 0x7711
 		push de
 		ld bc, 0x7777
@@ -5187,7 +5189,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x71
+		ld (hl), a
 		ld e, 0x77
 		push de
 		push de
@@ -5475,7 +5477,8 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld (hl), 0x00
+		ld a, 0x00
+		ld (hl), a
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -5592,7 +5595,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x00
+		ld (hl), a
 		ld bc, 0x0000
 		push bc
 		ld c, 0x21
@@ -7973,7 +7976,8 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x88
+		ld a, 0x88
+		ld (hl), a
 		ld de, 0x8851
 		push de
 		push bc
@@ -8000,7 +8004,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x88
+		ld (hl), a
 		ld de, 0x5881
 		push de
 		ld de, 0x8888
@@ -16443,7 +16447,8 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x12
+		ld a, 0x12
+		ld (hl), a
 		push bc
 		push bc
 		dec h
@@ -16486,7 +16491,7 @@ ds align 256
 		add hl, sp
 		ld sp, hl
 
-		ld (hl), 0x12
+		ld (hl), a
 		push bc
 		push bc
 		dec h
@@ -16647,7 +16652,8 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x14
+		ld a, 0x14
+		ld (hl), a
 		push bc
 		push bc
 		dec h
@@ -16690,7 +16696,7 @@ ds align 256
 		add hl, sp
 		ld sp, hl
 
-		ld (hl), 0x14
+		ld (hl), a
 		push bc
 		push bc
 		dec h
@@ -17564,7 +17570,8 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x22
+		ld a, 0x22
+		ld (hl), a
 		ld de, 0x2122
 		push de
 		ld de, 0x2212
@@ -17621,7 +17628,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x22
+		ld (hl), a
 		ld de, 0x2233
 		push de
 		ld e, 0x22
@@ -18087,7 +18094,8 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x55
+		ld a, 0x55
+		ld (hl), a
 		ld de, 0x5555
 		push de
 		ld bc, 0x8888
@@ -18144,7 +18152,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x55
+		ld (hl), a
 		ld de, 0x5555
 		push de
 		push bc
@@ -18631,7 +18639,8 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld (hl), 0x11
+		ld a, 0x11
+		ld (hl), a
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -18646,7 +18655,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x11
+		ld (hl), a
 		ld de, 0x1111
 		push de
 		push de
@@ -19977,7 +19986,8 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x22
+		ld a, 0x22
+		ld (hl), a
 		ld de, 0x1200
 		push de
 		dec h
@@ -20027,7 +20037,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x22
+		ld (hl), a
 		ld de, 0x2312
 		push de
 	@return:
@@ -20776,7 +20786,8 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x22
+		ld a, 0x22
+		ld (hl), a
 		ld de, 0x2222
 		push de
 		dec h
@@ -20788,7 +20799,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x22
+		ld (hl), a
 		ld de, 0x2222
 		push de
 		ld hl, 1666
@@ -21292,7 +21303,8 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld (hl), 0x11
+		ld a, 0x11
+		ld (hl), a
 		ld bc, 0x1111
 		push bc
 		dec h
@@ -21315,7 +21327,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x11
+		ld (hl), a
 		ld de, 0x1188
 		push de
 		dec h
@@ -21472,7 +21484,8 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld (hl), 0x11
+		ld a, 0x11
+		ld (hl), a
 		ld bc, 0x1111
 		push bc
 		dec h
@@ -21495,7 +21508,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x11
+		ld (hl), a
 		ld bc, 0x1111
 		push bc
 		dec h
@@ -21656,7 +21669,8 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld (hl), 0x11
+		ld a, 0x11
+		ld (hl), a
 		ld bc, 0x1111
 		push bc
 		dec h
@@ -21679,7 +21693,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x11
+		ld (hl), a
 		ld de, 0x1188
 		push de
 		dec h
@@ -22200,13 +22214,14 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x00
+		ld a, 0x00
+		ld (hl), a
 		ld de, 0x6166
 		push de
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x00
+		ld (hl), a
 		ld de, 0x0061
 		push de
 		dec h
@@ -29338,7 +29353,8 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x21
+		ld a, 0x21
+		ld (hl), a
 		push de
 		dec h
 		ld sp, hl
@@ -29348,7 +29364,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x21
+		ld (hl), a
 		push de
 	@return:
 		jp 1234
@@ -29390,7 +29406,8 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x33
+		ld a, 0x33
+		ld (hl), a
 		ld de, 0x3322
 		push de
 		dec h
@@ -29429,7 +29446,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x33
+		ld (hl), a
 		ld de, 0x2222
 		push de
 		dec h
@@ -29542,7 +29559,8 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld (hl), 0x11
+		ld a, 0x11
+		ld (hl), a
 		ld bc, 0x1111
 		push bc
 		dec h
@@ -29586,7 +29604,7 @@ ds align 256
 		add hl, sp
 		ld sp, hl
 
-		ld (hl), 0x11
+		ld (hl), a
 		ld bc, 0x1111
 		push bc
 		dec h
@@ -29899,7 +29917,8 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld (hl), 0x11
+		ld a, 0x11
+		ld (hl), a
 		ld bc, 0x1111
 		push bc
 		dec h
@@ -29934,7 +29953,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x11
+		ld (hl), a
 		push de
 		dec h
 		ld sp, hl
@@ -30085,7 +30104,8 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld (hl), 0x11
+		ld a, 0x11
+		ld (hl), a
 		ld bc, 0x1111
 		push bc
 		dec h
@@ -30108,7 +30128,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x11
+		ld (hl), a
 		ld bc, 0x1111
 		push bc
 		dec h
@@ -30898,7 +30918,8 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x88
+		ld a, 0x88
+		ld (hl), a
 		ld de, 0x5585
 		push de
 		dec h
@@ -30973,7 +30994,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x88
+		ld (hl), a
 		ld de, 0x8858
 		push de
 	@return:
@@ -31407,7 +31428,8 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x22
+		ld a, 0x22
+		ld (hl), a
 		ld de, 0x1200
 		push de
 		push bc
@@ -31466,7 +31488,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x22
+		ld (hl), a
 		ld de, 0x2312
 		push de
 		push bc
@@ -32381,7 +32403,8 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x22
+		ld a, 0x22
+		ld (hl), a
 		ld de, 0x2222
 		push de
 		dec e
@@ -32397,7 +32420,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x22
+		ld (hl), a
 		ld de, 0x2222
 		push de
 		ld d, 0x32
@@ -33806,7 +33829,8 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x00
+		ld a, 0x00
+		ld (hl), a
 		ld de, 0x0010
 		push de
 		ld de, 0x1111
@@ -33814,7 +33838,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x00
+		ld (hl), a
 		ld de, 0x0000
 		push de
 		push de
@@ -34118,14 +34142,15 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x00
+		ld a, 0x00
+		ld (hl), a
 		ld de, 0x6166
 		push de
 		push bc
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x00
+		ld (hl), a
 		ld de, 0x0061
 		push de
 		push bc
@@ -34462,7 +34487,8 @@ ds align 256
 		ld (@+return+1), de
 		ld sp, hl
 
-		ld (hl), 0x66
+		ld a, 0x66
+		ld (hl), a
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -34551,7 +34577,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x66
+		ld (hl), a
 		ld bc, 0x6601
 		push bc
 		push de
@@ -42946,7 +42972,8 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x22
+		ld a, 0x22
+		ld (hl), a
 		ld de, 0x1200
 		push de
 		push bc
@@ -43014,7 +43041,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x22
+		ld (hl), a
 		ld de, 0x2312
 		push de
 		push bc
@@ -43192,7 +43219,8 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x15
+		ld a, 0x15
+		ld (hl), a
 		push bc
 		push bc
 		push bc
@@ -43251,7 +43279,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x15
+		ld (hl), a
 		push bc
 		push bc
 		push bc
@@ -44104,7 +44132,8 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x22
+		ld a, 0x22
+		ld (hl), a
 		ld de, 0x2222
 		push de
 		dec e
@@ -44124,7 +44153,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x22
+		ld (hl), a
 		ld de, 0x2222
 		push de
 		ld d, 0x32
@@ -46268,7 +46297,8 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x00
+		ld a, 0x00
+		ld (hl), a
 		ld de, 0x6166
 		push de
 		push bc
@@ -46276,7 +46306,7 @@ ds align 256
 		dec h
 		ld sp, hl
 
-		ld (hl), 0x00
+		ld (hl), a
 		ld de, 0x0061
 		push de
 		push bc
