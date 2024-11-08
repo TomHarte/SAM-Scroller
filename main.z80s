@@ -136,7 +136,6 @@ NEXT @or_loop
 @begin_map:
 	; Grab map address and set diffs list pointer.
 	ld ix, (@+map_address)
-	ld iy, DIRTY_FLAGS + FLAGS_SIZE
 
 	;
 	; Segue into tile drawing.
@@ -302,7 +301,6 @@ NEXT @or_loop
 	jr nz, @-flags_loop
 
 	ld ix, (@+map_address)
-	ld iy, DIRTY_FLAGS + FLAGS_SIZE
 	ld de, @-seed_tiles
 	jp draw_tiles
 

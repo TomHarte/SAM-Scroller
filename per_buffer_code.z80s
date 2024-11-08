@@ -17,12 +17,12 @@ ENDIF
 
 @sliver_loop: EQU FOR 3
 
-	@diff_offset: EQU 1 + @sliver_loop + @column_loop*3
+	@diff_address: EQU DIRTY_FLAGS + FLAGS_SIZE - 1 - @sliver_loop - @column_loop*3
 
-		ld a, (iy-@diff_offset)		; Get diffs flags.
+		ld a, (@diff_address)		; Get diffs flags.
 		ld (@+get_sliver+2), a
-		xor a						; Zero diffs while passing.
-		ld (iy-@diff_offset), a
+		xor a						; Zero diffs while passing [TODO: this be faster out of the loop]
+		ld (@diff_address), a
 
 	@get_sliver:
 		ld de, (slivers)
