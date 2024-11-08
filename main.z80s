@@ -325,7 +325,7 @@ test_sprite:
 	ld a, (@+sprite_y)
 	dec a
 	jr nz, @+moved
-	ld a, 192 - 48 		; Artificially pen-in bounds because there's no bounds checking on the dirty checks.
+	ld a, 192 - 24
 @moved:
 	ld (@+sprite_y), a
 	;
