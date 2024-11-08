@@ -331,7 +331,7 @@ test_sprite:
 
 	; Call preformed sprite plotter
 	ld de, @+mark_dirty
-	jp sprite_0
+	jp sprite_1
 @mark_dirty:
 
 	;

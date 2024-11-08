@@ -1658,7 +1658,7 @@
 		add hl, bc
 
 		ld (hl), e
-		ld a, 0x11
+		cpl
 		inc l
 		ld (hl), a
 		inc l

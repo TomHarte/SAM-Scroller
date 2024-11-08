@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "RangeAllocator.h"
 #include "TileSerialiser.h"
 
 #include <unordered_map>
@@ -62,7 +63,7 @@ struct RegisterEvent {
 template <int TileSize>
 class RegisterAllocator {
 	public:
-		RegisterAllocator(TileSerialiser<TileSize> &serialiser) {
+	RegisterAllocator(TileSerialiser<TileSize> &serialiser) : a_cursor_(a_allocations_.end()) {
 			// Count net frequencies of all words.
 			while(true) {
 				const auto event = serialiser.next();
@@ -83,6 +84,8 @@ class RegisterAllocator {
 
 			// Reset state.
 			reset();
+			RangeAllocator<uint8_t> a_allocator(1);
+			Time time = 0;
 			auto word_references = word_references_;
 			while(true) {
 				const auto next = serialiser.next();
@@ -101,34 +104,18 @@ class RegisterAllocator {
 					case TileEvent::Type::OutputByte: {
 						const auto event = next_byte(next.content);
 						if(event.type == RegisterEvent::Type::UseConstant) {
-							++byte_references_[event.value];
+							++time;
+							a_allocator.add_value(time, event.value);
 						}
 					} break;
 				}
 			}
 
-			// Restore original word references list.
+			// Restore original word references list and grab the allocation list for A.
 			word_references_ = word_references;
-
-			// A allocation strategy is as dense as can be: use the most-recurring
-			// value, as long as it's at least 3.
-			if(!byte_references_.empty()) {
-				auto greatest = byte_references_.begin();
-				auto current = greatest;
-				++current;
-				while(current != byte_references_.end()) {
-					if(current->second > greatest->second) {
-						greatest = current;
-					}
-					++current;
-				}
-				if(greatest->second > 2) {
-					a_ = greatest->first;
-				}
-			}
+			a_allocations_ = a_allocator.spans();
 
 			// Clear state.
-			is_preview_ = false;
 			serialiser.reset();
 			reset();
 		}
@@ -191,10 +178,17 @@ class RegisterAllocator {
 				return RegisterEvent{.type = RegisterEvent::Type::Reuse, .reg = RegisterEvent::Register::D};
 			}
 
+			// Is this a point at which A is loaded?
+			++a_time_;
+			if(a_cursor_ != a_allocations_.end() && a_time_ == a_cursor_->time) {
+				auto previous = a_;
+				a_ = value;
+				return RegisterEvent{.reg = RegisterEvent::Register::A, .type = RegisterEvent::Type::Load, .previous_value = previous, .value = value};
+			}
+
+			// Otherwise, does A have the right value already?
 			if(a_ && *a_ == value) {
-				bool is_load = !has_loaded_a_;
-				has_loaded_a_ = true;
-				return RegisterEvent{.reg = RegisterEvent::Register::A, .type = is_load ? RegisterEvent::Type::Load : RegisterEvent::Type::Reuse, .value = value};
+				return RegisterEvent{.reg = RegisterEvent::Register::A, .type = RegisterEvent::Type::Reuse, .value = value};
 			} else {
 				return RegisterEvent{.type = RegisterEvent::Type::UseConstant, .value = value};
 			}
@@ -203,16 +197,18 @@ class RegisterAllocator {
 		void reset() {
 			bc_ = {};
 			de_ = {};
+			a_ = {};
+			a_time_ = 0;
+			a_cursor_ = a_allocations_.begin();
 		}
 
 	private:
 		std::unordered_map<uint16_t, int> word_references_;
-		std::unordered_map<uint8_t, int> byte_references_;
 
 		std::optional<uint16_t> bc_;
 		std::optional<uint16_t> de_;
 		std::optional<uint8_t> a_;
-
-		bool is_preview_ = true;
-		bool has_loaded_a_ = false;
+		std::vector<Allocation<uint8_t>> a_allocations_;
+		std::vector<Allocation<uint8_t>>::iterator a_cursor_;
+		Time a_time_;
 };
