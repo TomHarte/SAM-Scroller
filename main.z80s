@@ -319,6 +319,19 @@ NEXT @or_loop
 test_sprite:
 	ld (@+return+1), de
 
+    ;
+    ; Move vertically.
+    ;
+    ld a, (@+sprite_y)
+    dec a
+    jr nz, @+moved
+    ld a, 192 - 48      ; Artificially pen-in bounds because there's no bounds checking on the dirty checks.
+@moved:
+    ld (@+sprite_y), a
+	;
+	; End move vertically.
+	;
+
 	; Load y, multiply it by 128 and set the top bit.
 	ld hl, (@+sprite_y - 1)
 	srl h
@@ -401,8 +414,9 @@ test_sprite:
 		or a
 		ex de, hl
 
-		jr z, @+set_adjacent	; If the two bits to set overflow this byte, head elsewhere.
+		jr z, @+set_adjacent_two	; If the two bits to set overflow this byte, head elsewhere.
 
+@touch_single_byte:
 		or (hl)					; Set bits in this byte.
 		ld (hl), a
 
@@ -420,14 +434,17 @@ test_sprite:
 
 		jr @+return
 
+@set_adjacent_two:
+		ld de, 0x0210
+
 @set_adjacent:
-		ld a, 0x02				; Set bit in this byte, and in next
-		or (hl)
+		ld a, (hl)				; Set bit in this byte, and in next
+		or e
 		ld (hl), a
 		inc l
 
-		ld a, 0x10
-		or (hl)
+		ld a, (hl)
+		or d
 		ld (hl), a
 
 		ld a, (@+sprite_x)		; Check whether another column needs to be touched.
@@ -437,11 +454,11 @@ test_sprite:
 		inc l					; Mark second column
 		inc l
 		ld a, (hl)
-		or 0x02
+		or e
 		ld (hl), a
 		inc l
 		ld a, (hl)
-		or 0x10
+		or d
 		ld (hl), a
 
 		jr @+return
@@ -452,6 +469,29 @@ test_sprite:
 		; If here: three bits need to be set, starting from the bit identified in A within
 		; the byte pointed to by HL (and possibly again at HL+3, if x&15 is not zero).
 		;
+
+		ex de, hl
+		ld hl, two_table
+		ld d, a
+		add l
+		ld l, a
+		ld a, (hl)
+		or a
+		ex de, hl
+
+		jr nz, @-touch_single_byte	; If the three bits to set fit within this byte, jump up.
+
+		ld a, d
+		cp 2
+		jr z, @+split_2_1
+
+		ld de, 0x0218
+		jr @-set_adjacent
+
+@split_2_1:
+		
+		ld de, 0x0610
+		jr @-set_adjacent
 
 @return:
 	jp 1234
