@@ -30,39 +30,25 @@ setup_per_screen_code:
 	ld bc, BUFFER_CODE_DONE-BUFFER_CODE
 	ldir
 
-	; Set first two start addresses.
+	; The first address will already be correct, but
+	; set up to look across the screen setting as per
+	; this screen's offset.
 	ld hl, 128*192 + 32768		; Start of rightmost column.
-
-	; If a is odd byte size, start one earlier, per the different rules for even-sized
-	; and odd-sized tile output functions.
-	ld c, a
-	srl c
-	srl c
-	jr nc, @+no_dec
-	dec hl
-
-@no_dec:
-	; Store first address.
-	ld (column_address0 + 1), hl
+	ld bc, -8
 
 	; Next will be at [screen end] - (a >> 1) {- 8 for page 0}.
-	ld hl, 128*192 + 32768
-
 	or a
 	jr z, @+sub8
-	ld c, a
-	ld b, 0
-	srl c
-	sbc hl, bc
+
+	ld d, 0
+	ld e, a
+	srl e
+	sbc hl, de
 	jr @+store
 
 @sub8:
-	ld bc, -8
 	add hl, bc
-
-	; Store second address
 @store:
-	ld bc, -8
 
 	;
 	; Proceed from the second column address, decreasing by 8 across the
@@ -76,19 +62,20 @@ NEXT @address_loop
 	; Continue to next page.
 	add 2
 	cp 16
-	jp nz, @-copy_buffer_code
+	jr nz, @-copy_buffer_code
 
 	;
 	; Apply per-page adjustments to locate proper tile pages.
 	;
 
-	; First page: just do 16 columns by adding an extra JR.
+	; First page: do one fewer columns by rewring the final to
+	; be a JR that skips its body.
 	ld a, 0
 	out (HMPR), a
 
-	ld a, 0x18
+	ld a, 0x18									; i.e. JR
 	ld (column_address16), a
-	ld a, columns_end - column_address16 - 2
+	ld a, columns_end - column_address16 - 2	; i.e. offset to return code.
 	ld (column_address16 + 1), a
 
 	; Second page onwards: use appropriate left and right
@@ -157,10 +144,14 @@ ENDIF
 	ld (tile_address16_1+1), a
 	ld (tile_address16_2+1), a
 
-IF @page_loop & 1 == 0
-	ld a, (column_address16+1)
-	dec a
-	ld (column_address16+1), a
+IF (@page_loop & 1) == 0
+	ld hl, (column_address0+1)
+	dec hl
+	ld (column_address0+1), hl
+
+	ld hl, (column_address16+1)
+	dec l
+	ld (column_address16+1), hl
 ENDIF
 NEXT @page_loop
 
