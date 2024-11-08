@@ -116,12 +116,24 @@ static constexpr int TileSize = 16;
 			return [NSString stringWithFormat:@"\t\tdec %c\n", reg];
 		}
 
-		// To consider: RRA and RLA for A?
+		if(reg == 'a') {
+			if(target == std::rotr(*previous, 1)) {
+				return @"\t\trra\n";
+			}
+
+			if(target == std::rotl(*previous, 1)) {
+				return @"\t\trla\n";
+			}
+
+			if(target == (*previous^0xff)) {
+				return @"\t\tcpl\n";
+			}
+		}
 	}
 
 	// Special trick for A only:
 	if(reg == 'a' && !target) {
-		return [NSString stringWithFormat:@"\t\txor a\n"];
+		return @"\t\txor a\n";
 	}
 
 	return [NSString stringWithFormat:@"\t\tld %c, 0x%02x\n", reg, target];
