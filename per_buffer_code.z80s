@@ -9,20 +9,18 @@ columns_start:
 column_address{@column_loop}:
 	ld hl, 128*192 + 32768
 
-IF (@column_loop - 2) & 0xff >= column_count - 3	; I can't find any way to do conjunctions in PyZ80; this should be read
-tile_page{@column_loop}:							; as equivalent to "if(column_loop < 2 || column_loop == column_count - 1)".
+IF (@column_loop - 2) & 0xff >= column_count - 3	; I can't find any way to do conjunctions in PyZ80; this should be
+tile_page{@column_loop}:							; equivalent to "if(column_loop < 2 || column_loop == column_count - 1)".
 	ld a, tiles_full_page
 	out (LMPR), a
 ENDIF
 
 @sliver_loop: EQU FOR 3
 
-	@diff_address: EQU DIRTY_FLAGS + FLAGS_SIZE - 1 - @sliver_loop - @column_loop*3
+		@diff_address: EQU DIRTY_FLAGS + FLAGS_SIZE - 1 - @sliver_loop - @column_loop*3
 
-		ld a, (@diff_address)		; Get diffs flags.
+		ld a, (@diff_address)		; Get dirty flags.
 		ld (@+get_sliver+2), a
-		xor a						; Zero diffs while passing [TODO: this be faster out of the loop]
-		ld (@diff_address), a
 
 	@get_sliver:
 		ld de, (slivers)
@@ -38,6 +36,15 @@ tile_address{@column_loop}_{@sliver_loop}:
 NEXT @sliver_loop
 NEXT @column_loop
 columns_end:
+
+	; Zero out the dirty flags.
+	ld bc, 0x0000
+	ld sp, DIRTY_FLAGS + FLAGS_SIZE
+@zero_loop: EQU FOR 25
+	push bc
+NEXT @zero_loop
+	xor a
+	ld (DIRTY_FLAGS + FLAGS_SIZE - 51), a
 
 	; Switch back to main page.
 	ld a, EXECPAGE + %00100000
