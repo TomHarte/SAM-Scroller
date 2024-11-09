@@ -12,6 +12,7 @@
 #include <unordered_map>
 
 #include "Allocation.h"
+#include "Prioritiser.h"
 
 /*!
 	Attempts 'reasonably' to allocate registers to a timestamped stream of constants
@@ -31,23 +32,15 @@ class OptionalRegisterAllocator {
 		OptionalRegisterAllocator(size_t num_registers) : num_registers_(num_registers) {}
 
 		void add_value(Time time, IntT value) {
-			values_.emplace(time, value);
+			prioritiser_.add_value(time, value);
 		}
-
-		struct TimeSpan {
-			Time begin = 0, end = 0;
-			
-			Time length() const {
-				return end - begin;
-			}
-		};
 
 		std::vector<Allocation<IntT>> spans() {
 			std::vector<Allocation<IntT>> result;
 			if(values_.empty()) {
 				return result;
 			}
-			
+
 			// Mark all values as not-yet allocated.
 			for(auto &value: values_) {
 				value.second.is_allocated = false;
@@ -147,6 +140,7 @@ class OptionalRegisterAllocator {
 
 	private:
 		size_t num_registers_;
+		Prioritiser<IntT> prioritiser_;
 
 		struct Value {
 			IntT value{};
@@ -159,6 +153,9 @@ class OptionalRegisterAllocator {
 		std::map<Time, Value> values_;
 
 		std::optional<ValueSpan> remove_largest_in(TimeSpan span) {
+			// TODO: use the prioritiser to find whatever has the longest run
+			// of being highest priority.
+
 			// Count all non-allocated values within the provided range.
 			struct ValueCount {
 				TimeSpan span = {.begin = std::numeric_limits<Time>::max(), .end = std::numeric_limits<Time>::min()};

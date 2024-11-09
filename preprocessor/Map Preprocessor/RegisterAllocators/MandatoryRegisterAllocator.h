@@ -5,6 +5,11 @@
 //  Created by Thomas Harte on 09/11/2024.
 //
 
+#pragma once
+
+#include "Allocation.h"
+#include "Prioritiser.h"
+
 /*!
 	Attempts 'reasonably' to allocate registers to a timestamped stream of constants
 	with the requirement that all constants must go into a register when they arrive.
