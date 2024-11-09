@@ -1,5 +1,5 @@
 //
-//  RangeAllocator.h
+//  OptionalRegisterAllocator.h
 //  Map Preprocessor
 //
 //  Created by Thomas Harte on 06/11/2024.
@@ -11,20 +11,24 @@
 #include <map>
 #include <unordered_map>
 
-using Time = int;
+#include "Allocation.h"
 
-template <typename IntT>
-struct Allocation {
-	Time time;
-	IntT value;
-	size_t reg;
-};
+/*!
+	Attempts 'reasonably' to allocate registers to a timestamped stream of constants
+	with the option of not allocating — i.e. constants don't _have_ to go into registers,
+	they can remain just as in-stream constants.
 
+	Furthermore, the template parameter ReuseThreshold provides a minimum number of
+	uses that must follow for it to be worth using a register at all.
+
+	Side chat: this therefore models the Z80 scenario of writing out a stream of constants
+	via HL, i.e. LD (HL), r is faster but LD (HL), n exists.
+*/
 template <typename IntT, size_t ReuseThreshold = 2>
-class RangeAllocator {
+class OptionalRegisterAllocator {
 	public:
 		/// Takes the total number of available registers.
-		RangeAllocator(size_t num_registers) : num_registers_(num_registers) {}
+		OptionalRegisterAllocator(size_t num_registers) : num_registers_(num_registers) {}
 
 		void add_value(Time time, IntT value) {
 			values_.emplace(time, value);

@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "RangeAllocator.h"
+#include "OptionalRegisterAllocator.h"
 #include "TileSerialiser.h"
 
 #include <unordered_map>
@@ -84,7 +84,7 @@ class RegisterAllocator {
 
 			// Reset state.
 			reset();
-			RangeAllocator<uint8_t> a_allocator(1);
+			OptionalRegisterAllocator<uint8_t> a_allocator(1);
 			Time time = 0;
 			auto word_references = word_references_;
 			while(true) {

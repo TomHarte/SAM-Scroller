@@ -9,7 +9,7 @@
 
 #include "PixelAccessor.h"
 #include "TileSerialiser.h"
-#include "RangeAllocator.h"
+#include "OptionalRegisterAllocator.h"
 #include "RegisterAllocator.h"
 #include "SpriteSerialiser.h"
 
@@ -485,7 +485,7 @@ static constexpr int TileSize = 16;
 		static constexpr size_t NumRegisters = 3;
 		static constexpr char RegisterNames[3] = {'a', 'd', 'e'};
 
-		RangeAllocator<uint8_t> register_allocator(NumRegisters);
+		OptionalRegisterAllocator<uint8_t> register_allocator(NumRegisters);
 		sprite.reset();
 		int time = 0;
 		while(true) {
