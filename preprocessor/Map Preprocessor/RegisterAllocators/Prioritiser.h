@@ -8,7 +8,7 @@
 #pragma once
 
 #include <optional>
-#include <map>
+#include <unordered_map>
 #include <unordered_set>
 
 /*!
@@ -35,6 +35,13 @@ public:
 			}
 		}
 	}
+	
+	Time end_time() const {
+		if(values_.empty()) return 0;
+		auto back = values_.end();
+		--back;
+		return back->first + 1;
+	}
 
 	struct PrioritisedValue {
 		IntT value;
@@ -42,14 +49,22 @@ public:
 									// this value ever deserves to be in a register,
 									// supposing that's relevant.
 	};
-	std::optional<PrioritisedValue> prioritised_value_at(Time time) {
+	std::optional<PrioritisedValue> prioritised_value_at(Time time) const {
 		// Version 1 has a very simple metric: number of remaining usages.
+		// TODO: incorporate a sense of how imminent those usages are.
 
-		// Count remaining usages
-		std::map<IntT, size_t> counts;
+		// Count remaining usages, keeping track of the top item.
+		IntT top_value = 0;
+		size_t top_count = 0;
+		std::unordered_map<IntT, size_t> counts;
 		auto cursor = values_.lower_bound(time);
 		while(cursor != values_.end()) {
-			++counts[cursor->second];
+			auto &count = counts[cursor->second];
+			++count;
+			if(count > top_count) {
+				top_count = count;
+				top_value = cursor->second;
+			}
 			++cursor;
 		}
 
@@ -58,11 +73,9 @@ public:
 			return {};
 		}
 
-		auto value = counts.end();
-		--value;
 		return PrioritisedValue {
-			.value = value->first,
-			.usages_remaining = value->second
+			.value = top_value,
+			.usages_remaining = top_count,
 		};
 	}
 

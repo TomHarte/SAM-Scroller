@@ -36,15 +36,8 @@ class OptionalRegisterAllocator {
 		}
 
 		std::vector<Allocation<IntT>> spans() {
+			Prioritiser<IntT> prioritiser = prioritiser_;
 			std::vector<Allocation<IntT>> result;
-			if(values_.empty()) {
-				return result;
-			}
-
-			// Mark all values as not-yet allocated.
-			for(auto &value: values_) {
-				value.second.is_allocated = false;
-			}
 
 			// Greedy algorithm:
 			//
@@ -86,9 +79,7 @@ class OptionalRegisterAllocator {
 				}
 			};
 			std::vector<RegisterState> states(num_registers_);
-			auto last = values_.end();
-			--last;
-			const auto end_time = last->first + 1;
+			const auto end_time = prioritiser.end_time();
 
 			while(true) {
 				size_t index = 0;
@@ -102,7 +93,7 @@ class OptionalRegisterAllocator {
 				}
 
 				if(!range.length()) break;
-				const auto suggestion = remove_largest_in(range);
+				const auto suggestion = remove_largest_in(range, prioritiser);
 				if(suggestion) {
 					typename RegisterState::AnnotatedValueSpan allocated;
 					allocated.time = suggestion->time;
@@ -142,74 +133,48 @@ class OptionalRegisterAllocator {
 		size_t num_registers_;
 		Prioritiser<IntT> prioritiser_;
 
-		struct Value {
-			IntT value{};
-			bool is_allocated = false;
-		};
 		struct ValueSpan {
 			TimeSpan time;
 			IntT value;
 		};
-		std::map<Time, Value> values_;
 
-		std::optional<ValueSpan> remove_largest_in(TimeSpan span) {
-			// TODO: use the prioritiser to find whatever has the longest run
-			// of being highest priority.
-
-			// Count all non-allocated values within the provided range.
-			struct ValueCount {
-				TimeSpan span = {.begin = std::numeric_limits<Time>::max(), .end = std::numeric_limits<Time>::min()};
-				size_t count = 0;
+		static std::optional<ValueSpan> remove_largest_in(TimeSpan span, Prioritiser<IntT> &prioritiser) {
+			// Use the prioritiser to find whatever has the longest run
+			// of being highest priority and the range over which it
+			// has the highest priority. Then eliminate that value within
+			// this range and continue.
+			struct PriorityCount {
+				TimeSpan range = {
+					.begin = std::numeric_limits<Time>::max(),
+					.end = std::numeric_limits<Time>::min(),
+				};
+				size_t count;
 			};
-			using CountMap = std::unordered_map<IntT, ValueCount>;
-			CountMap counts;
-
-			auto cursor = values_.lower_bound(span.begin);
-			const auto end = values_.upper_bound(span.end);
-			while(cursor != end) {
-				if(!cursor->second.is_allocated) {
-					auto &count = counts[cursor->second.value];
-					++count.count;
-					count.span.begin = std::min(count.span.begin, cursor->first);
-					count.span.end = std::max(count.span.begin, cursor->first);
+			std::unordered_map<IntT, PriorityCount> priority_wins;
+			IntT top_value = 0;
+			size_t top_priority = 0;
+			for(Time time = span.begin; time < span.end; time++) {
+				const auto at_time = prioritiser.prioritised_value_at(time);
+				if(!at_time) continue;
+				if(at_time->usages_remaining < ReuseThreshold) continue;
+				
+				auto &priority = priority_wins[at_time->value];
+				priority.range.begin = std::min(priority.range.begin, time);
+				priority.range.end = std::max(priority.range.end, time);
+				++priority.count;
+				if(priority.count > top_priority) {
+					top_priority = priority.count;
+					top_value = at_time->value;
 				}
-				++cursor;
 			}
 
-			// If that was nothing then the answer is nothing.
-			if(counts.empty()) {
-				return {};
-			}
+			if(priority_wins.empty()) return {};
+			auto &priority_winner = priority_wins[top_value];
+			prioritiser.remove_value(priority_winner.range.begin, priority_winner.range.end, top_value);
 
-			// Find the one with the greatest frequency.
-			typename CountMap::iterator greatest = counts.begin();
-			typename CountMap::iterator current = greatest;
-			++current;
-			while(current != counts.end()) {
-				if(current->second.count > greatest->second.count) {
-					greatest = current;
-				}
-				++current;
-			}
-
-			// If even the greatest thing doesn't at least meet the reuse
-			// threshold, pass.
-			if(greatest->second.count < ReuseThreshold) {
-				return {};
-			}
-
-			// Otherwise mark values as taken and return the result.
-
-			ValueSpan value_span = {
-				.time = greatest->second.span,
-				.value = greatest->first
+			return ValueSpan {
+				.time = priority_winner.range,
+				.value = top_value,
 			};
-			cursor = values_.lower_bound(span.begin);
-			while(cursor != end) {
-				cursor->second.is_allocated |= cursor->second.value == value_span.value;
-				++cursor;
-			}
-
-			return value_span;
 		}
 };
