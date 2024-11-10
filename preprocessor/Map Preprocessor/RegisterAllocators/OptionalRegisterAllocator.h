@@ -36,7 +36,7 @@ class OptionalRegisterAllocator {
 		}
 
 		std::vector<Allocation<IntT>> spans() {
-			Prioritiser<IntT> prioritiser = prioritiser_;
+			auto prioritiser = prioritiser_;
 			std::vector<Allocation<IntT>> result;
 
 			// Greedy algorithm:
@@ -53,12 +53,11 @@ class OptionalRegisterAllocator {
 			// limited range of likely integers in a given group and the small
 			// size of each group.
 			struct RegisterState {
-				struct AnnotatedValueSpan: public ValueSpan {
+				struct AnnotatedValueSpan: public PrioritisedValue<IntT> {
 					bool is_vacant = false;
 				};
-
 				std::map<Time, AnnotatedValueSpan> spans;
-				
+
 				TimeSpan largest_unoccupied(Time endpoint) {
 					Time location = 0;
 					TimeSpan largest = {.begin = 0, .end = 0};
@@ -67,7 +66,7 @@ class OptionalRegisterAllocator {
 							largest.begin = location;
 							largest.end = span.first;
 						}
-						location = span.second.time.end;
+						location = span.second.active_range.end;
 					}
 					
 					if(endpoint - location > largest.length()) {
@@ -96,13 +95,13 @@ class OptionalRegisterAllocator {
 				const auto suggestion = remove_largest_in(range, prioritiser);
 				if(suggestion) {
 					typename RegisterState::AnnotatedValueSpan allocated;
-					allocated.time = suggestion->time;
+					allocated.active_range = suggestion->active_range;
 					allocated.value = suggestion->value;
 					states[index].spans[range.begin] = allocated;
 				} else {
 					typename RegisterState::AnnotatedValueSpan vacant;
 					vacant.is_vacant = true;
-					vacant.time = range;
+					vacant.active_range = range;
 					states[index].spans[range.begin] = vacant;
 				}
 			}
@@ -113,8 +112,8 @@ class OptionalRegisterAllocator {
 			for(auto &state: states) {
 				for(const auto &span: state.spans) {
 					if(!span.second.is_vacant) {
-						allocations[span.second.time.begin] = Allocation{
-							.time = span.second.time.begin,
+						allocations[span.second.active_range.begin] = Allocation{
+							.time = span.second.active_range.begin,
 							.value = span.second.value,
 							.reg = reg,
 						};
@@ -133,48 +132,12 @@ class OptionalRegisterAllocator {
 		size_t num_registers_;
 		Prioritiser<IntT> prioritiser_;
 
-		struct ValueSpan {
-			TimeSpan time;
-			IntT value;
-		};
-
-		static std::optional<ValueSpan> remove_largest_in(TimeSpan span, Prioritiser<IntT> &prioritiser) {
-			// Use the prioritiser to find whatever has the longest run
-			// of being highest priority and the range over which it
-			// has the highest priority. Then eliminate that value within
-			// this range and continue.
-			struct PriorityCount {
-				TimeSpan range = {
-					.begin = std::numeric_limits<Time>::max(),
-					.end = std::numeric_limits<Time>::min(),
-				};
-				size_t count;
-			};
-			std::unordered_map<IntT, PriorityCount> priority_wins;
-			IntT top_value = 0;
-			size_t top_priority = 0;
-			for(Time time = span.begin; time < span.end; time++) {
-				const auto at_time = prioritiser.prioritised_value_at(time);
-				if(!at_time) continue;
-				if(at_time->usages_remaining < ReuseThreshold) continue;
-				
-				auto &priority = priority_wins[at_time->value];
-				priority.range.begin = std::min(priority.range.begin, time);
-				priority.range.end = std::max(priority.range.end, time);
-				++priority.count;
-				if(priority.count > top_priority) {
-					top_priority = priority.count;
-					top_value = at_time->value;
-				}
-			}
-
-			if(priority_wins.empty()) return {};
-			auto &priority_winner = priority_wins[top_value];
-			prioritiser.remove_value(priority_winner.range.begin, priority_winner.range.end, top_value);
-
-			return ValueSpan {
-				.time = priority_winner.range,
-				.value = top_value,
-			};
+		static std::optional<PrioritisedValue<IntT>> remove_largest_in(TimeSpan span, Prioritiser<IntT> &prioritiser) {
+			const auto at_time = prioritiser.prioritised_value_at(span.begin, span.end);
+			if(!at_time) return {};
+			if(at_time->usages_remaining < ReuseThreshold) return {};
+			prioritiser.remove_value(at_time->active_range.begin, at_time->active_range.end, at_time->value);
+			return *at_time;
 		}
+	
 };

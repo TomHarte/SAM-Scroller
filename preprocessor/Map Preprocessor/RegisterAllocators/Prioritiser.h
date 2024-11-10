@@ -11,6 +11,18 @@
 #include <unordered_map>
 #include <unordered_set>
 
+template <typename IntT>
+struct PrioritisedValue {
+	IntT value;
+	TimeSpan active_range = {
+		.begin = std::numeric_limits<Time>::max(),
+		.end = std::numeric_limits<Time>::min(),
+	};
+	size_t usages_remaining = 0;	// Provided for the benefit of determining whether
+									// this value ever deserves to be in a register,
+									// supposing that's relevant.
+};
+
 /*!
 	Based on a list of values and the times they're required at,
 	provides the single value that would most benefit from being
@@ -43,40 +55,37 @@ public:
 		return back->first + 1;
 	}
 
-	struct PrioritisedValue {
-		IntT value;
-		size_t usages_remaining;	// Provided for the benefit of determining whether
-									// this value ever deserves to be in a register,
-									// supposing that's relevant.
-	};
-	std::optional<PrioritisedValue> prioritised_value_at(Time time) const {
+	std::optional<PrioritisedValue<IntT>> prioritised_value_at(Time time, Time horizon) const {
 		// Version 1 has a very simple metric: number of remaining usages.
 		// TODO: incorporate a sense of how imminent those usages are.
 
 		// Count remaining usages, keeping track of the top item.
 		IntT top_value = 0;
 		size_t top_count = 0;
-		std::unordered_map<IntT, size_t> counts;
+		std::unordered_map<IntT, PrioritisedValue<IntT>> priorities;
+
 		auto cursor = values_.lower_bound(time);
-		while(cursor != values_.end()) {
-			auto &count = counts[cursor->second];
-			++count;
-			if(count > top_count) {
-				top_count = count;
+		const auto target = values_.upper_bound(horizon);
+		while(cursor != target) {
+			auto &priority = priorities[cursor->second];
+			
+			priority.value = cursor->second;
+			priority.active_range.begin = std::min(priority.active_range.begin, cursor->first);
+			priority.active_range.end = std::max(priority.active_range.end, cursor->first + 1);
+
+			++priority.usages_remaining;
+			if(priority.usages_remaining > top_count) {
+				top_count = priority.usages_remaining;
 				top_value = cursor->second;
 			}
 			++cursor;
 		}
 
 		// Pick whatever came out on top, if anything.
-		if(counts.empty()) {
+		if(priorities.empty()) {
 			return {};
 		}
-
-		return PrioritisedValue {
-			.value = top_value,
-			.usages_remaining = top_count,
-		};
+		return priorities[top_value];
 	}
 
 private:

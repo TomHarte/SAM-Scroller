@@ -423,9 +423,9 @@ static constexpr int TileSize = 16;
 	// Write palette, in Sam format.
 	[self writePalette:palette file:[directory stringByAppendingPathComponent:@"palette.z80s"]];
 
-	// Compile all
-	[self compileTiles:tiles directory:directory];
+	// Compile all.
 	[self compileSprites:sprites directory:directory];
+	[self compileTiles:tiles directory:directory];
 }
 
 - (void)compileTiles:(std::vector<TileSerialiser<TileSize>> &)tiles directory:(NSString *)directory {
