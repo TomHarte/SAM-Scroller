@@ -640,16 +640,16 @@ static constexpr int TileSize = 16;
 			offset = 0;
 		};
 
-		int slot = 0;
+		int load_slot = 0;
+		int ix_offset = 1;
 		while(mask < 16) {
-			[code appendString:@"\t\tdec ix\n"];
 			if(c & mask) {
 				append_offset();
 				offset = 128;
 
-				[code appendString:@"\t\tld a, (ix + 0)\n"];
-				[code appendFormat:@"\t\tld (@+loadslot%d + 2), a\n", slot];
-				[code appendFormat:@"\t@loadslot%d:\n", slot++];
+				[code appendFormat:@"\t\tld a, (ix - %d)\n", ix_offset];
+				[code appendFormat:@"\t\tld (@+loadslot%d + 2), a\n", load_slot];
+				[code appendFormat:@"\t@loadslot%d:\n", load_slot++];
 				[code appendString:@"\t\tld de, (1234)\n"];
 				[code appendString:@"\t\tld (@+dispatch + 1), de\n"];
 				[code appendString:@"\t\tld de, @+end_dispatch\n"];
@@ -662,8 +662,11 @@ static constexpr int TileSize = 16;
 			}
 
 			mask <<= 1;
+			++ix_offset;
 		}
 		append_offset();
+		[code appendString:@"\t\tld bc, -4\n"];
+		[code appendString:@"\t\tadd ix, bc\n"];
 		[code appendString:@"\t@return:\n"];
 		[code appendString:@"\t\tjp 1234\n\n"];
 	}

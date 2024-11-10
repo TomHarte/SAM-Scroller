@@ -4,20 +4,17 @@
 
 	@draw_sliver0:
 		ld (@+return + 1), de
-		dec ix
-		dec ix
-		dec ix
-		dec ix
 		ld bc, -8192
 		add hl, bc
+		ld bc, -4
+		add ix, bc
 	@return:
 		jp 1234
 
 	@draw_sliver1:
 		ld (@+return + 1), de
 		ld (@+loadslot0 + 3), a
-		dec ix
-		ld a, (ix + 0)
+		ld a, (ix - 1)
 		ld (@+loadslot0 + 2), a
 	@loadslot0:
 		ld de, (1234)
@@ -27,22 +24,19 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
-		dec ix
-		dec ix
 		ld bc, -6272
 		add hl, bc
+		ld bc, -4
+		add ix, bc
 	@return:
 		jp 1234
 
 	@draw_sliver2:
 		ld (@+return + 1), de
 		ld (@+loadslot0 + 3), a
-		dec ix
-		dec ix
 		ld bc, -2048
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 2)
 		ld (@+loadslot0 + 2), a
 	@loadslot0:
 		ld de, (1234)
@@ -52,10 +46,10 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
-		dec ix
 		ld bc, -4224
 		add hl, bc
+		ld bc, -4
+		add ix, bc
 	@return:
 		jp 1234
 
@@ -63,8 +57,7 @@
 		ld (@+return + 1), de
 		ld (@+loadslot0 + 3), a
 		ld (@+loadslot1 + 3), a
-		dec ix
-		ld a, (ix + 0)
+		ld a, (ix - 1)
 		ld (@+loadslot0 + 2), a
 	@loadslot0:
 		ld de, (1234)
@@ -74,10 +67,9 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
 		ld bc, -128
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 2)
 		ld (@+loadslot1 + 2), a
 	@loadslot1:
 		ld de, (1234)
@@ -87,22 +79,19 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
-		dec ix
 		ld bc, -4224
 		add hl, bc
+		ld bc, -4
+		add ix, bc
 	@return:
 		jp 1234
 
 	@draw_sliver4:
 		ld (@+return + 1), de
 		ld (@+loadslot0 + 3), a
-		dec ix
-		dec ix
-		dec ix
 		ld bc, -4096
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 3)
 		ld (@+loadslot0 + 2), a
 	@loadslot0:
 		ld de, (1234)
@@ -112,9 +101,10 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
 		ld bc, -2176
 		add hl, bc
+		ld bc, -4
+		add ix, bc
 	@return:
 		jp 1234
 
@@ -122,8 +112,7 @@
 		ld (@+return + 1), de
 		ld (@+loadslot0 + 3), a
 		ld (@+loadslot1 + 3), a
-		dec ix
-		ld a, (ix + 0)
+		ld a, (ix - 1)
 		ld (@+loadslot0 + 2), a
 	@loadslot0:
 		ld de, (1234)
@@ -133,11 +122,9 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
-		dec ix
 		ld bc, -2176
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 3)
 		ld (@+loadslot1 + 2), a
 	@loadslot1:
 		ld de, (1234)
@@ -147,9 +134,10 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
 		ld bc, -2176
 		add hl, bc
+		ld bc, -4
+		add ix, bc
 	@return:
 		jp 1234
 
@@ -157,11 +145,9 @@
 		ld (@+return + 1), de
 		ld (@+loadslot0 + 3), a
 		ld (@+loadslot1 + 3), a
-		dec ix
-		dec ix
 		ld bc, -2048
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 2)
 		ld (@+loadslot0 + 2), a
 	@loadslot0:
 		ld de, (1234)
@@ -171,10 +157,9 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
 		ld bc, -128
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 3)
 		ld (@+loadslot1 + 2), a
 	@loadslot1:
 		ld de, (1234)
@@ -184,9 +169,10 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
 		ld bc, -2176
 		add hl, bc
+		ld bc, -4
+		add ix, bc
 	@return:
 		jp 1234
 
@@ -195,8 +181,7 @@
 		ld (@+loadslot0 + 3), a
 		ld (@+loadslot1 + 3), a
 		ld (@+loadslot2 + 3), a
-		dec ix
-		ld a, (ix + 0)
+		ld a, (ix - 1)
 		ld (@+loadslot0 + 2), a
 	@loadslot0:
 		ld de, (1234)
@@ -206,10 +191,9 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
 		ld bc, -128
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 2)
 		ld (@+loadslot1 + 2), a
 	@loadslot1:
 		ld de, (1234)
@@ -219,10 +203,9 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
 		ld bc, -128
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 3)
 		ld (@+loadslot2 + 2), a
 	@loadslot2:
 		ld de, (1234)
@@ -232,22 +215,19 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
 		ld bc, -2176
 		add hl, bc
+		ld bc, -4
+		add ix, bc
 	@return:
 		jp 1234
 
 	@draw_sliver8:
 		ld (@+return + 1), de
 		ld (@+loadslot0 + 3), a
-		dec ix
-		dec ix
-		dec ix
-		dec ix
 		ld bc, -6144
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 4)
 		ld (@+loadslot0 + 2), a
 	@loadslot0:
 		ld de, (1234)
@@ -259,6 +239,8 @@
 
 		ld bc, -128
 		add hl, bc
+		ld bc, -4
+		add ix, bc
 	@return:
 		jp 1234
 
@@ -266,8 +248,7 @@
 		ld (@+return + 1), de
 		ld (@+loadslot0 + 3), a
 		ld (@+loadslot1 + 3), a
-		dec ix
-		ld a, (ix + 0)
+		ld a, (ix - 1)
 		ld (@+loadslot0 + 2), a
 	@loadslot0:
 		ld de, (1234)
@@ -277,12 +258,9 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
-		dec ix
-		dec ix
 		ld bc, -4224
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 4)
 		ld (@+loadslot1 + 2), a
 	@loadslot1:
 		ld de, (1234)
@@ -294,6 +272,8 @@
 
 		ld bc, -128
 		add hl, bc
+		ld bc, -4
+		add ix, bc
 	@return:
 		jp 1234
 
@@ -301,11 +281,9 @@
 		ld (@+return + 1), de
 		ld (@+loadslot0 + 3), a
 		ld (@+loadslot1 + 3), a
-		dec ix
-		dec ix
 		ld bc, -2048
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 2)
 		ld (@+loadslot0 + 2), a
 	@loadslot0:
 		ld de, (1234)
@@ -315,11 +293,9 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
-		dec ix
 		ld bc, -2176
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 4)
 		ld (@+loadslot1 + 2), a
 	@loadslot1:
 		ld de, (1234)
@@ -331,6 +307,8 @@
 
 		ld bc, -128
 		add hl, bc
+		ld bc, -4
+		add ix, bc
 	@return:
 		jp 1234
 
@@ -339,8 +317,7 @@
 		ld (@+loadslot0 + 3), a
 		ld (@+loadslot1 + 3), a
 		ld (@+loadslot2 + 3), a
-		dec ix
-		ld a, (ix + 0)
+		ld a, (ix - 1)
 		ld (@+loadslot0 + 2), a
 	@loadslot0:
 		ld de, (1234)
@@ -350,10 +327,9 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
 		ld bc, -128
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 2)
 		ld (@+loadslot1 + 2), a
 	@loadslot1:
 		ld de, (1234)
@@ -363,11 +339,9 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
-		dec ix
 		ld bc, -2176
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 4)
 		ld (@+loadslot2 + 2), a
 	@loadslot2:
 		ld de, (1234)
@@ -379,6 +353,8 @@
 
 		ld bc, -128
 		add hl, bc
+		ld bc, -4
+		add ix, bc
 	@return:
 		jp 1234
 
@@ -386,12 +362,9 @@
 		ld (@+return + 1), de
 		ld (@+loadslot0 + 3), a
 		ld (@+loadslot1 + 3), a
-		dec ix
-		dec ix
-		dec ix
 		ld bc, -4096
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 3)
 		ld (@+loadslot0 + 2), a
 	@loadslot0:
 		ld de, (1234)
@@ -401,10 +374,9 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
 		ld bc, -128
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 4)
 		ld (@+loadslot1 + 2), a
 	@loadslot1:
 		ld de, (1234)
@@ -416,6 +388,8 @@
 
 		ld bc, -128
 		add hl, bc
+		ld bc, -4
+		add ix, bc
 	@return:
 		jp 1234
 
@@ -424,8 +398,7 @@
 		ld (@+loadslot0 + 3), a
 		ld (@+loadslot1 + 3), a
 		ld (@+loadslot2 + 3), a
-		dec ix
-		ld a, (ix + 0)
+		ld a, (ix - 1)
 		ld (@+loadslot0 + 2), a
 	@loadslot0:
 		ld de, (1234)
@@ -435,11 +408,9 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
-		dec ix
 		ld bc, -2176
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 3)
 		ld (@+loadslot1 + 2), a
 	@loadslot1:
 		ld de, (1234)
@@ -449,10 +420,9 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
 		ld bc, -128
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 4)
 		ld (@+loadslot2 + 2), a
 	@loadslot2:
 		ld de, (1234)
@@ -464,6 +434,8 @@
 
 		ld bc, -128
 		add hl, bc
+		ld bc, -4
+		add ix, bc
 	@return:
 		jp 1234
 
@@ -472,11 +444,9 @@
 		ld (@+loadslot0 + 3), a
 		ld (@+loadslot1 + 3), a
 		ld (@+loadslot2 + 3), a
-		dec ix
-		dec ix
 		ld bc, -2048
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 2)
 		ld (@+loadslot0 + 2), a
 	@loadslot0:
 		ld de, (1234)
@@ -486,10 +456,9 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
 		ld bc, -128
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 3)
 		ld (@+loadslot1 + 2), a
 	@loadslot1:
 		ld de, (1234)
@@ -499,10 +468,9 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
 		ld bc, -128
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 4)
 		ld (@+loadslot2 + 2), a
 	@loadslot2:
 		ld de, (1234)
@@ -514,6 +482,8 @@
 
 		ld bc, -128
 		add hl, bc
+		ld bc, -4
+		add ix, bc
 	@return:
 		jp 1234
 
@@ -523,8 +493,7 @@
 		ld (@+loadslot1 + 3), a
 		ld (@+loadslot2 + 3), a
 		ld (@+loadslot3 + 3), a
-		dec ix
-		ld a, (ix + 0)
+		ld a, (ix - 1)
 		ld (@+loadslot0 + 2), a
 	@loadslot0:
 		ld de, (1234)
@@ -534,10 +503,9 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
 		ld bc, -128
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 2)
 		ld (@+loadslot1 + 2), a
 	@loadslot1:
 		ld de, (1234)
@@ -547,10 +515,9 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
 		ld bc, -128
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 3)
 		ld (@+loadslot2 + 2), a
 	@loadslot2:
 		ld de, (1234)
@@ -560,10 +527,9 @@
 		jp 1234
 	@end_dispatch:
 
-		dec ix
 		ld bc, -128
 		add hl, bc
-		ld a, (ix + 0)
+		ld a, (ix - 4)
 		ld (@+loadslot3 + 2), a
 	@loadslot3:
 		ld de, (1234)
@@ -575,6 +541,8 @@
 
 		ld bc, -128
 		add hl, bc
+		ld bc, -4
+		add ix, bc
 	@return:
 		jp 1234
 
