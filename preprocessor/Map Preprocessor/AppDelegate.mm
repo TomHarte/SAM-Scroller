@@ -140,7 +140,9 @@ static constexpr int TileSize = 16;
 }
 
 - (NSString *)loadPair:(const char *)pair previous:(std::optional<uint16_t>)previous target:(uint16_t)target {
-	if(previous) {
+	// Logic below is just as valid for IX and IY as anything else, but string manipulation to
+	// get the high and low register names isn't. So skip it for now.
+	if(previous && strcmp(pair, "ix") && strcmp(pair, "iy")) {
 		if(*previous == target){
 			return @"";
 		}
