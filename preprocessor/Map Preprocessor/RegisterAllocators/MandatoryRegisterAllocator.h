@@ -26,6 +26,8 @@ public:
 		values_.emplace(time, value);
 	}
 	
+	// TODO: all rest.
+	
 private:
 	size_t num_registers_;
 	std::map<Time, IntT> values_;

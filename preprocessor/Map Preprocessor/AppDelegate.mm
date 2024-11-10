@@ -10,7 +10,7 @@
 #include "PixelAccessor.h"
 #include "TileSerialiser.h"
 #include "OptionalRegisterAllocator.h"
-#include "RegisterAllocator.h"
+#include "TileRegisterAllocator.h"
 #include "SpriteSerialiser.h"
 
 #include <array>
@@ -278,7 +278,7 @@ static constexpr int TileSize = 16;
 
 	for(auto &tile: tiles) {
 		tile.set_slice(slice);
-		RegisterAllocator<TileSize> allocator(tile);
+		TileRegisterAllocator<TileSize> allocator(tile);
 
 		[code appendFormat:@"\t@%@_%d:\n", name, tile.index()];
 		[code appendString:@"\t\tld (@+return+1), de\n"];

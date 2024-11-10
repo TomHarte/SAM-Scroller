@@ -24,7 +24,7 @@
 		4B797B212CC3363B00E18E96 /* Map_Preprocessor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Map_Preprocessor.entitlements; sourceTree = "<group>"; };
 		4B797B272CCD6E9500E18E96 /* PixelAccessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PixelAccessor.h; sourceTree = "<group>"; };
 		4B797B282CCDC14000E18E96 /* TileSerialiser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TileSerialiser.h; sourceTree = "<group>"; };
-		4B797B292CD1866400E18E96 /* RegisterAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegisterAllocator.h; sourceTree = "<group>"; };
+		4B797B292CD1866400E18E96 /* TileRegisterAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TileRegisterAllocator.h; sourceTree = "<group>"; };
 		4BC106862CDFF4C30048554C /* MandatoryRegisterAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MandatoryRegisterAllocator.h; sourceTree = "<group>"; };
 		4BC106872CDFF4C30048554C /* OptionalRegisterAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OptionalRegisterAllocator.h; sourceTree = "<group>"; };
 		4BC1068B2CDFF4E10048554C /* Allocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Allocation.h; sourceTree = "<group>"; };
@@ -64,7 +64,7 @@
 				4B797B212CC3363B00E18E96 /* Map_Preprocessor.entitlements */,
 				4B797B172CC3363500E18E96 /* AppDelegate.h */,
 				4B797B272CCD6E9500E18E96 /* PixelAccessor.h */,
-				4B797B292CD1866400E18E96 /* RegisterAllocator.h */,
+				4B797B292CD1866400E18E96 /* TileRegisterAllocator.h */,
 				4B1372512CD90D180028C367 /* SpriteSerialiser.h */,
 				4B797B282CCDC14000E18E96 /* TileSerialiser.h */,
 				4B797B1F2CC3363B00E18E96 /* main.m */,
