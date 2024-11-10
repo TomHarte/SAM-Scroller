@@ -9,8 +9,8 @@
 
 #include "PixelAccessor.h"
 #include "TileSerialiser.h"
-#include "RangeAllocator.h"
-#include "RegisterAllocator.h"
+#include "OptionalRegisterAllocator.h"
+#include "TileRegisterAllocator.h"
 #include "SpriteSerialiser.h"
 
 #include <array>
@@ -278,7 +278,7 @@ static constexpr int TileSize = 16;
 
 	for(auto &tile: tiles) {
 		tile.set_slice(slice);
-		RegisterAllocator<TileSize> allocator(tile);
+		TileRegisterAllocator<TileSize> allocator(tile);
 
 		[code appendFormat:@"\t@%@_%d:\n", name, tile.index()];
 		[code appendString:@"\t\tld (@+return+1), de\n"];
@@ -423,9 +423,9 @@ static constexpr int TileSize = 16;
 	// Write palette, in Sam format.
 	[self writePalette:palette file:[directory stringByAppendingPathComponent:@"palette.z80s"]];
 
-	// Compile all
-	[self compileTiles:tiles directory:directory];
+	// Compile all.
 	[self compileSprites:sprites directory:directory];
+	[self compileTiles:tiles directory:directory];
 }
 
 - (void)compileTiles:(std::vector<TileSerialiser<TileSize>> &)tiles directory:(NSString *)directory {
@@ -485,7 +485,7 @@ static constexpr int TileSize = 16;
 		static constexpr size_t NumRegisters = 3;
 		static constexpr char RegisterNames[3] = {'a', 'd', 'e'};
 
-		RangeAllocator<uint8_t> register_allocator(NumRegisters);
+		OptionalRegisterAllocator<uint8_t> register_allocator(NumRegisters);
 		sprite.reset();
 		int time = 0;
 		while(true) {

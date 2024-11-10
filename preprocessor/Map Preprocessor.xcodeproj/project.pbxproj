@@ -15,7 +15,6 @@
 
 /* Begin PBXFileReference section */
 		4B1372512CD90D180028C367 /* SpriteSerialiser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpriteSerialiser.h; sourceTree = "<group>"; };
-		4B5D3B152CDBAF5200C8F3ED /* RangeAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RangeAllocator.h; sourceTree = "<group>"; };
 		4B797B142CC3363500E18E96 /* Map Preprocessor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Map Preprocessor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B797B172CC3363500E18E96 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4B797B182CC3363500E18E96 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
@@ -25,7 +24,11 @@
 		4B797B212CC3363B00E18E96 /* Map_Preprocessor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Map_Preprocessor.entitlements; sourceTree = "<group>"; };
 		4B797B272CCD6E9500E18E96 /* PixelAccessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PixelAccessor.h; sourceTree = "<group>"; };
 		4B797B282CCDC14000E18E96 /* TileSerialiser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TileSerialiser.h; sourceTree = "<group>"; };
-		4B797B292CD1866400E18E96 /* RegisterAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegisterAllocator.h; sourceTree = "<group>"; };
+		4B797B292CD1866400E18E96 /* TileRegisterAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TileRegisterAllocator.h; sourceTree = "<group>"; };
+		4BC106862CDFF4C30048554C /* MandatoryRegisterAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MandatoryRegisterAllocator.h; sourceTree = "<group>"; };
+		4BC106872CDFF4C30048554C /* OptionalRegisterAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OptionalRegisterAllocator.h; sourceTree = "<group>"; };
+		4BC1068B2CDFF4E10048554C /* Allocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Allocation.h; sourceTree = "<group>"; };
+		4BC106902CE01CCC0048554C /* Prioritiser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prioritiser.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,16 +64,27 @@
 				4B797B212CC3363B00E18E96 /* Map_Preprocessor.entitlements */,
 				4B797B172CC3363500E18E96 /* AppDelegate.h */,
 				4B797B272CCD6E9500E18E96 /* PixelAccessor.h */,
-				4B5D3B152CDBAF5200C8F3ED /* RangeAllocator.h */,
-				4B797B292CD1866400E18E96 /* RegisterAllocator.h */,
+				4B797B292CD1866400E18E96 /* TileRegisterAllocator.h */,
 				4B1372512CD90D180028C367 /* SpriteSerialiser.h */,
 				4B797B282CCDC14000E18E96 /* TileSerialiser.h */,
 				4B797B1F2CC3363B00E18E96 /* main.m */,
 				4B797B182CC3363500E18E96 /* AppDelegate.mm */,
 				4B797B1A2CC3363B00E18E96 /* Assets.xcassets */,
 				4B797B1C2CC3363B00E18E96 /* MainMenu.xib */,
+				4BC106882CDFF4C30048554C /* RegisterAllocators */,
 			);
 			path = "Map Preprocessor";
+			sourceTree = "<group>";
+		};
+		4BC106882CDFF4C30048554C /* RegisterAllocators */ = {
+			isa = PBXGroup;
+			children = (
+				4BC1068B2CDFF4E10048554C /* Allocation.h */,
+				4BC106862CDFF4C30048554C /* MandatoryRegisterAllocator.h */,
+				4BC106872CDFF4C30048554C /* OptionalRegisterAllocator.h */,
+				4BC106902CE01CCC0048554C /* Prioritiser.h */,
+			);
+			path = RegisterAllocators;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -104,6 +118,7 @@
 				TargetAttributes = {
 					4B797B132CC3363500E18E96 = {
 						CreatedOnToolsVersion = 13.2.1;
+						LastSwiftMigration = 1610;
 					};
 				};
 			};
@@ -278,6 +293,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Map Preprocessor/Map_Preprocessor.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -296,6 +312,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tomharte.Map-Preprocessor";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -305,6 +323,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Map Preprocessor/Map_Preprocessor.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -323,6 +342,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.tomharte.Map-Preprocessor";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
 		};

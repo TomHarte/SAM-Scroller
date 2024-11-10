@@ -851,7 +851,8 @@
 		ld (hl), e
 		add hl, bc
 
-		ld (hl), 0x1d
+		ld a, 0x1d
+		ld (hl), a
 		inc l
 		ld (hl), 0xdc
 		inc l
@@ -861,7 +862,7 @@
 		inc c
 		add hl, bc
 
-		ld (hl), 0x1d
+		ld (hl), a
 		inc l
 		ld (hl), 0xdd
 		inc l
@@ -873,9 +874,9 @@
 
 		ld (hl), d
 		inc l
-		ld (hl), 0x1d
+		ld (hl), a
 		inc l
-		ld (hl), 0x1d
+		ld (hl), a
 		inc l
 		ld (hl), 0xdc
 		inc l
@@ -884,7 +885,7 @@
 
 		ld (hl), 0x1a
 		inc l
-		ld (hl), 0x1d
+		ld (hl), a
 		inc l
 		ld (hl), 0xd1
 		inc l
@@ -898,7 +899,7 @@
 
 		ld (hl), 0x1a
 		inc l
-		ld (hl), 0x1d
+		ld (hl), a
 		inc l
 		ld (hl), 0xdd
 		inc l

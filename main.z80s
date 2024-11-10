@@ -59,6 +59,11 @@ INC "per_buffer_layout.z80s"
 
 @draw_scene:
 
+IF BORDER_PROFILING
+	ld a, %00000000
+	out (BORDER), a
+ENDIF
+
 	;
 	; Wait for start of lower border.
 	;
@@ -69,6 +74,11 @@ INC "per_buffer_layout.z80s"
 	;
 	; Display is now beginning the first line of lower border.
 	;
+
+IF BORDER_PROFILING
+	ld a, %00000001
+	out (BORDER), a
+ENDIF
 
 	; TODO: do keyboard stuff at end of frame, not top; check for a required scroll
 	; and do the flag ORing before updating VMPR, thereby avoiding the bottom-line tear.
@@ -101,6 +111,11 @@ INC "per_buffer_layout.z80s"
 	jp @+scroll_right
 
 @redraw:
+IF BORDER_PROFILING
+	ld a, %00000010
+	out (BORDER), a
+ENDIF
+
 	; Put next target buffer into the upper page.
 	ld a, (@+scroll_offset)
 	out (HMPR), a
@@ -134,6 +149,11 @@ INC "per_buffer_layout.z80s"
 NEXT @or_loop
 
 @begin_map:
+IF BORDER_PROFILING
+	ld a, %00000100
+	out (BORDER), a
+ENDIF
+
 	; Grab map address and set diffs list pointer.
 	ld ix, (@+map_address)
 
@@ -143,6 +163,11 @@ NEXT @or_loop
 	ld de, @+tiles_drawn
 	jp draw_tiles
 @tiles_drawn:
+
+IF BORDER_PROFILING
+	ld a, %00000101
+	out (BORDER), a
+ENDIF
 
 	;
 	; Add test sprite.
