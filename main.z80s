@@ -100,15 +100,14 @@ ENDIF
 	rra	; left is now in carry
 	jr c, @+test_right
 
-	ld de, @+redraw
-	jp @+scroll_left
+	call @+scroll_left
+	jr @+redraw
 
 @test_right:
 	rra	; right is now in carry
 	jr c, @+redraw
 
-	ld de, @+redraw
-	jp @+scroll_right
+	call @+scroll_right
 
 @redraw:
 IF BORDER_PROFILING
@@ -164,6 +163,11 @@ ENDIF
 	jp draw_tiles
 @tiles_drawn:
 
+	;
+	; Set a meaningful SP for code below.
+	;
+	ld sp, 0
+
 IF BORDER_PROFILING
 	ld a, %00000101
 	out (BORDER), a
@@ -172,9 +176,7 @@ ENDIF
 	;
 	; Add test sprite.
 	;
-	ld de, @+sprite_drawn
-	jp test_sprite
-@sprite_drawn:
+	call test_sprite
 
 	;
 	; Set the page just drawn to as next to display
@@ -193,8 +195,6 @@ ENDIF
 ; Scrolls the display one position to the left.
 ;
 @scroll_left:
-	ld (@+return+1), de
-
 	;
 	; Check that total offset is greater than 0; if so then subtract 1
 	; and continue. Otherwise return early.
@@ -202,7 +202,8 @@ ENDIF
 	ld hl, (@+total_x)
 	ld a, h
 	or l
-	jr z, @+return
+	ret z
+
 	dec hl
 	ld (@+total_x), hl
 
@@ -223,7 +224,7 @@ ENDIF
 	;
 	; Update map pointer if the scroll offset just decremented to 0.
 	;
-	jp nz, @+return
+	ret nz
 
 	ld hl, (@+map_address)
 	ld bc, -12
@@ -235,15 +236,12 @@ ENDIF
 	add hl, bc
 	ld (@+diff_address), hl
 
-@return:
-	jp 1234
+	ret
 
 ;
 ; Scrolls the display one position to the right.
 ;
 @scroll_right:
-	ld (@+return+1), de
-
 	;
 	; Check that total offset is less than the map size; if so then add 1
 	; and continue. Otherwise return early.
@@ -253,7 +251,8 @@ ENDIF
 	scf
 	ccf
 	sbc hl, bc
-	jr z, @+return
+	ret z
+
 	add hl, bc
 	inc hl
 	ld (@+total_x), hl
@@ -281,7 +280,7 @@ ENDIF
 	;
 	ld a, d
 	or a
-	jp nz, @+return
+	ret nz
 
 	; Add 12 to map address to move one column along.
 	; Correspondingly add 3 to the diff address.
@@ -295,8 +294,7 @@ ENDIF
 	add hl, bc
 	ld (@+diff_address), hl
 
-@return:
-	jp 1234
+	ret
 
 ;
 ; Performs a full redraw of all video buffers.
@@ -340,8 +338,6 @@ ENDIF
 ; Experimental: draws a single, rectangular sprite.
 ;
 test_sprite:
-	ld (@+return+1), de
-
 	;
 	; Move vertically.
 	;
@@ -366,9 +362,7 @@ test_sprite:
 	add hl, bc
 
 	; Call preformed sprite plotter
-	ld de, @+mark_dirty
-	jp sprite_1
-@mark_dirty:
+	call sprite_1
 
 	;
 	; Mark proper dirty bits.
@@ -446,7 +440,7 @@ test_sprite:
 	ld b, a					; Check whether another column needs to be touched.
 	ld a, c
 	and 0x0f
-	jr z, @+return
+	ret z
 
 	inc l					; Mark second column
 	inc l
@@ -454,8 +448,7 @@ test_sprite:
 	ld a, (hl)
 	or b
 	ld (hl), a
-
-	jr @+return
+	ret
 
 @set_adjacent_two:
 	ld de, 0x1002
@@ -472,7 +465,7 @@ test_sprite:
 
 	ld a, c					; Check whether another column needs to be touched.
 	and 0x0f
-	jr z, @+return
+	ret z
 
 	inc l					; Mark second column
 	inc l
@@ -483,8 +476,7 @@ test_sprite:
 	ld a, (hl)
 	or d
 	ld (hl), a
-
-	jr @+return
+	ret
 
 @set_three:
 
@@ -516,8 +508,7 @@ test_sprite:
 	ld de, 0x1006
 	jr @-set_adjacent
 
-@return:
-	jp 1234
+	ret
 
 two_table:		db 0x18, 0x0c, 0x06, 0x00
 three_table:	db 0x1c, 0x0e, 0x00, 0x00

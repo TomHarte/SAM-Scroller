@@ -1,6 +1,4 @@
 	sprite_4:
-		ld (@+return+1), de
-
 		ld bc, 0x0002
 		add hl, bc
 
@@ -346,12 +344,9 @@
 		ld (hl), a
 		inc l
 		ld (hl), d
-	@return:
-		jp 1234
+		ret
 
 	sprite_5:
-		ld (@+return+1), de
-
 		ld bc, 0x0202
 		add hl, bc
 
@@ -646,12 +641,9 @@
 		ld (hl), a
 		inc l
 		ld (hl), e
-	@return:
-		jp 1234
+		ret
 
 	sprite_2:
-		ld (@+return+1), de
-
 		ld bc, 0x0002
 		add hl, bc
 
@@ -992,12 +984,9 @@
 		add hl, bc
 
 		ld (hl), d
-	@return:
-		jp 1234
+		ret
 
 	sprite_3:
-		ld (@+return+1), de
-
 		ld bc, 0x0002
 		add hl, bc
 
@@ -1365,12 +1354,9 @@
 		ld (hl), d
 		inc l
 		ld (hl), d
-	@return:
-		jp 1234
+		ret
 
 	sprite_1:
-		ld (@+return+1), de
-
 		ld bc, 0x0002
 		add hl, bc
 
@@ -1666,12 +1652,9 @@
 		ld (hl), a
 		inc l
 		ld (hl), d
-	@return:
-		jp 1234
+		ret
 
 	sprite_0:
-		ld (@+return+1), de
-
 		ld bc, 0x0002
 		add hl, bc
 
@@ -2007,6 +1990,5 @@
 		add hl, bc
 
 		ld (hl), d
-	@return:
-		jp 1234
+		ret
 

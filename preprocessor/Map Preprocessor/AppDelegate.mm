@@ -478,7 +478,6 @@ static constexpr int TileSize = 16;
 
 	for(auto &sprite: sprites) {
 		[code appendFormat:@"\tsprite_%d:\n", sprite.index()];
-		[code appendString:@"\t\tld (@+return+1), de\n\n"];
 		std::optional<uint16_t> bc;
 
 		// Obtain register allocations.
@@ -555,8 +554,7 @@ static constexpr int TileSize = 16;
 			++time;
 		}
 
-		[code appendFormat:@"\t@return:\n"];
-		[code appendString:@"\t\tjp 1234\n\n"];
+		[code appendString:@"\t\tret\n\n"];
 	}
 
 	[code writeToFile:[directory stringByAppendingPathComponent:@"sprites.z80s"] atomically:NO encoding:NSUTF8StringEncoding error:nil];
