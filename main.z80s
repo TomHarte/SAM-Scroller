@@ -59,38 +59,12 @@ INC "per_buffer_layout.z80s"
 
 @draw_scene:
 
+	; Check for keypresses. TODO: actual physics, gameplay, etc.
+
 IF BORDER_PROFILING
 	ld a, %00000000
 	out (BORDER), a
 ENDIF
-
-	;
-	; Wait for start of lower border.
-	;
-@wait:
-	in a, (STATUS)
-	rra
-	jr c, @-wait
-	;
-	; Display is now beginning the first line of lower border.
-	;
-
-IF BORDER_PROFILING
-	ld a, %00000001
-	out (BORDER), a
-ENDIF
-
-	; TODO: do keyboard stuff at end of frame, not top; check for a required scroll
-	; and do the flag ORing before updating VMPR, thereby avoiding the bottom-line tear.
-
-	; Switch to displaying whatever is the correct screen.
-	ld a, (@+next_vmpr)
-	out (VMPR), a
-
-	; Record no scroll as having occurred.
-	xor a
-	ld (@+scroll_change), a
-
 	; Check and apply keyboard input — cursor left/right only at present.
 	ld bc, 0xfffe
 	in a, (c)
@@ -122,7 +96,7 @@ ENDIF
 	; Don't OR anything into the dirty map if there was no scroll.
 	ld a, (@+scroll_change)
 	or a
-	jp z, @+begin_map
+	jp z, @+end_logic
 
 	;
 	; OR per-page dirty bits with the fixed list to produce a composite diff.
@@ -147,7 +121,35 @@ ENDIF
 	ld (de), a
 NEXT @or_loop
 
-@begin_map:
+	; Record no scroll as pending.
+	xor a
+	ld (@+scroll_change), a
+
+@end_logic:
+
+	;
+	; Wait for start of lower border.
+	;
+@wait:
+	in a, (STATUS)
+	rra
+	jr c, @-wait
+	;
+	; Display is now beginning the first line of lower border.
+	;
+
+IF BORDER_PROFILING
+	ld a, %00000001
+	out (BORDER), a
+ENDIF
+
+	; TODO: do keyboard stuff at end of frame, not top; check for a required scroll
+	; and do the flag ORing before updating VMPR, thereby avoiding the bottom-line tear.
+
+	; Switch to displaying whatever is the correct screen.
+	ld a, (@+next_vmpr)
+	out (VMPR), a
+
 IF BORDER_PROFILING
 	ld a, %00000100
 	out (BORDER), a
