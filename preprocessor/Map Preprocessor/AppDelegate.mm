@@ -209,7 +209,7 @@ static constexpr int TileSize = 16;
 					writeToFile:name
 					atomically:NO];
 			}
-			column[(y - top) / TileSize] = it->second << 1;
+			column[(y - top) / TileSize] = it->second << 2;
 		}
 	}
 
@@ -265,16 +265,10 @@ static constexpr int TileSize = 16;
 
 	[code appendFormat:@"ds align 256\n"];
 	[code appendFormat:@"\ttiles_%@_page: EQU %d + 0b00100000\n", name, page];
-	[code appendFormat:@"\ttiles_%@:", name];
-	bool is_first = true;
+	[code appendFormat:@"\ttiles_%@:\n", name];
 	for(size_t c = 0; c < tiles.size(); c++) {
-		if(!(c&3)) {
-			[code appendString:@"\n\t\tdw "];
-			is_first = true;
-		}
-		if(!is_first) [code appendString:@", "];
-		[code appendFormat:@"@+%@_%d", name, int(c)];
-		is_first = false;
+		if(c) [code appendString:@"\t\tnop\n"];
+		[code appendFormat:@"\t\tjp @+%@_%d\n", name, int(c)];
 	}
 	[code appendString:@"\n\n"];
 
@@ -633,10 +627,11 @@ static constexpr int TileSize = 16;
 		[code appendFormat:@"\t@draw_sliver%d:\n", c];
 		[code appendString:@"\t\tld (@+return + 1), de\n"];
 
-		// Store dispatch table pointer.
+		// Store dispatch address.
 		for(int p = 0; p < __builtin_popcount(c); p++) {
-			[code appendFormat:@"\t\tld (@+loadslot%d + 3), a\n", p];
+			[code appendFormat:@"\t\tld (@+jpslot%d + 2), a\n", p];
 		}
+		[code appendString:@"\n"];
 
 		int mask = 1;
 		int offset = 0;
@@ -655,13 +650,11 @@ static constexpr int TileSize = 16;
 				append_offset();
 				offset = 128;
 
+				const auto slot = load_slot++;
 				[code appendFormat:@"\t\tld a, (ix - %d)\n", ix_offset];
-				[code appendFormat:@"\t\tld (@+loadslot%d + 2), a\n", load_slot];
-				[code appendFormat:@"\t@loadslot%d:\n", load_slot++];
-				[code appendString:@"\t\tld de, (1234)\n"];
-				[code appendString:@"\t\tld (@+dispatch + 1), de\n"];
+				[code appendFormat:@"\t\tld (@+jpslot%d + 1), a\n", slot];
 				[code appendString:@"\t\tld de, @+end_dispatch\n"];
-				[code appendString:@"\t@dispatch:\n"];
+				[code appendFormat:@"\t@jpslot%d:\n", slot];
 				[code appendString:@"\t\tjp 1234\n"];
 				[code appendString:@"\t@end_dispatch:\n"];
 				[code appendString:@"\n"];

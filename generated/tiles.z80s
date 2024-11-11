@@ -19,14 +19,68 @@ DUMP 16, 0
 ds align 256
 	tiles_full_page: EQU 16 + 0b00100000
 	tiles_full:
-		dw @+full_0, @+full_1, @+full_2, @+full_3
-		dw @+full_4, @+full_5, @+full_6, @+full_7
-		dw @+full_8, @+full_9, @+full_10, @+full_11
-		dw @+full_12, @+full_13, @+full_14, @+full_15
-		dw @+full_16, @+full_17, @+full_18, @+full_19
-		dw @+full_20, @+full_21, @+full_22, @+full_23
-		dw @+full_24, @+full_25, @+full_26, @+full_27
-		dw @+full_28, @+full_29, @+full_30
+		jp @+full_0
+		nop
+		jp @+full_1
+		nop
+		jp @+full_2
+		nop
+		jp @+full_3
+		nop
+		jp @+full_4
+		nop
+		jp @+full_5
+		nop
+		jp @+full_6
+		nop
+		jp @+full_7
+		nop
+		jp @+full_8
+		nop
+		jp @+full_9
+		nop
+		jp @+full_10
+		nop
+		jp @+full_11
+		nop
+		jp @+full_12
+		nop
+		jp @+full_13
+		nop
+		jp @+full_14
+		nop
+		jp @+full_15
+		nop
+		jp @+full_16
+		nop
+		jp @+full_17
+		nop
+		jp @+full_18
+		nop
+		jp @+full_19
+		nop
+		jp @+full_20
+		nop
+		jp @+full_21
+		nop
+		jp @+full_22
+		nop
+		jp @+full_23
+		nop
+		jp @+full_24
+		nop
+		jp @+full_25
+		nop
+		jp @+full_26
+		nop
+		jp @+full_27
+		nop
+		jp @+full_28
+		nop
+		jp @+full_29
+		nop
+		jp @+full_30
+
 
 	@full_8:
 		ld (@+return+1), de
@@ -4129,14 +4183,68 @@ ds align 256
 ds align 256
 	tiles_left_7_page: EQU 16 + 0b00100000
 	tiles_left_7:
-		dw @+left_7_0, @+left_7_1, @+left_7_2, @+left_7_3
-		dw @+left_7_4, @+left_7_5, @+left_7_6, @+left_7_7
-		dw @+left_7_8, @+left_7_9, @+left_7_10, @+left_7_11
-		dw @+left_7_12, @+left_7_13, @+left_7_14, @+left_7_15
-		dw @+left_7_16, @+left_7_17, @+left_7_18, @+left_7_19
-		dw @+left_7_20, @+left_7_21, @+left_7_22, @+left_7_23
-		dw @+left_7_24, @+left_7_25, @+left_7_26, @+left_7_27
-		dw @+left_7_28, @+left_7_29, @+left_7_30
+		jp @+left_7_0
+		nop
+		jp @+left_7_1
+		nop
+		jp @+left_7_2
+		nop
+		jp @+left_7_3
+		nop
+		jp @+left_7_4
+		nop
+		jp @+left_7_5
+		nop
+		jp @+left_7_6
+		nop
+		jp @+left_7_7
+		nop
+		jp @+left_7_8
+		nop
+		jp @+left_7_9
+		nop
+		jp @+left_7_10
+		nop
+		jp @+left_7_11
+		nop
+		jp @+left_7_12
+		nop
+		jp @+left_7_13
+		nop
+		jp @+left_7_14
+		nop
+		jp @+left_7_15
+		nop
+		jp @+left_7_16
+		nop
+		jp @+left_7_17
+		nop
+		jp @+left_7_18
+		nop
+		jp @+left_7_19
+		nop
+		jp @+left_7_20
+		nop
+		jp @+left_7_21
+		nop
+		jp @+left_7_22
+		nop
+		jp @+left_7_23
+		nop
+		jp @+left_7_24
+		nop
+		jp @+left_7_25
+		nop
+		jp @+left_7_26
+		nop
+		jp @+left_7_27
+		nop
+		jp @+left_7_28
+		nop
+		jp @+left_7_29
+		nop
+		jp @+left_7_30
+
 
 	@left_7_8:
 		ld (@+return+1), de
@@ -8143,14 +8251,68 @@ ds align 256
 ds align 256
 	tiles_right_1_page: EQU 16 + 0b00100000
 	tiles_right_1:
-		dw @+right_1_0, @+right_1_1, @+right_1_2, @+right_1_3
-		dw @+right_1_4, @+right_1_5, @+right_1_6, @+right_1_7
-		dw @+right_1_8, @+right_1_9, @+right_1_10, @+right_1_11
-		dw @+right_1_12, @+right_1_13, @+right_1_14, @+right_1_15
-		dw @+right_1_16, @+right_1_17, @+right_1_18, @+right_1_19
-		dw @+right_1_20, @+right_1_21, @+right_1_22, @+right_1_23
-		dw @+right_1_24, @+right_1_25, @+right_1_26, @+right_1_27
-		dw @+right_1_28, @+right_1_29, @+right_1_30
+		jp @+right_1_0
+		nop
+		jp @+right_1_1
+		nop
+		jp @+right_1_2
+		nop
+		jp @+right_1_3
+		nop
+		jp @+right_1_4
+		nop
+		jp @+right_1_5
+		nop
+		jp @+right_1_6
+		nop
+		jp @+right_1_7
+		nop
+		jp @+right_1_8
+		nop
+		jp @+right_1_9
+		nop
+		jp @+right_1_10
+		nop
+		jp @+right_1_11
+		nop
+		jp @+right_1_12
+		nop
+		jp @+right_1_13
+		nop
+		jp @+right_1_14
+		nop
+		jp @+right_1_15
+		nop
+		jp @+right_1_16
+		nop
+		jp @+right_1_17
+		nop
+		jp @+right_1_18
+		nop
+		jp @+right_1_19
+		nop
+		jp @+right_1_20
+		nop
+		jp @+right_1_21
+		nop
+		jp @+right_1_22
+		nop
+		jp @+right_1_23
+		nop
+		jp @+right_1_24
+		nop
+		jp @+right_1_25
+		nop
+		jp @+right_1_26
+		nop
+		jp @+right_1_27
+		nop
+		jp @+right_1_28
+		nop
+		jp @+right_1_29
+		nop
+		jp @+right_1_30
+
 
 	@right_1_8:
 		ld (@+return+1), de
@@ -10327,14 +10489,68 @@ DUMP 18, 0
 ds align 256
 	tiles_left_6_page: EQU 18 + 0b00100000
 	tiles_left_6:
-		dw @+left_6_0, @+left_6_1, @+left_6_2, @+left_6_3
-		dw @+left_6_4, @+left_6_5, @+left_6_6, @+left_6_7
-		dw @+left_6_8, @+left_6_9, @+left_6_10, @+left_6_11
-		dw @+left_6_12, @+left_6_13, @+left_6_14, @+left_6_15
-		dw @+left_6_16, @+left_6_17, @+left_6_18, @+left_6_19
-		dw @+left_6_20, @+left_6_21, @+left_6_22, @+left_6_23
-		dw @+left_6_24, @+left_6_25, @+left_6_26, @+left_6_27
-		dw @+left_6_28, @+left_6_29, @+left_6_30
+		jp @+left_6_0
+		nop
+		jp @+left_6_1
+		nop
+		jp @+left_6_2
+		nop
+		jp @+left_6_3
+		nop
+		jp @+left_6_4
+		nop
+		jp @+left_6_5
+		nop
+		jp @+left_6_6
+		nop
+		jp @+left_6_7
+		nop
+		jp @+left_6_8
+		nop
+		jp @+left_6_9
+		nop
+		jp @+left_6_10
+		nop
+		jp @+left_6_11
+		nop
+		jp @+left_6_12
+		nop
+		jp @+left_6_13
+		nop
+		jp @+left_6_14
+		nop
+		jp @+left_6_15
+		nop
+		jp @+left_6_16
+		nop
+		jp @+left_6_17
+		nop
+		jp @+left_6_18
+		nop
+		jp @+left_6_19
+		nop
+		jp @+left_6_20
+		nop
+		jp @+left_6_21
+		nop
+		jp @+left_6_22
+		nop
+		jp @+left_6_23
+		nop
+		jp @+left_6_24
+		nop
+		jp @+left_6_25
+		nop
+		jp @+left_6_26
+		nop
+		jp @+left_6_27
+		nop
+		jp @+left_6_28
+		nop
+		jp @+left_6_29
+		nop
+		jp @+left_6_30
+
 
 	@left_6_8:
 		ld (@+return+1), de
@@ -13807,14 +14023,68 @@ ds align 256
 ds align 256
 	tiles_right_2_page: EQU 18 + 0b00100000
 	tiles_right_2:
-		dw @+right_2_0, @+right_2_1, @+right_2_2, @+right_2_3
-		dw @+right_2_4, @+right_2_5, @+right_2_6, @+right_2_7
-		dw @+right_2_8, @+right_2_9, @+right_2_10, @+right_2_11
-		dw @+right_2_12, @+right_2_13, @+right_2_14, @+right_2_15
-		dw @+right_2_16, @+right_2_17, @+right_2_18, @+right_2_19
-		dw @+right_2_20, @+right_2_21, @+right_2_22, @+right_2_23
-		dw @+right_2_24, @+right_2_25, @+right_2_26, @+right_2_27
-		dw @+right_2_28, @+right_2_29, @+right_2_30
+		jp @+right_2_0
+		nop
+		jp @+right_2_1
+		nop
+		jp @+right_2_2
+		nop
+		jp @+right_2_3
+		nop
+		jp @+right_2_4
+		nop
+		jp @+right_2_5
+		nop
+		jp @+right_2_6
+		nop
+		jp @+right_2_7
+		nop
+		jp @+right_2_8
+		nop
+		jp @+right_2_9
+		nop
+		jp @+right_2_10
+		nop
+		jp @+right_2_11
+		nop
+		jp @+right_2_12
+		nop
+		jp @+right_2_13
+		nop
+		jp @+right_2_14
+		nop
+		jp @+right_2_15
+		nop
+		jp @+right_2_16
+		nop
+		jp @+right_2_17
+		nop
+		jp @+right_2_18
+		nop
+		jp @+right_2_19
+		nop
+		jp @+right_2_20
+		nop
+		jp @+right_2_21
+		nop
+		jp @+right_2_22
+		nop
+		jp @+right_2_23
+		nop
+		jp @+right_2_24
+		nop
+		jp @+right_2_25
+		nop
+		jp @+right_2_26
+		nop
+		jp @+right_2_27
+		nop
+		jp @+right_2_28
+		nop
+		jp @+right_2_29
+		nop
+		jp @+right_2_30
+
 
 	@right_2_8:
 		ld (@+return+1), de
@@ -16078,14 +16348,68 @@ ds align 256
 ds align 256
 	tiles_left_5_page: EQU 18 + 0b00100000
 	tiles_left_5:
-		dw @+left_5_0, @+left_5_1, @+left_5_2, @+left_5_3
-		dw @+left_5_4, @+left_5_5, @+left_5_6, @+left_5_7
-		dw @+left_5_8, @+left_5_9, @+left_5_10, @+left_5_11
-		dw @+left_5_12, @+left_5_13, @+left_5_14, @+left_5_15
-		dw @+left_5_16, @+left_5_17, @+left_5_18, @+left_5_19
-		dw @+left_5_20, @+left_5_21, @+left_5_22, @+left_5_23
-		dw @+left_5_24, @+left_5_25, @+left_5_26, @+left_5_27
-		dw @+left_5_28, @+left_5_29, @+left_5_30
+		jp @+left_5_0
+		nop
+		jp @+left_5_1
+		nop
+		jp @+left_5_2
+		nop
+		jp @+left_5_3
+		nop
+		jp @+left_5_4
+		nop
+		jp @+left_5_5
+		nop
+		jp @+left_5_6
+		nop
+		jp @+left_5_7
+		nop
+		jp @+left_5_8
+		nop
+		jp @+left_5_9
+		nop
+		jp @+left_5_10
+		nop
+		jp @+left_5_11
+		nop
+		jp @+left_5_12
+		nop
+		jp @+left_5_13
+		nop
+		jp @+left_5_14
+		nop
+		jp @+left_5_15
+		nop
+		jp @+left_5_16
+		nop
+		jp @+left_5_17
+		nop
+		jp @+left_5_18
+		nop
+		jp @+left_5_19
+		nop
+		jp @+left_5_20
+		nop
+		jp @+left_5_21
+		nop
+		jp @+left_5_22
+		nop
+		jp @+left_5_23
+		nop
+		jp @+left_5_24
+		nop
+		jp @+left_5_25
+		nop
+		jp @+left_5_26
+		nop
+		jp @+left_5_27
+		nop
+		jp @+left_5_28
+		nop
+		jp @+left_5_29
+		nop
+		jp @+left_5_30
+
 
 	@left_5_8:
 		ld (@+return+1), de
@@ -19460,14 +19784,68 @@ ds align 256
 ds align 256
 	tiles_right_3_page: EQU 18 + 0b00100000
 	tiles_right_3:
-		dw @+right_3_0, @+right_3_1, @+right_3_2, @+right_3_3
-		dw @+right_3_4, @+right_3_5, @+right_3_6, @+right_3_7
-		dw @+right_3_8, @+right_3_9, @+right_3_10, @+right_3_11
-		dw @+right_3_12, @+right_3_13, @+right_3_14, @+right_3_15
-		dw @+right_3_16, @+right_3_17, @+right_3_18, @+right_3_19
-		dw @+right_3_20, @+right_3_21, @+right_3_22, @+right_3_23
-		dw @+right_3_24, @+right_3_25, @+right_3_26, @+right_3_27
-		dw @+right_3_28, @+right_3_29, @+right_3_30
+		jp @+right_3_0
+		nop
+		jp @+right_3_1
+		nop
+		jp @+right_3_2
+		nop
+		jp @+right_3_3
+		nop
+		jp @+right_3_4
+		nop
+		jp @+right_3_5
+		nop
+		jp @+right_3_6
+		nop
+		jp @+right_3_7
+		nop
+		jp @+right_3_8
+		nop
+		jp @+right_3_9
+		nop
+		jp @+right_3_10
+		nop
+		jp @+right_3_11
+		nop
+		jp @+right_3_12
+		nop
+		jp @+right_3_13
+		nop
+		jp @+right_3_14
+		nop
+		jp @+right_3_15
+		nop
+		jp @+right_3_16
+		nop
+		jp @+right_3_17
+		nop
+		jp @+right_3_18
+		nop
+		jp @+right_3_19
+		nop
+		jp @+right_3_20
+		nop
+		jp @+right_3_21
+		nop
+		jp @+right_3_22
+		nop
+		jp @+right_3_23
+		nop
+		jp @+right_3_24
+		nop
+		jp @+right_3_25
+		nop
+		jp @+right_3_26
+		nop
+		jp @+right_3_27
+		nop
+		jp @+right_3_28
+		nop
+		jp @+right_3_29
+		nop
+		jp @+right_3_30
+
 
 	@right_3_8:
 		ld (@+return+1), de
@@ -22258,14 +22636,68 @@ DUMP 20, 0
 ds align 256
 	tiles_left_4_page: EQU 20 + 0b00100000
 	tiles_left_4:
-		dw @+left_4_0, @+left_4_1, @+left_4_2, @+left_4_3
-		dw @+left_4_4, @+left_4_5, @+left_4_6, @+left_4_7
-		dw @+left_4_8, @+left_4_9, @+left_4_10, @+left_4_11
-		dw @+left_4_12, @+left_4_13, @+left_4_14, @+left_4_15
-		dw @+left_4_16, @+left_4_17, @+left_4_18, @+left_4_19
-		dw @+left_4_20, @+left_4_21, @+left_4_22, @+left_4_23
-		dw @+left_4_24, @+left_4_25, @+left_4_26, @+left_4_27
-		dw @+left_4_28, @+left_4_29, @+left_4_30
+		jp @+left_4_0
+		nop
+		jp @+left_4_1
+		nop
+		jp @+left_4_2
+		nop
+		jp @+left_4_3
+		nop
+		jp @+left_4_4
+		nop
+		jp @+left_4_5
+		nop
+		jp @+left_4_6
+		nop
+		jp @+left_4_7
+		nop
+		jp @+left_4_8
+		nop
+		jp @+left_4_9
+		nop
+		jp @+left_4_10
+		nop
+		jp @+left_4_11
+		nop
+		jp @+left_4_12
+		nop
+		jp @+left_4_13
+		nop
+		jp @+left_4_14
+		nop
+		jp @+left_4_15
+		nop
+		jp @+left_4_16
+		nop
+		jp @+left_4_17
+		nop
+		jp @+left_4_18
+		nop
+		jp @+left_4_19
+		nop
+		jp @+left_4_20
+		nop
+		jp @+left_4_21
+		nop
+		jp @+left_4_22
+		nop
+		jp @+left_4_23
+		nop
+		jp @+left_4_24
+		nop
+		jp @+left_4_25
+		nop
+		jp @+left_4_26
+		nop
+		jp @+left_4_27
+		nop
+		jp @+left_4_28
+		nop
+		jp @+left_4_29
+		nop
+		jp @+left_4_30
+
 
 	@left_4_8:
 		ld (@+return+1), de
@@ -25129,14 +25561,68 @@ ds align 256
 ds align 256
 	tiles_right_4_page: EQU 20 + 0b00100000
 	tiles_right_4:
-		dw @+right_4_0, @+right_4_1, @+right_4_2, @+right_4_3
-		dw @+right_4_4, @+right_4_5, @+right_4_6, @+right_4_7
-		dw @+right_4_8, @+right_4_9, @+right_4_10, @+right_4_11
-		dw @+right_4_12, @+right_4_13, @+right_4_14, @+right_4_15
-		dw @+right_4_16, @+right_4_17, @+right_4_18, @+right_4_19
-		dw @+right_4_20, @+right_4_21, @+right_4_22, @+right_4_23
-		dw @+right_4_24, @+right_4_25, @+right_4_26, @+right_4_27
-		dw @+right_4_28, @+right_4_29, @+right_4_30
+		jp @+right_4_0
+		nop
+		jp @+right_4_1
+		nop
+		jp @+right_4_2
+		nop
+		jp @+right_4_3
+		nop
+		jp @+right_4_4
+		nop
+		jp @+right_4_5
+		nop
+		jp @+right_4_6
+		nop
+		jp @+right_4_7
+		nop
+		jp @+right_4_8
+		nop
+		jp @+right_4_9
+		nop
+		jp @+right_4_10
+		nop
+		jp @+right_4_11
+		nop
+		jp @+right_4_12
+		nop
+		jp @+right_4_13
+		nop
+		jp @+right_4_14
+		nop
+		jp @+right_4_15
+		nop
+		jp @+right_4_16
+		nop
+		jp @+right_4_17
+		nop
+		jp @+right_4_18
+		nop
+		jp @+right_4_19
+		nop
+		jp @+right_4_20
+		nop
+		jp @+right_4_21
+		nop
+		jp @+right_4_22
+		nop
+		jp @+right_4_23
+		nop
+		jp @+right_4_24
+		nop
+		jp @+right_4_25
+		nop
+		jp @+right_4_26
+		nop
+		jp @+right_4_27
+		nop
+		jp @+right_4_28
+		nop
+		jp @+right_4_29
+		nop
+		jp @+right_4_30
+
 
 	@right_4_8:
 		ld (@+return+1), de
@@ -28011,14 +28497,68 @@ ds align 256
 ds align 256
 	tiles_left_3_page: EQU 20 + 0b00100000
 	tiles_left_3:
-		dw @+left_3_0, @+left_3_1, @+left_3_2, @+left_3_3
-		dw @+left_3_4, @+left_3_5, @+left_3_6, @+left_3_7
-		dw @+left_3_8, @+left_3_9, @+left_3_10, @+left_3_11
-		dw @+left_3_12, @+left_3_13, @+left_3_14, @+left_3_15
-		dw @+left_3_16, @+left_3_17, @+left_3_18, @+left_3_19
-		dw @+left_3_20, @+left_3_21, @+left_3_22, @+left_3_23
-		dw @+left_3_24, @+left_3_25, @+left_3_26, @+left_3_27
-		dw @+left_3_28, @+left_3_29, @+left_3_30
+		jp @+left_3_0
+		nop
+		jp @+left_3_1
+		nop
+		jp @+left_3_2
+		nop
+		jp @+left_3_3
+		nop
+		jp @+left_3_4
+		nop
+		jp @+left_3_5
+		nop
+		jp @+left_3_6
+		nop
+		jp @+left_3_7
+		nop
+		jp @+left_3_8
+		nop
+		jp @+left_3_9
+		nop
+		jp @+left_3_10
+		nop
+		jp @+left_3_11
+		nop
+		jp @+left_3_12
+		nop
+		jp @+left_3_13
+		nop
+		jp @+left_3_14
+		nop
+		jp @+left_3_15
+		nop
+		jp @+left_3_16
+		nop
+		jp @+left_3_17
+		nop
+		jp @+left_3_18
+		nop
+		jp @+left_3_19
+		nop
+		jp @+left_3_20
+		nop
+		jp @+left_3_21
+		nop
+		jp @+left_3_22
+		nop
+		jp @+left_3_23
+		nop
+		jp @+left_3_24
+		nop
+		jp @+left_3_25
+		nop
+		jp @+left_3_26
+		nop
+		jp @+left_3_27
+		nop
+		jp @+left_3_28
+		nop
+		jp @+left_3_29
+		nop
+		jp @+left_3_30
+
 
 	@left_3_8:
 		ld (@+return+1), de
@@ -30793,14 +31333,68 @@ ds align 256
 ds align 256
 	tiles_right_5_page: EQU 20 + 0b00100000
 	tiles_right_5:
-		dw @+right_5_0, @+right_5_1, @+right_5_2, @+right_5_3
-		dw @+right_5_4, @+right_5_5, @+right_5_6, @+right_5_7
-		dw @+right_5_8, @+right_5_9, @+right_5_10, @+right_5_11
-		dw @+right_5_12, @+right_5_13, @+right_5_14, @+right_5_15
-		dw @+right_5_16, @+right_5_17, @+right_5_18, @+right_5_19
-		dw @+right_5_20, @+right_5_21, @+right_5_22, @+right_5_23
-		dw @+right_5_24, @+right_5_25, @+right_5_26, @+right_5_27
-		dw @+right_5_28, @+right_5_29, @+right_5_30
+		jp @+right_5_0
+		nop
+		jp @+right_5_1
+		nop
+		jp @+right_5_2
+		nop
+		jp @+right_5_3
+		nop
+		jp @+right_5_4
+		nop
+		jp @+right_5_5
+		nop
+		jp @+right_5_6
+		nop
+		jp @+right_5_7
+		nop
+		jp @+right_5_8
+		nop
+		jp @+right_5_9
+		nop
+		jp @+right_5_10
+		nop
+		jp @+right_5_11
+		nop
+		jp @+right_5_12
+		nop
+		jp @+right_5_13
+		nop
+		jp @+right_5_14
+		nop
+		jp @+right_5_15
+		nop
+		jp @+right_5_16
+		nop
+		jp @+right_5_17
+		nop
+		jp @+right_5_18
+		nop
+		jp @+right_5_19
+		nop
+		jp @+right_5_20
+		nop
+		jp @+right_5_21
+		nop
+		jp @+right_5_22
+		nop
+		jp @+right_5_23
+		nop
+		jp @+right_5_24
+		nop
+		jp @+right_5_25
+		nop
+		jp @+right_5_26
+		nop
+		jp @+right_5_27
+		nop
+		jp @+right_5_28
+		nop
+		jp @+right_5_29
+		nop
+		jp @+right_5_30
+
 
 	@right_5_8:
 		ld (@+return+1), de
@@ -34172,14 +34766,68 @@ DUMP 22, 0
 ds align 256
 	tiles_left_2_page: EQU 22 + 0b00100000
 	tiles_left_2:
-		dw @+left_2_0, @+left_2_1, @+left_2_2, @+left_2_3
-		dw @+left_2_4, @+left_2_5, @+left_2_6, @+left_2_7
-		dw @+left_2_8, @+left_2_9, @+left_2_10, @+left_2_11
-		dw @+left_2_12, @+left_2_13, @+left_2_14, @+left_2_15
-		dw @+left_2_16, @+left_2_17, @+left_2_18, @+left_2_19
-		dw @+left_2_20, @+left_2_21, @+left_2_22, @+left_2_23
-		dw @+left_2_24, @+left_2_25, @+left_2_26, @+left_2_27
-		dw @+left_2_28, @+left_2_29, @+left_2_30
+		jp @+left_2_0
+		nop
+		jp @+left_2_1
+		nop
+		jp @+left_2_2
+		nop
+		jp @+left_2_3
+		nop
+		jp @+left_2_4
+		nop
+		jp @+left_2_5
+		nop
+		jp @+left_2_6
+		nop
+		jp @+left_2_7
+		nop
+		jp @+left_2_8
+		nop
+		jp @+left_2_9
+		nop
+		jp @+left_2_10
+		nop
+		jp @+left_2_11
+		nop
+		jp @+left_2_12
+		nop
+		jp @+left_2_13
+		nop
+		jp @+left_2_14
+		nop
+		jp @+left_2_15
+		nop
+		jp @+left_2_16
+		nop
+		jp @+left_2_17
+		nop
+		jp @+left_2_18
+		nop
+		jp @+left_2_19
+		nop
+		jp @+left_2_20
+		nop
+		jp @+left_2_21
+		nop
+		jp @+left_2_22
+		nop
+		jp @+left_2_23
+		nop
+		jp @+left_2_24
+		nop
+		jp @+left_2_25
+		nop
+		jp @+left_2_26
+		nop
+		jp @+left_2_27
+		nop
+		jp @+left_2_28
+		nop
+		jp @+left_2_29
+		nop
+		jp @+left_2_30
+
 
 	@left_2_8:
 		ld (@+return+1), de
@@ -36451,14 +37099,68 @@ ds align 256
 ds align 256
 	tiles_right_6_page: EQU 22 + 0b00100000
 	tiles_right_6:
-		dw @+right_6_0, @+right_6_1, @+right_6_2, @+right_6_3
-		dw @+right_6_4, @+right_6_5, @+right_6_6, @+right_6_7
-		dw @+right_6_8, @+right_6_9, @+right_6_10, @+right_6_11
-		dw @+right_6_12, @+right_6_13, @+right_6_14, @+right_6_15
-		dw @+right_6_16, @+right_6_17, @+right_6_18, @+right_6_19
-		dw @+right_6_20, @+right_6_21, @+right_6_22, @+right_6_23
-		dw @+right_6_24, @+right_6_25, @+right_6_26, @+right_6_27
-		dw @+right_6_28, @+right_6_29, @+right_6_30
+		jp @+right_6_0
+		nop
+		jp @+right_6_1
+		nop
+		jp @+right_6_2
+		nop
+		jp @+right_6_3
+		nop
+		jp @+right_6_4
+		nop
+		jp @+right_6_5
+		nop
+		jp @+right_6_6
+		nop
+		jp @+right_6_7
+		nop
+		jp @+right_6_8
+		nop
+		jp @+right_6_9
+		nop
+		jp @+right_6_10
+		nop
+		jp @+right_6_11
+		nop
+		jp @+right_6_12
+		nop
+		jp @+right_6_13
+		nop
+		jp @+right_6_14
+		nop
+		jp @+right_6_15
+		nop
+		jp @+right_6_16
+		nop
+		jp @+right_6_17
+		nop
+		jp @+right_6_18
+		nop
+		jp @+right_6_19
+		nop
+		jp @+right_6_20
+		nop
+		jp @+right_6_21
+		nop
+		jp @+right_6_22
+		nop
+		jp @+right_6_23
+		nop
+		jp @+right_6_24
+		nop
+		jp @+right_6_25
+		nop
+		jp @+right_6_26
+		nop
+		jp @+right_6_27
+		nop
+		jp @+right_6_28
+		nop
+		jp @+right_6_29
+		nop
+		jp @+right_6_30
+
 
 	@right_6_8:
 		ld (@+return+1), de
@@ -39956,14 +40658,68 @@ ds align 256
 ds align 256
 	tiles_left_1_page: EQU 22 + 0b00100000
 	tiles_left_1:
-		dw @+left_1_0, @+left_1_1, @+left_1_2, @+left_1_3
-		dw @+left_1_4, @+left_1_5, @+left_1_6, @+left_1_7
-		dw @+left_1_8, @+left_1_9, @+left_1_10, @+left_1_11
-		dw @+left_1_12, @+left_1_13, @+left_1_14, @+left_1_15
-		dw @+left_1_16, @+left_1_17, @+left_1_18, @+left_1_19
-		dw @+left_1_20, @+left_1_21, @+left_1_22, @+left_1_23
-		dw @+left_1_24, @+left_1_25, @+left_1_26, @+left_1_27
-		dw @+left_1_28, @+left_1_29, @+left_1_30
+		jp @+left_1_0
+		nop
+		jp @+left_1_1
+		nop
+		jp @+left_1_2
+		nop
+		jp @+left_1_3
+		nop
+		jp @+left_1_4
+		nop
+		jp @+left_1_5
+		nop
+		jp @+left_1_6
+		nop
+		jp @+left_1_7
+		nop
+		jp @+left_1_8
+		nop
+		jp @+left_1_9
+		nop
+		jp @+left_1_10
+		nop
+		jp @+left_1_11
+		nop
+		jp @+left_1_12
+		nop
+		jp @+left_1_13
+		nop
+		jp @+left_1_14
+		nop
+		jp @+left_1_15
+		nop
+		jp @+left_1_16
+		nop
+		jp @+left_1_17
+		nop
+		jp @+left_1_18
+		nop
+		jp @+left_1_19
+		nop
+		jp @+left_1_20
+		nop
+		jp @+left_1_21
+		nop
+		jp @+left_1_22
+		nop
+		jp @+left_1_23
+		nop
+		jp @+left_1_24
+		nop
+		jp @+left_1_25
+		nop
+		jp @+left_1_26
+		nop
+		jp @+left_1_27
+		nop
+		jp @+left_1_28
+		nop
+		jp @+left_1_29
+		nop
+		jp @+left_1_30
+
 
 	@left_1_8:
 		ld (@+return+1), de
@@ -42138,14 +42894,68 @@ ds align 256
 ds align 256
 	tiles_right_7_page: EQU 22 + 0b00100000
 	tiles_right_7:
-		dw @+right_7_0, @+right_7_1, @+right_7_2, @+right_7_3
-		dw @+right_7_4, @+right_7_5, @+right_7_6, @+right_7_7
-		dw @+right_7_8, @+right_7_9, @+right_7_10, @+right_7_11
-		dw @+right_7_12, @+right_7_13, @+right_7_14, @+right_7_15
-		dw @+right_7_16, @+right_7_17, @+right_7_18, @+right_7_19
-		dw @+right_7_20, @+right_7_21, @+right_7_22, @+right_7_23
-		dw @+right_7_24, @+right_7_25, @+right_7_26, @+right_7_27
-		dw @+right_7_28, @+right_7_29, @+right_7_30
+		jp @+right_7_0
+		nop
+		jp @+right_7_1
+		nop
+		jp @+right_7_2
+		nop
+		jp @+right_7_3
+		nop
+		jp @+right_7_4
+		nop
+		jp @+right_7_5
+		nop
+		jp @+right_7_6
+		nop
+		jp @+right_7_7
+		nop
+		jp @+right_7_8
+		nop
+		jp @+right_7_9
+		nop
+		jp @+right_7_10
+		nop
+		jp @+right_7_11
+		nop
+		jp @+right_7_12
+		nop
+		jp @+right_7_13
+		nop
+		jp @+right_7_14
+		nop
+		jp @+right_7_15
+		nop
+		jp @+right_7_16
+		nop
+		jp @+right_7_17
+		nop
+		jp @+right_7_18
+		nop
+		jp @+right_7_19
+		nop
+		jp @+right_7_20
+		nop
+		jp @+right_7_21
+		nop
+		jp @+right_7_22
+		nop
+		jp @+right_7_23
+		nop
+		jp @+right_7_24
+		nop
+		jp @+right_7_25
+		nop
+		jp @+right_7_26
+		nop
+		jp @+right_7_27
+		nop
+		jp @+right_7_28
+		nop
+		jp @+right_7_29
+		nop
+		jp @+right_7_30
+
 
 	@right_7_8:
 		ld (@+return+1), de
