@@ -446,12 +446,18 @@ static constexpr int TileSize = 16;
 	[code appendString:@"\t;	* DE is a link register, indicating where the function should return to.\n"];
 	[code appendString:@"\t;\n"];
 	[code appendString:@"\t; Rules:\n"];
-	[code appendString:@"\t;	* IX and IY should be preserved.\n"];
+	[code appendString:@"\t;	* IX should be preserved; and\n"];
+	[code appendString:@"\t;	* SP is overtly available for any use the outputter prefers.\n"];
 	[code appendString:@"\t;\n"];
-	[code appendString:@"\t; Output:\n"];
+	[code appendString:@"\t; At exit:\n"];
 	[code appendString:@"\t;	* HL will be 15 lines earlier than it was at input.\n"];
 	[code appendString:@"\t; i.e. if stacking tiles from bottom to top, the caller will need to subtract a\n"];
 	[code appendString:@"\t; further 128 from HL before calling the next outputter.\n"];
+	[code appendString:@"\t;\n"];
+	[code appendString:@"\t; Each set of tiles is preceded by a long sequence of JP statements that jump to each tile in turn;\n"];
+	[code appendString:@"\t; this is the means by which dynamic branching happens elsewhere — the map is stored as the low byte\n"];
+	[code appendString:@"\t; of JP that branches into the tile to be drawn. Although slightly circuitous, this proved to be the\n"];
+	[code appendString:@"\t; fastest way of implementing that step subject to the bounds of my imagination.\n"];
 	[code appendString:@"\t;\n\n"];
 
 	[code appendString:@"ORG 0\nDUMP 16, 0\n"];
@@ -481,8 +487,16 @@ static constexpr int TileSize = 16;
 }
 
 - (void)compileSprites:(std::vector<SpriteSerialiser> &)sprites directory:(NSString *)directory {
-	// TODO: document precepts.
 	NSMutableString *code = [[NSMutableString alloc] init];
+
+	[code appendString:@"\t; The following sprite outputters are automatically generated. They are intended to\n"];
+	[code appendString:@"\t; be CALLed in the ordinary Z80 fashion.\n"];
+	[code appendString:@"\t;\n"];
+	[code appendString:@"\t; Input:\n"];
+	[code appendString:@"\t;	* HL is the screen address of the top-left corner of the sprite.\n"];
+	[code appendString:@"\t;\n"];
+	[code appendString:@"\t; Each outputter potentially overwrites the contents of all registers.\n"];
+	[code appendString:@"\t;\n\n"];
 
 	for(auto &sprite: sprites) {
 		[code appendFormat:@"\tsprite_%d:\n", sprite.index()];
@@ -613,6 +627,24 @@ static constexpr int TileSize = 16;
 
 - (void)writeColumnFunctions:(NSString *)directory {
 	NSMutableString *code = [[NSMutableString alloc] init];
+
+	[code appendString:@"\t; The following routines are automatically generated. Each one performs the\n"];
+	[code appendString:@"\t; action of drawing only the subset of tiles marked as dirty according to the\n"];
+	[code appendString:@"\t; four bit code implied by its function number.\n"];
+	[code appendString:@"\t;\n"];
+	[code appendString:@"\t; i.e."];
+	[code appendString:@"\t;	* draw_sliver0 draws zero tiles because all dirty bits are clear;\n"];
+	[code appendString:@"\t;	* draw_sliver1 draws the first tile in its collection of four, but no others;\n"];
+	[code appendString:@"\t;	* draw_sliver9 draws the first and fourth tiles; and\n"];
+	[code appendString:@"\t;	* draw_sliver15 draws all four tiles.\n"];
+	[code appendString:@"\t; In all cases the first tile is the one lowest down the screen."];
+	[code appendString:@"\t;\n"];
+	[code appendString:@"\t; At exit:\n"];
+	[code appendString:@"\t;	* IX has been decremented by four; and\n"];
+	[code appendString:@"\t;	* HL points to the start address for the first tile above this group, if any.\n"];
+	[code appendString:@"\t;\n"];
+	[code appendString:@"\t; An initial sequence of JP statements provides for fast dispatch into the appropriate sliver.\n"];
+	[code appendString:@"\t;\n\n"];
 
 	[code appendString:@"\tds align 256\n"];
 	[code appendString:@"\tslivers:\n"];
