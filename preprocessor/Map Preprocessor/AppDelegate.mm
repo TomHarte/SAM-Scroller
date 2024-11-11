@@ -235,20 +235,20 @@ static constexpr int TileSize = 16;
 		}();
 
 		[map appendFormat:@"\t\tdb 0x%02x, 0x%02x, 0x%02x\t; %d total\n",
-			((*c_it)[3] != (*c_before)[3] ? 0x02 : 0x0) |
-			((*c_it)[2] != (*c_before)[2] ? 0x04 : 0x0) |
-			((*c_it)[1] != (*c_before)[1] ? 0x08 : 0x0) |
-			((*c_it)[0] != (*c_before)[0] ? 0x10 : 0x0),
+			((*c_it)[3] != (*c_before)[3] ? 0x04 : 0x0) |
+			((*c_it)[2] != (*c_before)[2] ? 0x08 : 0x0) |
+			((*c_it)[1] != (*c_before)[1] ? 0x10 : 0x0) |
+			((*c_it)[0] != (*c_before)[0] ? 0x20 : 0x0),
 
-			((*c_it)[7] != (*c_before)[7] ? 0x02 : 0x0) |
-			((*c_it)[6] != (*c_before)[6] ? 0x04 : 0x0) |
-			((*c_it)[5] != (*c_before)[5] ? 0x08 : 0x0) |
-			((*c_it)[4] != (*c_before)[4] ? 0x10 : 0x0),
+			((*c_it)[7] != (*c_before)[7] ? 0x04 : 0x0) |
+			((*c_it)[6] != (*c_before)[6] ? 0x08 : 0x0) |
+			((*c_it)[5] != (*c_before)[5] ? 0x10 : 0x0) |
+			((*c_it)[4] != (*c_before)[4] ? 0x20 : 0x0),
 
-			((*c_it)[11] != (*c_before)[11] ? 0x02 : 0x0) |
-			((*c_it)[10] != (*c_before)[10] ? 0x04 : 0x0) |
-			((*c_it)[9] != (*c_before)[9] ? 0x08 : 0x0) |
-			((*c_it)[8] != (*c_before)[8] ? 0x10 : 0x0),
+			((*c_it)[11] != (*c_before)[11] ? 0x04 : 0x0) |
+			((*c_it)[10] != (*c_before)[10] ? 0x08 : 0x0) |
+			((*c_it)[9] != (*c_before)[9] ? 0x10 : 0x0) |
+			((*c_it)[8] != (*c_before)[8] ? 0x20 : 0x0),
 
 			diffs
 		];
@@ -612,8 +612,11 @@ static constexpr int TileSize = 16;
 	[code appendString:@"\tslivers:\n"];
 	[code appendString:@"\t\tdw "];
 	for(int c = 0; c < 16; c++) {
-		if(c) [code appendString:@", "];
-		[code appendFormat:@"@+draw_sliver%d", c];
+		if(c) {
+			if(c&3) [code appendString:@", "];
+			else  [code appendString:@"\n\t\tdw "];
+		}
+		[code appendFormat:@"@+draw_sliver%d, 0", c];
 	}
 	[code appendString:@"\n\n"];
 

@@ -1,6 +1,9 @@
 	ds align 256
 	slivers:
-		dw @+draw_sliver0, @+draw_sliver1, @+draw_sliver2, @+draw_sliver3, @+draw_sliver4, @+draw_sliver5, @+draw_sliver6, @+draw_sliver7, @+draw_sliver8, @+draw_sliver9, @+draw_sliver10, @+draw_sliver11, @+draw_sliver12, @+draw_sliver13, @+draw_sliver14, @+draw_sliver15
+		dw @+draw_sliver0, 0, @+draw_sliver1, 0, @+draw_sliver2, 0, @+draw_sliver3, 0
+		dw @+draw_sliver4, 0, @+draw_sliver5, 0, @+draw_sliver6, 0, @+draw_sliver7, 0
+		dw @+draw_sliver8, 0, @+draw_sliver9, 0, @+draw_sliver10, 0, @+draw_sliver11, 0
+		dw @+draw_sliver12, 0, @+draw_sliver13, 0, @+draw_sliver14, 0, @+draw_sliver15, 0
 
 	@draw_sliver0:
 		ld (@+return + 1), de
