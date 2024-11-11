@@ -209,7 +209,7 @@ static constexpr int TileSize = 16;
 					writeToFile:name
 					atomically:NO];
 			}
-			column[(y - top) / TileSize] = it->second << 1;
+			column[(y - top) / TileSize] = it->second << 2;
 		}
 	}
 
@@ -235,20 +235,20 @@ static constexpr int TileSize = 16;
 		}();
 
 		[map appendFormat:@"\t\tdb 0x%02x, 0x%02x, 0x%02x\t; %d total\n",
-			((*c_it)[3] != (*c_before)[3] ? 0x02 : 0x0) |
-			((*c_it)[2] != (*c_before)[2] ? 0x04 : 0x0) |
-			((*c_it)[1] != (*c_before)[1] ? 0x08 : 0x0) |
-			((*c_it)[0] != (*c_before)[0] ? 0x10 : 0x0),
+			((*c_it)[3] != (*c_before)[3] ? 0x04 : 0x0) |
+			((*c_it)[2] != (*c_before)[2] ? 0x08 : 0x0) |
+			((*c_it)[1] != (*c_before)[1] ? 0x10 : 0x0) |
+			((*c_it)[0] != (*c_before)[0] ? 0x20 : 0x0),
 
-			((*c_it)[7] != (*c_before)[7] ? 0x02 : 0x0) |
-			((*c_it)[6] != (*c_before)[6] ? 0x04 : 0x0) |
-			((*c_it)[5] != (*c_before)[5] ? 0x08 : 0x0) |
-			((*c_it)[4] != (*c_before)[4] ? 0x10 : 0x0),
+			((*c_it)[7] != (*c_before)[7] ? 0x04 : 0x0) |
+			((*c_it)[6] != (*c_before)[6] ? 0x08 : 0x0) |
+			((*c_it)[5] != (*c_before)[5] ? 0x10 : 0x0) |
+			((*c_it)[4] != (*c_before)[4] ? 0x20 : 0x0),
 
-			((*c_it)[11] != (*c_before)[11] ? 0x02 : 0x0) |
-			((*c_it)[10] != (*c_before)[10] ? 0x04 : 0x0) |
-			((*c_it)[9] != (*c_before)[9] ? 0x08 : 0x0) |
-			((*c_it)[8] != (*c_before)[8] ? 0x10 : 0x0),
+			((*c_it)[11] != (*c_before)[11] ? 0x04 : 0x0) |
+			((*c_it)[10] != (*c_before)[10] ? 0x08 : 0x0) |
+			((*c_it)[9] != (*c_before)[9] ? 0x10 : 0x0) |
+			((*c_it)[8] != (*c_before)[8] ? 0x20 : 0x0),
 
 			diffs
 		];
@@ -260,21 +260,27 @@ static constexpr int TileSize = 16;
 	[map writeToFile:map_name atomically:NO encoding:NSUTF8StringEncoding error:nil];
 }
 
+// TODO: make it clear to caller that there is a [very, very small] benefit to tiles being sorted in frequency-of-surprise order.
 - (NSString *)tiles:(NSString *)name slice:(int)slice source:(std::vector<TileSerialiser<TileSize>> &)tiles page:(int)page {
 	NSMutableString *code = [[NSMutableString alloc] init];
 
 	[code appendFormat:@"ds align 256\n"];
 	[code appendFormat:@"\ttiles_%@_page: EQU %d + 0b00100000\n", name, page];
-	[code appendFormat:@"\ttiles_%@:", name];
-	bool is_first = true;
+	[code appendFormat:@"\ttiles_%@:\n", name];
 	for(size_t c = 0; c < tiles.size(); c++) {
-		if(!(c&3)) {
-			[code appendString:@"\n\t\tdw "];
-			is_first = true;
+		if(c) {
+			[code appendString:@"\t\tnop\n"];
 		}
-		if(!is_first) [code appendString:@", "];
-		[code appendFormat:@"@+%@_%d", name, int(c)];
-		is_first = false;
+
+		// Allow whatever is going to be encoded first to be a JR; everything else
+		// will need to be a JP since any one tile is guaranteed to be more than
+		// 256 bytes in length.
+		if(c != tiles[0].index()) {
+			[code appendFormat:@"\t\tjp @+%@_%d\n", name, int(c)];
+		} else {
+			[code appendFormat:@"\t\tjr @+%@_%d\n", name, int(c)];
+			[code appendString:@"\t\tnop\n"];
+		}
 	}
 	[code appendString:@"\n\n"];
 
@@ -440,12 +446,18 @@ static constexpr int TileSize = 16;
 	[code appendString:@"\t;	* DE is a link register, indicating where the function should return to.\n"];
 	[code appendString:@"\t;\n"];
 	[code appendString:@"\t; Rules:\n"];
-	[code appendString:@"\t;	* IX and IY should be preserved.\n"];
+	[code appendString:@"\t;	* IX should be preserved; and\n"];
+	[code appendString:@"\t;	* SP is overtly available for any use the outputter prefers.\n"];
 	[code appendString:@"\t;\n"];
-	[code appendString:@"\t; Output:\n"];
+	[code appendString:@"\t; At exit:\n"];
 	[code appendString:@"\t;	* HL will be 15 lines earlier than it was at input.\n"];
 	[code appendString:@"\t; i.e. if stacking tiles from bottom to top, the caller will need to subtract a\n"];
 	[code appendString:@"\t; further 128 from HL before calling the next outputter.\n"];
+	[code appendString:@"\t;\n"];
+	[code appendString:@"\t; Each set of tiles is preceded by a long sequence of JP statements that jump to each tile in turn;\n"];
+	[code appendString:@"\t; this is the means by which dynamic branching happens elsewhere — the map is stored as the low byte\n"];
+	[code appendString:@"\t; of JP that branches into the tile to be drawn. Although slightly circuitous, this proved to be the\n"];
+	[code appendString:@"\t; fastest way of implementing that step subject to the bounds of my imagination.\n"];
 	[code appendString:@"\t;\n\n"];
 
 	[code appendString:@"ORG 0\nDUMP 16, 0\n"];
@@ -475,8 +487,16 @@ static constexpr int TileSize = 16;
 }
 
 - (void)compileSprites:(std::vector<SpriteSerialiser> &)sprites directory:(NSString *)directory {
-	// TODO: document precepts.
 	NSMutableString *code = [[NSMutableString alloc] init];
+
+	[code appendString:@"\t; The following sprite outputters are automatically generated. They are intended to\n"];
+	[code appendString:@"\t; be CALLed in the ordinary Z80 fashion.\n"];
+	[code appendString:@"\t;\n"];
+	[code appendString:@"\t; Input:\n"];
+	[code appendString:@"\t;	* HL is the screen address of the top-left corner of the sprite.\n"];
+	[code appendString:@"\t;\n"];
+	[code appendString:@"\t; Each outputter potentially overwrites the contents of all registers.\n"];
+	[code appendString:@"\t;\n\n"];
 
 	for(auto &sprite: sprites) {
 		[code appendFormat:@"\tsprite_%d:\n", sprite.index()];
@@ -608,14 +628,40 @@ static constexpr int TileSize = 16;
 - (void)writeColumnFunctions:(NSString *)directory {
 	NSMutableString *code = [[NSMutableString alloc] init];
 
+	[code appendString:@"\t; The following routines are automatically generated. Each one performs the\n"];
+	[code appendString:@"\t; action of drawing only the subset of tiles marked as dirty according to the\n"];
+	[code appendString:@"\t; four bit code implied by its function number.\n"];
+	[code appendString:@"\t;\n"];
+	[code appendString:@"\t; i.e."];
+	[code appendString:@"\t;	* draw_sliver0 draws zero tiles because all dirty bits are clear;\n"];
+	[code appendString:@"\t;	* draw_sliver1 draws the first tile in its collection of four, but no others;\n"];
+	[code appendString:@"\t;	* draw_sliver9 draws the first and fourth tiles; and\n"];
+	[code appendString:@"\t;	* draw_sliver15 draws all four tiles.\n"];
+	[code appendString:@"\t; In all cases the first tile is the one lowest down the screen."];
+	[code appendString:@"\t;\n"];
+	[code appendString:@"\t; At exit:\n"];
+	[code appendString:@"\t;	* IX has been decremented by four; and\n"];
+	[code appendString:@"\t;	* HL points to the start address for the first tile above this group, if any.\n"];
+	[code appendString:@"\t;\n"];
+	[code appendString:@"\t; An initial sequence of JP statements provides for fast dispatch into the appropriate sliver.\n"];
+	[code appendString:@"\t;\n\n"];
+
 	[code appendString:@"\tds align 256\n"];
 	[code appendString:@"\tslivers:\n"];
-	[code appendString:@"\t\tdw "];
 	for(int c = 0; c < 16; c++) {
-		if(c) [code appendString:@", "];
-		[code appendFormat:@"@+draw_sliver%d", c];
+		if(c) [code appendString:@"\t\tnop\n"];
+
+		// Three was the current threshold for using a JR rather than a JP, empirically.
+		// Might be improveable if sliver code gets slimmer.
+		if(c < 3) {
+			[code appendFormat:@"\t\tjr @+draw_sliver%d\n", c];
+			[code appendString:@"\t\tnop\n"];
+
+		} else {
+			[code appendFormat:@"\t\tjp @+draw_sliver%d\n", c];
+		}
 	}
-	[code appendString:@"\n\n"];
+	[code appendString:@"\n"];
 
 	for(int c = 0; c < 16; c++) {
 		// On input: IX points one beyond the next tile ID.
@@ -625,10 +671,11 @@ static constexpr int TileSize = 16;
 		[code appendFormat:@"\t@draw_sliver%d:\n", c];
 		[code appendString:@"\t\tld (@+return + 1), de\n"];
 
-		// Store dispatch table pointer.
+		// Store dispatch address.
 		for(int p = 0; p < __builtin_popcount(c); p++) {
-			[code appendFormat:@"\t\tld (@+loadslot%d + 3), a\n", p];
+			[code appendFormat:@"\t\tld (@+jpslot%d + 2), a\n", p];
 		}
+		[code appendString:@"\n"];
 
 		int mask = 1;
 		int offset = 0;
@@ -647,13 +694,11 @@ static constexpr int TileSize = 16;
 				append_offset();
 				offset = 128;
 
+				const auto slot = load_slot++;
 				[code appendFormat:@"\t\tld a, (ix - %d)\n", ix_offset];
-				[code appendFormat:@"\t\tld (@+loadslot%d + 2), a\n", load_slot];
-				[code appendFormat:@"\t@loadslot%d:\n", load_slot++];
-				[code appendString:@"\t\tld de, (1234)\n"];
-				[code appendString:@"\t\tld (@+dispatch + 1), de\n"];
+				[code appendFormat:@"\t\tld (@+jpslot%d + 1), a\n", slot];
 				[code appendString:@"\t\tld de, @+end_dispatch\n"];
-				[code appendString:@"\t@dispatch:\n"];
+				[code appendFormat:@"\t@jpslot%d:\n", slot];
 				[code appendString:@"\t\tjp 1234\n"];
 				[code appendString:@"\t@end_dispatch:\n"];
 				[code appendString:@"\n"];
