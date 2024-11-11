@@ -610,15 +610,20 @@ static constexpr int TileSize = 16;
 
 	[code appendString:@"\tds align 256\n"];
 	[code appendString:@"\tslivers:\n"];
-	[code appendString:@"\t\tdw "];
 	for(int c = 0; c < 16; c++) {
-		if(c) {
-			if(c&3) [code appendString:@", "];
-			else  [code appendString:@"\n\t\tdw "];
+		if(c) [code appendString:@"\t\tnop\n"];
+
+		// Three was the current threshold for using a JR rather than a JP, empirically.
+		// Might be improveable if sliver code gets slimmer.
+		if(c < 3) {
+			[code appendFormat:@"\t\tjr @+draw_sliver%d\n", c];
+			[code appendString:@"\t\tnop\n"];
+
+		} else {
+			[code appendFormat:@"\t\tjp @+draw_sliver%d\n", c];
 		}
-		[code appendFormat:@"@+draw_sliver%d, 0", c];
 	}
-	[code appendString:@"\n\n"];
+	[code appendString:@"\n"];
 
 	for(int c = 0; c < 16; c++) {
 		// On input: IX points one beyond the next tile ID.

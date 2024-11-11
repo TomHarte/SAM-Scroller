@@ -20,17 +20,14 @@ ENDIF
 		@diff_address: EQU DIRTY_FLAGS + FLAGS_SIZE - 1 - @sliver_loop - @column_loop*3
 
 		ld a, (@diff_address)		; Get dirty flags.
-		ld (@+get_sliver+2), a
-
-	@get_sliver:
-		ld de, (slivers)
-		ld (@+do_sliver+1), de
+		ld (@+jp_sliver+1), a		; Use flags directly to select lower byte of jump target.
 
 tile_address{@column_loop}_{@sliver_loop}:
 		ld a, tiles_full >> 8
 		ld de, @+next
-	@do_sliver:
-		jp 1234
+
+	@jp_sliver:
+		jp slivers
 	@next:
 
 NEXT @sliver_loop
