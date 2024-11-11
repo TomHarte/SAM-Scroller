@@ -35,7 +35,8 @@ ds align 256
 		nop
 		jp @+full_7
 		nop
-		jp @+full_8
+		jr @+full_8
+		nop
 		nop
 		jp @+full_9
 		nop
@@ -4199,7 +4200,8 @@ ds align 256
 		nop
 		jp @+left_7_7
 		nop
-		jp @+left_7_8
+		jr @+left_7_8
+		nop
 		nop
 		jp @+left_7_9
 		nop
@@ -8267,7 +8269,8 @@ ds align 256
 		nop
 		jp @+right_1_7
 		nop
-		jp @+right_1_8
+		jr @+right_1_8
+		nop
 		nop
 		jp @+right_1_9
 		nop
@@ -10505,7 +10508,8 @@ ds align 256
 		nop
 		jp @+left_6_7
 		nop
-		jp @+left_6_8
+		jr @+left_6_8
+		nop
 		nop
 		jp @+left_6_9
 		nop
@@ -14039,7 +14043,8 @@ ds align 256
 		nop
 		jp @+right_2_7
 		nop
-		jp @+right_2_8
+		jr @+right_2_8
+		nop
 		nop
 		jp @+right_2_9
 		nop
@@ -16364,7 +16369,8 @@ ds align 256
 		nop
 		jp @+left_5_7
 		nop
-		jp @+left_5_8
+		jr @+left_5_8
+		nop
 		nop
 		jp @+left_5_9
 		nop
@@ -19800,7 +19806,8 @@ ds align 256
 		nop
 		jp @+right_3_7
 		nop
-		jp @+right_3_8
+		jr @+right_3_8
+		nop
 		nop
 		jp @+right_3_9
 		nop
@@ -22652,7 +22659,8 @@ ds align 256
 		nop
 		jp @+left_4_7
 		nop
-		jp @+left_4_8
+		jr @+left_4_8
+		nop
 		nop
 		jp @+left_4_9
 		nop
@@ -25577,7 +25585,8 @@ ds align 256
 		nop
 		jp @+right_4_7
 		nop
-		jp @+right_4_8
+		jr @+right_4_8
+		nop
 		nop
 		jp @+right_4_9
 		nop
@@ -28513,7 +28522,8 @@ ds align 256
 		nop
 		jp @+left_3_7
 		nop
-		jp @+left_3_8
+		jr @+left_3_8
+		nop
 		nop
 		jp @+left_3_9
 		nop
@@ -31349,7 +31359,8 @@ ds align 256
 		nop
 		jp @+right_5_7
 		nop
-		jp @+right_5_8
+		jr @+right_5_8
+		nop
 		nop
 		jp @+right_5_9
 		nop
@@ -34782,7 +34793,8 @@ ds align 256
 		nop
 		jp @+left_2_7
 		nop
-		jp @+left_2_8
+		jr @+left_2_8
+		nop
 		nop
 		jp @+left_2_9
 		nop
@@ -37115,7 +37127,8 @@ ds align 256
 		nop
 		jp @+right_6_7
 		nop
-		jp @+right_6_8
+		jr @+right_6_8
+		nop
 		nop
 		jp @+right_6_9
 		nop
@@ -40674,7 +40687,8 @@ ds align 256
 		nop
 		jp @+left_1_7
 		nop
-		jp @+left_1_8
+		jr @+left_1_8
+		nop
 		nop
 		jp @+left_1_9
 		nop
@@ -42910,7 +42924,8 @@ ds align 256
 		nop
 		jp @+right_7_7
 		nop
-		jp @+right_7_8
+		jr @+right_7_8
+		nop
 		nop
 		jp @+right_7_9
 		nop

@@ -260,6 +260,7 @@ static constexpr int TileSize = 16;
 	[map writeToFile:map_name atomically:NO encoding:NSUTF8StringEncoding error:nil];
 }
 
+// TODO: make it clear to caller that there is a [very, very small] benefit to tiles being sorted in frequency-of-surprise order.
 - (NSString *)tiles:(NSString *)name slice:(int)slice source:(std::vector<TileSerialiser<TileSize>> &)tiles page:(int)page {
 	NSMutableString *code = [[NSMutableString alloc] init];
 
@@ -267,8 +268,19 @@ static constexpr int TileSize = 16;
 	[code appendFormat:@"\ttiles_%@_page: EQU %d + 0b00100000\n", name, page];
 	[code appendFormat:@"\ttiles_%@:\n", name];
 	for(size_t c = 0; c < tiles.size(); c++) {
-		if(c) [code appendString:@"\t\tnop\n"];
-		[code appendFormat:@"\t\tjp @+%@_%d\n", name, int(c)];
+		if(c) {
+			[code appendString:@"\t\tnop\n"];
+		}
+
+		// Allow whatever is going to be encoded first to be a JR; everything else
+		// will need to be a JP since any one tile is guaranteed to be more than
+		// 256 bytes in length.
+		if(c != tiles[0].index()) {
+			[code appendFormat:@"\t\tjp @+%@_%d\n", name, int(c)];
+		} else {
+			[code appendFormat:@"\t\tjr @+%@_%d\n", name, int(c)];
+			[code appendString:@"\t\tnop\n"];
+		}
 	}
 	[code appendString:@"\n\n"];
 
