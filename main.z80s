@@ -9,6 +9,33 @@ BORDER:		EQU 254
 EXECPAGE:	EQU 24
 SETUPPAGE:	EQU 14
 
+;
+; Constants affecting motion.
+;
+MAX_JUMP_FRAMES:	EQU 15		; The number of consecutive frames a user's pressing of the jump key can be honoured for re: variable-height jumping.
+GRAVITY_STRENGTH:	EQU 80		; The quantum force applied due to gravity.
+JUMP_STRENGTH:		EQU 270		; The force applied by jumping.
+VERTICAL_DAMPING:	EQU 4		; Resistance to vertical motion, in log2 terms. If this is 1 then vertical speed will be reduced by (speed >> 1)
+								; at each tick. If it is 2 then vertical speed will be reduced by (speed >> 2). Etc. So bigger values mean
+								; less damping.
+
+
+HORIZONTAL_AIR_DAMPING:		EQU 4	; Horizontal damping when player is in the air.
+HORIZONTAL_GROUND_DAMPING:	EQU 2	; Horizontal damping when player is on the ground.
+	; REQUIRED: HORIZONTAL_GROUND_DAMPING <= HORIZONTAL_AIR_DAMPING.
+
+; The force applied by horizontal motion, whether in the air or on the ground.
+; With fixed speed scrolling in increments of 1 coordinate unit, these are picked
+; so that the character will have a maximum speed of 1 unit movement.
+HORIZONTAL_AIR_STRENGTH:	EQU 256 >> HORIZONTAL_AIR_DAMPING
+HORIZONTAL_GROUND_STRENGTH:	EQU 256 >> HORIZONTAL_GROUND_DAMPING
+
+;
+; Constants defining the coordinate system.
+;
+START_Y:	EQU 56		; Offset of the top of the display in internal coordinates.
+Y_CEILING:	EQU 8		; Position at which player will bump his head in internal coordinate; needs to be more than 0 to avoid tunnelling.
+
 INC "per_buffer_layout.z80s"
 
 	ORG 0
@@ -335,17 +362,10 @@ run_physics:
 	ld d, h
 	ld e, l
 
+@vertical_damp: EQU FOR VERTICAL_DAMPING
 	sra d
 	rr e
-	sra d
-	rr e
-	sra d
-	rr e
-	sra d
-	rr e
-	sra d
-	rr e
-
+NEXT @vertical_damp
 	or a
 	sbc hl, de
 
@@ -375,10 +395,9 @@ run_physics:
 	jr @+store_y
 
 @test_top:
-	cp 8				; This is a magic constant related to how far I think the hero could ever tunnel.
-						; TODO: verify, and don't retain as a magic constant.
+	cp Y_CEILING
 	jr nc, @+store_y
-	ld hl, 8 << 8
+	ld hl, Y_CEILING << 8
 
 @store_y:
 	ld (@+sprite_current+Y_OFFSET), hl
@@ -395,14 +414,23 @@ run_physics:
 	ld d, h
 	ld e, l
 
+@ground_damping: EQU FOR HORIZONTAL_GROUND_DAMPING
 	sra d
 	rr e
+NEXT @ground_damping
+
+IF HORIZONTAL_AIR_DAMPING != HORIZONTAL_GROUND_DAMPING
+	ld a, (@+hero_flags)
+	and FLAG_ON_GROUND
+	jr nz, @+no_air_damping
+
+@air_damping: EQU FOR HORIZONTAL_AIR_DAMPING - HORIZONTAL_GROUND_DAMPING
 	sra d
 	rr e
-	sra d
-	rr e
-	sra d
-	rr e
+NEXT @air_damping
+
+@no_air_damping:
+ENDIF
 
 	or a
 	sbc hl, de
@@ -421,7 +449,18 @@ run_physics:
 	rra
 	jr c, @+no_left
 
-	ld bc, -16
+	ld a, (@+hero_flags)
+	and FLAG_ON_GROUND
+	jr z, @+apply_air_constant_left
+
+@apply_ground_constant_left:
+	ld bc, -HORIZONTAL_GROUND_STRENGTH
+	add hl, bc
+
+	jr @+no_right
+
+@apply_air_constant_left:
+	ld bc, -HORIZONTAL_AIR_STRENGTH
 	add hl, bc
 
 	jr @+no_right
@@ -430,7 +469,18 @@ run_physics:
 	rra
 	jr c, @+no_right
 
-	ld bc, 16
+	ld a, (@+hero_flags)
+	and FLAG_ON_GROUND
+	jr z, @+apply_air_constant_right
+
+@apply_ground_constant_right:
+	ld bc, HORIZONTAL_GROUND_STRENGTH
+	add hl, bc
+
+	jr @+no_right
+
+@apply_air_constant_right:
+	ld bc, HORIZONTAL_AIR_STRENGTH
 	add hl, bc
 
 	;
@@ -717,6 +767,8 @@ three_table:	db 0x38, 0x1c, 0x00, 0x00
 ;
 @sprite_current:	dw 60 << 8, START_Y << 8
 @sprite_previous:	dw 60 << 8, START_Y << 8
+X_OFFSET:	EQU 0
+Y_OFFSET:	EQU 2
 
 @hero_flags:		db 0	; Indicates current player status – which direction they're facing and whether they're on solid ground.
 @hero_jump_count:	db 0	; Records how long the jump button has been acknowledged for; pressing for longer gives a higer jump.
@@ -724,15 +776,6 @@ three_table:	db 0x38, 0x1c, 0x00, 0x00
 
 FLAG_DIRECTION:		EQU 1
 FLAG_ON_GROUND:		EQU 2
-
-MAX_JUMP_FRAMES:	EQU 8
-GRAVITY_STRENGTH:	EQU 80
-JUMP_STRENGTH:		EQU 300
-
-X_OFFSET:	EQU 0
-Y_OFFSET:	EQU 2
-
-START_Y:	EQU 56
 
 ; Code to include on the main program page.
 INC "generated/sprites.z80s"
