@@ -349,24 +349,46 @@ test_sprite:
 
 	or a
 	sbc hl, bc
-	sra h
-	rr l
+	ld d, h
+	ld e, l
+
+	sra d
+	rr e
+	sra d
+	rr e
+	sra d
+	rr e
+	sra d
+	rr e
+
+	or a
+	sbc hl, de
 
 	ex de, hl
 	ld hl, (@+sprite_current+Y_OFFSET)
 	add hl, de						; Add difference to HL.
 
-	ld bc, 16
+	ld bc, 45
 	add hl, bc						; Add some gravity.
 
+	;
+
+	; Test for bounds of screen.
+	ld a, h
+	cp 192 - 24
+	jr c, @+test_top
+
+	ld hl, (192 - 24) << 8
+	jr @+store_y
+
+@test_top:
+	cp 0
+	jr nc, @+store_y
+	ld hl, 0
+
+@store_y:
 	ld (@+sprite_current+Y_OFFSET), hl
 
-;	ld a, (@+sprite_y)
-;	dec a
-;	jr nz, @+moved
-;	ld a, 192 - 24
-;@moved:
-;	ld (@+sprite_y), a
 	;
 	; End move vertically.
 	;
