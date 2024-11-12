@@ -444,22 +444,44 @@ run_physics:
 @no_right:
 	ld (@+sprite_current+X_OFFSET), hl
 
-	; Check for jump. For now, just a fixed-height.
-	ld a, (@+hero_flags)
-	and FLAG_ON_GROUND
-	jr z, @+no_jump
-
+	; Check whether player is requesting a jump.
 	ld bc, 0x7ffe
 	in a, (c)
 	rra
 	jr c, @+no_jump
 
+	; If player is on the ground, definitely honour and reset the jump count.
+	ld a, (@+hero_flags)
+	and FLAG_ON_GROUND
+	jr z, @+test_jump_count
+
+	ld a, MAX_JUMP_FRAMES
+	ld (@+hero_jump_count), a
+	jr @+apply_jump
+
+@test_jump_count:
+	; Still honour the jump if the button has been held continuously for MAX_JUMP_FRAMES or
+	; fewer frames since the player was on the ground.
+	ld a, (@+hero_jump_count)
+	or a
+	jr z, @+no_jump
+
+@apply_jump:
+	ld a, (@+hero_jump_count)
+	dec a
+	ld (@+hero_jump_count), a
+
 	ld hl, (@+sprite_current+Y_OFFSET)
-	ld bc, -8 << 8
+	ld bc, -1 << 8
 	add hl, bc
 	ld (@+sprite_current+Y_OFFSET), hl
+	jr @+did_jump
 
 @no_jump:
+	xor a
+	ld (@+hero_jump_count), a
+
+@did_jump:
 	; Check bounds and force a scroll if necessary.
 	ld a, (@+sprite_current+X_OFFSET+1)
 	cp 64 + 16
@@ -702,6 +724,8 @@ three_table:	db 0x38, 0x1c, 0x00, 0x00
 
 FLAG_DIRECTION:		EQU 1
 FLAG_ON_GROUND:		EQU 2
+
+MAX_JUMP_FRAMES:	EQU 8
 
 X_OFFSET:	EQU 0
 Y_OFFSET:	EQU 2
