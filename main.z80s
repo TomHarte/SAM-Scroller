@@ -65,23 +65,8 @@ IF BORDER_PROFILING
 	ld a, %00000000
 	out (BORDER), a
 ENDIF
-	; Check and apply keyboard input — cursor left/right only at present.
-	ld bc, 0xfffe
-	in a, (c)
-	rra
-	rra
-	rra
-	rra	; left is now in carry
-	jr c, @+test_right
 
-	call @+scroll_left
-	jr @+redraw
-
-@test_right:
-	rra	; right is now in carry
-	jr c, @+redraw
-
-	call @+scroll_right
+	call run_physics
 
 @redraw:
 IF BORDER_PROFILING
@@ -336,34 +321,167 @@ ENDIF
 @return:
 	jp 1234
 
+
+run_physics:
+	;
+	; Vertical.
+	;
+	ld hl, (@+sprite_current+Y_OFFSET)		; HL = current, BC = previous, and update in-memory copy of previous.
+	ld bc, (@+sprite_previous+Y_OFFSET)
+	ld (@+sprite_previous+Y_OFFSET), hl
+
+	or a
+	sbc hl, bc
+	ld d, h
+	ld e, l
+
+	sra d
+	rr e
+	sra d
+	rr e
+	sra d
+	rr e
+	sra d
+	rr e
+	sra d
+	rr e
+
+	or a
+	sbc hl, de
+
+	ex de, hl
+	ld hl, (@+sprite_current+Y_OFFSET)
+	add hl, de						; Add difference to HL.
+
+	ld bc, 45
+	add hl, bc						; Add some gravity.
+
+	; Test for bounds of screen.
+	ld a, h
+	cp 192 - 24
+	jr c, @+test_top
+
+	ld hl, (192 - 24) << 8
+
+	; Obey jump. For now, just a fixed-height.
+	ld bc, 0x7ffe
+	in a, (c)
+	rra
+	jr c, @+store_y
+
+	ld hl, (192 - 8 - 24) << 8
+	jr @+store_y
+
+@test_top:
+	cp 0
+	jr nc, @+store_y
+	ld hl, 0
+
+@store_y:
+	ld (@+sprite_current+Y_OFFSET), hl
+
+	;
+	; Horizontal.
+	;
+	ld hl, (@+sprite_current+X_OFFSET)		; HL = current, BC = previous, and update in-memory copy of previous.
+	ld bc, (@+sprite_previous+X_OFFSET)
+	ld (@+sprite_previous+X_OFFSET), hl
+
+	or a
+	sbc hl, bc
+	ld d, h
+	ld e, l
+
+	sra d
+	rr e
+	sra d
+	rr e
+	sra d
+	rr e
+	; sra d
+	; rr e
+	; sra d
+	; rr e
+
+	or a
+	sbc hl, de
+
+	ex de, hl
+	ld hl, (@+sprite_current+X_OFFSET)
+	add hl, de						; Add difference to HL.
+
+	; Do some left/right.
+	ld bc, 0xfffe
+	in a, (c)
+
+	rra
+	rra
+	rra
+	rra
+	jr c, @+no_left
+
+	ld bc, -192
+	add hl, bc
+
+	jr @+no_right
+
+@no_left:
+	rra
+	jr c, @+no_right
+
+	ld bc, 192
+	add hl, bc
+
+	;
+	; TODO: better camera logic.
+	;
+	; I suspect something like "if facing left, try to keep sprite on right of screen" and vice versa.
+	; The below just gives the sprite a certain boxed area around the centre of the screen, at the
+	; edges of which he pushes the camera.
+	;
+
+@no_right:
+	ld (@+sprite_current+X_OFFSET), hl
+
+	; Check bounds and force a scroll if necessary.
+	ld a, (@+sprite_current+X_OFFSET+1)
+	cp 64 + 16
+	jr c, @+no_scroll_right
+
+	dec a
+	ld (@+sprite_current+X_OFFSET+1), a
+	call @scroll_right
+	jr @+no_scroll_left
+
+@no_scroll_right:
+	ld a, (@+sprite_current+X_OFFSET+1)
+	cp 64 - 16
+	jr nc, @+no_scroll_left
+
+	inc a
+	ld (@+sprite_current+X_OFFSET+1), a
+	call @scroll_left
+
+@no_scroll_left:
+	ret
 ;
 ; Experimental: draws a single, rectangular sprite.
 ;
 test_sprite:
-	;
-	; Move vertically.
-	;
-	ld a, (@+sprite_y)
-	dec a
-	jr nz, @+moved
-	ld a, 192 - 24
-@moved:
-	ld (@+sprite_y), a
-	;
-	; End move vertically.
-	;
-
 	; Load y, multiply it by 128 and set the top bit.
-	ld hl, (@+sprite_y - 1)
+	ld a, (@+sprite_current+Y_OFFSET+1)
+	ld h, a
+	ld l, 0
 	srl h
 	set 7, h
 	rr l
 
 	; Add x.
-	ld bc, (@+sprite_x)
-	add hl, bc
+	ld a, (@+sprite_current+X_OFFSET+1)
+	add l
+	ld l, a
 
-	; Call preformed sprite plotter
+	; Call preformed sprite plotter.
 	call sprite_1
 
 	;
@@ -380,7 +498,7 @@ test_sprite:
 	rra
 
 	ld e, a
-	ld a, (@+sprite_x)
+	ld a, (@+sprite_current+X_OFFSET+1)
 	add e
 	ld c, e
 
@@ -399,7 +517,7 @@ test_sprite:
 	; HL = first dirty flags byte for the column the sprite is in.
 	;
 
-	ld a, (@+sprite_y)
+	ld a, (@+sprite_current+Y_OFFSET+1)
 	ld b, 64
 @search_down:
 	cp b
@@ -515,30 +633,6 @@ test_sprite:
 two_table:		db 0x30, 0x18, 0x0c, 0x00
 three_table:	db 0x38, 0x1c, 0x00, 0x00
 
-
-
-;
-; A table in which the three bytes on line n represent all tiles
-; set as dirty from row n downwards.
-;
-; dirty_masks:
-; 	db 0x1e, 0x1e, 0x1e
-; 	db 0x0e, 0x1e, 0x1e
-; 	db 0x06, 0x1e, 0x1e
-; 	db 0x02, 0x1e, 0x1e
-
-; 	db 0x00, 0x1e, 0x1e
-; 	db 0x00, 0x0e, 0x1e
-; 	db 0x00, 0x06, 0x1e
-; 	db 0x00, 0x02, 0x1e
-
-; 	db 0x00, 0x00, 0x1e
-; 	db 0x00, 0x00, 0x0e
-; 	db 0x00, 0x00, 0x06
-; 	db 0x00, 0x00, 0x02
-
-; 	db 0x00, 0x00, 0x00
-
 @scroll_offset:	db 0
 @map_address: dw map + 12*(column_count)
 @diff_address: dw diffs + 3*(column_count - 1)
@@ -546,13 +640,14 @@ three_table:	db 0x38, 0x1c, 0x00, 0x00
 @scroll_change: db 0
 @total_x: dw 0
 
-db 0
-@sprite_y: db 73
-@sprite_x: db 64
-db 0
+@sprite_current:	dw 60 << 8, 0
+@sprite_previous:	dw 60 << 8, 0
+X_OFFSET:	EQU 0
+Y_OFFSET:	EQU 2
 
+; Code to include on the main program page.
 INC "generated/sprites.z80s"
 
-
+; Code that goes elsewhere.
 INC "buffer_setup.z80s"
 INC "generated/tiles.z80s"
