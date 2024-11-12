@@ -353,8 +353,8 @@ run_physics:
 	ld hl, (@+sprite_current+Y_OFFSET)
 	add hl, de						; Add difference to HL.
 
-	ld bc, 45
-	add hl, bc						; Add some gravity.
+	ld bc, GRAVITY_STRENGTH			; Add some gravity.
+	add hl, bc
 
 	; Reset on-ground flag.
 	ld a, (@+hero_flags)
@@ -472,7 +472,7 @@ run_physics:
 	ld (@+hero_jump_count), a
 
 	ld hl, (@+sprite_current+Y_OFFSET)
-	ld bc, -1 << 8
+	ld bc, -JUMP_STRENGTH
 	add hl, bc
 	ld (@+sprite_current+Y_OFFSET), hl
 	jr @+did_jump
@@ -726,6 +726,8 @@ FLAG_DIRECTION:		EQU 1
 FLAG_ON_GROUND:		EQU 2
 
 MAX_JUMP_FRAMES:	EQU 8
+GRAVITY_STRENGTH:	EQU 80
+JUMP_STRENGTH:		EQU 300
 
 X_OFFSET:	EQU 0
 Y_OFFSET:	EQU 2
