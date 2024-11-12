@@ -9,7 +9,7 @@ void progress() {
 	};
 	
 	// First try: subtract half, for agressive friction.
-	difference[0] -= difference[0] >> 1;
+	difference[0] -= difference[0] >> 3;
 	difference[1] -= difference[1] >> 1;
 
 	// Apply hard stop if motion is below 1/8th.
@@ -31,7 +31,7 @@ int frames_to_stop(int motion) {
 	
 	int c = 0;
 	while(current[0] != previous[0]) {
-		printf("%0.2f ", float(current[0]) / 256.0);
+//		printf("%0.2f ", float(current[0]) / 256.0);
 		progress();
 		++c;
 	}

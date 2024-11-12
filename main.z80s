@@ -394,10 +394,10 @@ run_physics:
 
 	sra d
 	rr e
-	; sra d
-	; rr e
-	; sra d
-	; rr e
+	sra d
+	rr e
+	sra d
+	rr e
 	; sra d
 	; rr e
 	; sra d
@@ -420,7 +420,7 @@ run_physics:
 	rra
 	jr c, @+no_left
 
-	ld bc, -256
+	ld bc, -192
 	add hl, bc
 
 	jr @+no_right
@@ -429,15 +429,23 @@ run_physics:
 	rra
 	jr c, @+no_right
 
-	ld bc, 256
+	ld bc, 192
 	add hl, bc
+
+	;
+	; TODO: better camera logic.
+	;
+	; I suspect something like "if facing left, try to keep sprite on right of screen" and vice versa.
+	; The below just gives the sprite a certain boxed area around the centre of the screen, at the
+	; edges of which he pushes the camera.
+	;
 
 @no_right:
 	ld (@+sprite_current+X_OFFSET), hl
 
 	; Check bounds and force a scroll if necessary.
 	ld a, (@+sprite_current+X_OFFSET+1)
-	cp 64 + 8
+	cp 64 + 16
 	jr c, @+no_scroll_right
 
 	dec a
@@ -447,7 +455,7 @@ run_physics:
 
 @no_scroll_right:
 	ld a, (@+sprite_current+X_OFFSET+1)
-	cp 64 - 8
+	cp 64 - 16
 	jr nc, @+no_scroll_left
 
 	inc a
