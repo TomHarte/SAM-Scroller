@@ -31,6 +31,11 @@ HORIZONTAL_AIR_STRENGTH:	EQU 256 >> HORIZONTAL_AIR_DAMPING
 HORIZONTAL_GROUND_STRENGTH:	EQU 256 >> HORIZONTAL_GROUND_DAMPING
 
 ;
+; Constants affecting animation.
+;
+WALK_FRAME_DURATION:		EQU 10
+
+;
 ; Constants defining the coordinate system.
 ;
 START_Y:	EQU 56		; Offset of the top of the display in internal coordinates.
@@ -432,13 +437,40 @@ NEXT @air_damping
 @no_air_damping:
 ENDIF
 
-	or a
-	sbc hl, de
+	; Set stationary flag depending on amount of movement.
+	ld a, d
+	or e
+	jr nz, @+in_motion
 
+	ld a, (@+hero_flags)
+	or FLAG_STATIONARY
+	ld (@+hero_flags), a
+	jr @+apply_velocity
+
+@in_motion:
+	ld a, (@+hero_flags)
+	and ~FLAG_STATIONARY
+	ld (@+hero_flags), a
+
+@apply_velocity:
+	; TODO: here, and below: if the result of shifting
+	; is a number that's zero then the original difference is
+	; below a meaningful threshold, so zero out hl rather
+	; than subtracting de.
+	ld a, d
+	or e
+	jr z, @+zero_velocity
+
+	sbc hl, de
 	ex de, hl
 	ld hl, (@+sprite_current+X_OFFSET)
 	add hl, de						; Add difference to HL.
+	jr @+velocity_done
 
+@zero_velocity:
+	ld hl, (@+sprite_current+X_OFFSET)
+
+@velocity_done:
 	; Do some left/right.
 	ld bc, 0xfffe
 	in a, (c)
@@ -583,8 +615,58 @@ draw_hero_sprite:
 	ld l, a
 
 	; Call preformed sprite plotter.
-	call sprite_1
+	ld a, (@+hero_flags)
+	and FLAG_ON_GROUND
+	jr z, @+draw_jump
 
+	ld a, (@+hero_flags)
+	and FLAG_STATIONARY
+	jr nz, @+draw_stationary
+
+	ld a, (@+hero_walk_count)
+	inc a
+	cp 4*WALK_FRAME_DURATION
+	jr nz, @+pick_sprite
+
+	ld a, 0
+@pick_sprite:
+	ld (@+hero_walk_count), a
+
+	; HACK: just hard code this for now.
+	cp WALK_FRAME_DURATION
+	jr nc, @+compare_next
+	call sprite_0
+	jr @+mark_dirty
+
+@compare_next:
+	cp 2*WALK_FRAME_DURATION
+	jr nc, @+compare_next
+	call sprite_1
+	jr @+mark_dirty
+
+@compare_next:
+	cp 3*WALK_FRAME_DURATION
+	jr nc, @+compare_next
+	call sprite_2
+	jr @+mark_dirty
+
+@compare_next:
+	call sprite_1
+	jr @+mark_dirty
+
+@draw_stationary:
+	call sprite_3
+	jr @+mark_dirty_reset
+
+@draw_jump:
+	call sprite_4
+
+@mark_dirty_reset:
+	; Zero out walk count, to resume at 0 upon next hitting the ground.
+	xor a
+	ld (@+hero_walk_count), a
+
+@mark_dirty:
 	;
 	; Mark proper dirty bits.
 	;
@@ -776,6 +858,7 @@ Y_OFFSET:	EQU 2
 
 FLAG_DIRECTION:		EQU 1
 FLAG_ON_GROUND:		EQU 2
+FLAG_STATIONARY:	EQU 4
 
 ; Code to include on the main program page.
 INC "generated/sprites.z80s"
