@@ -65,23 +65,8 @@ IF BORDER_PROFILING
 	ld a, %00000000
 	out (BORDER), a
 ENDIF
-	; Check and apply keyboard input — cursor left/right only at present.
-	ld bc, 0xfffe
-	in a, (c)
-	rra
-	rra
-	rra
-	rra	; left is now in carry
-	jr c, @+test_right
 
-	call @+scroll_left
-	jr @+redraw
-
-@test_right:
-	rra	; right is now in carry
-	jr c, @+redraw
-
-	call @+scroll_right
+	call run_physics
 
 @redraw:
 IF BORDER_PROFILING
@@ -336,12 +321,10 @@ ENDIF
 @return:
 	jp 1234
 
-;
-; Experimental: draws a single, rectangular sprite.
-;
-test_sprite:
+
+run_physics:
 	;
-	; Apply motion. Just gravity for now.
+	; Vertical.
 	;
 	ld hl, (@+sprite_current+Y_OFFSET)		; HL = current, BC = previous, and update in-memory copy of previous.
 	ld bc, (@+sprite_previous+Y_OFFSET)
@@ -352,6 +335,8 @@ test_sprite:
 	ld d, h
 	ld e, l
 
+	sra d
+	rr e
 	sra d
 	rr e
 	sra d
@@ -371,14 +356,20 @@ test_sprite:
 	ld bc, 45
 	add hl, bc						; Add some gravity.
 
-	;
-
 	; Test for bounds of screen.
 	ld a, h
 	cp 192 - 24
 	jr c, @+test_top
 
 	ld hl, (192 - 24) << 8
+
+	; Obey jump. For now, just a fixed-height.
+	ld bc, 0x7ffe
+	in a, (c)
+	rra
+	jr c, @+store_y
+
+	ld hl, (192 - 8 - 24) << 8
 	jr @+store_y
 
 @test_top:
@@ -390,9 +381,85 @@ test_sprite:
 	ld (@+sprite_current+Y_OFFSET), hl
 
 	;
-	; End move vertically.
+	; Horizontal.
 	;
+	ld hl, (@+sprite_current+X_OFFSET)		; HL = current, BC = previous, and update in-memory copy of previous.
+	ld bc, (@+sprite_previous+X_OFFSET)
+	ld (@+sprite_previous+X_OFFSET), hl
 
+	or a
+	sbc hl, bc
+	ld d, h
+	ld e, l
+
+	sra d
+	rr e
+	; sra d
+	; rr e
+	; sra d
+	; rr e
+	; sra d
+	; rr e
+	; sra d
+	; rr e
+
+	or a
+	sbc hl, de
+
+	ex de, hl
+	ld hl, (@+sprite_current+X_OFFSET)
+	add hl, de						; Add difference to HL.
+
+	; Do some left/right.
+	ld bc, 0xfffe
+	in a, (c)
+
+	rra
+	rra
+	rra
+	rra
+	jr c, @+no_left
+
+	ld bc, -256
+	add hl, bc
+
+	jr @+no_right
+
+@no_left:
+	rra
+	jr c, @+no_right
+
+	ld bc, 256
+	add hl, bc
+
+@no_right:
+	ld (@+sprite_current+X_OFFSET), hl
+
+	; Check bounds and force a scroll if necessary.
+	ld a, (@+sprite_current+X_OFFSET+1)
+	cp 64 + 8
+	jr c, @+no_scroll_right
+
+	dec a
+	ld (@+sprite_current+X_OFFSET+1), a
+	call @scroll_right
+	jr @+no_scroll_left
+
+@no_scroll_right:
+	ld a, (@+sprite_current+X_OFFSET+1)
+	cp 64 - 8
+	jr nc, @+no_scroll_left
+
+	inc a
+	ld (@+sprite_current+X_OFFSET+1), a
+	call @scroll_left
+
+@no_scroll_left:
+	ret
+;
+; Experimental: draws a single, rectangular sprite.
+;
+test_sprite:
 	; Load y, multiply it by 128 and set the top bit.
 	ld a, (@+sprite_current+Y_OFFSET+1)
 	ld h, a
@@ -565,8 +632,8 @@ three_table:	db 0x38, 0x1c, 0x00, 0x00
 @scroll_change: db 0
 @total_x: dw 0
 
-@sprite_current:	dw 0, 0
-@sprite_previous:	dw 0, 0
+@sprite_current:	dw 60 << 8, 0
+@sprite_previous:	dw 60 << 8, 0
 X_OFFSET:	EQU 0
 Y_OFFSET:	EQU 2
 
