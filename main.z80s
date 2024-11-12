@@ -677,6 +677,13 @@ three_table:	db 0x38, 0x1c, 0x00, 0x00
 @sprite_current:	dw 60 << 8, START_Y << 8
 @sprite_previous:	dw 60 << 8, START_Y << 8
 
+@hero_flags:		db 0	; Indicates current player status – which direction they're facing and whether they're on solid ground.
+@hero_jump_count:	db 0	; Records how long the jump button has been acknowledged for; pressing for longer gives a higer jump.
+@hero_walk_count:	db 0	; Counts number of frames the player has been walking on the ground for, affecting current frame.
+
+FLAG_DIRECTION:		EQU 1
+FLAG_ON_GROUND:		EQU 2
+
 X_OFFSET:	EQU 0
 Y_OFFSET:	EQU 2
 
