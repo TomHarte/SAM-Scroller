@@ -356,26 +356,29 @@ run_physics:
 	ld bc, 45
 	add hl, bc						; Add some gravity.
 
+	; Reset on-ground flag.
+	ld a, (@+hero_flags)
+	and ~FLAG_ON_GROUND
+	ld (@+hero_flags), a
+
 	; Test for bounds of screen.
 	ld a, h
 	cp START_Y + 192 - 24
 	jr c, @+test_top
 
+	; If here: is on ground.
 	ld hl, (START_Y + 192 - 24) << 8
+	ld a, (@+hero_flags)
+	or FLAG_ON_GROUND
+	ld (@+hero_flags), a
 
-	; Obey jump. For now, just a fixed-height.
-	ld bc, 0x7ffe
-	in a, (c)
-	rra
-	jr c, @+store_y
-
-	ld hl, (START_Y + 192 - 24 - 8) << 8
 	jr @+store_y
 
 @test_top:
-	cp 0
+	cp 8				; This is a magic constant related to how far I think the hero could ever tunnel.
+						; TODO: verify, and don't retain as a magic constant.
 	jr nc, @+store_y
-	ld hl, 0
+	ld hl, 8 << 8
 
 @store_y:
 	ld (@+sprite_current+Y_OFFSET), hl
@@ -441,6 +444,22 @@ run_physics:
 @no_right:
 	ld (@+sprite_current+X_OFFSET), hl
 
+	; Check for jump. For now, just a fixed-height.
+	ld a, (@+hero_flags)
+	and FLAG_ON_GROUND
+	jr z, @+no_jump
+
+	ld bc, 0x7ffe
+	in a, (c)
+	rra
+	jr c, @+no_jump
+
+	ld hl, (@+sprite_current+Y_OFFSET)
+	ld bc, -8 << 8
+	add hl, bc
+	ld (@+sprite_current+Y_OFFSET), hl
+
+@no_jump:
 	; Check bounds and force a scroll if necessary.
 	ld a, (@+sprite_current+X_OFFSET+1)
 	cp 64 + 16
