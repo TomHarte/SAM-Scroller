@@ -341,20 +341,38 @@ ENDIF
 ;
 test_sprite:
 	;
-	; Move vertically.
+	; Apply motion. Just gravity for now.
 	;
-	ld a, (@+sprite_y)
-	dec a
-	jr nz, @+moved
-	ld a, 192 - 24
-@moved:
-	ld (@+sprite_y), a
+	ld hl, (@+sprite_current+Y_OFFSET)		; HL = current, BC = previous, and update in-memory copy of previous.
+	ld bc, (@+sprite_previous+Y_OFFSET)
+	ld (@+sprite_previous+Y_OFFSET), hl
+
+	or a
+	sbc hl, bc
+	sra h
+	rr l
+
+	ex de, hl
+	ld hl, (@+sprite_current+Y_OFFSET)
+	add hl, de						; Add difference to HL.
+
+	ld bc, 16
+	add hl, bc						; Add some gravity.
+
+	ld (@+sprite_current+Y_OFFSET), hl
+
+;	ld a, (@+sprite_y)
+;	dec a
+;	jr nz, @+moved
+;	ld a, 192 - 24
+;@moved:
+;	ld (@+sprite_y), a
 	;
 	; End move vertically.
 	;
 
 	; Load y, multiply it by 128 and set the top bit.
-	ld a, (@+sprite_y)
+	ld a, (@+sprite_current+Y_OFFSET+1)
 	ld h, a
 	ld l, 0
 	srl h
@@ -362,11 +380,11 @@ test_sprite:
 	rr l
 
 	; Add x.
-	ld a, (@+sprite_x)
+	ld a, (@+sprite_current+X_OFFSET+1)
 	add l
 	ld l, a
 
-	; Call preformed sprite plotter
+	; Call preformed sprite plotter.
 	call sprite_1
 
 	;
@@ -383,7 +401,7 @@ test_sprite:
 	rra
 
 	ld e, a
-	ld a, (@+sprite_x)
+	ld a, (@+sprite_current+X_OFFSET+1)
 	add e
 	ld c, e
 
@@ -402,7 +420,7 @@ test_sprite:
 	; HL = first dirty flags byte for the column the sprite is in.
 	;
 
-	ld a, (@+sprite_y)
+	ld a, (@+sprite_current+Y_OFFSET+1)
 	ld b, 64
 @search_down:
 	cp b
@@ -525,8 +543,10 @@ three_table:	db 0x38, 0x1c, 0x00, 0x00
 @scroll_change: db 0
 @total_x: dw 0
 
-@sprite_y: db 73	; In normal screen range 0-192.
-@sprite_x: db 64	; In the range 0–128.
+@sprite_current:	dw 0, 0
+@sprite_previous:	dw 0, 0
+X_OFFSET:	EQU 0
+Y_OFFSET:	EQU 2
 
 ; Code to include on the main program page.
 INC "generated/sprites.z80s"
