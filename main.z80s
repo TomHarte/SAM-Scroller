@@ -354,14 +354,17 @@ test_sprite:
 	;
 
 	; Load y, multiply it by 128 and set the top bit.
-	ld hl, (@+sprite_y - 1)
+	ld a, (@+sprite_y)
+	ld h, a
+	ld l, 0
 	srl h
 	set 7, h
 	rr l
 
 	; Add x.
-	ld bc, (@+sprite_x)
-	add hl, bc
+	ld a, (@+sprite_x)
+	add l
+	ld l, a
 
 	; Call preformed sprite plotter
 	call sprite_1
@@ -515,30 +518,6 @@ test_sprite:
 two_table:		db 0x30, 0x18, 0x0c, 0x00
 three_table:	db 0x38, 0x1c, 0x00, 0x00
 
-
-
-;
-; A table in which the three bytes on line n represent all tiles
-; set as dirty from row n downwards.
-;
-; dirty_masks:
-; 	db 0x1e, 0x1e, 0x1e
-; 	db 0x0e, 0x1e, 0x1e
-; 	db 0x06, 0x1e, 0x1e
-; 	db 0x02, 0x1e, 0x1e
-
-; 	db 0x00, 0x1e, 0x1e
-; 	db 0x00, 0x0e, 0x1e
-; 	db 0x00, 0x06, 0x1e
-; 	db 0x00, 0x02, 0x1e
-
-; 	db 0x00, 0x00, 0x1e
-; 	db 0x00, 0x00, 0x0e
-; 	db 0x00, 0x00, 0x06
-; 	db 0x00, 0x00, 0x02
-
-; 	db 0x00, 0x00, 0x00
-
 @scroll_offset:	db 0
 @map_address: dw map + 12*(column_count)
 @diff_address: dw diffs + 3*(column_count - 1)
@@ -546,13 +525,12 @@ three_table:	db 0x38, 0x1c, 0x00, 0x00
 @scroll_change: db 0
 @total_x: dw 0
 
-db 0
-@sprite_y: db 73
-@sprite_x: db 64
-db 0
+@sprite_y: db 73	; In normal screen range 0-192.
+@sprite_x: db 64	; In the range 0–128.
 
+; Code to include on the main program page.
 INC "generated/sprites.z80s"
 
-
+; Code that goes elsewhere.
 INC "buffer_setup.z80s"
 INC "generated/tiles.z80s"
