@@ -89,18 +89,20 @@ INC "per_buffer_layout.z80s"
 ; Initial setup tasks are done now.
 ;
 
-@draw_scene:
+	; The first time into the loop SP won't have been set to anything prior to the
+	; initial call into game logic.
+	ld sp, 0
 
-	; Check for keypresses. TODO: actual physics, gameplay, etc.
+@draw_scene:
 
 IF BORDER_PROFILING
 	ld a, %00000000
 	out (BORDER), a
 ENDIF
 
+	; Check for player input, update positioning.
 	call run_physics
 
-@redraw:
 IF BORDER_PROFILING
 	ld a, %00000010
 	out (BORDER), a
@@ -113,7 +115,7 @@ ENDIF
 	; Don't OR anything into the dirty map if there was no scroll.
 	ld a, (@+scroll_change)
 	or a
-	jp z, @+end_logic
+	jp z, @+no_scroll
 
 	;
 	; OR per-page dirty bits with the fixed list to produce a composite diff.
@@ -136,34 +138,40 @@ ENDIF
 	ld a, (de)
 	or (hl)
 	ld (de), a
+
+IF @or_loop == 44
+	; Wait for end of display; the intention is that the then-remaining bytes of
+	; activity are enough to prevent hitting the frame change until in the border.
+@wait:
+	in a, (STATUS)
+	rra
+	jr c, @-wait
+ENDIF
+
 NEXT @or_loop
 
 	; Record no scroll as pending.
 	xor a
 	ld (@+scroll_change), a
+	jr @+start_redraw
 
-@end_logic:
+@no_scroll:
 
-	;
-	; Wait for start of lower border.
-	;
+	; No scroll will be forthcoming; wait for line 191 now and then busy-loop for line 192.
 @wait:
 	in a, (STATUS)
 	rra
 	jr c, @-wait
+
+	ld a, 18
+@busy_loop:
+	dec a
+	jr nz, @-busy_loop
+
+@start_redraw:
 	;
 	; Display is now beginning the first line of lower border.
 	;
-
-IF BORDER_PROFILING
-	ld a, %00000001
-	out (BORDER), a
-ENDIF
-
-	; TODO: do keyboard stuff at end of frame, not top; check for a required scroll
-	; and do the flag ORing before updating VMPR, thereby avoiding the bottom-line tear.
-
-	; Switch to displaying whatever is the correct screen.
 	ld a, (@+next_vmpr)
 	out (VMPR), a
 
