@@ -9,6 +9,38 @@ BORDER:		EQU 254
 EXECPAGE:	EQU 24
 SETUPPAGE:	EQU 14
 
+;
+; Constants affecting motion.
+;
+MAX_JUMP_FRAMES:	EQU 15		; The number of consecutive frames a user's pressing of the jump key can be honoured for re: variable-height jumping.
+GRAVITY_STRENGTH:	EQU 80		; The quantum force applied due to gravity.
+JUMP_STRENGTH:		EQU 270		; The force applied by jumping.
+VERTICAL_DAMPING:	EQU 4		; Resistance to vertical motion, in log2 terms. If this is 1 then vertical speed will be reduced by (speed >> 1)
+								; at each tick. If it is 2 then vertical speed will be reduced by (speed >> 2). Etc. So bigger values mean
+								; less damping.
+
+
+HORIZONTAL_AIR_DAMPING:		EQU 4	; Horizontal damping when player is in the air.
+HORIZONTAL_GROUND_DAMPING:	EQU 2	; Horizontal damping when player is on the ground.
+	; REQUIRED: HORIZONTAL_GROUND_DAMPING <= HORIZONTAL_AIR_DAMPING.
+
+; The force applied by horizontal motion, whether in the air or on the ground.
+; With fixed speed scrolling in increments of 1 coordinate unit, these are picked
+; so that the character will have a maximum speed of 1 unit movement.
+HORIZONTAL_AIR_STRENGTH:	EQU 256 >> HORIZONTAL_AIR_DAMPING
+HORIZONTAL_GROUND_STRENGTH:	EQU 256 >> HORIZONTAL_GROUND_DAMPING
+
+;
+; Constants affecting animation.
+;
+WALK_FRAME_DURATION:		EQU 10
+
+;
+; Constants defining the coordinate system.
+;
+START_Y:	EQU 56		; Offset of the top of the display in internal coordinates.
+Y_CEILING:	EQU 8		; Position at which player will bump his head in internal coordinate; needs to be more than 0 to avoid tunnelling.
+
 INC "per_buffer_layout.z80s"
 
 	ORG 0
@@ -161,9 +193,9 @@ IF BORDER_PROFILING
 ENDIF
 
 	;
-	; Add test sprite.
+	; Add hero sprite.
 	;
-	call test_sprite
+	call draw_hero_sprite
 
 	;
 	; Set the page just drawn to as next to display
@@ -335,17 +367,10 @@ run_physics:
 	ld d, h
 	ld e, l
 
+@vertical_damp: EQU FOR VERTICAL_DAMPING
 	sra d
 	rr e
-	sra d
-	rr e
-	sra d
-	rr e
-	sra d
-	rr e
-	sra d
-	rr e
-
+NEXT @vertical_damp
 	or a
 	sbc hl, de
 
@@ -353,29 +378,31 @@ run_physics:
 	ld hl, (@+sprite_current+Y_OFFSET)
 	add hl, de						; Add difference to HL.
 
-	ld bc, 45
-	add hl, bc						; Add some gravity.
+	ld bc, GRAVITY_STRENGTH			; Add some gravity.
+	add hl, bc
+
+	; Reset on-ground flag.
+	ld a, (@+hero_flags)
+	and ~FLAG_ON_GROUND
+	ld (@+hero_flags), a
 
 	; Test for bounds of screen.
 	ld a, h
-	cp 192 - 24
+	cp START_Y + 192 - 24
 	jr c, @+test_top
 
-	ld hl, (192 - 24) << 8
+	; If here: is on ground.
+	ld hl, (START_Y + 192 - 24) << 8
+	ld a, (@+hero_flags)
+	or FLAG_ON_GROUND
+	ld (@+hero_flags), a
 
-	; Obey jump. For now, just a fixed-height.
-	ld bc, 0x7ffe
-	in a, (c)
-	rra
-	jr c, @+store_y
-
-	ld hl, (192 - 8 - 24) << 8
 	jr @+store_y
 
 @test_top:
-	cp 0
+	cp Y_CEILING
 	jr nc, @+store_y
-	ld hl, 0
+	ld hl, Y_CEILING << 8
 
 @store_y:
 	ld (@+sprite_current+Y_OFFSET), hl
@@ -392,24 +419,58 @@ run_physics:
 	ld d, h
 	ld e, l
 
+@ground_damping: EQU FOR HORIZONTAL_GROUND_DAMPING
 	sra d
 	rr e
-	sra d
-	rr e
-	sra d
-	rr e
-	sra d
-	rr e
-;	sra d
-;	rr e
+NEXT @ground_damping
 
-	or a
+IF HORIZONTAL_AIR_DAMPING != HORIZONTAL_GROUND_DAMPING
+	ld a, (@+hero_flags)
+	and FLAG_ON_GROUND
+	jr nz, @+no_air_damping
+
+@air_damping: EQU FOR HORIZONTAL_AIR_DAMPING - HORIZONTAL_GROUND_DAMPING
+	sra d
+	rr e
+NEXT @air_damping
+
+@no_air_damping:
+ENDIF
+
+	; Set stationary flag depending on amount of movement.
+	ld a, d
+	or e
+	jr nz, @+in_motion
+
+	ld a, (@+hero_flags)
+	or FLAG_STATIONARY
+	ld (@+hero_flags), a
+	jr @+apply_velocity
+
+@in_motion:
+	ld a, (@+hero_flags)
+	and ~FLAG_STATIONARY
+	ld (@+hero_flags), a
+
+@apply_velocity:
+	; TODO: here, and below: if the result of shifting
+	; is a number that's zero then the original difference is
+	; below a meaningful threshold, so zero out hl rather
+	; than subtracting de.
+	ld a, d
+	or e
+	jr z, @+zero_velocity
+
 	sbc hl, de
-
 	ex de, hl
 	ld hl, (@+sprite_current+X_OFFSET)
 	add hl, de						; Add difference to HL.
+	jr @+velocity_done
 
+@zero_velocity:
+	ld hl, (@+sprite_current+X_OFFSET)
+
+@velocity_done:
 	; Do some left/right.
 	ld bc, 0xfffe
 	in a, (c)
@@ -420,7 +481,18 @@ run_physics:
 	rra
 	jr c, @+no_left
 
-	ld bc, -16
+	ld a, (@+hero_flags)
+	and FLAG_ON_GROUND
+	jr z, @+apply_air_constant_left
+
+@apply_ground_constant_left:
+	ld bc, -HORIZONTAL_GROUND_STRENGTH
+	add hl, bc
+
+	jr @+no_right
+
+@apply_air_constant_left:
+	ld bc, -HORIZONTAL_AIR_STRENGTH
 	add hl, bc
 
 	jr @+no_right
@@ -429,7 +501,18 @@ run_physics:
 	rra
 	jr c, @+no_right
 
-	ld bc, 16
+	ld a, (@+hero_flags)
+	and FLAG_ON_GROUND
+	jr z, @+apply_air_constant_right
+
+@apply_ground_constant_right:
+	ld bc, HORIZONTAL_GROUND_STRENGTH
+	add hl, bc
+
+	jr @+no_right
+
+@apply_air_constant_right:
+	ld bc, HORIZONTAL_AIR_STRENGTH
 	add hl, bc
 
 	;
@@ -443,6 +526,44 @@ run_physics:
 @no_right:
 	ld (@+sprite_current+X_OFFSET), hl
 
+	; Check whether player is requesting a jump.
+	ld bc, 0x7ffe
+	in a, (c)
+	rra
+	jr c, @+no_jump
+
+	; If player is on the ground, definitely honour and reset the jump count.
+	ld a, (@+hero_flags)
+	and FLAG_ON_GROUND
+	jr z, @+test_jump_count
+
+	ld a, MAX_JUMP_FRAMES
+	ld (@+hero_jump_count), a
+	jr @+apply_jump
+
+@test_jump_count:
+	; Still honour the jump if the button has been held continuously for MAX_JUMP_FRAMES or
+	; fewer frames since the player was on the ground.
+	ld a, (@+hero_jump_count)
+	or a
+	jr z, @+no_jump
+
+@apply_jump:
+	ld a, (@+hero_jump_count)
+	dec a
+	ld (@+hero_jump_count), a
+
+	ld hl, (@+sprite_current+Y_OFFSET)
+	ld bc, -JUMP_STRENGTH
+	add hl, bc
+	ld (@+sprite_current+Y_OFFSET), hl
+	jr @+did_jump
+
+@no_jump:
+	xor a
+	ld (@+hero_jump_count), a
+
+@did_jump:
 	; Check bounds and force a scroll if necessary.
 	ld a, (@+sprite_current+X_OFFSET+1)
 	cp 64 + 16
@@ -474,12 +595,14 @@ run_physics:
 
 @no_scroll_left:
 	ret
+
 ;
-; Experimental: draws a single, rectangular sprite.
+; Draws the hero sprite and flags appropriate dirty spots.
 ;
-test_sprite:
-	; Load y, multiply it by 128 and set the top bit.
+draw_hero_sprite:
+	; Load y, subtract origin, multiply it by 128 and set the top bit.
 	ld a, (@+sprite_current+Y_OFFSET+1)
+	sub START_Y
 	ld h, a
 	ld l, 0
 	srl h
@@ -492,8 +615,58 @@ test_sprite:
 	ld l, a
 
 	; Call preformed sprite plotter.
-	call sprite_1
+	ld a, (@+hero_flags)
+	and FLAG_ON_GROUND
+	jr z, @+draw_jump
 
+	ld a, (@+hero_flags)
+	and FLAG_STATIONARY
+	jr nz, @+draw_stationary
+
+	ld a, (@+hero_walk_count)
+	inc a
+	cp 4*WALK_FRAME_DURATION
+	jr nz, @+pick_sprite
+
+	ld a, 0
+@pick_sprite:
+	ld (@+hero_walk_count), a
+
+	; HACK: just hard code this for now.
+	cp WALK_FRAME_DURATION
+	jr nc, @+compare_next
+	call sprite_0
+	jr @+mark_dirty
+
+@compare_next:
+	cp 2*WALK_FRAME_DURATION
+	jr nc, @+compare_next
+	call sprite_1
+	jr @+mark_dirty
+
+@compare_next:
+	cp 3*WALK_FRAME_DURATION
+	jr nc, @+compare_next
+	call sprite_2
+	jr @+mark_dirty
+
+@compare_next:
+	call sprite_1
+	jr @+mark_dirty
+
+@draw_stationary:
+	call sprite_3
+	jr @+mark_dirty_reset
+
+@draw_jump:
+	call sprite_4
+
+@mark_dirty_reset:
+	; Zero out walk count, to resume at 0 upon next hitting the ground.
+	xor a
+	ld (@+hero_walk_count), a
+
+@mark_dirty:
 	;
 	; Mark proper dirty bits.
 	;
@@ -528,6 +701,7 @@ test_sprite:
 	;
 
 	ld a, (@+sprite_current+Y_OFFSET+1)
+	sub START_Y
 	ld b, 64
 @search_down:
 	cp b
@@ -650,10 +824,41 @@ three_table:	db 0x38, 0x1c, 0x00, 0x00
 @scroll_change: db 0
 @total_x: dw 0
 
-@sprite_current:	dw 60 << 8, 0
-@sprite_previous:	dw 60 << 8, 0
+;
+; Adopted coordinate system:
+;
+;	1 horizontal unit = 2 pixels.
+;
+;	This both means you can read it as a byte location and
+;	it'll give enemies enough range to be able to move off both sides of the screen.
+;	Since positions are in fixed point, it also doesn't obstruct true pixel-level placement
+;	if I decide to support that.
+;
+;	Though I've still yet to hammer myself in on an origin. It probably should be that
+;	[64, 192] is the visible area.
+;
+;
+;	1 vertical unit = 1 pixels.
+;
+;	Since the screen is only 192 pixels high there are 64 off-screen pixels without
+;	any further adjustment being necessary.
+;
+;	Right now I'm using position 248 as the bottom of the screen on the basis that
+;	jumping over the top of the frame is standard platformer behaviour but dipping
+;	below the bottom isn't so common. So that gives 8 rows below and 56 above.
+;
+@sprite_current:	dw 60 << 8, START_Y << 8
+@sprite_previous:	dw 60 << 8, START_Y << 8
 X_OFFSET:	EQU 0
 Y_OFFSET:	EQU 2
+
+@hero_flags:		db 0	; Indicates current player status – which direction they're facing and whether they're on solid ground.
+@hero_jump_count:	db 0	; Records how long the jump button has been acknowledged for; pressing for longer gives a higer jump.
+@hero_walk_count:	db 0	; Counts number of frames the player has been walking on the ground for, affecting current frame.
+
+FLAG_DIRECTION:		EQU 1
+FLAG_ON_GROUND:		EQU 2
+FLAG_STATIONARY:	EQU 4
 
 ; Code to include on the main program page.
 INC "generated/sprites.z80s"
