@@ -1,0 +1,277 @@
+;
+; Adopted coordinate system:
+;
+;	1 horizontal unit = 2 pixels.
+;
+;	This both means you can read it as a byte location and
+;	it'll give enemies enough range to be able to move off both sides of the screen.
+;	Since positions are in fixed point, it also doesn't obstruct true pixel-level placement
+;	if I decide to support that.
+;
+;	Though I've still yet to hammer myself in on an origin. It probably should be that
+;	[64, 192] is the visible area.
+;
+;
+;	1 vertical unit = 1 pixels.
+;
+;	Since the screen is only 192 pixels high there are 64 off-screen pixels without
+;	any further adjustment being necessary.
+;
+;	Right now I'm using position 248 as the bottom of the screen on the basis that
+;	jumping over the top of the frame is standard platformer behaviour but dipping
+;	below the bottom isn't so common. So that gives 8 rows below and 56 above.
+;
+hero_current:	dw 60 << 8, START_Y << 8
+hero_previous:	dw 60 << 8, START_Y << 8
+X_OFFSET:	EQU 0
+Y_OFFSET:	EQU 2
+
+hero_flags:		db 0	; Indicates current player status – which direction they're facing and whether they're on solid ground.
+
+FLAG_DIRECTION:		EQU 1
+FLAG_ON_GROUND:		EQU 2
+FLAG_STATIONARY:	EQU 4
+
+@hero_jump_count:	db 0	; Records how long the jump button has been acknowledged for; pressing for longer gives a higer jump.
+
+update_game_logic:
+	;
+	; Vertical.
+	;
+	ld hl, (hero_current+Y_OFFSET)		; HL = current, BC = previous, and update in-memory copy of previous.
+	ld bc, (hero_previous+Y_OFFSET)
+	ld (hero_previous+Y_OFFSET), hl
+
+	or a
+	sbc hl, bc
+	ld d, h
+	ld e, l
+
+@vertical_damp: EQU FOR VERTICAL_DAMPING
+	sra d
+	rr e
+NEXT @vertical_damp
+	or a
+	sbc hl, de
+
+	ex de, hl
+	ld hl, (hero_current+Y_OFFSET)
+	add hl, de						; Add difference to HL.
+
+	ld bc, GRAVITY_STRENGTH			; Add some gravity.
+	add hl, bc
+
+	; Reset on-ground flag.
+	ld a, (hero_flags)
+	and ~FLAG_ON_GROUND
+	ld (hero_flags), a
+
+	; Test for bounds of screen.
+	ld a, h
+	cp START_Y + 192 - 24
+	jr c, @+test_top
+
+	; If here: is on ground.
+	ld hl, (START_Y + 192 - 24) << 8
+	ld a, (hero_flags)
+	or FLAG_ON_GROUND
+	ld (hero_flags), a
+
+	jr @+store_y
+
+@test_top:
+	cp Y_CEILING
+	jr nc, @+store_y
+	ld hl, Y_CEILING << 8
+
+@store_y:
+	ld (hero_current+Y_OFFSET), hl
+
+	;
+	; Horizontal.
+	;
+	ld hl, (hero_current+X_OFFSET)		; HL = current, BC = previous, and update in-memory copy of previous.
+	ld bc, (hero_previous+X_OFFSET)
+	ld (hero_previous+X_OFFSET), hl
+
+	or a
+	sbc hl, bc
+	ld d, h
+	ld e, l
+
+@ground_damping: EQU FOR HORIZONTAL_GROUND_DAMPING
+	sra d
+	rr e
+NEXT @ground_damping
+
+IF HORIZONTAL_AIR_DAMPING != HORIZONTAL_GROUND_DAMPING
+	ld a, (hero_flags)
+	and FLAG_ON_GROUND
+	jr nz, @+no_air_damping
+
+@air_damping: EQU FOR HORIZONTAL_AIR_DAMPING - HORIZONTAL_GROUND_DAMPING
+	sra d
+	rr e
+NEXT @air_damping
+
+@no_air_damping:
+ENDIF
+
+	; Set stationary flag depending on amount of movement.
+	ld a, d
+	or e
+	jr nz, @+in_motion
+
+	ld a, (hero_flags)
+	or FLAG_STATIONARY
+	ld (hero_flags), a
+	jr @+apply_velocity
+
+@in_motion:
+	ld a, (hero_flags)
+	and ~FLAG_STATIONARY
+	ld (hero_flags), a
+
+@apply_velocity:
+	; TODO: here, and below: if the result of shifting
+	; is a number that's zero then the original difference is
+	; below a meaningful threshold, so zero out hl rather
+	; than subtracting de.
+	ld a, d
+	or e
+	jr z, @+zero_velocity
+
+	sbc hl, de
+	ex de, hl
+	ld hl, (hero_current+X_OFFSET)
+	add hl, de						; Add difference to HL.
+	jr @+velocity_done
+
+@zero_velocity:
+	ld hl, (hero_current+X_OFFSET)
+
+@velocity_done:
+	; Do some left/right.
+	ld bc, 0xfffe
+	in a, (c)
+
+	rra
+	rra
+	rra
+	rra
+	jr c, @+no_left
+
+	ld a, (hero_flags)
+	and FLAG_ON_GROUND
+	jr z, @+apply_air_constant_left
+
+@apply_ground_constant_left:
+	ld bc, -HORIZONTAL_GROUND_STRENGTH
+	add hl, bc
+
+	jr @+no_right
+
+@apply_air_constant_left:
+	ld bc, -HORIZONTAL_AIR_STRENGTH
+	add hl, bc
+
+	jr @+no_right
+
+@no_left:
+	rra
+	jr c, @+no_right
+
+	ld a, (hero_flags)
+	and FLAG_ON_GROUND
+	jr z, @+apply_air_constant_right
+
+@apply_ground_constant_right:
+	ld bc, HORIZONTAL_GROUND_STRENGTH
+	add hl, bc
+
+	jr @+no_right
+
+@apply_air_constant_right:
+	ld bc, HORIZONTAL_AIR_STRENGTH
+	add hl, bc
+
+	;
+	; TODO: better camera logic.
+	;
+	; I suspect something like "if facing left, try to keep sprite on right of screen" and vice versa.
+	; The below just gives the sprite a certain boxed area around the centre of the screen, at the
+	; edges of which he pushes the camera.
+	;
+
+@no_right:
+	ld (hero_current+X_OFFSET), hl
+
+	; Check whether player is requesting a jump.
+	ld bc, 0x7ffe
+	in a, (c)
+	rra
+	jr c, @+no_jump
+
+	; If player is on the ground, definitely honour and reset the jump count.
+	ld a, (hero_flags)
+	and FLAG_ON_GROUND
+	jr z, @+test_jump_count
+
+	ld a, MAX_JUMP_FRAMES
+	ld (@hero_jump_count), a
+	jr @+apply_jump
+
+@test_jump_count:
+	; Still honour the jump if the button has been held continuously for MAX_JUMP_FRAMES or
+	; fewer frames since the player was on the ground.
+	ld a, (@hero_jump_count)
+	or a
+	jr z, @+no_jump
+
+@apply_jump:
+	ld a, (@hero_jump_count)
+	dec a
+	ld (@hero_jump_count), a
+
+	ld hl, (hero_current+Y_OFFSET)
+	ld bc, -JUMP_STRENGTH
+	add hl, bc
+	ld (hero_current+Y_OFFSET), hl
+	jr @+did_jump
+
+@no_jump:
+	xor a
+	ld (@hero_jump_count), a
+
+@did_jump:
+	; Check bounds and force a scroll if necessary.
+	ld a, (hero_current+X_OFFSET+1)
+	cp 64 + 16
+	jr c, @+no_scroll_right
+
+	dec a
+	ld (hero_current+X_OFFSET+1), a
+
+	ld a, (hero_previous+X_OFFSET+1)
+	dec a
+	ld (hero_previous+X_OFFSET+1), a
+
+	call scroll_right
+	jr @+no_scroll_left
+
+@no_scroll_right:
+	ld a, (hero_current+X_OFFSET+1)
+	cp 64 - 16
+	jr nc, @+no_scroll_left
+
+	inc a
+	ld (hero_current+X_OFFSET+1), a
+
+	ld a, (hero_previous+X_OFFSET+1)
+	inc a
+	ld (hero_previous+X_OFFSET+1), a
+
+	call scroll_left
+
+@no_scroll_left:
+	ret
