@@ -5,13 +5,13 @@
 ;
 draw_hero_sprite:
 	; Load y, subtract origin, multiply it by 128 and set the top bit.
+	ld l, 0
 	ld a, (hero_current+Y_OFFSET+1)
 	sub START_Y
-	ld h, a
-	ld l, 0
-	srl h
-	set 7, h
+	scf
+	rra
 	rr l
+	ld h, a
 
 	; Add x.
 	ld a, (hero_current+X_OFFSET+1)
