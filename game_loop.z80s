@@ -1,11 +1,4 @@
-;
-; Shared state related to main game display.
-;
-scroll_offset:	db 0
-map_address: dw map + 12*(column_count)
-diff_address: dw diffs + 3*(column_count - 1)
 @next_vmpr: db 0
-scroll_change: db 0
 
 ;
 ; Main game loop.
