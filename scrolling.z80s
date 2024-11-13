@@ -1,0 +1,159 @@
+scroll_offset:	db 0
+map_address: dw map + 12*(column_count)
+diff_address: dw diffs + 3*(column_count - 1)
+scroll_change: db 0
+@total_x: dw 0
+
+;
+; Scrolls the display one position to the left, if any space remains for scrolling in that direction.
+;
+; Intended for CALLing.
+;
+; TODO: indicate whether a scroll occurred.
+;
+scroll_left:
+	;
+	; Check that total offset is greater than 0; if so then subtract 1
+	; and continue. Otherwise return early.
+	;
+	ld hl, (@-total_x)
+	ld a, h
+	or l
+	ret z
+
+	dec hl
+	ld (@-total_x), hl
+
+	; Record that a scroll left happened.
+	ld a, 1
+	ld (scroll_change), a
+
+	;
+	; Subtract two from scroll offset.
+	;
+	ld a, (scroll_offset)
+	ld d, a
+	dec a
+	dec a
+	and 15
+	ld (scroll_offset), a
+
+	;
+	; Update map pointer if the scroll offset just decremented to 0.
+	;
+	ret nz
+
+	ld hl, (map_address)
+	ld bc, -12
+	add hl, bc
+	ld (map_address), hl
+
+	ld hl, (diff_address)
+	ld bc, -3
+	add hl, bc
+	ld (diff_address), hl
+
+	ret
+
+;
+; Scrolls the display one position to the right, if any space remains for scrolling in that direction.
+;
+; Intended for CALLing.
+;
+; TODO: indicate whether a scroll occurred.
+;
+scroll_right:
+	;
+	; Check that total offset is less than the map size; if so then add 1
+	; and continue. Otherwise return early.
+	;
+	ld hl, (@-total_x)
+	ld bc, (((diffs - map) / 12) - column_count) * 8
+	scf
+	ccf
+	sbc hl, bc
+	ret z
+
+	add hl, bc
+	inc hl
+	ld (@-total_x), hl
+
+	; Record that a scroll right happened.
+	ld a, 2
+	ld (scroll_change), a
+
+	;
+	; Add two to scroll offset.
+	;
+	ld a, (scroll_offset)
+	ld d, a
+	inc a
+	inc a
+	and 15
+	ld (scroll_offset), a
+
+	;
+	; Do not update map pointer if the scroll offset didn't just increment from 0.
+	;
+	; Logic here is that offset 1 is the map at offset 0 but moved one position to
+	; the left. Therefore the step up from 0 is the point at which the far extent
+	; of the map changes.
+	;
+	ld a, d
+	or a
+	ret nz
+
+	; Add 12 to map address to move one column along.
+	; Correspondingly add 3 to the diff address.
+	ld hl, (map_address)
+	ld bc, 12
+	add hl, bc
+	ld (map_address), hl
+
+	ld hl, (diff_address)
+	ld bc, 3
+	add hl, bc
+	ld (diff_address), hl
+
+	ret
+
+;
+; Performs a full redraw of all video buffers.
+;
+; Follows the tile output conventions, so should be used as a JP target
+; with DE as the link register.
+;
+reset_scrolling:
+	ld (@+return+1), de
+
+	; Seed all buffers.
+	ld a, 16
+	ld (scroll_offset), a
+@seed_tiles:
+	ld a, (scroll_offset)
+	or a
+	jr z, @+end_seed
+	dec a
+	dec a
+	ld (scroll_offset), a
+	out (HMPR), a
+
+	ld a, 0x3c
+	ld hl, DIRTY_FLAGS
+	ld b, FLAGS_SIZE
+@flags_loop:
+	ld (hl), a
+	inc l
+	dec b
+	jr nz, @-flags_loop
+
+	ld ix, (map_address)
+	ld de, @-seed_tiles
+	jp draw_tiles
+
+@end_seed:
+	xor a
+	ld (scroll_offset), a
+
+@return:
+	jp 1234
