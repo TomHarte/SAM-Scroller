@@ -133,10 +133,9 @@ ENDIF
 	ld (hero_flags), a
 
 @apply_velocity:
-	; TODO: here, and below: if the result of shifting
-	; is a number that's zero then the original difference is
-	; below a meaningful threshold, so zero out hl rather
-	; than subtracting de.
+	; If the result of shifting is a number that's zero then 
+	; the original difference is below a meaningful threshold, 
+	; so just don't apply anything.
 	ld a, d
 	or e
 	jr z, @+zero_velocity
@@ -258,7 +257,7 @@ ENDIF
 
 	ld a, (hero_previous+X_OFFSET+1)
 	dec a
-	ld (hero_previous+X_OFFSET+1), a
+	ld (hero_previous+X_OFFSET+1), ax
 
 	jr @+no_scroll_left
 
