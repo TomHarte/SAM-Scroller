@@ -61,6 +61,11 @@ NEXT @vertical_damp
 	ld bc, GRAVITY_STRENGTH			; Add some gravity.
 	add hl, bc
 
+
+	;
+	; Ad hoc floor/ceiling collision detection is here. Possibly move to post hoc?
+	;
+
 	; Reset on-ground flag.
 	ld a, (hero_flags)
 	and ~FLAG_ON_GROUND
@@ -71,7 +76,7 @@ NEXT @vertical_damp
 	cp START_Y + 192 - 24
 	jr c, @+test_top
 
-	; If here: is on ground.
+	; If here: is on ground, having hit the bottom of the screen.
 	ld hl, (START_Y + 192 - 24) << 8
 	ld a, (hero_flags)
 	or FLAG_ON_GROUND
@@ -83,6 +88,10 @@ NEXT @vertical_damp
 	cp Y_CEILING
 	jr nc, @+store_y
 	ld hl, Y_CEILING << 8
+
+	;
+	; Ad hoc floor/ceiling collision detection has hereby ended.
+	;
 
 @store_y:
 	ld (hero_current+Y_OFFSET), hl
