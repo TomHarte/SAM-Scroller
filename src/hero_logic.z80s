@@ -249,6 +249,10 @@ ENDIF
 	cp 64 + 16
 	jr c, @+no_scroll_right
 
+	call scroll_right
+;	jr c, @+no_scroll_right			; TODO: in this case also check for right bounds of screen.
+
+	ld a, (hero_current+X_OFFSET+1)
 	dec a
 	ld (hero_current+X_OFFSET+1), a
 
@@ -256,7 +260,6 @@ ENDIF
 	dec a
 	ld (hero_previous+X_OFFSET+1), a
 
-	call scroll_right
 	jr @+no_scroll_left
 
 @no_scroll_right:
@@ -264,14 +267,16 @@ ENDIF
 	cp 64 - 16
 	jr nc, @+no_scroll_left
 
+	call scroll_left
+;	jr c, @+no_scroll_left			; TODO: in this case also check for left bounds of screen.
+
+	ld a, (hero_current+X_OFFSET+1)
 	inc a
 	ld (hero_current+X_OFFSET+1), a
 
 	ld a, (hero_previous+X_OFFSET+1)
 	inc a
 	ld (hero_previous+X_OFFSET+1), a
-
-	call scroll_left
 
 @no_scroll_left:
 	ret

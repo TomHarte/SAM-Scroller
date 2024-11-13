@@ -9,7 +9,7 @@ scroll_change: db 0
 ;
 ; Intended for CALLing.
 ;
-; TODO: indicate whether a scroll occurred.
+; At exit: C is clear if a scroll occurred; set otherwise.
 ;
 scroll_left:
 	;
@@ -19,6 +19,7 @@ scroll_left:
 	ld hl, (@-total_x)
 	ld a, h
 	or l
+	scf
 	ret z
 
 	dec hl
@@ -53,6 +54,7 @@ scroll_left:
 	add hl, bc
 	ld (diff_address), hl
 
+	or a
 	ret
 
 ;
@@ -60,7 +62,7 @@ scroll_left:
 ;
 ; Intended for CALLing.
 ;
-; TODO: indicate whether a scroll occurred.
+; At exit: C is clear if a scroll occurred; set otherwise.
 ;
 scroll_right:
 	;
@@ -72,6 +74,7 @@ scroll_right:
 	scf
 	ccf
 	sbc hl, bc
+	scf
 	ret z
 
 	add hl, bc
@@ -115,6 +118,7 @@ scroll_right:
 	add hl, bc
 	ld (diff_address), hl
 
+	or a
 	ret
 
 ;
