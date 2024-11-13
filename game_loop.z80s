@@ -1,0 +1,144 @@
+;
+; Shared state related to main game display.
+;
+scroll_offset:	db 0
+map_address: dw map + 12*(column_count)
+diff_address: dw diffs + 3*(column_count - 1)
+@next_vmpr: db 0
+scroll_change: db 0
+
+;
+; Main game loop.
+;
+; Will CALL into update_game_logic once per frame, and draw_objects when it's time for sprites
+; to be added to the display.
+;
+game_loop:
+	; The first time into the loop below SP won't have been set to anything prior to the
+	; initial call into game logic.
+	ld sp, 0
+
+@repeat_loop:
+
+IF BORDER_PROFILING
+	ld a, %00000000
+	out (BORDER), a
+ENDIF
+
+	; Check for player input, update positioning.
+	call update_game_logic
+
+IF BORDER_PROFILING
+	ld a, %00000010
+	out (BORDER), a
+ENDIF
+
+	; Put next target buffer into the upper page.
+	ld a, (scroll_offset)
+	out (HMPR), a
+
+	; Don't OR anything into the dirty map if there was no scroll.
+	ld a, (scroll_change)
+	or a
+	jp z, @+no_scroll
+
+	;
+	; OR per-page dirty bits with the fixed list to produce a composite diff.
+	;
+	ld de, DIRTY_FLAGS + FLAGS_SIZE
+	ld hl, (diff_address)
+
+	; The above assumes a scroll to the right; adjust for a scroll to the left.
+	rra
+	jr nc, @+or_flags
+
+	ld bc, 3
+	add hl, bc
+
+@or_flags:
+@or_loop: EQU FOR 51
+	dec e
+	dec hl
+
+	ld a, (de)
+	or (hl)
+	ld (de), a
+
+IF @or_loop == 44
+	; Wait for end of display; the intention is that the then-remaining bytes of
+	; activity are enough to prevent hitting the frame change until in the border.
+@wait:
+	in a, (STATUS)
+	rra
+	jr c, @-wait
+ENDIF
+
+NEXT @or_loop
+
+	; Record no scroll as pending.
+	xor a
+	ld (scroll_change), a
+	jr @+start_redraw
+
+@no_scroll:
+	; No scroll will be forthcoming; wait for line 191 now and then busy-loop for line 192.
+@wait:
+	in a, (STATUS)
+	rra
+	jr c, @-wait
+
+	; This busy-loop was measured empirically in Sim Coupé. Fingers crossed I allowed properly
+	; for the vagaries of instruction phase.
+	ld a, 18
+@busy_loop:
+	dec a
+	jr nz, @-busy_loop
+
+@start_redraw:
+	;
+	; Display is now beginning the first line of lower border.
+	;
+	ld a, (@-next_vmpr)
+	out (VMPR), a
+
+IF BORDER_PROFILING
+	ld a, %00000100
+	out (BORDER), a
+ENDIF
+
+	; Grab map address and set diffs list pointer.
+	ld ix, (map_address)
+
+	;
+	; Segue into tile drawing.
+	;
+	ld de, @+tiles_drawn
+	jp draw_tiles
+@tiles_drawn:
+
+	;
+	; Set the page just drawn to as next to display
+	;
+	ld a, (scroll_offset)
+	add a, %01100000
+	ld (@-next_vmpr), a
+
+	;
+	; Set a meaningful SP for code below.
+	;
+	ld sp, 0
+
+IF BORDER_PROFILING
+	ld a, %00000101
+	out (BORDER), a
+ENDIF
+
+	;
+	; Add hero sprite.
+	;
+	call draw_objects
+
+;
+; Loop for end of frame
+;
+	jp @-repeat_loop

@@ -88,134 +88,8 @@ INC "per_buffer_layout.z80s"
 ;
 ; Initial setup tasks are done now.
 ;
+	jp game_loop
 
-	; The first time into the loop SP won't have been set to anything prior to the
-	; initial call into game logic.
-	ld sp, 0
-
-@draw_scene:
-
-IF BORDER_PROFILING
-	ld a, %00000000
-	out (BORDER), a
-ENDIF
-
-	; Check for player input, update positioning.
-	call run_physics
-
-IF BORDER_PROFILING
-	ld a, %00000010
-	out (BORDER), a
-ENDIF
-
-	; Put next target buffer into the upper page.
-	ld a, (@+scroll_offset)
-	out (HMPR), a
-
-	; Don't OR anything into the dirty map if there was no scroll.
-	ld a, (@+scroll_change)
-	or a
-	jp z, @+no_scroll
-
-	;
-	; OR per-page dirty bits with the fixed list to produce a composite diff.
-	;
-	ld de, DIRTY_FLAGS + FLAGS_SIZE
-	ld hl, (@+diff_address)
-
-	; The above assumes a scroll to the right; adjust for a scroll to the left.
-	rra
-	jr nc, @+or_flags
-
-	ld bc, 3
-	add hl, bc
-
-@or_flags:
-@or_loop: EQU FOR 51
-	dec e
-	dec hl
-
-	ld a, (de)
-	or (hl)
-	ld (de), a
-
-IF @or_loop == 44
-	; Wait for end of display; the intention is that the then-remaining bytes of
-	; activity are enough to prevent hitting the frame change until in the border.
-@wait:
-	in a, (STATUS)
-	rra
-	jr c, @-wait
-ENDIF
-
-NEXT @or_loop
-
-	; Record no scroll as pending.
-	xor a
-	ld (@+scroll_change), a
-	jr @+start_redraw
-
-@no_scroll:
-
-	; No scroll will be forthcoming; wait for line 191 now and then busy-loop for line 192.
-@wait:
-	in a, (STATUS)
-	rra
-	jr c, @-wait
-
-	ld a, 18
-@busy_loop:
-	dec a
-	jr nz, @-busy_loop
-
-@start_redraw:
-	;
-	; Display is now beginning the first line of lower border.
-	;
-	ld a, (@+next_vmpr)
-	out (VMPR), a
-
-IF BORDER_PROFILING
-	ld a, %00000100
-	out (BORDER), a
-ENDIF
-
-	; Grab map address and set diffs list pointer.
-	ld ix, (@+map_address)
-
-	;
-	; Segue into tile drawing.
-	;
-	ld de, @+tiles_drawn
-	jp draw_tiles
-@tiles_drawn:
-
-	;
-	; Set a meaningful SP for code below.
-	;
-	ld sp, 0
-
-IF BORDER_PROFILING
-	ld a, %00000101
-	out (BORDER), a
-ENDIF
-
-	;
-	; Add hero sprite.
-	;
-	call draw_hero_sprite
-
-	;
-	; Set the page just drawn to as next to display
-	;
-	ld a, (@+scroll_offset)
-	add a, %01100000
-	ld (@+next_vmpr), a
-
-;
-; Loop for end of frame
-;
-	jp @-draw_scene
 
 
 ;
@@ -236,32 +110,32 @@ ENDIF
 
 	; Record that a scroll left happened.
 	ld a, 1
-	ld (@+scroll_change), a
+	ld (scroll_change), a
 
 	;
 	; Subtract two from scroll offset.
 	;
-	ld a, (@+scroll_offset)
+	ld a, (scroll_offset)
 	ld d, a
 	dec a
 	dec a
 	and 15
-	ld (@+scroll_offset), a
+	ld (scroll_offset), a
 
 	;
 	; Update map pointer if the scroll offset just decremented to 0.
 	;
 	ret nz
 
-	ld hl, (@+map_address)
+	ld hl, (map_address)
 	ld bc, -12
 	add hl, bc
-	ld (@+map_address), hl
+	ld (map_address), hl
 
-	ld hl, (@+diff_address)
+	ld hl, (diff_address)
 	ld bc, -3
 	add hl, bc
-	ld (@+diff_address), hl
+	ld (diff_address), hl
 
 	ret
 
@@ -286,17 +160,17 @@ ENDIF
 
 	; Record that a scroll right happened.
 	ld a, 2
-	ld (@+scroll_change), a
+	ld (scroll_change), a
 
 	;
 	; Add two to scroll offset.
 	;
-	ld a, (@+scroll_offset)
+	ld a, (scroll_offset)
 	ld d, a
 	inc a
 	inc a
 	and 15
-	ld (@+scroll_offset), a
+	ld (scroll_offset), a
 
 	;
 	; Do not update map pointer if the scroll offset didn't just increment from 0.
@@ -311,15 +185,15 @@ ENDIF
 
 	; Add 12 to map address to move one column along.
 	; Correspondingly add 3 to the diff address.
-	ld hl, (@+map_address)
+	ld hl, (map_address)
 	ld bc, 12
 	add hl, bc
-	ld (@+map_address), hl
+	ld (map_address), hl
 
-	ld hl, (@+diff_address)
+	ld hl, (diff_address)
 	ld bc, 3
 	add hl, bc
-	ld (@+diff_address), hl
+	ld (diff_address), hl
 
 	ret
 
@@ -331,14 +205,14 @@ ENDIF
 
 	; Seed all buffers.
 	ld a, 16
-	ld (@+scroll_offset), a
+	ld (scroll_offset), a
 @seed_tiles:
-	ld a, (@+scroll_offset)
+	ld a, (scroll_offset)
 	or a
 	jr z, @+end_seed
 	dec a
 	dec a
-	ld (@+scroll_offset), a
+	ld (scroll_offset), a
 	out (HMPR), a
 
 	ld a, 0x3c
@@ -350,19 +224,22 @@ ENDIF
 	dec b
 	jr nz, @-flags_loop
 
-	ld ix, (@+map_address)
+	ld ix, (map_address)
 	ld de, @-seed_tiles
 	jp draw_tiles
 
 @end_seed:
 	xor a
-	ld (@+scroll_offset), a
+	ld (scroll_offset), a
 
 @return:
 	jp 1234
 
 
-run_physics:
+draw_objects:
+	jp draw_hero_sprite
+
+update_game_logic:
 	;
 	; Vertical.
 	;
@@ -681,7 +558,7 @@ draw_hero_sprite:
 
 
 	; Calculate first dirty column, multiplied by three.
-	ld a, (@+scroll_offset)
+	ld a, (scroll_offset)
 	or a
 	jr nz, @+not_zero
 	add a, 16
@@ -825,11 +702,6 @@ draw_hero_sprite:
 two_table:		db 0x30, 0x18, 0x0c, 0x00
 three_table:	db 0x38, 0x1c, 0x00, 0x00
 
-@scroll_offset:	db 0
-@map_address: dw map + 12*(column_count)
-@diff_address: dw diffs + 3*(column_count - 1)
-@next_vmpr: db 0
-@scroll_change: db 0
 @total_x: dw 0
 
 ;
@@ -870,6 +742,7 @@ FLAG_STATIONARY:	EQU 4
 
 ; Code to include on the main program page.
 INC "generated/sprites.z80s"
+INC "game_loop.z80s"
 
 ; Code that goes elsewhere.
 INC "buffer_setup.z80s"
