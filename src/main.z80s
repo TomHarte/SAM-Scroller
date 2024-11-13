@@ -1,0 +1,110 @@
+LINE:		EQU 249
+STATUS:		EQU 249
+
+LMPR:		EQU 250
+HMPR:		EQU 251
+VMPR:		EQU 252
+BORDER:		EQU 254
+
+EXECPAGE:	EQU 24
+SETUPPAGE:	EQU 14
+
+;
+; Constants affecting motion.
+;
+MAX_JUMP_FRAMES:	EQU 15		; The number of consecutive frames a user's pressing of the jump key can be honoured for re: variable-height jumping.
+GRAVITY_STRENGTH:	EQU 80		; The quantum force applied due to gravity.
+JUMP_STRENGTH:		EQU 270		; The force applied by jumping.
+VERTICAL_DAMPING:	EQU 4		; Resistance to vertical motion, in log2 terms. If this is 1 then vertical speed will be reduced by (speed >> 1)
+								; at each tick. If it is 2 then vertical speed will be reduced by (speed >> 2). Etc. So bigger values mean
+								; less damping.
+
+
+HORIZONTAL_AIR_DAMPING:		EQU 4	; Horizontal damping when player is in the air.
+HORIZONTAL_GROUND_DAMPING:	EQU 2	; Horizontal damping when player is on the ground.
+	; REQUIRED: HORIZONTAL_GROUND_DAMPING <= HORIZONTAL_AIR_DAMPING.
+
+; The force applied by horizontal motion, whether in the air or on the ground.
+; With fixed speed scrolling in increments of 1 coordinate unit, these are picked
+; so that the character will have a maximum speed of 1 unit movement.
+HORIZONTAL_AIR_STRENGTH:	EQU 256 >> HORIZONTAL_AIR_DAMPING
+HORIZONTAL_GROUND_STRENGTH:	EQU 256 >> HORIZONTAL_GROUND_DAMPING
+
+;
+; Constants affecting animation.
+;
+WALK_FRAME_DURATION:		EQU 10
+
+;
+; Constants defining the coordinate system.
+;
+START_Y:	EQU 56		; Offset of the top of the display in internal coordinates.
+Y_CEILING:	EQU 8		; Position at which player will bump his head in internal coordinate; needs to be more than 0 to avoid tunnelling.
+
+INC "per_buffer_layout.z80s"
+
+	ORG 0
+	DUMP EXECPAGE, 0
+	AUTOEXEC
+
+	; This program does not use interrupts.
+	di
+
+	; Disable display until setup is complete.
+	ld a, %10000000
+	out (BORDER), a
+
+	; Establish line interrupts at line 191, which will be polled for later.
+	ld a, 191
+	out (LINE), a
+
+	;
+	; The SAM being what it is, execution will actually begin with this code in
+	; the upper page.
+	;
+	; But that's convenient for taking advantage of the setup code — put that
+	; initially into the lower page and give it a modified return address.
+	;
+	ld a, %00100000 + SETUPPAGE
+	out (LMPR), a
+	ld de, @+fix_page + 0x8000
+	jp setup_per_screen_code
+
+@fix_page:
+	; Page self to lower page and proceed with execution from there.
+	ld a, %00100000 + EXECPAGE
+	out (LMPR), a
+
+@redraw_all:
+	; Do a full redraw at the current scroll position.
+	ld de, @+enter_loop
+	jp reset_scrolling
+
+@enter_loop:
+	; Reenable the display.
+	ld a, %00000000
+	out (BORDER), a
+
+;
+; Initial setup tasks are done now.
+;
+; With no title screen, etc, yet implemented, just jump straight to the in-game loop.
+;
+	jp game_loop
+
+
+
+draw_objects:
+	jp draw_hero_sprite
+
+; Code to include on the main program page.
+INC "generated/sprites.z80s"
+INC "game_loop.z80s"
+INC "hero_display.z80s"
+INC "hero_logic.z80s"
+INC "mark_dirty.z80s"
+INC "scrolling.z80s"
+
+; Code that goes elsewhere.
+INC "buffer_setup.z80s"
+INC "generated/tiles.z80s"

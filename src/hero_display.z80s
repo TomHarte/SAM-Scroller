@@ -1,0 +1,81 @@
+@hero_walk_count:	db 0	; Counts number of frames the player has been walking on the ground for, affecting current frame.
+
+;
+; Draws the hero sprite and flags appropriate dirty spots.
+;
+draw_hero_sprite:
+	; Load y, subtract origin, multiply it by 128 and set the top bit.
+	ld l, 0
+	ld a, (hero_current+Y_OFFSET+1)
+	sub START_Y
+	scf
+	rra
+	rr l
+	ld h, a
+
+	; Add x.
+	ld a, (hero_current+X_OFFSET+1)
+	add l
+	ld l, a
+
+	; Call preformed sprite plotter.
+	ld a, (hero_flags)
+	and FLAG_ON_GROUND
+	jr z, @+draw_jump
+
+	ld a, (hero_flags)
+	and FLAG_STATIONARY
+	jr nz, @+draw_stationary
+
+	ld a, (@hero_walk_count)
+	inc a
+	cp 4*WALK_FRAME_DURATION
+	jr nz, @+pick_sprite
+
+	ld a, 0
+@pick_sprite:
+	ld (@hero_walk_count), a
+
+	; HACK: just hard code this for now.
+	cp WALK_FRAME_DURATION
+	jr nc, @+compare_next
+	call sprite_0
+	jr @+mark_dirty
+
+@compare_next:
+	cp 2*WALK_FRAME_DURATION
+	jr nc, @+compare_next
+	call sprite_1
+	jr @+mark_dirty
+
+@compare_next:
+	cp 3*WALK_FRAME_DURATION
+	jr nc, @+compare_next
+	call sprite_2
+	jr @+mark_dirty
+
+@compare_next:
+	call sprite_1
+	jr @+mark_dirty
+
+@draw_stationary:
+	call sprite_3
+	jr @+mark_dirty_reset
+
+@draw_jump:
+	call sprite_4
+
+@mark_dirty_reset:
+	; Zero out walk count, to resume at 0 upon next hitting the ground.
+	xor a
+	ld (@hero_walk_count), a
+
+@mark_dirty:
+	;
+	; Mark proper dirty bits.
+	;
+	ld a, (hero_current+X_OFFSET+1)
+	ld b, a
+	ld a, (hero_current+Y_OFFSET+1)
+	ld c, a
+	jp mark16x24
