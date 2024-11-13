@@ -257,7 +257,7 @@ ENDIF
 
 	ld a, (hero_previous+X_OFFSET+1)
 	dec a
-	ld (hero_previous+X_OFFSET+1), ax
+	ld (hero_previous+X_OFFSET+1), a
 
 	jr @+no_scroll_left
 
