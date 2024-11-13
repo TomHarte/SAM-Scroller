@@ -1,0 +1,146 @@
+;
+; Marks dirty flags appropriately for a 16x24 sprite positioned at an B = x position, C = y position.
+;
+mark16x24:
+	; Calculate first dirty column, multiplied by three.
+	ld a, (scroll_offset)
+	or a
+	jr nz, @+not_zero
+	add a, 16
+@not_zero:
+	rra
+
+	add b
+	ld b, a		; Now B = sprite x relative to tile map.
+
+	and 0xf8
+	rra
+	rra
+	ld e, a
+	rra
+	add e		; E = sprite X multiplied by three.
+
+	; Relocate into dirty flags.
+	ld l, a
+	ld h, DIRTY_FLAGS >> 8
+
+	;
+	; HL = first dirty flags byte for the column the sprite is in.
+	;
+
+	ld a, c
+	sub START_Y
+	ld c, 64
+@search_down:
+	cp c
+	jr c, @+search_done
+	sub c
+	inc l
+	jr @-search_down
+@search_done:
+
+	;
+	; HL = first dirty byte flag that sprite actually touches, A = offset within byte.
+	;
+
+	and 0xf8		; Divide A by 16 and use bit 3 to decide whether code needs to mark
+	rra				; three dirty bits, or only two.
+	rra
+	rra
+	rra
+	jr c, @+set_three
+
+	;
+	; If here: two bits need to be set, starting from the bit identified in A within
+	; the byte pointed to by HL (and possibly again at HL+3, if x&15 is not zero).
+	;
+
+	ex de, hl
+	ld hl, two_table
+	add l
+	ld l, a
+	ld a, (hl)
+	or a
+	ex de, hl
+
+	jr z, @+set_adjacent_two	; If the two bits to set overflow this byte, head elsewhere.
+
+@touch_single_byte:
+	or (hl)					; Set bits in this byte.
+	ld (hl), a
+
+	ld c, a					; Check whether another column needs to be touched.
+	ld a, b
+	and 0x0f
+	ret z
+
+	inc l					; Mark second column
+	inc l
+	inc l
+	ld a, (hl)
+	or c
+	ld (hl), a
+	ret
+
+@set_adjacent_two:
+	ld de, 0x2004
+
+@set_adjacent:
+	ld a, (hl)				; Set bit in this byte, and in next
+	or e
+	ld (hl), a
+	inc l
+
+	ld a, (hl)
+	or d
+	ld (hl), a
+
+	ld a, b					; Check whether another column needs to be touched.
+	and 0x0f
+	ret z
+
+	inc l					; Mark second column
+	inc l
+	ld a, (hl)
+	or e
+	ld (hl), a
+	inc l
+	ld a, (hl)
+	or d
+	ld (hl), a
+	ret
+
+@set_three:
+
+	;
+	; If here: three bits need to be set, starting from the bit identified in A within
+	; the byte pointed to by HL (and possibly again at HL+3, if x&15 is not zero).
+	;
+
+	ex de, hl
+	ld hl, three_table
+	ld c, a
+	add l
+	ld l, a
+	ld a, (hl)
+	or a
+	ex de, hl
+
+	jr nz, @-touch_single_byte	; If the three bits to set fit within this byte, jump up.
+
+	ld a, c
+	cp 2
+	jr z, @+split_2_1
+
+	ld de, 0x3004
+	jr @-set_adjacent
+
+@split_2_1:
+		
+	ld de, 0x200c
+	jr @-set_adjacent
+
+	ret
+
+two_table:		db 0x30, 0x18, 0x0c, 0x00
+three_table:	db 0x38, 0x1c, 0x00, 0x00

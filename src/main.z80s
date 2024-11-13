@@ -102,6 +102,7 @@ INC "generated/sprites.z80s"
 INC "game_loop.z80s"
 INC "hero_display.z80s"
 INC "hero_logic.z80s"
+INC "mark_dirty.z80s"
 INC "scrolling.z80s"
 
 ; Code that goes elsewhere.
