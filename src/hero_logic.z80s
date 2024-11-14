@@ -379,12 +379,26 @@ test_map_collisions:
 	and 7
 	jr z, @+test_single_column
 
+	jr @+test_single_column		; TEMPORARY.
 
+@test_two_columns:
 	;
 	; TODO: in this, the most likely case, the player is straddling two columns.
 	; So test four or six tiles for collisions.
 	;
-;	ret
+	ld a, (hl)
+	call @+is_solid
+	jr c, @+no_top_left
+
+	; Has collided with a block on the top left. Consider pushing either
+	; down or to the right.
+	ld a, (hero_current+Y_OFFSET+1)
+	sub START_Y
+
+
+@no_top_left:
+
+	ret
 
 @test_single_column:
 	; This is the easy one; player is confined to a single 
@@ -395,10 +409,8 @@ test_map_collisions:
 	jr c, @+no_down
 
 	ld a, (hero_current+Y_OFFSET+1)
-	sub START_Y
 	and ~0xf
 	add 0x10
-	add START_Y
 	ld (hero_current+Y_OFFSET+1), a
 
 	xor a
@@ -406,7 +418,6 @@ test_map_collisions:
 
 @no_down:
 	ld a, (hero_current+Y_OFFSET+1)
-	sub START_Y
 	and 0xf
 	cp 9					; Test for y > 8 within a block.
 	jr c, @+step_single
@@ -419,9 +430,8 @@ test_map_collisions:
 	call @+is_solid
 	jr c, @+no_up
 
-te:
 	ld a, (hero_current+Y_OFFSET+1)
-	sub START_Y - 24				; Subtract origin, add height.
+	add 24				; Add height.
 	and 0xf
 	ld b, a
 	ld a, (hero_current+Y_OFFSET+1)
@@ -452,7 +462,7 @@ te:
 
 @ret_c:
 	xor a
-	ret
+	ret	
 
 ;
 ; I've never implemented a game like this before, so the following is an ad hoc attempt to
