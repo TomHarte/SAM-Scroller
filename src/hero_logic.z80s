@@ -232,6 +232,7 @@ NEXT @vertical_damp
 	ld bc, (hero_previous+X_OFFSET)
 	ld (hero_previous+X_OFFSET), hl
 
+h_veloc:
 	; Let DE = implied velocity.
 	or a
 	sbc hl, bc
@@ -263,22 +264,6 @@ NEXT @air_damping
 @no_air_damping:
 ENDIF
 
-	; Set stationary flag depending on implied remaining velocity.
-	; This is used elsewhere for appropriate animation selection.
-	ld a, d
-	or e
-	ld a, (hero_flags)
-	jr nz, @+in_motion
-
-	or FLAG_STATIONARY
-	jr @+apply_velocity
-
-@in_motion:
-	and ~FLAG_STATIONARY
-
-@apply_velocity:
-	ld (hero_flags), a
-
 	; Up to here: HL is previous velocity, DE is amount to remove
 	; due to dampening.
 
@@ -287,18 +272,24 @@ ENDIF
 	; effectively zero by not applying any velocity whatsoever.
 	ld a, d
 	or e
-	ret z
+	ld a, (hero_flags)
+	jr nz, @+in_motion
+
+	or FLAG_STATIONARY
+	ld (hero_flags), a
+	ret
+
+@in_motion:
+	and ~FLAG_STATIONARY
+	ld (hero_flags), a
 
 	; Apply dampening factor to velocity and apply velocity to position.
 	sbc hl, de
 	ex de, hl
 	ld hl, (hero_current+X_OFFSET)
 	add hl, de
-	ld hl, (hero_current+X_OFFSET)
+	ld (hero_current+X_OFFSET), hl
 	ret
-
-
-
 
 
 
