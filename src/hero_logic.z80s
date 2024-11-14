@@ -32,12 +32,32 @@ FLAG_DIRECTION:		EQU 1
 FLAG_ON_GROUND:		EQU 2
 FLAG_STATIONARY:	EQU 4
 
+SCREEN_TOP:			EQU START_Y	; TODO: if and when player sprite can safely go off top of screen, change this to Y_CEILING.
+
 @hero_jump_count:	db 0	; Records how long the jump button has been acknowledged for; pressing for longer gives a higer jump.
 
 update_game_logic:
-	call gravity_and_collisions
+	;
+	; I've artificially split the following into separate steps for the time being,
+	; to try to keep this code tractable as I have a much more nebulous sense of the
+	; destination than with other code I have so far written.
+	;
+	call apply_inherent_forces
+	call apply_input
 
+	call reset_hero_flags
+	call test_map_collisions
+	call test_vertical_bounds
+	jp test_horizontal_bounds
+
+
+
+
+
+apply_input:
+	;
 	; Check whether player is requesting a jump.
+	;
 	ld bc, 0x7ffe
 	in a, (c)
 	rra
@@ -75,134 +95,13 @@ update_game_logic:
 	ld (@hero_jump_count), a
 
 @did_jump:
-	ret
-
-gravity_and_collisions:
-	;
-	; Vertical.
-	;
-	ld hl, (hero_current+Y_OFFSET)		; HL = current, BC = previous, and update in-memory copy of previous.
-	ld bc, (hero_previous+Y_OFFSET)
-	ld (hero_previous+Y_OFFSET), hl
-
-	or a
-	sbc hl, bc
-	ld d, h
-	ld e, l
-
-@vertical_damp: EQU FOR VERTICAL_DAMPING
-	sra d
-	rr e
-NEXT @vertical_damp
-	or a
-	sbc hl, de
-
-	ex de, hl
-	ld hl, (hero_current+Y_OFFSET)
-	add hl, de						; Add difference to HL.
-
-	ld bc, GRAVITY_STRENGTH			; Add some gravity.
-	add hl, bc
 
 
 	;
-	; Ad hoc floor/ceiling collision detection is here. Possibly move to post hoc?
+	; Check also for left/right input
 	;
-
-	; Reset on-ground flag.
-	ld a, (hero_flags)
-	and ~FLAG_ON_GROUND
-	ld (hero_flags), a
-
-	; Test for bounds of screen.
-	ld a, h
-	cp START_Y + 192 - 24
-	jr c, @+test_top
-
-	; If here: is on ground, having hit the bottom of the screen.
-	ld hl, (START_Y + 192 - 24) << 8
-	ld a, (hero_flags)
-	or FLAG_ON_GROUND
-	ld (hero_flags), a
-
-	jr @+store_y
-
-@test_top:
-	cp Y_CEILING
-	jr nc, @+store_y
-	ld hl, Y_CEILING << 8
-
-	;
-	; Ad hoc floor/ceiling collision detection has hereby ended.
-	;
-
-@store_y:
-	ld (hero_current+Y_OFFSET), hl
-
-	;
-	; Horizontal.
-	;
-	ld hl, (hero_current+X_OFFSET)		; HL = current, BC = previous, and update in-memory copy of previous.
-	ld bc, (hero_previous+X_OFFSET)
-	ld (hero_previous+X_OFFSET), hl
-
-	or a
-	sbc hl, bc
-	ld d, h
-	ld e, l
-
-@ground_damping: EQU FOR HORIZONTAL_GROUND_DAMPING
-	sra d
-	rr e
-NEXT @ground_damping
-
-IF HORIZONTAL_AIR_DAMPING != HORIZONTAL_GROUND_DAMPING
-	ld a, (hero_flags)
-	and FLAG_ON_GROUND
-	jr nz, @+no_air_damping
-
-@air_damping: EQU FOR HORIZONTAL_AIR_DAMPING - HORIZONTAL_GROUND_DAMPING
-	sra d
-	rr e
-NEXT @air_damping
-
-@no_air_damping:
-ENDIF
-
-	; Set stationary flag depending on amount of movement.
-	ld a, d
-	or e
-	jr nz, @+in_motion
-
-	ld a, (hero_flags)
-	or FLAG_STATIONARY
-	ld (hero_flags), a
-	jr @+apply_velocity
-
-@in_motion:
-	ld a, (hero_flags)
-	and ~FLAG_STATIONARY
-	ld (hero_flags), a
-
-@apply_velocity:
-	; If the result of shifting is a number that's zero then 
-	; the original difference is below a meaningful threshold, 
-	; so just don't apply anything.
-	ld a, d
-	or e
-	jr z, @+zero_velocity
-
-	sbc hl, de
-	ex de, hl
+	; Check for horizontal motion.
 	ld hl, (hero_current+X_OFFSET)
-	add hl, de						; Add difference to HL.
-	jr @+velocity_done
-
-@zero_velocity:
-	ld hl, (hero_current+X_OFFSET)
-
-@velocity_done:
-	; Do some left/right.
 	ld bc, 0xfffe
 	in a, (c)
 
@@ -246,17 +145,164 @@ ENDIF
 	ld bc, HORIZONTAL_AIR_STRENGTH
 	add hl, bc
 
-	;
-	; TODO: better camera logic.
-	;
-	; I suspect something like "if facing left, try to keep sprite on right of screen" and vice versa.
-	; The below just gives the sprite a certain boxed area around the centre of the screen, at the
-	; edges of which he pushes the camera.
-	;
-
 @no_right:
 	ld (hero_current+X_OFFSET), hl
+	ret
 
+
+reset_hero_flags:
+	ld a, (hero_flags)
+	and ~FLAG_ON_GROUND
+	ld (hero_flags), a
+	ret
+
+
+test_vertical_bounds:
+	; Test for bottom of screen
+	ld a, (hero_current+Y_OFFSET+1)
+	cp START_Y + 192 - 24
+	jr nc, @+collide_with_bottom
+
+	; Test for top of screen
+	cp SCREEN_TOP
+	jr c, @+collide_with_top
+	ret
+
+@collide_with_bottom:
+	; Player is at bottom of screen, so is on the ground.
+	; Set bottom of screen as location and set the ON_GROUND flag.
+	ld hl, (START_Y + 192 - 24) << 8
+	ld (hero_current+Y_OFFSET), hl
+
+	ld a, (hero_flags)
+	or FLAG_ON_GROUND
+	ld (hero_flags), a
+	ret
+
+@collide_with_top:
+	; Player is at top of screen. Just set maximum position.
+	ld hl, SCREEN_TOP << 8
+	ld (hero_current+Y_OFFSET), hl
+	ret
+
+
+
+
+apply_inherent_forces:
+	;
+	; Vertical.
+	;
+
+	; Grab current and previous positions, overwriting the old value of
+	; previous with the old value of current.
+	ld hl, (hero_current+Y_OFFSET)
+	ld bc, (hero_previous+Y_OFFSET)
+	ld (hero_previous+Y_OFFSET), hl
+
+	; Let DE = implied velocity.
+	or a
+	sbc hl, bc
+	ld d, h
+	ld e, l
+
+	; Apply dampening forces (air resistance, I guess).
+@vertical_damp: EQU FOR VERTICAL_DAMPING
+	sra d
+	rr e
+NEXT @vertical_damp
+	or a
+	sbc hl, de
+
+	ex de, hl
+	ld hl, (hero_current+Y_OFFSET)
+	add hl, de
+
+	; Apply gravity.
+	ld bc, GRAVITY_STRENGTH
+	add hl, bc
+	ld (hero_current+Y_OFFSET), hl
+
+	;
+	; Horizontal.
+	;
+
+	; As before, load current and previous positions, and overwrite
+	; old previous with old current.
+	ld hl, (hero_current+X_OFFSET)
+	ld bc, (hero_previous+X_OFFSET)
+	ld (hero_previous+X_OFFSET), hl
+
+	; Let DE = implied velocity.
+	or a
+	sbc hl, bc
+	ld d, h
+	ld e, l
+
+	; Apply dampening forces.
+	;
+	; Unlike vertically there are two possible forces at play:
+	; there's air resistance but also ground friction. Which is
+	; dealt with fairly trivially as applying one degree of
+	; damping if the player is in the air and an optionally
+	; different one if the player is on the ground.
+@ground_damping: EQU FOR HORIZONTAL_GROUND_DAMPING
+	sra d
+	rr e
+NEXT @ground_damping
+
+IF HORIZONTAL_AIR_DAMPING != HORIZONTAL_GROUND_DAMPING
+	ld a, (hero_flags)
+	and FLAG_ON_GROUND
+	jr nz, @+no_air_damping
+
+@air_damping: EQU FOR HORIZONTAL_AIR_DAMPING - HORIZONTAL_GROUND_DAMPING
+	sra d
+	rr e
+NEXT @air_damping
+
+@no_air_damping:
+ENDIF
+
+	; Set stationary flag depending on implied remaining velocity.
+	; This is used elsewhere for appropriate animation selection.
+	ld a, d
+	or e
+	ld a, (hero_flags)
+	jr nz, @+in_motion
+
+	or FLAG_STATIONARY
+	jr @+apply_velocity
+
+@in_motion:
+	and ~FLAG_STATIONARY
+
+@apply_velocity:
+	ld (hero_flags), a
+
+	; Up to here: HL is previous velocity, DE is amount to remove
+	; due to dampening.
+
+	; If DE is zero then velocity must be very small but underflow
+	; is going to prevent it ever reaching 0. If so make it
+	; effectively zero by not applying any velocity whatsoever.
+	ld a, d
+	or e
+	ret z
+
+	; Apply dampening factor to velocity and apply velocity to position.
+	sbc hl, de
+	ex de, hl
+	ld hl, (hero_current+X_OFFSET)
+	add hl, de
+	ld hl, (hero_current+X_OFFSET)
+	ret
+
+
+
+
+
+
+test_horizontal_bounds:
 	; Check bounds and force a scroll if necessary.
 	ld a, (hero_current+X_OFFSET+1)
 	cp 64 + 16
@@ -278,7 +324,7 @@ ENDIF
 @no_scroll_right:
 	ld a, (hero_current+X_OFFSET+1)
 	cp 64 - 16
-	jr nc, @+no_scroll_left
+	ret nc
 
 	call scroll_left
 ;	jr c, @+no_scroll_left			; TODO: in this case also check for left bounds of screen.
@@ -292,12 +338,13 @@ ENDIF
 	ld (hero_previous+X_OFFSET+1), a
 
 @no_scroll_left:
+	ret
 
 
 ;
 ; Begin map collision detection here.
 ;
-
+test_map_collisions:
 	; Get x position relative to map.
 	ld a, (hero_current+X_OFFSET+1)
 	ld b, a
