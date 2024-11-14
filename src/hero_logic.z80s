@@ -415,7 +415,7 @@ te2:
 	ld a, (hero_current+Y_OFFSET+1)
 	sub START_Y
 	and 0xf
-	cp 8
+	cp 9					; Test for y > 8 within a block.
 	jr c, @+step_single
 
 	inc hl
