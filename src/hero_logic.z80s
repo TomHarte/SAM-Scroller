@@ -379,6 +379,11 @@ test_map_collisions:
 	and 7
 	jr z, @+test_single_column
 
+
+	;
+	; TODO: in this, the most likely case, the player is straddling two columns.
+	; So test four or six tiles for collisions.
+	;
 ;	ret
 
 @test_single_column:
@@ -388,9 +393,6 @@ test_map_collisions:
 	ld a, (hl)
 	call @+is_solid
 	jr c, @+no_down
-
-te2:
-;	ld hl, (hero_previous+Y_OFFSET)
 
 	ld a, (hero_current+Y_OFFSET+1)
 	sub START_Y
@@ -419,8 +421,7 @@ te2:
 
 te:
 	ld a, (hero_current+Y_OFFSET+1)
-	sub START_Y
-	add 24
+	sub START_Y - 24				; Subtract origin, add height.
 	and 0xf
 	ld b, a
 	ld a, (hero_current+Y_OFFSET+1)
