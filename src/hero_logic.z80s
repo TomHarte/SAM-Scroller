@@ -333,6 +333,27 @@ ENDIF
 ;
 
 ;
+; Postscript: with further reflection on the above, I think the following is appropriate:
+;
+;	(1)	determine how far right the player would need to be pushed if he overlaps anything
+;		in the left column;
+;	(2) determine how far left the player would need to be pushed if he overlaps anything
+;		in the right column;
+;	(3)	determine how far up the player would need to be pushed if he overlaps anything in
+;		the bottom row, whether it's second or third;
+;	(4)	determine how far down the player would need to be pushed if he overlaps anything
+;		in the top row.
+;
+; Then, if the top-left square is filled, push the player whichever is the lesser of the
+; right and down quantities. If there is a middle-left square and it is filled, push the
+; player to the right. If the bottom-left square is filed, push the player to the lesser
+; of the right and up quantities.
+;
+; And, if the player overlaps a second column, do the same thing there but comparing to
+; the left quantity rather than the right.
+;
+
+;
 ; Noting as an aside: the current import tool always picks any old IDs it likes for tiles. This will
 ; need to change, but since I don't expect to spend my life generating maps from screen captures
 ; it's been low priority.
