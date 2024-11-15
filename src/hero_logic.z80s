@@ -377,13 +377,15 @@ test_map_collisions:
 	; HL should now point to the tile overlapping the top left of the hero.
 	ld a, (hero_current+X_OFFSET+1)
 	and 7
-	jr z, @+test_single_column
+	jp z, @+test_single_column
 
 @test_two_columns:
 	;
 	; In this, the most likely case, the player is straddling two columns.
 	; So test four or six tiles for collisions.
 	;
+	ld d, h
+	ld e, l			; Keep a copy of HL for later.
 	ld a, (hl)
 	call @+is_solid
 	jr c, @+done_top_left
@@ -417,7 +419,6 @@ test_map_collisions:
 
 	ld hl, @+no_middle
 	jp @+push_right
-
 @no_middle:
 
 	; Test block in bottom left for a potential push up or right.
@@ -440,10 +441,74 @@ test_map_collisions:
 
 	; Do the push.
 	ld hl, @+done_bottom_left
-	jr nc, @+push_up
-	jr @+push_right
-
+	jp nc, @+push_up
+	jp @+push_right
 @done_bottom_left:
+
+	; ... and onto the next column.
+	ld h, d
+	ld l, e
+	ld de, 12
+	add hl, de
+
+	ld a, (hl)
+	call @+is_solid
+	jr c, @+done_top_right
+
+	; Has collided with a block on the top right. Consider pushing either
+	; down or to the left — whichever would be the lesser. 
+	ld a, (hero_current+Y_OFFSET+1)
+	and 0xf
+	ld b, a
+	ld a, (hero_current+X_OFFSET+1)
+	and 0x7
+	xor 0x7
+	inc a
+	rla
+	cp b
+
+	; Do the push.
+	ld hl, @+done_top_right
+	jp c, @+push_down
+	jp @+push_left
+@done_top_right:
+
+	; Test [again] for the existence of a middle column; if so it can only be a push left.
+	ld a, (hero_current+Y_OFFSET+1)
+	and 0xf
+	cp 9					; Test for y > 8 within a block.
+	jr c, @+no_middle
+
+	inc hl
+	ld a, (hl)
+	call @+is_solid
+	jr c, @+no_middle
+
+	ld hl, @+no_middle
+	jp @+push_left
+@no_middle:
+
+	; Test block in bottom right for a potential push up or left.
+	inc hl
+	ld a, (hl)
+	call @+is_solid
+	jr c, @+done_bottom_right
+
+	; Pick.
+	ld a, (hero_current+Y_OFFSET+1)
+	add 8
+	and 0xf
+	ld b, a
+	ld a, (hero_current+X_OFFSET+1)
+	and 0x7
+	rla
+	cp b
+
+	; Do the push.
+	ld hl, @+done_bottom_right
+	jr nc, @+push_up
+	jr @+push_left
+@done_bottom_right:
 	ret
 
 @test_single_column:
