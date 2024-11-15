@@ -378,7 +378,6 @@ test_map_collisions:
 	ld a, (hero_current+X_OFFSET+1)
 	and 7
 	jr z, @+test_single_column
-;	jr @+test_single_column
 
 @test_two_columns:
 	;
@@ -395,7 +394,8 @@ test_map_collisions:
 	and 0xf
 	ld b, a
 	ld a, (hero_current+X_OFFSET+1)
-	and 0xf
+	and 0x7
+	rla
 	cp b
 
 	; Do the push.
@@ -411,6 +411,7 @@ test_map_collisions:
 	jr c, @+no_middle
 
 	inc hl
+	ld a, (hl)
 	call @+is_solid
 	jr c, @+no_middle
 
@@ -427,17 +428,19 @@ test_map_collisions:
 
 	; Pick.
 	ld a, (hero_current+Y_OFFSET+1)
+	add 8
 	and 0xf
-	xor 0xf
-	inc a
 	ld b, a
 	ld a, (hero_current+X_OFFSET+1)
-	and 0xf
+	and 0x7
+	rla
+	xor 0xf
+	inc a
 	cp b
 
 	; Do the push.
 	ld hl, @+done_bottom_left
-	jr c, @+push_up
+	jr nc, @+push_up
 	jr @+push_right
 
 @done_bottom_left:
@@ -522,8 +525,8 @@ test_map_collisions:
 ; Pushes the player just to the right of whatever column their left side is currently in.
 @push_right:
 	ld a, (hero_current+X_OFFSET+1)
-	and ~0xf
-	add 0x10
+	and ~0x7
+	add 0x8
 	ld (hero_current+X_OFFSET+1), a
 
 	xor a
@@ -533,7 +536,7 @@ test_map_collisions:
 ; Pushes the player just to the left of whatever column their right side is currently in.
 @push_left:
 	ld a, (hero_current+X_OFFSET+1)
-	and ~0xf
+	and ~0x7
 	ld a, (hero_current+X_OFFSET+1)
 
 	ld a, 0xff
