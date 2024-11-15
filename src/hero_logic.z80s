@@ -294,13 +294,37 @@ ENDIF
 
 
 test_horizontal_bounds:
+	; Test edge-of-screen bounds first, as these apply in absolute terms.
+	ld a, (hero_current+X_OFFSET+1)
+	cp 128 - 8 + 1
+	jr c, @+no_constrain_right
+
+	cp 128 + 64 - 8				; In which case the proper bounds are on the left.
+	jr nc, @+constrain_left
+
+	ld a, 128 - 8
+	ld (hero_current+X_OFFSET+1), a
+	ld a, 0xff
+	ld (hero_current+X_OFFSET), a
+	jr @+edges_done
+
+@no_constrain_right:
+	or a
+	jp p, @+edges_done
+
+@constrain_left:
+	xor a
+	ld (hero_current+X_OFFSET+1), a
+	ld (hero_current+X_OFFSET), a
+
+@edges_done:
 	; Check bounds and force a scroll if necessary.
 	ld a, (hero_current+X_OFFSET+1)
-	cp 64 + 16
+	cp 64 + 16 - 8
 	jr c, @+no_scroll_right
 
 	call scroll_right
-;	jr c, @+no_scroll_right			; TODO: in this case also check for right bounds of screen.
+	jr c, @+no_scroll_right
 
 	ld a, (hero_current+X_OFFSET+1)
 	dec a
@@ -309,8 +333,6 @@ test_horizontal_bounds:
 	ld a, (hero_previous+X_OFFSET+1)
 	dec a
 	ld (hero_previous+X_OFFSET+1), a
-
-	jr @+no_scroll_left
 
 @no_scroll_right:
 	ld a, (hero_current+X_OFFSET+1)
@@ -318,7 +340,7 @@ test_horizontal_bounds:
 	ret nc
 
 	call scroll_left
-;	jr c, @+no_scroll_left			; TODO: in this case also check for left bounds of screen.
+	ret c
 
 	ld a, (hero_current+X_OFFSET+1)
 	inc a
@@ -328,7 +350,6 @@ test_horizontal_bounds:
 	inc a
 	ld (hero_previous+X_OFFSET+1), a
 
-@no_scroll_left:
 	ret
 
 
