@@ -393,171 +393,180 @@ test_map_collisions:
 	rra
 	rra
 	ld c, a
-	add hl, bc
+	add hl, bc		; HL should now point to the tile overlapping the top left of the hero.
 
-	; HL should now point to the tile overlapping the top left of the hero.
-	ld a, (hero_current+X_OFFSET+1)
-	and 7
-	jp z, @+test_single_column
-
-@test_two_columns:
-	;
-	; In this, the most likely case, the player is straddling two columns.
-	; So test four or six tiles for collisions.
-	;
+	; Store a backup of HL.
 	ld d, h
-	ld e, l			; Keep a copy of HL for later.
-	ld a, (hl)
-	call @+is_solid
-	jr c, @+done_top_left
+	ld e, l
 
-	; Has collided with a block on the top left. Consider pushing either
-	; down or to the right — whichever would be the lesser. 
-	ld a, (hero_current+Y_OFFSET+1)
-	and 0xf
-	ld b, a
-	ld a, (hero_current+X_OFFSET+1)
-	and 0x7
-	rla
-	cp b
+	; Test direction of vertical velocity; if none then no need to test
+	; for overlaps. If upward, test top row. Otherwise test bottom row.
+start_vertical_tests:
+	ld hl, (hero_current+Y_OFFSET)
+	ld bc, (hero_previous+Y_OFFSET)
+	or a
+	sbc hl, bc
 
-	; Do the push.
-	ld hl, @+done_top_left
-	jp c, @+push_down
-	jp @+push_right
-@done_top_left:
-
-	; Test for the existence of a middle column; if so it can only be a push right.
-	ld a, (hero_current+Y_OFFSET+1)
-	and 0xf
-	cp 9					; Test for y > 8 within a block.
-	jr c, @+no_middle
-
-	inc hl
-	ld a, (hl)
-	call @+is_solid
-	jr c, @+no_middle
-
-	ld hl, @+no_middle
-	jp @+push_right
-@no_middle:
-
-	; Test block in bottom left for a potential push up or right.
-	inc hl
-	ld a, (hl)
-	call @+is_solid
-	jr c, @+done_bottom_left
-
-	; Pick.
-	ld a, (hero_current+Y_OFFSET+1)
-	add 8
-	and 0xf
-	ld b, a
-	ld a, (hero_current+X_OFFSET+1)
-	and 0x7
-	rla
-	xor 0xf
-	inc a
-	cp b
-
-	; Do the push.
-	ld hl, @+done_bottom_left
-	jp nc, @+push_up
-	jp @+push_right
-@done_bottom_left:
-
-	; ... and onto the next column.
 	ld h, d
 	ld l, e
-	ld de, 12
-	add hl, de
 
-	ld a, (hl)
-	call @+is_solid
-	jr c, @+done_top_right
-
-	; Has collided with a block on the top right. Consider pushing either
-	; down or to the left — whichever would be the lesser. 
+	jr z, @+no_vertical_motion
+	jp m, @+test_above
+	
+	; Vertical velocity is downward. Test for overlap at feet.
+	; Task one: determine which map square contain the feet.
 	ld a, (hero_current+Y_OFFSET+1)
 	and 0xf
-	ld b, a
-	ld a, (hero_current+X_OFFSET+1)
-	and 0x7
-	xor 0x7
-	inc a
-	rla
-	cp b
-
-	; Do the push.
-	ld hl, @+done_top_right
-	jp c, @+push_down
-	jp @+push_left
-@done_top_right:
-
-	; Test [again] for the existence of a middle column; if so it can only be a push left.
-	ld a, (hero_current+Y_OFFSET+1)
-	and 0xf
-	cp 9					; Test for y > 8 within a block.
+	cp 8
 	jr c, @+no_middle
-
 	inc hl
-	ld a, (hl)
-	call @+is_solid
-	jr c, @+no_middle
-
-	ld hl, @+no_middle
-	jp @+push_left
 @no_middle:
-
-	; Test block in bottom right for a potential push up or left.
 	inc hl
+
 	ld a, (hl)
 	call @+is_solid
-	jr c, @+done_bottom_right
+	jr nc, @+push_up
 
-	; Pick.
+	; If there's no second column to check, don't check it.
+	ld a, (hero_current+X_OFFSET+1)
+	and 0xf
+	jr z, @+no_vertical_motion
+
+	; Check seccond column.
+	ld bc, 12
+	add hl, bc
+	ld a, (hl)
+	call @+is_solid
+	jr c, @+no_vertical_motion
+
+@push_up:
+	; Set on-ground flag.
+	ld a, (hero_flags)
+	or FLAG_ON_GROUND
+	ld (hero_flags), a
+
+	; Push player up above platform below.
 	ld a, (hero_current+Y_OFFSET+1)
 	add 8
+	and ~0xf
+	sub 8
+	ld (hero_current+Y_OFFSET+1), a
+
+	xor a
+	ld (hero_current+Y_OFFSET), a
+	jr @+no_vertical_motion
+
+@test_above:
+	; Vertical velocity is upnward. Test for overlap at head.
+	ld a, (hl)
+	call @+is_solid
+	jr nc, @+push_down
+
+	; If there's no second column to check, don't check it.
+	ld a, (hero_current+X_OFFSET+1)
 	and 0xf
-	ld b, a
+	jr z, @+no_vertical_motion
+
+	; Check seccond column.
+	ld bc, 12
+	add hl, bc
+	ld a, (hl)
+	call @+is_solid
+	jr c, @+no_vertical_motion
+
+@push_down:
+	; Push player down below platform above.
+	ld a, (hero_current+Y_OFFSET+1)
+	and ~0xf
+	add 0x10
+	ld (hero_current+Y_OFFSET+1), a
+	xor a
+	ld (hero_current+Y_OFFSET), a
+
+@no_vertical_motion:
+
+	; Test direction of horizontal velocity; if noen then no need to
+	; test for overlaps. Ditto if player is exactly aligned with a
+	; column, no need to test for horizontal overlaps. Otherwise
+	; either test to the left or to the right depending on
+	; sign of velocity.
+start_horizontal_tests:
 	ld a, (hero_current+X_OFFSET+1)
 	and 0x7
-	rla
-	cp b
+	jr z, @+no_horizontal_motion
 
-	; Do the push.
-	ld hl, @+done_bottom_right
-	jr nc, @+push_up
-	jr @+push_left
-@done_bottom_right:
-	ret
+	ld hl, (hero_current+X_OFFSET)
+	ld bc, (hero_previous+X_OFFSET)
+	or a
+	sbc hl, bc
 
-@test_single_column:
-	; This is the easy one; player is confined to a single 
-	; column of the map.
+	ld h, d
+	ld l, e
+
+	jr z, @+no_horizontal_motion
+	jp m, @+test_left
+
+	; Horizontal velocity is rightward. Test for overlap to right.
+	ld bc, 12
+	add hl, bc
 
 	ld a, (hl)
 	call @+is_solid
-	jr c, @+no_push
-	ld hl, @+no_push
-	jp @+push_down
-@no_push:
+	jr nc, @+push_left
+
+	inc hl
+	ld a, (hl)
+	call @+is_solid
+	jr nc, @+push_left
 
 	ld a, (hero_current+Y_OFFSET+1)
 	and 0xf
-	cp 9					; Test for y > 8 within a block.
-	jr c, @+step_single
+	cp 8
+	jr c, @+no_horizontal_motion
 
 	inc hl
-@step_single:
-	inc hl
-
 	ld a, (hl)
 	call @+is_solid
-	ret c
-	ld hl, @+done_push
-	jp @+push_up
-@done_push:	
+	jr c, @+no_horizontal_motion
+
+@push_left:
+	ld a, (hero_current+X_OFFSET+1)
+	and ~0x7
+	ld (hero_current+X_OFFSET+1), a
+	ld a, 0xff
+	ld (hero_current+X_OFFSET), a
+
+	jr @+no_horizontal_motion
+
+@test_left:
+	ld a, (hl)
+	call @+is_solid
+	jr nc, @+push_right
+
+	inc hl
+	ld a, (hl)
+	call @+is_solid
+	jr nc, @+push_right
+
+	ld a, (hero_current+Y_OFFSET+1)
+	and 0xf
+	cp 8
+	jr c, @+no_horizontal_motion
+
+	inc hl
+	ld a, (hl)
+	call @+is_solid
+	jr c, @+no_horizontal_motion
+
+@push_right:
+	ld a, (hero_current+X_OFFSET+1)
+	and ~0x7
+	add 8
+	ld (hero_current+X_OFFSET+1), a
+	xor a
+	ld (hero_current+X_OFFSET), a
+
+@no_horizontal_motion:
 	ret
 
 
@@ -576,132 +585,3 @@ test_map_collisions:
 @ret_c:
 	xor a
 	ret	
-
-
-; Pushes the player down to just beneath whatever row their head is currently in.
-@push_down:
-	ld a, (hero_current+Y_OFFSET+1)
-	and ~0xf
-	add 0x10
-	ld (hero_current+Y_OFFSET+1), a
-
-	xor a
-	ld (hero_current+Y_OFFSET), a
-	jp (hl)
-
-; Pushes the player up to just above whatever row their feet are currently in.
-; Also sets the ON_GROUND flag.
-@push_up:
-	ld a, (hero_current+Y_OFFSET+1)
-	add 24				; Add height.
-	and 0xf
-	ld b, a
-	ld a, (hero_current+Y_OFFSET+1)
-	sub b
-	ld (hero_current+Y_OFFSET+1), a
-
-	ld a, 0xff
-	ld (hero_current+Y_OFFSET), a
-
-	ld a, (hero_flags)
-	or FLAG_ON_GROUND
-	ld (hero_flags), a
-	jp (hl)
-
-; Pushes the player just to the right of whatever column their left side is currently in.
-@push_right:
-	ld a, (hero_current+X_OFFSET+1)
-	and ~0x7
-	add 0x8
-	ld (hero_current+X_OFFSET+1), a
-
-	xor a
-	ld (hero_current+X_OFFSET), a
-	jp (hl)
-
-; Pushes the player just to the left of whatever column their right side is currently in.
-@push_left:
-	ld a, (hero_current+X_OFFSET+1)
-	and ~0x7
-	ld a, (hero_current+X_OFFSET+1)
-
-	ld a, 0xff
-	ld (hero_current+X_OFFSET), a
-	jp (hl)
-
-;
-; I've never implemented a game like this before, so the following is an ad hoc attempt to
-; reason about the proper approach to map collision detection.
-;
-; For me it's simplest to rationalise it as a Minkowski sum problem, i.e. to compare a player
-; whose top left is at (px, py) with a tile whose top left is at (tx, ty) then:
-;
-; p_centre = (px, py) + (8, 12)
-; t_centre = (tx, ty) + (8, 8)
-; difference = p_centre - t_centre
-;
-; 'difference' then needs to be compared to a rectangle that runs from (-16, -20) to (16, 20):
-;
-;	* if it is outside those bounds then there is no overlap between player and block;
-;	* if it inside those bounds then determine which outer edge it is nearest and move the
-;		player by the distance from that edge;
-;	* where distances are equal I feel like preferring motion upwards, then left/right, then down
-;		is fairest to the player — it means that if they entered overlap on an exact diagonal
-;		then the code most prefers giving them solid ground, but as a secondary preference it
-;		doesn't interrupt an ongoing jump.
-;
-; As a first implementation I can just do that for all six tiles that the player potentially overlaps.
-;
-; Concretely:
-;
-;	difference	= (px, py) + (8, 12) - ((tx, ty) + (8, 8))
-;				= (px, py) + (8, 12) - (tx, ty) - (8, 8)
-;				= (px, py) - (tx, ty) + (0, 4)
-;
-; ... and compare that to (-16, -20) to (16, 20).
-;
-; Or eliminate the +4 and compare to (-16, -24) to (16, 16). Unless I've got the sign wrong
-; somewhere, in which case it'd be a y of -16 to 24. If I have then I'm sure the mistake will
-; reveal itself quickly.
-;
-; As a potential additional thought: the maximum runtime speeds that can be achieved could be used
-; to fast-reject directions from consideration. I don't know whether that'll help.
-;
-; And, of course, the use above of implicit velocity — current and previous positions are stored,
-; with velocity implicitly being the difference between the two — means that all I need to do is
-; fix sprite position
-;
-
-;
-; Postscript: with further reflection on the above, I think the following is appropriate:
-;
-;	(1)	determine how far right the player would need to be pushed if he overlaps anything
-;		in the left column;
-;	(2) determine how far left the player would need to be pushed if he overlaps anything
-;		in the right column;
-;	(3)	determine how far up the player would need to be pushed if he overlaps anything in
-;		the bottom row, whether it's second or third;
-;	(4)	determine how far down the player would need to be pushed if he overlaps anything
-;		in the top row.
-;
-; Then, if the top-left square is filled, push the player whichever is the lesser of the
-; right and down quantities. If there is a middle-left square and it is filled, push the
-; player to the right. If the bottom-left square is filed, push the player to the lesser
-; of the right and up quantities.
-;
-; And, if the player overlaps a second column, do the same thing there but comparing to
-; the left quantity rather than the right.
-;
-
-;
-; Noting as an aside: the current import tool always picks any old IDs it likes for tiles. This will
-; need to change, but since I don't expect to spend my life generating maps from screen captures
-; it's been low priority.
-;
-; That said, as a mere empirical fact, the current test for whether a tile is solid would appear
-; to need to be:
-;
-;	tile == 2 || (tile >= 17 && tile <= 23)
-;
-; So that's a little bit of nonsense, but there it is.
-;
