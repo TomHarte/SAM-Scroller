@@ -429,6 +429,10 @@ start_vertical_tests:
 
 	; If there's no second column to check, don't check it.
 	ld a, (hero_current+X_OFFSET+1)
+	add a
+	ld b, a
+	ld a, (scroll_offset)
+	add b
 	and 0xf
 	jr z, @+no_vertical_motion
 
@@ -464,6 +468,10 @@ start_vertical_tests:
 
 	; If there's no second column to check, don't check it.
 	ld a, (hero_current+X_OFFSET+1)
+	add a
+	ld b, a
+	ld a, (scroll_offset)
+	add b
 	and 0xf
 	jr z, @+no_vertical_motion
 
@@ -492,7 +500,11 @@ start_vertical_tests:
 	; sign of velocity.
 start_horizontal_tests:
 	ld a, (hero_current+X_OFFSET+1)
-	and 0x7
+	add a
+	ld b, a
+	ld a, (scroll_offset)
+	add b
+	and 0xf
 	jr z, @+no_horizontal_motion
 
 	ld hl, (hero_current+X_OFFSET)
@@ -521,7 +533,7 @@ start_horizontal_tests:
 
 	ld a, (hero_current+Y_OFFSET+1)
 	and 0xf
-	cp 8
+	cp 9
 	jr c, @+no_horizontal_motion
 
 	inc hl
@@ -530,8 +542,17 @@ start_horizontal_tests:
 	jr c, @+no_horizontal_motion
 
 @push_left:
+	ld a, (scroll_offset)
+	ld b, a
+
 	ld a, (hero_current+X_OFFSET+1)
-	and ~0x7
+	add a
+
+	add b
+	and ~0xf
+	sub b
+
+	rra
 	ld (hero_current+X_OFFSET+1), a
 	ld a, 0xff
 	ld (hero_current+X_OFFSET), a
@@ -550,7 +571,7 @@ start_horizontal_tests:
 
 	ld a, (hero_current+Y_OFFSET+1)
 	and 0xf
-	cp 8
+	cp 9
 	jr c, @+no_horizontal_motion
 
 	inc hl
@@ -559,9 +580,17 @@ start_horizontal_tests:
 	jr c, @+no_horizontal_motion
 
 @push_right:
+	ld a, (scroll_offset)
+	ld b, a
 	ld a, (hero_current+X_OFFSET+1)
-	and ~0x7
-	add 8
+	add a
+
+	add b
+	and ~0xf
+	add 16
+	sub b
+
+	rra
 	ld (hero_current+X_OFFSET+1), a
 	xor a
 	ld (hero_current+X_OFFSET), a
