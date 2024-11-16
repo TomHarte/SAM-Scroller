@@ -42,19 +42,19 @@ update_game_logic:
 	; to try to keep this code tractable as I have a much more nebulous sense of the
 	; destination than with other code I have so far written.
 	;
-	call apply_inherent_forces
-	call apply_input
-
-	call reset_hero_flags
-	call test_map_collisions
+	call apply_inherent_forces_vertical
+	call apply_input_vertical
+	call reset_on_ground_flag
+	call test_map_collisions_vertical
 	call test_vertical_bounds
+
+	call apply_inherent_forces_horizontal
+	call apply_input_horizontal
+	call test_map_collisions_horizontal
 	jp test_horizontal_bounds
 
 
-
-
-
-apply_input:
+apply_input_vertical:
 	;
 	; Check whether player is requesting a jump.
 	;
@@ -88,15 +88,15 @@ apply_input:
 	ld bc, -JUMP_STRENGTH
 	add hl, bc
 	ld (hero_current+Y_OFFSET), hl
-	jr @+did_jump
+	ret
 
 @no_jump:
 	xor a
 	ld (@hero_jump_count), a
+	ret
 
-@did_jump:
 
-
+apply_input_horizontal:
 	;
 	; Check also for left/right input
 	;
@@ -150,7 +150,7 @@ apply_input:
 	ret
 
 
-reset_hero_flags:
+reset_on_ground_flag:
 	ld a, (hero_flags)
 	and ~FLAG_ON_GROUND
 	ld (hero_flags), a
@@ -188,11 +188,7 @@ test_vertical_bounds:
 
 
 
-apply_inherent_forces:
-	;
-	; Vertical.
-	;
-
+apply_inherent_forces_vertical:
 	; Grab current and previous positions, overwriting the old value of
 	; previous with the old value of current.
 	ld hl, (hero_current+Y_OFFSET)
@@ -221,18 +217,15 @@ NEXT @vertical_damp
 	ld bc, GRAVITY_STRENGTH
 	add hl, bc
 	ld (hero_current+Y_OFFSET), hl
+ret
 
-	;
-	; Horizontal.
-	;
-
+apply_inherent_forces_horizontal:
 	; As before, load current and previous positions, and overwrite
 	; old previous with old current.
 	ld hl, (hero_current+X_OFFSET)
 	ld bc, (hero_previous+X_OFFSET)
 	ld (hero_previous+X_OFFSET), hl
 
-h_veloc:
 	; Let DE = implied velocity.
 	or a
 	sbc hl, bc
@@ -353,10 +346,7 @@ test_horizontal_bounds:
 	ret
 
 
-;
-; Begin map collision detection here.
-;
-test_map_collisions:
+test_map_collisions_vertical:
 	; Get x position relative to map.
 	ld a, (hero_current+X_OFFSET+1)
 	ld b, a
@@ -492,13 +482,56 @@ start_vertical_tests:
 	ld (hero_current+Y_OFFSET), a
 
 @no_vertical_motion:
+	ret
+
+test_map_collisions_horizontal:
+	; Get x position relative to map.
+	ld a, (hero_current+X_OFFSET+1)
+	ld b, a
+	ld a, (scroll_offset)
+	or a
+	jr nz, @+not_zero
+	add 16
+@not_zero:
+	rra
+	add b
+
+	; Mask off the bottom bits so that position is
+	; tile location multiplied by 8; improve that to
+	; multiplied by 12 to index into the tile map.
+	and ~7
+	ld b, a
+	rra
+	add b
+
+	; Turn that into a column address.
+	ld hl, (map_address)
+	ld bc, -17*12	; i.e. locate entry for the cell in the top left of display.
+	add hl, bc
+	ld b, 0
+	ld c, a
+	add hl, bc
+
+	; Shift down in search of first hit row.
+	ld a, (hero_current+Y_OFFSET+1)
+	sub START_Y
+	and 0xf0
+	rra
+	rra
+	rra
+	rra
+	ld c, a
+	add hl, bc		; HL should now point to the tile overlapping the top left of the hero.
+
+	; Store a backup of HL.
+	ld d, h
+	ld e, l
 
 	; Test direction of horizontal velocity; if noen then no need to
 	; test for overlaps. Ditto if player is exactly aligned with a
 	; column, no need to test for horizontal overlaps. Otherwise
 	; either test to the left or to the right depending on
 	; sign of velocity.
-start_horizontal_tests:
 	ld a, (hero_current+X_OFFSET+1)
 	add a
 	ld b, a
@@ -597,7 +630,6 @@ start_horizontal_tests:
 
 @no_horizontal_motion:
 	ret
-
 
 ; Returns carry clear if solid, set otherwise.
 @is_solid:
