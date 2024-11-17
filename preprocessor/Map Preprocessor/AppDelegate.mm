@@ -610,7 +610,11 @@ static constexpr int TileSize = 16;
 			((red & 2) ? 0x04 : 0x00) |
 			((blue & 2) ? 0x02 : 0x00) |
 
-			((bright >= 2) ? 0x01 : 0x00);
+			// Rule for bright: at least two voted for it, and none were zero
+			// (as to me it looks odder to introduce red, green or blue
+			// when there is meant to be none than it does to have the whole
+			// colour be slightly darker.
+			((bright >= 2 && red && green && blue) ? 0x01 : 0x00);
 		values[colour.second] = sam_colour;
 	}
 
