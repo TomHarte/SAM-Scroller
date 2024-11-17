@@ -484,7 +484,7 @@ test_map_collisions_horizontal:
 	and ~0xf
 	sub b
 
-	rra
+	rrca
 	ld (hero_current+X_OFFSET+1), a
 	ld a, 0xff
 	ld (hero_current+X_OFFSET), a
@@ -505,7 +505,7 @@ test_map_collisions_horizontal:
 	add 16
 	sub b
 
-	rra
+	rrca
 	ld (hero_current+X_OFFSET+1), a
 	xor a
 	ld (hero_current+X_OFFSET), a
@@ -607,7 +607,7 @@ test_map_collisions_horizontal:
 	; multiplied by 12 to index into the tile map.
 	and ~7
 	ld b, a
-	rra
+	rrca
 	add b
 
 	; Turn that into a column address.
@@ -622,10 +622,10 @@ test_map_collisions_horizontal:
 	ld a, (hero_current+Y_OFFSET+1)
 	sub START_Y
 	and 0xf0
-	rra
-	rra
-	rra
-	rra
+	rrca
+	rrca
+	rrca
+	rrca
 	ld c, a
 	add hl, bc		; HL should now point to the tile overlapping the top left of the hero.
 
