@@ -36,12 +36,16 @@ SCREEN_TOP:			EQU START_Y	; TODO: if and when player sprite can safely go off to
 
 @hero_jump_count:	db 0	; Records how long the jump button has been acknowledged for; pressing for longer gives a higer jump.
 
+;
+; Applies all game logic — both input and 'physics' that affect current player position.
+;
+; The number of individually CALLed steps is somewhat artificial, correlating mostly to
+; my inexperience in this stuff and a desire to build from smaller blocks. Better code
+; distribution may follow.
+;
 update_game_logic:
-	;
-	; I've artificially split the following into separate steps for the time being,
-	; to try to keep this code tractable as I have a much more nebulous sense of the
-	; destination than with other code I have so far written.
-	;
+	; Horizontal and vertical steps are performed disjointly in order to avoid having to
+	; answer the question: what's correct if the player has moved into a block diagonally?
 	call apply_inherent_forces_vertical
 	call apply_input_vertical
 	call reset_on_ground_flag
@@ -54,6 +58,10 @@ update_game_logic:
 	jp test_horizontal_bounds
 
 
+;
+; Tests for input affecting vertical motion and applies it if found.
+; This includes the stuff behind console-style variable jump height.
+;
 apply_input_vertical:
 	;
 	; Check whether player is requesting a jump.
@@ -96,6 +104,10 @@ apply_input_vertical:
 	ret
 
 
+;
+; Tests for input affecting horizontal motion and applies it if found.
+; Applied force depends on whether player is on the ground or in the air.
+;
 apply_input_horizontal:
 	;
 	; Check also for left/right input
@@ -150,6 +162,9 @@ apply_input_horizontal:
 	ret
 
 
+;
+; Clears the on-ground flag.
+;
 reset_on_ground_flag:
 	ld a, (hero_flags)
 	and ~FLAG_ON_GROUND
@@ -157,6 +172,10 @@ reset_on_ground_flag:
 	ret
 
 
+;
+; Constrains the player to the screen's bounds vertically, possibly
+; setting the on-ground flag.
+;
 test_vertical_bounds:
 	; Test for bottom of screen
 	ld a, (hero_current+Y_OFFSET+1)
@@ -186,8 +205,9 @@ test_vertical_bounds:
 	ret
 
 
-
-
+;
+; Applies gravity and air friction to the player vertically.
+;
 apply_inherent_forces_vertical:
 	; Grab current and previous positions, overwriting the old value of
 	; previous with the old value of current.
@@ -217,8 +237,13 @@ NEXT @vertical_damp
 	ld bc, GRAVITY_STRENGTH
 	add hl, bc
 	ld (hero_current+Y_OFFSET), hl
-ret
+	ret
 
+
+;
+; Applies ground and air friction to the player horizontally and updates
+; the stationary flag. 
+;
 apply_inherent_forces_horizontal:
 	; As before, load current and previous positions, and overwrite
 	; old previous with old current.
@@ -285,7 +310,10 @@ ENDIF
 	ret
 
 
-
+;
+; Tests the current horizontal position of the player to constrain him to the area of
+; the screen; also triggers scrolling if implied by the player's current position.
+;
 test_horizontal_bounds:
 	; Test edge-of-screen bounds first, as these apply in absolute terms.
 	ld a, (hero_current+X_OFFSET+1)
@@ -408,6 +436,7 @@ test_map_collisions_vertical:
 	ld (hero_current+Y_OFFSET), a
 	ret
 
+
 ;
 ; Tests and corrects for any collisions with the map as a result of current horizontal motion.
 ;
@@ -511,6 +540,7 @@ test_map_collisions_horizontal:
 	scf
 	ret
 
+
 ;
 ; Returns carry clear if anything in the two or three vertical
 ; map positions (depending on how many the player currently straddles)
@@ -553,6 +583,7 @@ test_map_collisions_horizontal:
 @ret_c:
 	xor a
 	ret	
+
 
 ;
 ; Gets the address into the tile map of the tile currently
