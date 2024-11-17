@@ -21,12 +21,12 @@
 ;	jumping over the top of the frame is standard platformer behaviour but dipping
 ;	below the bottom isn't so common. So that gives 8 rows below and 56 above.
 ;
-hero_current:	dw 64 << 8, START_Y << 8
-hero_previous:	dw 64 << 8, START_Y << 8
+player_current:	dw 64 << 8, START_Y << 8
+player_previous:	dw 64 << 8, START_Y << 8
 X_OFFSET:	EQU 0
 Y_OFFSET:	EQU 2
 
-hero_flags:		db 0	; Indicates current player status – which direction they're facing and whether they're on solid ground.
+player_flags:		db 0	; Indicates current player status – which direction they're facing and whether they're on solid ground.
 
 FLAG_DIRECTION:		EQU 1
 FLAG_ON_GROUND:		EQU 2
@@ -34,14 +34,18 @@ FLAG_STATIONARY:	EQU 4
 
 SCREEN_TOP:			EQU START_Y	; TODO: if and when player sprite can safely go off top of screen, change this to Y_CEILING.
 
-@hero_jump_count:	db 0	; Records how long the jump button has been acknowledged for; pressing for longer gives a higer jump.
+@player_jump_count:	db 0	; Records how long the jump button has been acknowledged for; pressing for longer gives a higer jump.
 
+;
+; Applies all game logic — both input and 'physics' that affect current player position.
+;
+; The number of individually CALLed steps is somewhat artificial, correlating mostly to
+; my inexperience in this stuff and a desire to build from smaller blocks. Better code
+; distribution may follow.
+;
 update_game_logic:
-	;
-	; I've artificially split the following into separate steps for the time being,
-	; to try to keep this code tractable as I have a much more nebulous sense of the
-	; destination than with other code I have so far written.
-	;
+	; Horizontal and vertical steps are performed disjointly in order to avoid having to
+	; answer the question: what's correct if the player has moved into a block diagonally?
 	call apply_inherent_forces_vertical
 	call apply_input_vertical
 	call reset_on_ground_flag
@@ -54,6 +58,10 @@ update_game_logic:
 	jp test_horizontal_bounds
 
 
+;
+; Tests for input affecting vertical motion and applies it if found.
+; This includes the stuff behind console-style variable jump height.
+;
 apply_input_vertical:
 	;
 	; Check whether player is requesting a jump.
@@ -64,44 +72,48 @@ apply_input_vertical:
 	jr c, @+no_jump
 
 	; If player is on the ground, definitely honour and reset the jump count.
-	ld a, (hero_flags)
+	ld a, (player_flags)
 	and FLAG_ON_GROUND
 	jr z, @+test_jump_count
 
 	ld a, MAX_JUMP_FRAMES
-	ld (@hero_jump_count), a
+	ld (@player_jump_count), a
 	jr @+apply_jump
 
 @test_jump_count:
 	; Still honour the jump if the button has been held continuously for MAX_JUMP_FRAMES or
 	; fewer frames since the player was on the ground.
-	ld a, (@hero_jump_count)
+	ld a, (@player_jump_count)
 	or a
 	jr z, @+no_jump
 
 @apply_jump:
-	ld a, (@hero_jump_count)
+	ld a, (@player_jump_count)
 	dec a
-	ld (@hero_jump_count), a
+	ld (@player_jump_count), a
 
-	ld hl, (hero_current+Y_OFFSET)
+	ld hl, (player_current+Y_OFFSET)
 	ld bc, -JUMP_STRENGTH
 	add hl, bc
-	ld (hero_current+Y_OFFSET), hl
+	ld (player_current+Y_OFFSET), hl
 	ret
 
 @no_jump:
 	xor a
-	ld (@hero_jump_count), a
+	ld (@player_jump_count), a
 	ret
 
 
+;
+; Tests for input affecting horizontal motion and applies it if found.
+; Applied force depends on whether player is on the ground or in the air.
+;
 apply_input_horizontal:
 	;
 	; Check also for left/right input
 	;
 	; Check for horizontal motion.
-	ld hl, (hero_current+X_OFFSET)
+	ld hl, (player_current+X_OFFSET)
 	ld bc, 0xfffe
 	in a, (c)
 
@@ -111,7 +123,7 @@ apply_input_horizontal:
 	rra
 	jr c, @+no_left
 
-	ld a, (hero_flags)
+	ld a, (player_flags)
 	and FLAG_ON_GROUND
 	jr z, @+apply_air_constant_left
 
@@ -131,7 +143,7 @@ apply_input_horizontal:
 	rra
 	jr c, @+no_right
 
-	ld a, (hero_flags)
+	ld a, (player_flags)
 	and FLAG_ON_GROUND
 	jr z, @+apply_air_constant_right
 
@@ -146,20 +158,27 @@ apply_input_horizontal:
 	add hl, bc
 
 @no_right:
-	ld (hero_current+X_OFFSET), hl
+	ld (player_current+X_OFFSET), hl
 	ret
 
 
+;
+; Clears the on-ground flag.
+;
 reset_on_ground_flag:
-	ld a, (hero_flags)
+	ld a, (player_flags)
 	and ~FLAG_ON_GROUND
-	ld (hero_flags), a
+	ld (player_flags), a
 	ret
 
 
+;
+; Constrains the player to the screen's bounds vertically, possibly
+; setting the on-ground flag.
+;
 test_vertical_bounds:
 	; Test for bottom of screen
-	ld a, (hero_current+Y_OFFSET+1)
+	ld a, (player_current+Y_OFFSET+1)
 	cp START_Y + 192 - 24
 	jr nc, @+collide_with_bottom
 
@@ -172,28 +191,29 @@ test_vertical_bounds:
 	; Player is at bottom of screen, so is on the ground.
 	; Set bottom of screen as location and set the ON_GROUND flag.
 	ld hl, (START_Y + 192 - 24) << 8
-	ld (hero_current+Y_OFFSET), hl
+	ld (player_current+Y_OFFSET), hl
 
-	ld a, (hero_flags)
+	ld a, (player_flags)
 	or FLAG_ON_GROUND
-	ld (hero_flags), a
+	ld (player_flags), a
 	ret
 
 @collide_with_top:
 	; Player is at top of screen. Just set maximum position.
 	ld hl, SCREEN_TOP << 8
-	ld (hero_current+Y_OFFSET), hl
+	ld (player_current+Y_OFFSET), hl
 	ret
 
 
-
-
+;
+; Applies gravity and air friction to the player vertically.
+;
 apply_inherent_forces_vertical:
 	; Grab current and previous positions, overwriting the old value of
 	; previous with the old value of current.
-	ld hl, (hero_current+Y_OFFSET)
-	ld bc, (hero_previous+Y_OFFSET)
-	ld (hero_previous+Y_OFFSET), hl
+	ld hl, (player_current+Y_OFFSET)
+	ld bc, (player_previous+Y_OFFSET)
+	ld (player_previous+Y_OFFSET), hl
 
 	; Let DE = implied velocity.
 	or a
@@ -210,21 +230,26 @@ NEXT @vertical_damp
 	sbc hl, de
 
 	ex de, hl
-	ld hl, (hero_current+Y_OFFSET)
+	ld hl, (player_current+Y_OFFSET)
 	add hl, de
 
 	; Apply gravity.
 	ld bc, GRAVITY_STRENGTH
 	add hl, bc
-	ld (hero_current+Y_OFFSET), hl
-ret
+	ld (player_current+Y_OFFSET), hl
+	ret
 
+
+;
+; Applies ground and air friction to the player horizontally and updates
+; the stationary flag. 
+;
 apply_inherent_forces_horizontal:
 	; As before, load current and previous positions, and overwrite
 	; old previous with old current.
-	ld hl, (hero_current+X_OFFSET)
-	ld bc, (hero_previous+X_OFFSET)
-	ld (hero_previous+X_OFFSET), hl
+	ld hl, (player_current+X_OFFSET)
+	ld bc, (player_previous+X_OFFSET)
+	ld (player_previous+X_OFFSET), hl
 
 	; Let DE = implied velocity.
 	or a
@@ -245,7 +270,7 @@ apply_inherent_forces_horizontal:
 NEXT @ground_damping
 
 IF HORIZONTAL_AIR_DAMPING != HORIZONTAL_GROUND_DAMPING
-	ld a, (hero_flags)
+	ld a, (player_flags)
 	and FLAG_ON_GROUND
 	jr nz, @+no_air_damping
 
@@ -265,30 +290,33 @@ ENDIF
 	; effectively zero by not applying any velocity whatsoever.
 	ld a, d
 	or e
-	ld a, (hero_flags)
+	ld a, (player_flags)
 	jr nz, @+in_motion
 
 	or FLAG_STATIONARY
-	ld (hero_flags), a
+	ld (player_flags), a
 	ret
 
 @in_motion:
 	and ~FLAG_STATIONARY
-	ld (hero_flags), a
+	ld (player_flags), a
 
 	; Apply dampening factor to velocity and apply velocity to position.
 	sbc hl, de
 	ex de, hl
-	ld hl, (hero_current+X_OFFSET)
+	ld hl, (player_current+X_OFFSET)
 	add hl, de
-	ld (hero_current+X_OFFSET), hl
+	ld (player_current+X_OFFSET), hl
 	ret
 
 
-
+;
+; Tests the current horizontal position of the player to constrain him to the area of
+; the screen; also triggers scrolling if implied by the player's current position.
+;
 test_horizontal_bounds:
 	; Test edge-of-screen bounds first, as these apply in absolute terms.
-	ld a, (hero_current+X_OFFSET+1)
+	ld a, (player_current+X_OFFSET+1)
 	cp 128 - 8 + 1
 	jr c, @+no_constrain_right
 
@@ -296,9 +324,9 @@ test_horizontal_bounds:
 	jr nc, @+constrain_left
 
 	ld a, 128 - 8
-	ld (hero_current+X_OFFSET+1), a
+	ld (player_current+X_OFFSET+1), a
 	ld a, 0xff
-	ld (hero_current+X_OFFSET), a
+	ld (player_current+X_OFFSET), a
 	jr @+edges_done
 
 @no_constrain_right:
@@ -307,105 +335,67 @@ test_horizontal_bounds:
 
 @constrain_left:
 	xor a
-	ld (hero_current+X_OFFSET+1), a
-	ld (hero_current+X_OFFSET), a
+	ld (player_current+X_OFFSET+1), a
+	ld (player_current+X_OFFSET), a
 
 @edges_done:
 	; Check bounds and force a scroll if necessary.
-	ld a, (hero_current+X_OFFSET+1)
+	ld a, (player_current+X_OFFSET+1)
 	cp 64 + 16 - 8
 	jr c, @+no_scroll_right
 
 	call scroll_right
 	jr c, @+no_scroll_right
 
-	ld a, (hero_current+X_OFFSET+1)
+	ld a, (player_current+X_OFFSET+1)
 	dec a
-	ld (hero_current+X_OFFSET+1), a
+	ld (player_current+X_OFFSET+1), a
 
-	ld a, (hero_previous+X_OFFSET+1)
+	ld a, (player_previous+X_OFFSET+1)
 	dec a
-	ld (hero_previous+X_OFFSET+1), a
+	ld (player_previous+X_OFFSET+1), a
 
 @no_scroll_right:
-	ld a, (hero_current+X_OFFSET+1)
+	ld a, (player_current+X_OFFSET+1)
 	cp 64 - 16
 	ret nc
 
 	call scroll_left
 	ret c
 
-	ld a, (hero_current+X_OFFSET+1)
+	ld a, (player_current+X_OFFSET+1)
 	inc a
-	ld (hero_current+X_OFFSET+1), a
+	ld (player_current+X_OFFSET+1), a
 
-	ld a, (hero_previous+X_OFFSET+1)
+	ld a, (player_previous+X_OFFSET+1)
 	inc a
-	ld (hero_previous+X_OFFSET+1), a
+	ld (player_previous+X_OFFSET+1), a
 
 	ret
 
 
+;
+; Tests and corrects for any collisions with the map as a result of current vertical motion.
+;
 test_map_collisions_vertical:
-	; Get x position relative to map.
-	ld a, (hero_current+X_OFFSET+1)
-	ld b, a
-	ld a, (scroll_offset)
-	or a
-	jr nz, @+not_zero
-	add 16
-@not_zero:
-	rra
-	add b
-
-	; Mask off the bottom bits so that position is
-	; tile location multiplied by 8; improve that to
-	; multiplied by 12 to index into the tile map.
-	and ~7
-	ld b, a
-	rra
-	add b
-
-	; Turn that into a column address.
-	ld hl, (map_address)
-	ld bc, -17*12	; i.e. locate entry for the cell in the top left of display.
-	add hl, bc
-	ld b, 0
-	ld c, a
-	add hl, bc
-
-	; Shift down in search of first hit row.
-	ld a, (hero_current+Y_OFFSET+1)
-	sub START_Y
-	and 0xf0
-	rra
-	rra
-	rra
-	rra
-	ld c, a
-	add hl, bc		; HL should now point to the tile overlapping the top left of the hero.
-
-	; Store a backup of HL.
-	ld d, h
-	ld e, l
+	call @+get_map_address
 
 	; Test direction of vertical velocity; if none then no need to test
 	; for overlaps. If upward, test top row. Otherwise test bottom row.
-start_vertical_tests:
-	ld hl, (hero_current+Y_OFFSET)
-	ld bc, (hero_previous+Y_OFFSET)
+	ld hl, (player_current+Y_OFFSET)
+	ld bc, (player_previous+Y_OFFSET)
 	or a
 	sbc hl, bc
+	ret z
 
 	ld h, d
 	ld l, e
 
-	jr z, @+no_vertical_motion
 	jp m, @+test_above
 	
 	; Vertical velocity is downward. Test for overlap at feet.
 	; Task one: determine which map square contain the feet.
-	ld a, (hero_current+Y_OFFSET+1)
+	ld a, (player_current+Y_OFFSET+1)
 	and 0xf
 	cp 8
 	jr c, @+no_middle
@@ -413,209 +403,101 @@ start_vertical_tests:
 @no_middle:
 	inc hl
 
-	ld a, (hl)
-	call @+is_solid
-	jr nc, @+push_up
+	call @+test_horizontal_flank
+	ret c
 
-	; If there's no second column to check, don't check it.
-	ld a, (hero_current+X_OFFSET+1)
-	add a
-	ld b, a
-	ld a, (scroll_offset)
-	add b
-	and 0xf
-	jr z, @+no_vertical_motion
-
-	; Check seccond column.
-	ld bc, 12
-	add hl, bc
-	ld a, (hl)
-	call @+is_solid
-	jr c, @+no_vertical_motion
-
-@push_up:
 	; Set on-ground flag.
-	ld a, (hero_flags)
+	ld a, (player_flags)
 	or FLAG_ON_GROUND
-	ld (hero_flags), a
+	ld (player_flags), a
 
 	; Push player up above platform below.
-	ld a, (hero_current+Y_OFFSET+1)
+	ld a, (player_current+Y_OFFSET+1)
 	add 8
 	and ~0xf
 	sub 8
-	ld (hero_current+Y_OFFSET+1), a
+	ld (player_current+Y_OFFSET+1), a
 
 	xor a
-	ld (hero_current+Y_OFFSET), a
-	jr @+no_vertical_motion
+	ld (player_current+Y_OFFSET), a
+	ret
 
 @test_above:
 	; Vertical velocity is upnward. Test for overlap at head.
-	ld a, (hl)
-	call @+is_solid
-	jr nc, @+push_down
+	call @+test_horizontal_flank
+	ret c
 
-	; If there's no second column to check, don't check it.
-	ld a, (hero_current+X_OFFSET+1)
-	add a
-	ld b, a
-	ld a, (scroll_offset)
-	add b
-	and 0xf
-	jr z, @+no_vertical_motion
-
-	; Check seccond column.
-	ld bc, 12
-	add hl, bc
-	ld a, (hl)
-	call @+is_solid
-	jr c, @+no_vertical_motion
-
-@push_down:
 	; Push player down below platform above.
-	ld a, (hero_current+Y_OFFSET+1)
+	ld a, (player_current+Y_OFFSET+1)
 	and ~0xf
 	add 0x10
-	ld (hero_current+Y_OFFSET+1), a
+	ld (player_current+Y_OFFSET+1), a
 	xor a
-	ld (hero_current+Y_OFFSET), a
-
-@no_vertical_motion:
+	ld (player_current+Y_OFFSET), a
 	ret
 
+
+;
+; Tests and corrects for any collisions with the map as a result of current horizontal motion.
+;
 test_map_collisions_horizontal:
-	; Get x position relative to map.
-	ld a, (hero_current+X_OFFSET+1)
-	ld b, a
-	ld a, (scroll_offset)
-	or a
-	jr nz, @+not_zero
-	add 16
-@not_zero:
-	rra
-	add b
-
-	; Mask off the bottom bits so that position is
-	; tile location multiplied by 8; improve that to
-	; multiplied by 12 to index into the tile map.
-	and ~7
-	ld b, a
-	rra
-	add b
-
-	; Turn that into a column address.
-	ld hl, (map_address)
-	ld bc, -17*12	; i.e. locate entry for the cell in the top left of display.
-	add hl, bc
-	ld b, 0
-	ld c, a
-	add hl, bc
-
-	; Shift down in search of first hit row.
-	ld a, (hero_current+Y_OFFSET+1)
-	sub START_Y
-	and 0xf0
-	rra
-	rra
-	rra
-	rra
-	ld c, a
-	add hl, bc		; HL should now point to the tile overlapping the top left of the hero.
-
-	; Store a backup of HL.
-	ld d, h
-	ld e, l
+	call @+get_map_address
 
 	; Test direction of horizontal velocity; if noen then no need to
 	; test for overlaps. Ditto if player is exactly aligned with a
 	; column, no need to test for horizontal overlaps. Otherwise
 	; either test to the left or to the right depending on
 	; sign of velocity.
-	ld a, (hero_current+X_OFFSET+1)
+	ld a, (player_current+X_OFFSET+1)
 	add a
 	ld b, a
 	ld a, (scroll_offset)
 	add b
 	and 0xf
-	jr z, @+no_horizontal_motion
+	ret z
 
-	ld hl, (hero_current+X_OFFSET)
-	ld bc, (hero_previous+X_OFFSET)
+	ld hl, (player_current+X_OFFSET)
+	ld bc, (player_previous+X_OFFSET)
 	or a
 	sbc hl, bc
+	ret z
 
 	ld h, d
 	ld l, e
 
-	jr z, @+no_horizontal_motion
 	jp m, @+test_left
 
 	; Horizontal velocity is rightward. Test for overlap to right.
 	ld bc, 12
 	add hl, bc
 
-	ld a, (hl)
-	call @+is_solid
-	jr nc, @+push_left
+	call @+test_vertical_flank
+	ret c
 
-	inc hl
-	ld a, (hl)
-	call @+is_solid
-	jr nc, @+push_left
-
-	ld a, (hero_current+Y_OFFSET+1)
-	and 0xf
-	cp 9
-	jr c, @+no_horizontal_motion
-
-	inc hl
-	ld a, (hl)
-	call @+is_solid
-	jr c, @+no_horizontal_motion
-
-@push_left:
 	ld a, (scroll_offset)
 	ld b, a
 
-	ld a, (hero_current+X_OFFSET+1)
+	ld a, (player_current+X_OFFSET+1)
 	add a
 
 	add b
 	and ~0xf
 	sub b
 
-	rra
-	ld (hero_current+X_OFFSET+1), a
+	rrca
+	ld (player_current+X_OFFSET+1), a
 	ld a, 0xff
-	ld (hero_current+X_OFFSET), a
-
-	jr @+no_horizontal_motion
+	ld (player_current+X_OFFSET), a
+	ret
 
 @test_left:
-	ld a, (hl)
-	call @+is_solid
-	jr nc, @+push_right
+	; Horizontal velocity is leftward. Test for overlap to left.
+	call @+test_vertical_flank
+	ret c
 
-	inc hl
-	ld a, (hl)
-	call @+is_solid
-	jr nc, @+push_right
-
-	ld a, (hero_current+Y_OFFSET+1)
-	and 0xf
-	cp 9
-	jr c, @+no_horizontal_motion
-
-	inc hl
-	ld a, (hl)
-	call @+is_solid
-	jr c, @+no_horizontal_motion
-
-@push_right:
 	ld a, (scroll_offset)
 	ld b, a
-	ld a, (hero_current+X_OFFSET+1)
+	ld a, (player_current+X_OFFSET+1)
 	add a
 
 	add b
@@ -623,16 +505,71 @@ test_map_collisions_horizontal:
 	add 16
 	sub b
 
-	rra
-	ld (hero_current+X_OFFSET+1), a
+	rrca
+	ld (player_current+X_OFFSET+1), a
 	xor a
-	ld (hero_current+X_OFFSET), a
-
-@no_horizontal_motion:
+	ld (player_current+X_OFFSET), a
 	ret
 
-; Returns carry clear if solid, set otherwise.
+
+;
+; Returns carry clear if anything in the one or two horizontal map
+; positions (depending on how many the player currently straddles)
+; starting from (HL) is solid. Carry set otherwise.
+;
+@test_horizontal_flank:
+	; Vertical velocity is upnward. Test for overlap at head.
+	call @+is_solid
+	ret nc
+
+	; If there's no second column to check, don't check it.
+	ld a, (player_current+X_OFFSET+1)
+	add a
+	ld b, a
+	ld a, (scroll_offset)
+	add b
+	and 0xf
+	jr z, @+no_solid
+
+	; Check seccond column.
+	ld bc, 12
+	add hl, bc
+	jp @+is_solid
+
+@no_solid:
+	scf
+	ret
+
+
+;
+; Returns carry clear if anything in the two or three vertical
+; map positions (depending on how many the player currently straddles)
+; starting from (HL) is solid. Carry set otherwise.
+;
+@test_vertical_flank:
+	call @+is_solid
+	ret nc
+
+	inc hl
+	call @+is_solid
+	ret nc
+
+	ld a, (player_current+Y_OFFSET+1)
+	and 0xf
+	cp 9
+	ret c
+
+	inc hl
+;	jp @+is_solid		; RESTORE if method order changes, obviously.
+
+
+;
+; Returns carry clear if the tile at (HL)
+; is solid, set otherwise.
+;
 @is_solid:
+	ld a, (hl)
+
 	; Simplified test: a > 17 || a == 2
 	cp 17 << 2
 	ret nc
@@ -646,3 +583,54 @@ test_map_collisions_horizontal:
 @ret_c:
 	xor a
 	ret	
+
+
+;
+; Gets the address into the tile map of the tile currently
+; overlapping the player's top left, returning it redundantly
+; in both HL and DE.
+;
+@get_map_address:
+	; Get x position relative to map.
+	ld a, (player_current+X_OFFSET+1)
+	ld b, a
+	ld a, (scroll_offset)
+	or a
+	jr nz, @+not_zero
+	add 16
+@not_zero:
+	rra
+	add b
+
+	; Mask off the bottom bits so that position is
+	; tile location multiplied by 8; improve that to
+	; multiplied by 12 to index into the tile map.
+	and ~7
+	ld b, a
+	rrca
+	add b
+
+	; Turn that into a column address.
+	ld hl, (map_address)
+	ld bc, -17*12	; i.e. locate entry for the cell in the top left of display.
+	add hl, bc
+	ld b, 0
+	ld c, a
+	add hl, bc
+
+	; Shift down Y in search of first hit row.
+	ld a, (player_current+Y_OFFSET+1)
+	sub START_Y
+	and 0xf0
+	rrca
+	rrca
+	rrca
+	rrca
+	ld c, a
+	add hl, bc		; HL should now point to the tile overlapping the top left of the player.
+
+	; Store a backup of HL.
+	ld d, h
+	ld e, l
+
+	ret

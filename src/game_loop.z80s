@@ -127,7 +127,7 @@ IF BORDER_PROFILING
 ENDIF
 
 	;
-	; Add hero sprite.
+	; Add sprites.
 	;
 	call draw_objects
 
