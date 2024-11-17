@@ -347,47 +347,7 @@ test_horizontal_bounds:
 
 
 test_map_collisions_vertical:
-	; Get x position relative to map.
-	ld a, (hero_current+X_OFFSET+1)
-	ld b, a
-	ld a, (scroll_offset)
-	or a
-	jr nz, @+not_zero
-	add 16
-@not_zero:
-	rra
-	add b
-
-	; Mask off the bottom bits so that position is
-	; tile location multiplied by 8; improve that to
-	; multiplied by 12 to index into the tile map.
-	and ~7
-	ld b, a
-	rra
-	add b
-
-	; Turn that into a column address.
-	ld hl, (map_address)
-	ld bc, -17*12	; i.e. locate entry for the cell in the top left of display.
-	add hl, bc
-	ld b, 0
-	ld c, a
-	add hl, bc
-
-	; Shift down in search of first hit row.
-	ld a, (hero_current+Y_OFFSET+1)
-	sub START_Y
-	and 0xf0
-	rra
-	rra
-	rra
-	rra
-	ld c, a
-	add hl, bc		; HL should now point to the tile overlapping the top left of the hero.
-
-	; Store a backup of HL.
-	ld d, h
-	ld e, l
+	call @+get_map_address
 
 	; Test direction of vertical velocity; if none then no need to test
 	; for overlaps. If upward, test top row. Otherwise test bottom row.
@@ -451,47 +411,7 @@ start_vertical_tests:
 	ret
 
 test_map_collisions_horizontal:
-	; Get x position relative to map.
-	ld a, (hero_current+X_OFFSET+1)
-	ld b, a
-	ld a, (scroll_offset)
-	or a
-	jr nz, @+not_zero
-	add 16
-@not_zero:
-	rra
-	add b
-
-	; Mask off the bottom bits so that position is
-	; tile location multiplied by 8; improve that to
-	; multiplied by 12 to index into the tile map.
-	and ~7
-	ld b, a
-	rra
-	add b
-
-	; Turn that into a column address.
-	ld hl, (map_address)
-	ld bc, -17*12	; i.e. locate entry for the cell in the top left of display.
-	add hl, bc
-	ld b, 0
-	ld c, a
-	add hl, bc
-
-	; Shift down in search of first hit row.
-	ld a, (hero_current+Y_OFFSET+1)
-	sub START_Y
-	and 0xf0
-	rra
-	rra
-	rra
-	rra
-	ld c, a
-	add hl, bc		; HL should now point to the tile overlapping the top left of the hero.
-
-	; Store a backup of HL.
-	ld d, h
-	ld e, l
+	call @+get_map_address
 
 	; Test direction of horizontal velocity; if noen then no need to
 	; test for overlaps. Ditto if player is exactly aligned with a
@@ -632,3 +552,49 @@ test_map_collisions_horizontal:
 @ret_c:
 	xor a
 	ret	
+
+
+@get_map_address:
+	; Get x position relative to map.
+	ld a, (hero_current+X_OFFSET+1)
+	ld b, a
+	ld a, (scroll_offset)
+	or a
+	jr nz, @+not_zero
+	add 16
+@not_zero:
+	rra
+	add b
+
+	; Mask off the bottom bits so that position is
+	; tile location multiplied by 8; improve that to
+	; multiplied by 12 to index into the tile map.
+	and ~7
+	ld b, a
+	rra
+	add b
+
+	; Turn that into a column address.
+	ld hl, (map_address)
+	ld bc, -17*12	; i.e. locate entry for the cell in the top left of display.
+	add hl, bc
+	ld b, 0
+	ld c, a
+	add hl, bc
+
+	; Shift down in search of first hit row.
+	ld a, (hero_current+Y_OFFSET+1)
+	sub START_Y
+	and 0xf0
+	rra
+	rra
+	rra
+	rra
+	ld c, a
+	add hl, bc		; HL should now point to the tile overlapping the top left of the hero.
+
+	; Store a backup of HL.
+	ld d, h
+	ld e, l
+
+	ret
