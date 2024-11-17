@@ -413,24 +413,7 @@ start_vertical_tests:
 @no_middle:
 	inc hl
 
-	ld a, (hl)
-	call @+is_solid
-	jr nc, @+push_up
-
-	; If there's no second column to check, don't check it.
-	ld a, (hero_current+X_OFFSET+1)
-	add a
-	ld b, a
-	ld a, (scroll_offset)
-	add b
-	and 0xf
-	jr z, @+no_vertical_motion
-
-	; Check seccond column.
-	ld bc, 12
-	add hl, bc
-	ld a, (hl)
-	call @+is_solid
+	call @+test_horizontal_flank
 	jr c, @+no_vertical_motion
 
 @push_up:
@@ -452,24 +435,7 @@ start_vertical_tests:
 
 @test_above:
 	; Vertical velocity is upnward. Test for overlap at head.
-	ld a, (hl)
-	call @+is_solid
-	jr nc, @+push_down
-
-	; If there's no second column to check, don't check it.
-	ld a, (hero_current+X_OFFSET+1)
-	add a
-	ld b, a
-	ld a, (scroll_offset)
-	add b
-	and 0xf
-	jr z, @+no_vertical_motion
-
-	; Check seccond column.
-	ld bc, 12
-	add hl, bc
-	ld a, (hl)
-	call @+is_solid
+	call @+test_horizontal_flank
 	jr c, @+no_vertical_motion
 
 @push_down:
@@ -555,23 +521,7 @@ test_map_collisions_horizontal:
 	ld bc, 12
 	add hl, bc
 
-	ld a, (hl)
-	call @+is_solid
-	jr nc, @+push_left
-
-	inc hl
-	ld a, (hl)
-	call @+is_solid
-	jr nc, @+push_left
-
-	ld a, (hero_current+Y_OFFSET+1)
-	and 0xf
-	cp 9
-	jr c, @+no_horizontal_motion
-
-	inc hl
-	ld a, (hl)
-	call @+is_solid
+	call @+test_vertical_flank
 	jr c, @+no_horizontal_motion
 
 @push_left:
@@ -593,23 +543,7 @@ test_map_collisions_horizontal:
 	jr @+no_horizontal_motion
 
 @test_left:
-	ld a, (hl)
-	call @+is_solid
-	jr nc, @+push_right
-
-	inc hl
-	ld a, (hl)
-	call @+is_solid
-	jr nc, @+push_right
-
-	ld a, (hero_current+Y_OFFSET+1)
-	and 0xf
-	cp 9
-	jr c, @+no_horizontal_motion
-
-	inc hl
-	ld a, (hl)
-	call @+is_solid
+	call @+test_vertical_flank
 	jr c, @+no_horizontal_motion
 
 @push_right:
@@ -630,6 +564,58 @@ test_map_collisions_horizontal:
 
 @no_horizontal_motion:
 	ret
+
+
+; Returns carry clear if anything in the one or two horizontal map
+; positions (depending on how many the player currently straddles)
+; starting from (HL) is solid. Carry set otherwise.
+@test_horizontal_flank:
+	; Vertical velocity is upnward. Test for overlap at head.
+	ld a, (hl)
+	call @+is_solid
+	ret nc
+
+	; If there's no second column to check, don't check it.
+	ld a, (hero_current+X_OFFSET+1)
+	add a
+	ld b, a
+	ld a, (scroll_offset)
+	add b
+	and 0xf
+	jr z, @+no_solid
+
+	; Check seccond column.
+	ld bc, 12
+	add hl, bc
+	ld a, (hl)
+	jp @+is_solid
+
+@no_solid:
+	scf
+	ret
+
+; Returns carry clear if anything in the two or three vertical
+; map positions (depending on how many the player currently straddles)
+; starting from (HL) is solid. Carry set otherwise.
+@test_vertical_flank:
+	ld a, (hl)
+	call @+is_solid
+	ret nc
+
+	inc hl
+	ld a, (hl)
+	call @+is_solid
+	ret nc
+
+	ld a, (hero_current+Y_OFFSET+1)
+	and 0xf
+	cp 9
+	ret c
+
+	inc hl
+	ld a, (hl)
+;	jp @+is_solid		; RESTORE if method order changes, obviously.
+
 
 ; Returns carry clear if solid, set otherwise.
 @is_solid:
