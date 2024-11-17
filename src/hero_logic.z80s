@@ -486,12 +486,13 @@ test_map_collisions_horizontal:
 	ret
 
 
+;
 ; Returns carry clear if anything in the one or two horizontal map
 ; positions (depending on how many the player currently straddles)
 ; starting from (HL) is solid. Carry set otherwise.
+;
 @test_horizontal_flank:
 	; Vertical velocity is upnward. Test for overlap at head.
-	ld a, (hl)
 	call @+is_solid
 	ret nc
 
@@ -507,23 +508,22 @@ test_map_collisions_horizontal:
 	; Check seccond column.
 	ld bc, 12
 	add hl, bc
-	ld a, (hl)
 	jp @+is_solid
 
 @no_solid:
 	scf
 	ret
 
+;
 ; Returns carry clear if anything in the two or three vertical
 ; map positions (depending on how many the player currently straddles)
 ; starting from (HL) is solid. Carry set otherwise.
+;
 @test_vertical_flank:
-	ld a, (hl)
 	call @+is_solid
 	ret nc
 
 	inc hl
-	ld a, (hl)
 	call @+is_solid
 	ret nc
 
@@ -533,12 +533,16 @@ test_map_collisions_horizontal:
 	ret c
 
 	inc hl
-	ld a, (hl)
 ;	jp @+is_solid		; RESTORE if method order changes, obviously.
 
 
-; Returns carry clear if solid, set otherwise.
+;
+; Returns carry clear if the tile at (HL)
+; is solid, set otherwise.
+;
 @is_solid:
+	ld a, (hl)
+
 	; Simplified test: a > 17 || a == 2
 	cp 17 << 2
 	ret nc
@@ -553,7 +557,11 @@ test_map_collisions_horizontal:
 	xor a
 	ret	
 
-
+;
+; Gets the address into the tile map of the tile currently
+; overlapping the player's top left, returning it redundantly
+; in both HL and DE.
+;
 @get_map_address:
 	; Get x position relative to map.
 	ld a, (hero_current+X_OFFSET+1)
@@ -582,7 +590,7 @@ test_map_collisions_horizontal:
 	ld c, a
 	add hl, bc
 
-	; Shift down in search of first hit row.
+	; Shift down Y in search of first hit row.
 	ld a, (hero_current+Y_OFFSET+1)
 	sub START_Y
 	and 0xf0
