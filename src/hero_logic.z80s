@@ -346,21 +346,23 @@ test_horizontal_bounds:
 	ret
 
 
+;
+; Tests and corrects for any collisions with the map as a result of current vertical motion.
+;
 test_map_collisions_vertical:
 	call @+get_map_address
 
 	; Test direction of vertical velocity; if none then no need to test
 	; for overlaps. If upward, test top row. Otherwise test bottom row.
-start_vertical_tests:
 	ld hl, (hero_current+Y_OFFSET)
 	ld bc, (hero_previous+Y_OFFSET)
 	or a
 	sbc hl, bc
+	ret z
 
 	ld h, d
 	ld l, e
 
-	jr z, @+no_vertical_motion
 	jp m, @+test_above
 	
 	; Vertical velocity is downward. Test for overlap at feet.
@@ -374,9 +376,8 @@ start_vertical_tests:
 	inc hl
 
 	call @+test_horizontal_flank
-	jr c, @+no_vertical_motion
+	ret c
 
-@push_up:
 	; Set on-ground flag.
 	ld a, (hero_flags)
 	or FLAG_ON_GROUND
@@ -391,14 +392,13 @@ start_vertical_tests:
 
 	xor a
 	ld (hero_current+Y_OFFSET), a
-	jr @+no_vertical_motion
+	ret
 
 @test_above:
 	; Vertical velocity is upnward. Test for overlap at head.
 	call @+test_horizontal_flank
-	jr c, @+no_vertical_motion
+	ret c
 
-@push_down:
 	; Push player down below platform above.
 	ld a, (hero_current+Y_OFFSET+1)
 	and ~0xf
@@ -406,10 +406,11 @@ start_vertical_tests:
 	ld (hero_current+Y_OFFSET+1), a
 	xor a
 	ld (hero_current+Y_OFFSET), a
-
-@no_vertical_motion:
 	ret
 
+;
+; Tests and corrects for any collisions with the map as a result of current horizontal motion.
+;
 test_map_collisions_horizontal:
 	call @+get_map_address
 
@@ -424,17 +425,17 @@ test_map_collisions_horizontal:
 	ld a, (scroll_offset)
 	add b
 	and 0xf
-	jr z, @+no_horizontal_motion
+	ret z
 
 	ld hl, (hero_current+X_OFFSET)
 	ld bc, (hero_previous+X_OFFSET)
 	or a
 	sbc hl, bc
+	ret z
 
 	ld h, d
 	ld l, e
 
-	jr z, @+no_horizontal_motion
 	jp m, @+test_left
 
 	; Horizontal velocity is rightward. Test for overlap to right.
@@ -442,9 +443,8 @@ test_map_collisions_horizontal:
 	add hl, bc
 
 	call @+test_vertical_flank
-	jr c, @+no_horizontal_motion
+	ret c
 
-@push_left:
 	ld a, (scroll_offset)
 	ld b, a
 
@@ -459,14 +459,13 @@ test_map_collisions_horizontal:
 	ld (hero_current+X_OFFSET+1), a
 	ld a, 0xff
 	ld (hero_current+X_OFFSET), a
-
-	jr @+no_horizontal_motion
+	ret
 
 @test_left:
+	; Horizontal velocity is leftward. Test for overlap to left.
 	call @+test_vertical_flank
-	jr c, @+no_horizontal_motion
+	ret c
 
-@push_right:
 	ld a, (scroll_offset)
 	ld b, a
 	ld a, (hero_current+X_OFFSET+1)
@@ -481,8 +480,6 @@ test_map_collisions_horizontal:
 	ld (hero_current+X_OFFSET+1), a
 	xor a
 	ld (hero_current+X_OFFSET), a
-
-@no_horizontal_motion:
 	ret
 
 
