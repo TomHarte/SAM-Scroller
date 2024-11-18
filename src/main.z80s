@@ -55,12 +55,11 @@ INC "per_buffer_layout.z80s"
 	ld a, %00100000 + EXECPAGE
 	out (LMPR), a
 
-@redraw_all:
 	; Do a full redraw at the current scroll position.
 	ld de, @+enter_loop
 	jp reset_scrolling
-
 @enter_loop:
+
 	; Reenable the display.
 	ld a, %00000000
 	out (BORDER), a
