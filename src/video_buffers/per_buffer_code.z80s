@@ -50,7 +50,7 @@ NEXT @zero_loop
 @return:
 	jp 1234
 
-INC "generated/slivers.z80s"
+INC "../generated/slivers.z80s"
 
 map:
-INC "generated/map.z80s"
+INC "../generated/map.z80s"

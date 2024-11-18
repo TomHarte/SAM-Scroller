@@ -3,6 +3,12 @@
 ; video buffers so that it naturally doesn't have an ongoing footprint.
 ;
 
+ORG (32 + 24)*1024
+	FLAGS_SIZE:		EQU 3*17
+	DIRTY_FLAGS:	ds FLAGS_SIZE
+
+	BUFFER_CODE:
+
 DUMP SETUPPAGE, 0
 ORG 0
 
@@ -109,7 +115,7 @@ NEXT @page_loop
 	jp 1234
 
 
-INC "generated/palette.z80s"
+INC "../generated/palette.z80s"
 
 ;
 ; The section from here to BUFFER_CODE_DONE is copied into place on
