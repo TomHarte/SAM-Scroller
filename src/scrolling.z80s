@@ -1,8 +1,12 @@
 scroll_offset:	db 0
 map_address: dw map + 12*(column_count)
 diff_address: dw diffs + 3*(column_count - 1)
-scroll_change: db 0
 @total_x: dw 0
+
+SCROLLED_NONE:	EQU 0
+SCROLLED_LEFT:	EQU 1
+SCROLLED_RIGHT:	EQU 2
+scroll_change:	db SCROLLED_NONE
 
 ;
 ; Scrolls the display one position to the left, if any space remains for scrolling in that direction.
@@ -26,7 +30,7 @@ scroll_left:
 	ld (@-total_x), hl
 
 	; Record that a scroll left happened.
-	ld a, 1
+	ld a, SCROLLED_LEFT
 	ld (scroll_change), a
 
 	;
@@ -82,7 +86,7 @@ scroll_right:
 	ld (@-total_x), hl
 
 	; Record that a scroll right happened.
-	ld a, 2
+	ld a, SCROLLED_RIGHT
 	ld (scroll_change), a
 
 	;

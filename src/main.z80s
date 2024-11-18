@@ -21,8 +21,6 @@ WALK_FRAME_DURATION:		EQU 10
 START_Y:	EQU 48		; Offset of the top of the display in internal coordinates. Making this a multiple of 16 simplifies map collision detection.
 Y_CEILING:	EQU 8		; Position at which player will bump his head in internal coordinate; needs to be more than 0 to avoid tunnelling.
 
-INC "per_buffer_layout.z80s"
-
 	ORG 0
 	DUMP EXECPAGE, 0
 	AUTOEXEC
@@ -85,5 +83,5 @@ INC "mark_dirty.z80s"
 INC "scrolling.z80s"
 
 ; Code that goes elsewhere.
-INC "buffer_setup.z80s"
+INC "video_buffers/buffer_setup.z80s"
 INC "generated/tiles.z80s"
