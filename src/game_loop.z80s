@@ -43,7 +43,7 @@ ENDIF
 
 	; The above assumes a scroll to the right; adjust for a scroll to the left.
 	rra
-	jr nc, @+or_flags
+	jp nc, @+or_flags
 
 	ld bc, 3
 	add hl, bc
@@ -63,7 +63,7 @@ IF @or_loop == 44
 @wait:
 	in a, (STATUS)
 	rra
-	jr c, @-wait
+	jp c, @-wait
 ENDIF
 
 NEXT @or_loop
@@ -71,21 +71,21 @@ NEXT @or_loop
 	; Record no scroll as pending.
 	xor a
 	ld (scroll_change), a
-	jr @+start_redraw
+	jp @+start_redraw
 
 @no_scroll:
 	; No scroll will be forthcoming; wait for line 191 now and then busy-loop for line 192.
 @wait:
 	in a, (STATUS)
 	rra
-	jr c, @-wait
+	jp c, @-wait
 
 	; This busy-loop was measured empirically in Sim Coupé. Fingers crossed I allowed properly
 	; for the vagaries of instruction phase.
 	ld a, 18
 @busy_loop:
 	dec a
-	jr nz, @-busy_loop
+	jp nz, @-busy_loop
 
 @start_redraw:
 	;

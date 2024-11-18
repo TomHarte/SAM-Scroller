@@ -38,7 +38,7 @@ setup_per_screen_code:
 
 	; Next will be at [screen end] - (a >> 1) {- 8 for page 0}.
 	or a
-	jr z, @+store
+	jp z, @+store
 
 	ld d, 0
 	ld e, a
@@ -59,21 +59,21 @@ NEXT @address_loop
 	; Continue to next page.
 	add 2
 	cp 16
-	jr nz, @-copy_buffer_code
+	jp nz, @-copy_buffer_code
 
 	;
 	; Apply per-page adjustments to locate proper tile pages.
 	;
 
 	; First page: do one fewer columns by rewring the final to
-	; be a JR that skips its body.
+	; be a jp that skips its body.
 	ld a, 0
 	out (HMPR), a
 
-	ld a, 0x18												; i.e. JR
+	ld a, 0xc3												; i.e. JP
 	ld (column_address{column_count-1}), a
-	ld a, columns_end - column_address{column_count-1} - 2	; i.e. offset to return code.
-	ld (column_address{column_count-1} + 1), a
+	ld hl, columns_end
+	ld (column_address{column_count-1} + 1), hl
 
 	; Second page onwards: use appropriate left and right
 	; pages for first and last column; if this is an
