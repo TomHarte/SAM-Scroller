@@ -1,4 +1,29 @@
 ;
+; Constants affecting motion.
+;
+INITIAL_JUMP_STRENGTH:		EQU 420							; Force applied on the first frame of jumping.
+PER_FRAME_JUMP_DECREMENT:	EQU INITIAL_JUMP_STRENGTH/15	; Amount by which force applied decreases each frame while the button is pressed.
+@player_jump_strength:		dw 0							; Records current jump strength.
+@allow_new_jump:			dw 0							; Indicates whether a new jump request should be honoured; 0 = true.
+
+
+GRAVITY_STRENGTH:	EQU 80		; The quantum force applied due to gravity.
+VERTICAL_DAMPING:	EQU 4		; Resistance to vertical motion, in log2 terms. If this is 1 then vertical speed will be reduced by (speed >> 1)
+								; at each tick. If it is 2 then vertical speed will be reduced by (speed >> 2). Etc. So bigger values mean
+								; less damping.
+
+
+HORIZONTAL_AIR_DAMPING:		EQU 4	; Horizontal damping when player is in the air.
+HORIZONTAL_GROUND_DAMPING:	EQU 2	; Horizontal damping when player is on the ground.
+	; REQUIRED: HORIZONTAL_GROUND_DAMPING <= HORIZONTAL_AIR_DAMPING.
+
+; The force applied by horizontal motion, whether in the air or on the ground.
+; With fixed speed scrolling in increments of 1 coordinate unit, these are picked
+; so that the character will have a maximum speed of 1 unit movement.
+HORIZONTAL_AIR_STRENGTH:	EQU 256 >> HORIZONTAL_AIR_DAMPING
+HORIZONTAL_GROUND_STRENGTH:	EQU 256 >> HORIZONTAL_GROUND_DAMPING
+
+;
 ; Adopted coordinate system:
 ;
 ;	1 horizontal unit = 2 pixels.
@@ -21,7 +46,7 @@
 ;	jumping over the top of the frame is standard platformer behaviour but dipping
 ;	below the bottom isn't so common. So that gives 8 rows below and 56 above.
 ;
-player_current:	dw 64 << 8, START_Y << 8
+player_current:		dw 64 << 8, START_Y << 8
 player_previous:	dw 64 << 8, START_Y << 8
 X_OFFSET:	EQU 0
 Y_OFFSET:	EQU 2
@@ -33,8 +58,6 @@ FLAG_ON_GROUND:		EQU 2
 FLAG_STATIONARY:	EQU 4
 
 SCREEN_TOP:			EQU START_Y	; TODO: if and when player sprite can safely go off top of screen, change this to Y_CEILING.
-
-@player_jump_count:	db 0	; Records how long the jump button has been acknowledged for; pressing for longer gives a higer jump.
 
 ;
 ; Applies all game logic — both input and 'physics' that affect current player position.
@@ -71,36 +94,45 @@ apply_input_vertical:
 	rra
 	jr c, @+no_jump
 
-	; If player is on the ground, definitely honour and reset the jump count.
+	; If player is off the ground, continue as long as thrust remains.
 	ld a, (player_flags)
 	and FLAG_ON_GROUND
-	jr z, @+test_jump_count
+	jr z, @+begin_jump
 
-	ld a, MAX_JUMP_FRAMES
-	ld (@player_jump_count), a
+	; Otherwise, start a new jump if permitted.
+	ld a, (@allow_new_jump)
+	or a
+	ret nz
+	inc a
+	ld (@allow_new_jump), a
+
+	ld hl, -INITIAL_JUMP_STRENGTH
 	jr @+apply_jump
 
-@test_jump_count:
-	; Still honour the jump if the button has been held continuously for MAX_JUMP_FRAMES or
-	; fewer frames since the player was on the ground.
-	ld a, (@player_jump_count)
-	or a
-	jr z, @+no_jump
+@begin_jump:
+	ld hl, (@player_jump_strength)
+	ld a, h
+	or l
+	ret z
 
 @apply_jump:
-	ld a, (@player_jump_count)
-	dec a
-	ld (@player_jump_count), a
-
+	ex de, hl
 	ld hl, (player_current+Y_OFFSET)
-	ld bc, -JUMP_STRENGTH
-	add hl, bc
+	add hl, de
 	ld (player_current+Y_OFFSET), hl
+
+	ld hl, PER_FRAME_JUMP_DECREMENT
+	add hl, de
+	ld (@player_jump_strength), hl
 	ret
 
 @no_jump:
+	; Jump button is no longer pressed, so zero out remaining jump strength and
+	; permit future new jumps.
+	ld hl, 0
+	ld (@player_jump_strength), hl
 	xor a
-	ld (@player_jump_count), a
+	ld (@allow_new_jump), a
 	ret
 
 
