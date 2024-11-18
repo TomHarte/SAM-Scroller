@@ -1,8 +1,8 @@
 ;
 ; Constants affecting motion.
 ;
-INITIAL_JUMP_STRENGTH:		EQU 420							; Force applied on the first frame of jumping.
-PER_FRAME_JUMP_DECREMENT:	EQU INITIAL_JUMP_STRENGTH/15	; Amount by which force applied decreases each frame while the button is pressed.
+INITIAL_JUMP_STRENGTH:		EQU 300							; Force applied on the first frame of jumping.
+PER_FRAME_JUMP_DECREMENT:	EQU INITIAL_JUMP_STRENGTH/20	; Amount by which force applied decreases each frame while the button is pressed.
 @player_jump_strength:		dw 0							; Records current jump strength.
 @allow_new_jump:			dw 0							; Indicates whether a new jump request should be honoured; 0 = true.
 
