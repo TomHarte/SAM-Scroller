@@ -5,7 +5,7 @@ mark16x24:
 	; Calculate first dirty column, multiplied by three.
 	ld a, (scroll_offset)
 	or a
-	jr nz, @+not_zero
+	jp nz, @+not_zero
 	add a, 16
 @not_zero:
 	rra
@@ -33,10 +33,10 @@ mark16x24:
 	ld c, 64
 @search_down:
 	cp c
-	jr c, @+search_done
+	jp c, @+search_done
 	sub c
 	inc l
-	jr @-search_down
+	jp @-search_down
 @search_done:
 
 	;
@@ -48,7 +48,7 @@ mark16x24:
 	rra
 	rra
 	rra
-	jr c, @+set_three
+	jp c, @+set_three
 
 	;
 	; If here: two bits need to be set, starting from the bit identified in A within
@@ -63,7 +63,7 @@ mark16x24:
 	or a
 	ex de, hl
 
-	jr z, @+set_adjacent_two	; If the two bits to set overflow this byte, head elsewhere.
+	jp z, @+set_adjacent_two	; If the two bits to set overflow this byte, head elsewhere.
 
 @touch_single_byte:
 	or (hl)					; Set bits in this byte.
@@ -126,19 +126,19 @@ mark16x24:
 	or a
 	ex de, hl
 
-	jr nz, @-touch_single_byte	; If the three bits to set fit within this byte, jump up.
+	jp nz, @-touch_single_byte	; If the three bits to set fit within this byte, jump up.
 
 	ld a, c
 	cp 2
-	jr z, @+split_2_1
+	jp z, @+split_2_1
 
 	ld de, 0x3004
-	jr @-set_adjacent
+	jp @-set_adjacent
 
 @split_2_1:
 		
 	ld de, 0x200c
-	jr @-set_adjacent
+	jp @-set_adjacent
 
 	ret
 

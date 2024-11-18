@@ -136,7 +136,7 @@ reset_scrolling:
 @seed_tiles:
 	ld a, (scroll_offset)
 	or a
-	jr z, @+end_seed
+	jp z, @+end_seed
 	dec a
 	dec a
 	ld (scroll_offset), a
@@ -149,7 +149,7 @@ reset_scrolling:
 	ld (hl), a
 	inc l
 	dec b
-	jr nz, @-flags_loop
+	jp nz, @-flags_loop
 
 	ld ix, (map_address)
 	ld de, @-seed_tiles

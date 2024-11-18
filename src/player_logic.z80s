@@ -92,12 +92,12 @@ apply_input_vertical:
 	ld bc, 0x7ffe
 	in a, (c)
 	rra
-	jr c, @+no_jump
+	jp c, @+no_jump
 
 	; If player is off the ground, continue as long as thrust remains.
 	ld a, (player_flags)
 	and FLAG_ON_GROUND
-	jr z, @+begin_jump
+	jp z, @+begin_jump
 
 	; Otherwise, start a new jump if permitted.
 	ld a, (@allow_new_jump)
@@ -107,7 +107,7 @@ apply_input_vertical:
 	ld (@allow_new_jump), a
 
 	ld hl, -INITIAL_JUMP_STRENGTH
-	jr @+apply_jump
+	jp @+apply_jump
 
 @begin_jump:
 	ld hl, (@player_jump_strength)
@@ -153,37 +153,37 @@ apply_input_horizontal:
 	rra
 	rra
 	rra
-	jr c, @+no_left
+	jp c, @+no_left
 
 	ld a, (player_flags)
 	and FLAG_ON_GROUND
-	jr z, @+apply_air_constant_left
+	jp z, @+apply_air_constant_left
 
 @apply_ground_constant_left:
 	ld bc, -HORIZONTAL_GROUND_STRENGTH
 	add hl, bc
 
-	jr @+no_right
+	jp @+no_right
 
 @apply_air_constant_left:
 	ld bc, -HORIZONTAL_AIR_STRENGTH
 	add hl, bc
 
-	jr @+no_right
+	jp @+no_right
 
 @no_left:
 	rra
-	jr c, @+no_right
+	jp c, @+no_right
 
 	ld a, (player_flags)
 	and FLAG_ON_GROUND
-	jr z, @+apply_air_constant_right
+	jp z, @+apply_air_constant_right
 
 @apply_ground_constant_right:
 	ld bc, HORIZONTAL_GROUND_STRENGTH
 	add hl, bc
 
-	jr @+no_right
+	jp @+no_right
 
 @apply_air_constant_right:
 	ld bc, HORIZONTAL_AIR_STRENGTH
@@ -212,11 +212,11 @@ test_vertical_bounds:
 	; Test for bottom of screen
 	ld a, (player_current+Y_OFFSET+1)
 	cp START_Y + 192 - 24
-	jr nc, @+collide_with_bottom
+	jp nc, @+collide_with_bottom
 
 	; Test for top of screen
 	cp SCREEN_TOP
-	jr c, @+collide_with_top
+	jp c, @+collide_with_top
 	ret
 
 @collide_with_bottom:
@@ -304,7 +304,7 @@ NEXT @ground_damping
 IF HORIZONTAL_AIR_DAMPING != HORIZONTAL_GROUND_DAMPING
 	ld a, (player_flags)
 	and FLAG_ON_GROUND
-	jr nz, @+no_air_damping
+	jp nz, @+no_air_damping
 
 @air_damping: EQU FOR HORIZONTAL_AIR_DAMPING - HORIZONTAL_GROUND_DAMPING
 	sra d
@@ -323,7 +323,7 @@ ENDIF
 	ld a, d
 	or e
 	ld a, (player_flags)
-	jr nz, @+in_motion
+	jp nz, @+in_motion
 
 	or FLAG_STATIONARY
 	ld (player_flags), a
@@ -350,16 +350,16 @@ test_horizontal_bounds:
 	; Test edge-of-screen bounds first, as these apply in absolute terms.
 	ld a, (player_current+X_OFFSET+1)
 	cp 128 - 8 + 1
-	jr c, @+no_constrain_right
+	jp c, @+no_constrain_right
 
 	cp 128 + 64 - 8				; In which case the proper bounds are on the left.
-	jr nc, @+constrain_left
+	jp nc, @+constrain_left
 
 	ld a, 128 - 8
 	ld (player_current+X_OFFSET+1), a
 	ld a, 0xff
 	ld (player_current+X_OFFSET), a
-	jr @+edges_done
+	jp @+edges_done
 
 @no_constrain_right:
 	or a
@@ -374,10 +374,10 @@ test_horizontal_bounds:
 	; Check bounds and force a scroll if necessary.
 	ld a, (player_current+X_OFFSET+1)
 	cp 64 + 16 - 8
-	jr c, @+no_scroll_right
+	jp c, @+no_scroll_right
 
 	call scroll_right
-	jr c, @+no_scroll_right
+	jp c, @+no_scroll_right
 
 	ld a, (player_current+X_OFFSET+1)
 	dec a
@@ -430,7 +430,7 @@ test_map_collisions_vertical:
 	ld a, (player_current+Y_OFFSET+1)
 	and 0xf
 	cp 8
-	jr c, @+no_middle
+	jp c, @+no_middle
 	inc hl
 @no_middle:
 	inc hl
@@ -561,7 +561,7 @@ test_map_collisions_horizontal:
 	ld a, (scroll_offset)
 	add b
 	and 0xf
-	jr z, @+no_solid
+	jp z, @+no_solid
 
 	; Check seccond column.
 	ld bc, 12
@@ -607,7 +607,7 @@ test_map_collisions_horizontal:
 	ret nc
 
 	cp 2 << 2
-	jr z, @+ret_c
+	jp z, @+ret_c
 
 	scf
 	ret
@@ -628,7 +628,7 @@ test_map_collisions_horizontal:
 	ld b, a
 	ld a, (scroll_offset)
 	or a
-	jr nz, @+not_zero
+	jp nz, @+not_zero
 	add 16
 @not_zero:
 	rra
