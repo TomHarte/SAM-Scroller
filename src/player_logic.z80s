@@ -4,6 +4,7 @@
 INITIAL_JUMP_STRENGTH:		EQU 420							; Force applied on the first frame of jumping.
 PER_FRAME_JUMP_DECREMENT:	EQU INITIAL_JUMP_STRENGTH/15	; Amount by which force applied decreases each frame while the button is pressed.
 @player_jump_strength:		dw 0							; Records current jump strength.
+@allow_new_jump:			dw 0							; Indicates whether a new jump request should be honoured; 0 = true.
 
 
 GRAVITY_STRENGTH:	EQU 80		; The quantum force applied due to gravity.
@@ -93,17 +94,22 @@ apply_input_vertical:
 	rra
 	jr c, @+no_jump
 
-	; If player is on the ground, begin a new jump.
+	; If player is off the ground, continue as long as thrust remains.
 	ld a, (player_flags)
 	and FLAG_ON_GROUND
-	jr z, @+continue_jump
+	jr z, @+begin_jump
 
-	; Still honour the jump if the button has been held continuously for MAX_JUMP_FRAMES or
-	; fewer frames since the player was on the ground.
+	; Otherwise, start a new jump if permitted.
+	ld a, (@allow_new_jump)
+	or a
+	ret nz
+	inc a
+	ld (@allow_new_jump), a
+
 	ld hl, -INITIAL_JUMP_STRENGTH
 	jr @+apply_jump
 
-@continue_jump:
+@begin_jump:
 	ld hl, (@player_jump_strength)
 	ld a, h
 	or l
@@ -121,9 +127,12 @@ apply_input_vertical:
 	ret
 
 @no_jump:
-	; Jump button is no longer pressed, so zero out remaining jump strength.
+	; Jump button is no longer pressed, so zero out remaining jump strength and
+	; permit future new jumps.
 	ld hl, 0
 	ld (@player_jump_strength), hl
+	xor a
+	ld (@allow_new_jump), a
 	ret
 
 
