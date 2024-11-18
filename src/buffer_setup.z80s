@@ -76,7 +76,7 @@ NEXT @address_loop
 	ld (column_address{column_count-1} + 1), a
 
 	; Second page onwards: use appropriate left and right
-	; tables for first and last column; if this is an
+	; pages for first and last column; if this is an
 	; odd page (i.e. one in which the clipped tiles are
 	; an odd number of bytes wide), also decrease the initial
 	; and final column start address by 1 as per the different
@@ -88,17 +88,9 @@ NEXT @address_loop
 
 	ld a, tiles_left_{@page_loop+1}_page
 	ld (tile_page0+1), a
-	ld a, tiles_left_{@page_loop+1} >> 8
-	ld (tile_address0_0+1), a
-	ld (tile_address0_1+1), a
-	ld (tile_address0_2+1), a
 
 	ld a, tiles_right_{7-@page_loop}_page
 	ld (tile_page{column_count-1}+1), a
-	ld a, tiles_right_{7-@page_loop} >> 8
-	ld (tile_address{column_count-1}_0+1), a
-	ld (tile_address{column_count-1}_1+1), a
-	ld (tile_address{column_count-1}_2+1), a
 
 IF (@page_loop & 1) == 0
 	ld hl, (column_address0+1)
