@@ -9,26 +9,6 @@ BORDER:		EQU 254
 EXECPAGE:	EQU 24
 SETUPPAGE:	EQU 14
 
-;
-; Constants affecting motion.
-;
-MAX_JUMP_FRAMES:	EQU 15		; The number of consecutive frames a user's pressing of the jump key can be honoured for re: variable-height jumping.
-GRAVITY_STRENGTH:	EQU 80		; The quantum force applied due to gravity.
-JUMP_STRENGTH:		EQU 270		; The force applied by jumping.
-VERTICAL_DAMPING:	EQU 4		; Resistance to vertical motion, in log2 terms. If this is 1 then vertical speed will be reduced by (speed >> 1)
-								; at each tick. If it is 2 then vertical speed will be reduced by (speed >> 2). Etc. So bigger values mean
-								; less damping.
-
-
-HORIZONTAL_AIR_DAMPING:		EQU 4	; Horizontal damping when player is in the air.
-HORIZONTAL_GROUND_DAMPING:	EQU 2	; Horizontal damping when player is on the ground.
-	; REQUIRED: HORIZONTAL_GROUND_DAMPING <= HORIZONTAL_AIR_DAMPING.
-
-; The force applied by horizontal motion, whether in the air or on the ground.
-; With fixed speed scrolling in increments of 1 coordinate unit, these are picked
-; so that the character will have a maximum speed of 1 unit movement.
-HORIZONTAL_AIR_STRENGTH:	EQU 256 >> HORIZONTAL_AIR_DAMPING
-HORIZONTAL_GROUND_STRENGTH:	EQU 256 >> HORIZONTAL_GROUND_DAMPING
 
 ;
 ; Constants affecting animation.
