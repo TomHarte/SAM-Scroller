@@ -4189,72 +4189,6 @@
 	ORG 0
 	DUMP 17, 0
 	ds align 256
-	tiles_left_7_page: EQU 17 + 0b00100000
-	tiles_left_7:
-		jp @+left_7_0
-		nop
-		jp @+left_7_1
-		nop
-		jp @+left_7_2
-		nop
-		jp @+left_7_3
-		nop
-		jp @+left_7_4
-		nop
-		jp @+left_7_5
-		nop
-		jp @+left_7_6
-		nop
-		jp @+left_7_7
-		nop
-		jp @+left_7_8
-		nop
-		jp @+left_7_9
-		nop
-		jp @+left_7_10
-		nop
-		jp @+left_7_11
-		nop
-		jp @+left_7_12
-		nop
-		jp @+left_7_13
-		nop
-		jp @+left_7_14
-		nop
-		jp @+left_7_15
-		nop
-		jp @+left_7_16
-		nop
-		jp @+left_7_17
-		nop
-		jp @+left_7_18
-		nop
-		jp @+left_7_19
-		nop
-		jp @+left_7_20
-		nop
-		jp @+left_7_21
-		nop
-		jp @+left_7_22
-		nop
-		jp @+left_7_23
-		nop
-		jp @+left_7_24
-		nop
-		jp @+left_7_25
-		nop
-		jp @+left_7_26
-		nop
-		jp @+left_7_27
-		nop
-		jp @+left_7_28
-		nop
-		jp @+left_7_29
-		nop
-		jp @+left_7_30
-
-
-	ds align 256
 	tiles_right_1_page: EQU 17 + 0b00100000
 	tiles_right_1:
 		jp @+right_1_0
@@ -4318,6 +4252,72 @@
 		jp @+right_1_29
 		nop
 		jp @+right_1_30
+
+
+	ds align 256
+	tiles_left_7_page: EQU 17 + 0b00100000
+	tiles_left_7:
+		jp @+left_7_0
+		nop
+		jp @+left_7_1
+		nop
+		jp @+left_7_2
+		nop
+		jp @+left_7_3
+		nop
+		jp @+left_7_4
+		nop
+		jp @+left_7_5
+		nop
+		jp @+left_7_6
+		nop
+		jp @+left_7_7
+		nop
+		jp @+left_7_8
+		nop
+		jp @+left_7_9
+		nop
+		jp @+left_7_10
+		nop
+		jp @+left_7_11
+		nop
+		jp @+left_7_12
+		nop
+		jp @+left_7_13
+		nop
+		jp @+left_7_14
+		nop
+		jp @+left_7_15
+		nop
+		jp @+left_7_16
+		nop
+		jp @+left_7_17
+		nop
+		jp @+left_7_18
+		nop
+		jp @+left_7_19
+		nop
+		jp @+left_7_20
+		nop
+		jp @+left_7_21
+		nop
+		jp @+left_7_22
+		nop
+		jp @+left_7_23
+		nop
+		jp @+left_7_24
+		nop
+		jp @+left_7_25
+		nop
+		jp @+left_7_26
+		nop
+		jp @+left_7_27
+		nop
+		jp @+left_7_28
+		nop
+		jp @+left_7_29
+		nop
+		jp @+left_7_30
 
 
 	@left_7_8:
@@ -10495,72 +10495,6 @@
 	ORG 0
 	DUMP 18, 0
 	ds align 256
-	tiles_left_6_page: EQU 18 + 0b00100000
-	tiles_left_6:
-		jp @+left_6_0
-		nop
-		jp @+left_6_1
-		nop
-		jp @+left_6_2
-		nop
-		jp @+left_6_3
-		nop
-		jp @+left_6_4
-		nop
-		jp @+left_6_5
-		nop
-		jp @+left_6_6
-		nop
-		jp @+left_6_7
-		nop
-		jp @+left_6_8
-		nop
-		jp @+left_6_9
-		nop
-		jp @+left_6_10
-		nop
-		jp @+left_6_11
-		nop
-		jp @+left_6_12
-		nop
-		jp @+left_6_13
-		nop
-		jp @+left_6_14
-		nop
-		jp @+left_6_15
-		nop
-		jp @+left_6_16
-		nop
-		jp @+left_6_17
-		nop
-		jp @+left_6_18
-		nop
-		jp @+left_6_19
-		nop
-		jp @+left_6_20
-		nop
-		jp @+left_6_21
-		nop
-		jp @+left_6_22
-		nop
-		jp @+left_6_23
-		nop
-		jp @+left_6_24
-		nop
-		jp @+left_6_25
-		nop
-		jp @+left_6_26
-		nop
-		jp @+left_6_27
-		nop
-		jp @+left_6_28
-		nop
-		jp @+left_6_29
-		nop
-		jp @+left_6_30
-
-
-	ds align 256
 	tiles_right_2_page: EQU 18 + 0b00100000
 	tiles_right_2:
 		jp @+right_2_0
@@ -10624,6 +10558,72 @@
 		jp @+right_2_29
 		nop
 		jp @+right_2_30
+
+
+	ds align 256
+	tiles_left_6_page: EQU 18 + 0b00100000
+	tiles_left_6:
+		jp @+left_6_0
+		nop
+		jp @+left_6_1
+		nop
+		jp @+left_6_2
+		nop
+		jp @+left_6_3
+		nop
+		jp @+left_6_4
+		nop
+		jp @+left_6_5
+		nop
+		jp @+left_6_6
+		nop
+		jp @+left_6_7
+		nop
+		jp @+left_6_8
+		nop
+		jp @+left_6_9
+		nop
+		jp @+left_6_10
+		nop
+		jp @+left_6_11
+		nop
+		jp @+left_6_12
+		nop
+		jp @+left_6_13
+		nop
+		jp @+left_6_14
+		nop
+		jp @+left_6_15
+		nop
+		jp @+left_6_16
+		nop
+		jp @+left_6_17
+		nop
+		jp @+left_6_18
+		nop
+		jp @+left_6_19
+		nop
+		jp @+left_6_20
+		nop
+		jp @+left_6_21
+		nop
+		jp @+left_6_22
+		nop
+		jp @+left_6_23
+		nop
+		jp @+left_6_24
+		nop
+		jp @+left_6_25
+		nop
+		jp @+left_6_26
+		nop
+		jp @+left_6_27
+		nop
+		jp @+left_6_28
+		nop
+		jp @+left_6_29
+		nop
+		jp @+left_6_30
 
 
 	@left_6_8:
@@ -16356,72 +16356,6 @@
 	ORG 0
 	DUMP 19, 0
 	ds align 256
-	tiles_left_5_page: EQU 19 + 0b00100000
-	tiles_left_5:
-		jp @+left_5_0
-		nop
-		jp @+left_5_1
-		nop
-		jp @+left_5_2
-		nop
-		jp @+left_5_3
-		nop
-		jp @+left_5_4
-		nop
-		jp @+left_5_5
-		nop
-		jp @+left_5_6
-		nop
-		jp @+left_5_7
-		nop
-		jp @+left_5_8
-		nop
-		jp @+left_5_9
-		nop
-		jp @+left_5_10
-		nop
-		jp @+left_5_11
-		nop
-		jp @+left_5_12
-		nop
-		jp @+left_5_13
-		nop
-		jp @+left_5_14
-		nop
-		jp @+left_5_15
-		nop
-		jp @+left_5_16
-		nop
-		jp @+left_5_17
-		nop
-		jp @+left_5_18
-		nop
-		jp @+left_5_19
-		nop
-		jp @+left_5_20
-		nop
-		jp @+left_5_21
-		nop
-		jp @+left_5_22
-		nop
-		jp @+left_5_23
-		nop
-		jp @+left_5_24
-		nop
-		jp @+left_5_25
-		nop
-		jp @+left_5_26
-		nop
-		jp @+left_5_27
-		nop
-		jp @+left_5_28
-		nop
-		jp @+left_5_29
-		nop
-		jp @+left_5_30
-
-
-	ds align 256
 	tiles_right_3_page: EQU 19 + 0b00100000
 	tiles_right_3:
 		jp @+right_3_0
@@ -16485,6 +16419,72 @@
 		jp @+right_3_29
 		nop
 		jp @+right_3_30
+
+
+	ds align 256
+	tiles_left_5_page: EQU 19 + 0b00100000
+	tiles_left_5:
+		jp @+left_5_0
+		nop
+		jp @+left_5_1
+		nop
+		jp @+left_5_2
+		nop
+		jp @+left_5_3
+		nop
+		jp @+left_5_4
+		nop
+		jp @+left_5_5
+		nop
+		jp @+left_5_6
+		nop
+		jp @+left_5_7
+		nop
+		jp @+left_5_8
+		nop
+		jp @+left_5_9
+		nop
+		jp @+left_5_10
+		nop
+		jp @+left_5_11
+		nop
+		jp @+left_5_12
+		nop
+		jp @+left_5_13
+		nop
+		jp @+left_5_14
+		nop
+		jp @+left_5_15
+		nop
+		jp @+left_5_16
+		nop
+		jp @+left_5_17
+		nop
+		jp @+left_5_18
+		nop
+		jp @+left_5_19
+		nop
+		jp @+left_5_20
+		nop
+		jp @+left_5_21
+		nop
+		jp @+left_5_22
+		nop
+		jp @+left_5_23
+		nop
+		jp @+left_5_24
+		nop
+		jp @+left_5_25
+		nop
+		jp @+left_5_26
+		nop
+		jp @+left_5_27
+		nop
+		jp @+left_5_28
+		nop
+		jp @+left_5_29
+		nop
+		jp @+left_5_30
 
 
 	@left_5_8:
@@ -22644,72 +22644,6 @@
 	ORG 0
 	DUMP 20, 0
 	ds align 256
-	tiles_left_4_page: EQU 20 + 0b00100000
-	tiles_left_4:
-		jp @+left_4_0
-		nop
-		jp @+left_4_1
-		nop
-		jp @+left_4_2
-		nop
-		jp @+left_4_3
-		nop
-		jp @+left_4_4
-		nop
-		jp @+left_4_5
-		nop
-		jp @+left_4_6
-		nop
-		jp @+left_4_7
-		nop
-		jp @+left_4_8
-		nop
-		jp @+left_4_9
-		nop
-		jp @+left_4_10
-		nop
-		jp @+left_4_11
-		nop
-		jp @+left_4_12
-		nop
-		jp @+left_4_13
-		nop
-		jp @+left_4_14
-		nop
-		jp @+left_4_15
-		nop
-		jp @+left_4_16
-		nop
-		jp @+left_4_17
-		nop
-		jp @+left_4_18
-		nop
-		jp @+left_4_19
-		nop
-		jp @+left_4_20
-		nop
-		jp @+left_4_21
-		nop
-		jp @+left_4_22
-		nop
-		jp @+left_4_23
-		nop
-		jp @+left_4_24
-		nop
-		jp @+left_4_25
-		nop
-		jp @+left_4_26
-		nop
-		jp @+left_4_27
-		nop
-		jp @+left_4_28
-		nop
-		jp @+left_4_29
-		nop
-		jp @+left_4_30
-
-
-	ds align 256
 	tiles_right_4_page: EQU 20 + 0b00100000
 	tiles_right_4:
 		jp @+right_4_0
@@ -22773,6 +22707,72 @@
 		jp @+right_4_29
 		nop
 		jp @+right_4_30
+
+
+	ds align 256
+	tiles_left_4_page: EQU 20 + 0b00100000
+	tiles_left_4:
+		jp @+left_4_0
+		nop
+		jp @+left_4_1
+		nop
+		jp @+left_4_2
+		nop
+		jp @+left_4_3
+		nop
+		jp @+left_4_4
+		nop
+		jp @+left_4_5
+		nop
+		jp @+left_4_6
+		nop
+		jp @+left_4_7
+		nop
+		jp @+left_4_8
+		nop
+		jp @+left_4_9
+		nop
+		jp @+left_4_10
+		nop
+		jp @+left_4_11
+		nop
+		jp @+left_4_12
+		nop
+		jp @+left_4_13
+		nop
+		jp @+left_4_14
+		nop
+		jp @+left_4_15
+		nop
+		jp @+left_4_16
+		nop
+		jp @+left_4_17
+		nop
+		jp @+left_4_18
+		nop
+		jp @+left_4_19
+		nop
+		jp @+left_4_20
+		nop
+		jp @+left_4_21
+		nop
+		jp @+left_4_22
+		nop
+		jp @+left_4_23
+		nop
+		jp @+left_4_24
+		nop
+		jp @+left_4_25
+		nop
+		jp @+left_4_26
+		nop
+		jp @+left_4_27
+		nop
+		jp @+left_4_28
+		nop
+		jp @+left_4_29
+		nop
+		jp @+left_4_30
 
 
 	@left_4_8:
@@ -28507,72 +28507,6 @@
 	ORG 0
 	DUMP 21, 0
 	ds align 256
-	tiles_left_3_page: EQU 21 + 0b00100000
-	tiles_left_3:
-		jp @+left_3_0
-		nop
-		jp @+left_3_1
-		nop
-		jp @+left_3_2
-		nop
-		jp @+left_3_3
-		nop
-		jp @+left_3_4
-		nop
-		jp @+left_3_5
-		nop
-		jp @+left_3_6
-		nop
-		jp @+left_3_7
-		nop
-		jp @+left_3_8
-		nop
-		jp @+left_3_9
-		nop
-		jp @+left_3_10
-		nop
-		jp @+left_3_11
-		nop
-		jp @+left_3_12
-		nop
-		jp @+left_3_13
-		nop
-		jp @+left_3_14
-		nop
-		jp @+left_3_15
-		nop
-		jp @+left_3_16
-		nop
-		jp @+left_3_17
-		nop
-		jp @+left_3_18
-		nop
-		jp @+left_3_19
-		nop
-		jp @+left_3_20
-		nop
-		jp @+left_3_21
-		nop
-		jp @+left_3_22
-		nop
-		jp @+left_3_23
-		nop
-		jp @+left_3_24
-		nop
-		jp @+left_3_25
-		nop
-		jp @+left_3_26
-		nop
-		jp @+left_3_27
-		nop
-		jp @+left_3_28
-		nop
-		jp @+left_3_29
-		nop
-		jp @+left_3_30
-
-
-	ds align 256
 	tiles_right_5_page: EQU 21 + 0b00100000
 	tiles_right_5:
 		jp @+right_5_0
@@ -28636,6 +28570,72 @@
 		jp @+right_5_29
 		nop
 		jp @+right_5_30
+
+
+	ds align 256
+	tiles_left_3_page: EQU 21 + 0b00100000
+	tiles_left_3:
+		jp @+left_3_0
+		nop
+		jp @+left_3_1
+		nop
+		jp @+left_3_2
+		nop
+		jp @+left_3_3
+		nop
+		jp @+left_3_4
+		nop
+		jp @+left_3_5
+		nop
+		jp @+left_3_6
+		nop
+		jp @+left_3_7
+		nop
+		jp @+left_3_8
+		nop
+		jp @+left_3_9
+		nop
+		jp @+left_3_10
+		nop
+		jp @+left_3_11
+		nop
+		jp @+left_3_12
+		nop
+		jp @+left_3_13
+		nop
+		jp @+left_3_14
+		nop
+		jp @+left_3_15
+		nop
+		jp @+left_3_16
+		nop
+		jp @+left_3_17
+		nop
+		jp @+left_3_18
+		nop
+		jp @+left_3_19
+		nop
+		jp @+left_3_20
+		nop
+		jp @+left_3_21
+		nop
+		jp @+left_3_22
+		nop
+		jp @+left_3_23
+		nop
+		jp @+left_3_24
+		nop
+		jp @+left_3_25
+		nop
+		jp @+left_3_26
+		nop
+		jp @+left_3_27
+		nop
+		jp @+left_3_28
+		nop
+		jp @+left_3_29
+		nop
+		jp @+left_3_30
 
 
 	@left_3_8:
@@ -34776,72 +34776,6 @@
 	ORG 0
 	DUMP 22, 0
 	ds align 256
-	tiles_left_2_page: EQU 22 + 0b00100000
-	tiles_left_2:
-		jp @+left_2_0
-		nop
-		jp @+left_2_1
-		nop
-		jp @+left_2_2
-		nop
-		jp @+left_2_3
-		nop
-		jp @+left_2_4
-		nop
-		jp @+left_2_5
-		nop
-		jp @+left_2_6
-		nop
-		jp @+left_2_7
-		nop
-		jp @+left_2_8
-		nop
-		jp @+left_2_9
-		nop
-		jp @+left_2_10
-		nop
-		jp @+left_2_11
-		nop
-		jp @+left_2_12
-		nop
-		jp @+left_2_13
-		nop
-		jp @+left_2_14
-		nop
-		jp @+left_2_15
-		nop
-		jp @+left_2_16
-		nop
-		jp @+left_2_17
-		nop
-		jp @+left_2_18
-		nop
-		jp @+left_2_19
-		nop
-		jp @+left_2_20
-		nop
-		jp @+left_2_21
-		nop
-		jp @+left_2_22
-		nop
-		jp @+left_2_23
-		nop
-		jp @+left_2_24
-		nop
-		jp @+left_2_25
-		nop
-		jp @+left_2_26
-		nop
-		jp @+left_2_27
-		nop
-		jp @+left_2_28
-		nop
-		jp @+left_2_29
-		nop
-		jp @+left_2_30
-
-
-	ds align 256
 	tiles_right_6_page: EQU 22 + 0b00100000
 	tiles_right_6:
 		jp @+right_6_0
@@ -34905,6 +34839,72 @@
 		jp @+right_6_29
 		nop
 		jp @+right_6_30
+
+
+	ds align 256
+	tiles_left_2_page: EQU 22 + 0b00100000
+	tiles_left_2:
+		jp @+left_2_0
+		nop
+		jp @+left_2_1
+		nop
+		jp @+left_2_2
+		nop
+		jp @+left_2_3
+		nop
+		jp @+left_2_4
+		nop
+		jp @+left_2_5
+		nop
+		jp @+left_2_6
+		nop
+		jp @+left_2_7
+		nop
+		jp @+left_2_8
+		nop
+		jp @+left_2_9
+		nop
+		jp @+left_2_10
+		nop
+		jp @+left_2_11
+		nop
+		jp @+left_2_12
+		nop
+		jp @+left_2_13
+		nop
+		jp @+left_2_14
+		nop
+		jp @+left_2_15
+		nop
+		jp @+left_2_16
+		nop
+		jp @+left_2_17
+		nop
+		jp @+left_2_18
+		nop
+		jp @+left_2_19
+		nop
+		jp @+left_2_20
+		nop
+		jp @+left_2_21
+		nop
+		jp @+left_2_22
+		nop
+		jp @+left_2_23
+		nop
+		jp @+left_2_24
+		nop
+		jp @+left_2_25
+		nop
+		jp @+left_2_26
+		nop
+		jp @+left_2_27
+		nop
+		jp @+left_2_28
+		nop
+		jp @+left_2_29
+		nop
+		jp @+left_2_30
 
 
 	@left_2_8:
@@ -40670,72 +40670,6 @@
 	ORG 0
 	DUMP 23, 0
 	ds align 256
-	tiles_left_1_page: EQU 23 + 0b00100000
-	tiles_left_1:
-		jp @+left_1_0
-		nop
-		jp @+left_1_1
-		nop
-		jp @+left_1_2
-		nop
-		jp @+left_1_3
-		nop
-		jp @+left_1_4
-		nop
-		jp @+left_1_5
-		nop
-		jp @+left_1_6
-		nop
-		jp @+left_1_7
-		nop
-		jp @+left_1_8
-		nop
-		jp @+left_1_9
-		nop
-		jp @+left_1_10
-		nop
-		jp @+left_1_11
-		nop
-		jp @+left_1_12
-		nop
-		jp @+left_1_13
-		nop
-		jp @+left_1_14
-		nop
-		jp @+left_1_15
-		nop
-		jp @+left_1_16
-		nop
-		jp @+left_1_17
-		nop
-		jp @+left_1_18
-		nop
-		jp @+left_1_19
-		nop
-		jp @+left_1_20
-		nop
-		jp @+left_1_21
-		nop
-		jp @+left_1_22
-		nop
-		jp @+left_1_23
-		nop
-		jp @+left_1_24
-		nop
-		jp @+left_1_25
-		nop
-		jp @+left_1_26
-		nop
-		jp @+left_1_27
-		nop
-		jp @+left_1_28
-		nop
-		jp @+left_1_29
-		nop
-		jp @+left_1_30
-
-
-	ds align 256
 	tiles_right_7_page: EQU 23 + 0b00100000
 	tiles_right_7:
 		jp @+right_7_0
@@ -40799,6 +40733,72 @@
 		jp @+right_7_29
 		nop
 		jp @+right_7_30
+
+
+	ds align 256
+	tiles_left_1_page: EQU 23 + 0b00100000
+	tiles_left_1:
+		jp @+left_1_0
+		nop
+		jp @+left_1_1
+		nop
+		jp @+left_1_2
+		nop
+		jp @+left_1_3
+		nop
+		jp @+left_1_4
+		nop
+		jp @+left_1_5
+		nop
+		jp @+left_1_6
+		nop
+		jp @+left_1_7
+		nop
+		jp @+left_1_8
+		nop
+		jp @+left_1_9
+		nop
+		jp @+left_1_10
+		nop
+		jp @+left_1_11
+		nop
+		jp @+left_1_12
+		nop
+		jp @+left_1_13
+		nop
+		jp @+left_1_14
+		nop
+		jp @+left_1_15
+		nop
+		jp @+left_1_16
+		nop
+		jp @+left_1_17
+		nop
+		jp @+left_1_18
+		nop
+		jp @+left_1_19
+		nop
+		jp @+left_1_20
+		nop
+		jp @+left_1_21
+		nop
+		jp @+left_1_22
+		nop
+		jp @+left_1_23
+		nop
+		jp @+left_1_24
+		nop
+		jp @+left_1_25
+		nop
+		jp @+left_1_26
+		nop
+		jp @+left_1_27
+		nop
+		jp @+left_1_28
+		nop
+		jp @+left_1_29
+		nop
+		jp @+left_1_30
 
 
 	@left_1_8:
