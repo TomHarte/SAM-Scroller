@@ -262,17 +262,20 @@ static constexpr int TileSize = 16;
 
 - (NSString *)tileDeclarationPairLeft:(NSString *)left right:(NSString *)right count:(size_t)count page:(int)page {
 	NSMutableString *code = [[NSMutableString alloc] init];
-	for(NSString *name in @[left, right]) {
-		if(!name.length) continue;
-
+	for(NSString *name in @[right, left]) {
 		[code appendFormat:@"\tds align 256\n"];
-		[code appendFormat:@"\ttiles_%@_page: EQU %d + 0b00100000\n", name, page];
-		[code appendFormat:@"\ttiles_%@:\n", name];
+		NSString *set_name = name;
+		if(name.length) {
+			[code appendFormat:@"\ttiles_%@_page: EQU %d + 0b00100000\n", name, page];
+			[code appendFormat:@"\ttiles_%@:\n", name];
+		} else {
+			set_name = right;
+		}
 		for(size_t c = 0; c < count; c++) {
 			if(c) {
 				[code appendString:@"\t\tnop\n"];
 			}
-			[code appendFormat:@"\t\tjp @+%@_%d\n", name, int(c)];
+			[code appendFormat:@"\t\tjp @+%@_%d\n", set_name, int(c)];
 		}
 		[code appendString:@"\n\n"];
 	}
@@ -458,7 +461,7 @@ static constexpr int TileSize = 16;
 	[code appendString:@"\t;\n\n"];
 
 	[code appendString:@"\tORG 0\n\tDUMP 16, 0\n"];
-	[code appendString:[self tileDeclarationPairLeft:@"full" right:@"" count:tiles.size() page:16]];
+	[code appendString:[self tileDeclarationPairLeft:@"" right:@"full" count:tiles.size() page:16]];
 	[code appendString:[self tiles:@"full" slice:0 source:tiles page:16]];
 
 	[code appendString:@"\tORG 0\n\tDUMP 17, 0\n"];
@@ -650,10 +653,10 @@ static constexpr int TileSize = 16;
 	[code appendString:@"\t; four bit code implied by its function number.\n"];
 	[code appendString:@"\t;\n"];
 	[code appendString:@"\t; i.e."];
-	[code appendString:@"\t;	* draw_sliver0 draws zero tiles because all dirty bits are clear;\n"];
-	[code appendString:@"\t;	* draw_sliver1 draws the first tile in its collection of four, but no others;\n"];
-	[code appendString:@"\t;	* draw_sliver9 draws the first and fourth tiles; and\n"];
-	[code appendString:@"\t;	* draw_sliver15 draws all four tiles.\n"];
+	[code appendString:@"\t;	* draw_left_sliver0 draws zero tiles because all dirty bits are clear;\n"];
+	[code appendString:@"\t;	* draw_left_sliver1 draws the first tile in its collection of four, but no others;\n"];
+	[code appendString:@"\t;	* draw_left_sliver9 draws the first and fourth tiles; and\n"];
+	[code appendString:@"\t;	* draw_left_sliver15 draws all four tiles.\n"];
 	[code appendString:@"\t; In all cases the first tile is the one lowest down the screen."];
 	[code appendString:@"\t;\n"];
 	[code appendString:@"\t; At exit:\n"];
@@ -664,73 +667,67 @@ static constexpr int TileSize = 16;
 	[code appendString:@"\t;\n\n"];
 
 	[code appendString:@"\tds align 256\n"];
-	[code appendString:@"\tslivers:\n"];
+	[code appendString:@"\tleft_slivers:\n"];
 	for(int c = 0; c < 16; c++) {
 		if(c) [code appendString:@"\t\tnop\n"];
-
-		// Three was the current threshold for using a JR rather than a JP, empirically.
-		// Might be improveable if sliver code gets slimmer.
-		if(c < 3) {
-			[code appendFormat:@"\t\tjr @+draw_sliver%d\n", c];
-			[code appendString:@"\t\tnop\n"];
-
-		} else {
-			[code appendFormat:@"\t\tjp @+draw_sliver%d\n", c];
-		}
+		[code appendFormat:@"\t\tjp @+draw_left_sliver%d\n", c];
+	}
+	[code appendString:@"\n"];
+	[code appendString:@"\tds align 256\n"];
+	[code appendString:@"\tright_slivers:\n"];
+	for(int c = 0; c < 16; c++) {
+		if(c) [code appendString:@"\t\tnop\n"];
+		[code appendFormat:@"\t\tjp @+draw_right_sliver%d\n", c];
 	}
 	[code appendString:@"\n"];
 
-	for(int c = 0; c < 16; c++) {
-		// On input: IX points one beyond the next tile ID.
-		// A contains the top byte of the tile dispatch table.
-		// DE acts as the link register.
+	for(NSString *side in @[@"left", @"right"]) {
+		for(int c = 0; c < 16; c++) {
+			// On input: IX points one beyond the next tile ID.
+			// A contains the top byte of the tile dispatch table.
+			// DE acts as the link register.
 
-		[code appendFormat:@"\t@draw_sliver%d:\n", c];
-		[code appendString:@"\t\tld (@+return + 1), de\n"];
+			[code appendFormat:@"\t@draw_%@_sliver%d:\n", side, c];
+			[code appendString:@"\t\tld (@+return + 1), de\n"];
 
-		// Store dispatch address.
-		for(int p = 0; p < __builtin_popcount(c); p++) {
-			[code appendFormat:@"\t\tld (@+jpslot%d + 2), a\n", p];
-		}
-		[code appendString:@"\n"];
+			int mask = 1;
+			int offset = 0;
+			auto append_offset = [&] {
+				if(offset) {
+					[code appendFormat:@"\t\tld bc, -%d\n", offset];
+					[code appendString:@"\t\tadd hl, bc\n"];
+				}
+				offset = 0;
+			};
 
-		int mask = 1;
-		int offset = 0;
-		auto append_offset = [&] {
-			if(offset) {
-				[code appendFormat:@"\t\tld bc, -%d\n", offset];
-				[code appendString:@"\t\tadd hl, bc\n"];
+			int load_slot = 0;
+			int ix_offset = 1;
+			while(mask < 16) {
+				if(c & mask) {
+					append_offset();
+					offset = 128;
+
+					const auto slot = load_slot++;
+					[code appendFormat:@"\t\tld a, (ix - %d)\n", ix_offset];
+					[code appendFormat:@"\t\tld (@+jpslot%d + 1), a\n", slot];
+					[code appendString:@"\t\tld de, @+end_dispatch\n"];
+					[code appendFormat:@"\t@jpslot%d:\n", slot];
+					[code appendFormat:@"\t\tjp tiles_%@_7\n", side];
+					[code appendString:@"\t@end_dispatch:\n"];
+					[code appendString:@"\n"];
+				} else {
+					offset += 16*128;
+				}
+
+				mask <<= 1;
+				++ix_offset;
 			}
-			offset = 0;
-		};
-
-		int load_slot = 0;
-		int ix_offset = 1;
-		while(mask < 16) {
-			if(c & mask) {
-				append_offset();
-				offset = 128;
-
-				const auto slot = load_slot++;
-				[code appendFormat:@"\t\tld a, (ix - %d)\n", ix_offset];
-				[code appendFormat:@"\t\tld (@+jpslot%d + 1), a\n", slot];
-				[code appendString:@"\t\tld de, @+end_dispatch\n"];
-				[code appendFormat:@"\t@jpslot%d:\n", slot];
-				[code appendString:@"\t\tjp 1234\n"];
-				[code appendString:@"\t@end_dispatch:\n"];
-				[code appendString:@"\n"];
-			} else {
-				offset += 16*128;
-			}
-
-			mask <<= 1;
-			++ix_offset;
+			append_offset();
+			[code appendString:@"\t\tld bc, -4\n"];
+			[code appendString:@"\t\tadd ix, bc\n"];
+			[code appendString:@"\t@return:\n"];
+			[code appendString:@"\t\tjp 1234\n\n"];
 		}
-		append_offset();
-		[code appendString:@"\t\tld bc, -4\n"];
-		[code appendString:@"\t\tadd ix, bc\n"];
-		[code appendString:@"\t@return:\n"];
-		[code appendString:@"\t\tjp 1234\n\n"];
 	}
 
 	[code writeToFile:[directory stringByAppendingPathComponent:@"slivers.z80s"] atomically:NO encoding:NSUTF8StringEncoding error:nil];

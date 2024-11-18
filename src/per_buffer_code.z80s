@@ -22,12 +22,13 @@ ENDIF
 		ld a, (@diff_address)		; Get dirty flags.
 		ld (@+jp_sliver+1), a		; Use flags directly to select lower byte of jump target.
 
-tile_address{@column_loop}_{@sliver_loop}:
-		ld a, tiles_full >> 8
 		ld de, @+next
-
 	@jp_sliver:
-		jp slivers
+IF @column_loop > 0
+		jp right_slivers
+ELSE
+		jp left_slivers
+ENDIF
 	@next:
 
 NEXT @sliver_loop
