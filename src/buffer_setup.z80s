@@ -70,10 +70,10 @@ NEXT @address_loop
 	ld a, 0
 	out (HMPR), a
 
-	ld a, 0x18												; i.e. JR
+	ld a, 0xc3												; i.e. JP
 	ld (column_address{column_count-1}), a
-	ld a, columns_end - column_address{column_count-1} - 2	; i.e. offset to return code.
-	ld (column_address{column_count-1} + 1), a
+	ld hl, columns_end
+	ld (column_address{column_count-1} + 1), hl
 
 	; Second page onwards: use appropriate left and right
 	; pages for first and last column; if this is an
