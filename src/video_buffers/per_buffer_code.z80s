@@ -53,6 +53,7 @@ ENDIF
 
 NEXT @sliver_loop
 NEXT @column_loop
+columns_end:
 
 	; Zero out the dirty flags.
 	;
