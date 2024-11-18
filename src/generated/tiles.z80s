@@ -6,17 +6,23 @@
 	;	* DE is a link register, indicating where the function should return to.
 	;
 	; Rules:
-	;	* IX and IY should be preserved.
+	;	* IX should be preserved; and
+	;	* SP is overtly available for any use the outputter prefers.
 	;
-	; Output:
+	; At exit:
 	;	* HL will be 15 lines earlier than it was at input.
 	; i.e. if stacking tiles from bottom to top, the caller will need to subtract a
 	; further 128 from HL before calling the next outputter.
 	;
+	; Each set of tiles is preceded by a long sequence of JP statements that jump to each tile in turn;
+	; this is the means by which dynamic branching happens elsewhere — the map is stored as the low byte
+	; of JP that branches into the tile to be drawn. Although slightly circuitous, this proved to be the
+	; fastest way of implementing that step subject to the bounds of my imagination.
+	;
 
-ORG 0
-DUMP 16, 0
-ds align 256
+	ORG 0
+	DUMP 16, 0
+	ds align 256
 	tiles_full_page: EQU 16 + 0b00100000
 	tiles_full:
 		jp @+full_0
@@ -35,8 +41,7 @@ ds align 256
 		nop
 		jp @+full_7
 		nop
-		jr @+full_8
-		nop
+		jp @+full_8
 		nop
 		jp @+full_9
 		nop
@@ -4181,8 +4186,10 @@ ds align 256
 	@return:
 		jp 1234
 
-ds align 256
-	tiles_left_7_page: EQU 16 + 0b00100000
+	ORG 0
+	DUMP 17, 0
+	ds align 256
+	tiles_left_7_page: EQU 17 + 0b00100000
 	tiles_left_7:
 		jp @+left_7_0
 		nop
@@ -4200,8 +4207,7 @@ ds align 256
 		nop
 		jp @+left_7_7
 		nop
-		jr @+left_7_8
-		nop
+		jp @+left_7_8
 		nop
 		jp @+left_7_9
 		nop
@@ -4246,6 +4252,72 @@ ds align 256
 		jp @+left_7_29
 		nop
 		jp @+left_7_30
+
+
+	ds align 256
+	tiles_right_1_page: EQU 17 + 0b00100000
+	tiles_right_1:
+		jp @+right_1_0
+		nop
+		jp @+right_1_1
+		nop
+		jp @+right_1_2
+		nop
+		jp @+right_1_3
+		nop
+		jp @+right_1_4
+		nop
+		jp @+right_1_5
+		nop
+		jp @+right_1_6
+		nop
+		jp @+right_1_7
+		nop
+		jp @+right_1_8
+		nop
+		jp @+right_1_9
+		nop
+		jp @+right_1_10
+		nop
+		jp @+right_1_11
+		nop
+		jp @+right_1_12
+		nop
+		jp @+right_1_13
+		nop
+		jp @+right_1_14
+		nop
+		jp @+right_1_15
+		nop
+		jp @+right_1_16
+		nop
+		jp @+right_1_17
+		nop
+		jp @+right_1_18
+		nop
+		jp @+right_1_19
+		nop
+		jp @+right_1_20
+		nop
+		jp @+right_1_21
+		nop
+		jp @+right_1_22
+		nop
+		jp @+right_1_23
+		nop
+		jp @+right_1_24
+		nop
+		jp @+right_1_25
+		nop
+		jp @+right_1_26
+		nop
+		jp @+right_1_27
+		nop
+		jp @+right_1_28
+		nop
+		jp @+right_1_29
+		nop
+		jp @+right_1_30
 
 
 	@left_7_8:
@@ -8250,73 +8322,6 @@ ds align 256
 	@return:
 		jp 1234
 
-ds align 256
-	tiles_right_1_page: EQU 16 + 0b00100000
-	tiles_right_1:
-		jp @+right_1_0
-		nop
-		jp @+right_1_1
-		nop
-		jp @+right_1_2
-		nop
-		jp @+right_1_3
-		nop
-		jp @+right_1_4
-		nop
-		jp @+right_1_5
-		nop
-		jp @+right_1_6
-		nop
-		jp @+right_1_7
-		nop
-		jr @+right_1_8
-		nop
-		nop
-		jp @+right_1_9
-		nop
-		jp @+right_1_10
-		nop
-		jp @+right_1_11
-		nop
-		jp @+right_1_12
-		nop
-		jp @+right_1_13
-		nop
-		jp @+right_1_14
-		nop
-		jp @+right_1_15
-		nop
-		jp @+right_1_16
-		nop
-		jp @+right_1_17
-		nop
-		jp @+right_1_18
-		nop
-		jp @+right_1_19
-		nop
-		jp @+right_1_20
-		nop
-		jp @+right_1_21
-		nop
-		jp @+right_1_22
-		nop
-		jp @+right_1_23
-		nop
-		jp @+right_1_24
-		nop
-		jp @+right_1_25
-		nop
-		jp @+right_1_26
-		nop
-		jp @+right_1_27
-		nop
-		jp @+right_1_28
-		nop
-		jp @+right_1_29
-		nop
-		jp @+right_1_30
-
-
 	@right_1_8:
 		ld (@+return+1), de
 		ld sp, hl
@@ -10487,9 +10492,9 @@ ds align 256
 	@return:
 		jp 1234
 
-ORG 0
-DUMP 18, 0
-ds align 256
+	ORG 0
+	DUMP 18, 0
+	ds align 256
 	tiles_left_6_page: EQU 18 + 0b00100000
 	tiles_left_6:
 		jp @+left_6_0
@@ -10508,8 +10513,7 @@ ds align 256
 		nop
 		jp @+left_6_7
 		nop
-		jr @+left_6_8
-		nop
+		jp @+left_6_8
 		nop
 		jp @+left_6_9
 		nop
@@ -10554,6 +10558,72 @@ ds align 256
 		jp @+left_6_29
 		nop
 		jp @+left_6_30
+
+
+	ds align 256
+	tiles_right_2_page: EQU 18 + 0b00100000
+	tiles_right_2:
+		jp @+right_2_0
+		nop
+		jp @+right_2_1
+		nop
+		jp @+right_2_2
+		nop
+		jp @+right_2_3
+		nop
+		jp @+right_2_4
+		nop
+		jp @+right_2_5
+		nop
+		jp @+right_2_6
+		nop
+		jp @+right_2_7
+		nop
+		jp @+right_2_8
+		nop
+		jp @+right_2_9
+		nop
+		jp @+right_2_10
+		nop
+		jp @+right_2_11
+		nop
+		jp @+right_2_12
+		nop
+		jp @+right_2_13
+		nop
+		jp @+right_2_14
+		nop
+		jp @+right_2_15
+		nop
+		jp @+right_2_16
+		nop
+		jp @+right_2_17
+		nop
+		jp @+right_2_18
+		nop
+		jp @+right_2_19
+		nop
+		jp @+right_2_20
+		nop
+		jp @+right_2_21
+		nop
+		jp @+right_2_22
+		nop
+		jp @+right_2_23
+		nop
+		jp @+right_2_24
+		nop
+		jp @+right_2_25
+		nop
+		jp @+right_2_26
+		nop
+		jp @+right_2_27
+		nop
+		jp @+right_2_28
+		nop
+		jp @+right_2_29
+		nop
+		jp @+right_2_30
 
 
 	@left_6_8:
@@ -14024,73 +14094,6 @@ ds align 256
 	@return:
 		jp 1234
 
-ds align 256
-	tiles_right_2_page: EQU 18 + 0b00100000
-	tiles_right_2:
-		jp @+right_2_0
-		nop
-		jp @+right_2_1
-		nop
-		jp @+right_2_2
-		nop
-		jp @+right_2_3
-		nop
-		jp @+right_2_4
-		nop
-		jp @+right_2_5
-		nop
-		jp @+right_2_6
-		nop
-		jp @+right_2_7
-		nop
-		jr @+right_2_8
-		nop
-		nop
-		jp @+right_2_9
-		nop
-		jp @+right_2_10
-		nop
-		jp @+right_2_11
-		nop
-		jp @+right_2_12
-		nop
-		jp @+right_2_13
-		nop
-		jp @+right_2_14
-		nop
-		jp @+right_2_15
-		nop
-		jp @+right_2_16
-		nop
-		jp @+right_2_17
-		nop
-		jp @+right_2_18
-		nop
-		jp @+right_2_19
-		nop
-		jp @+right_2_20
-		nop
-		jp @+right_2_21
-		nop
-		jp @+right_2_22
-		nop
-		jp @+right_2_23
-		nop
-		jp @+right_2_24
-		nop
-		jp @+right_2_25
-		nop
-		jp @+right_2_26
-		nop
-		jp @+right_2_27
-		nop
-		jp @+right_2_28
-		nop
-		jp @+right_2_29
-		nop
-		jp @+right_2_30
-
-
 	@right_2_8:
 		ld (@+return+1), de
 		ld sp, hl
@@ -16350,8 +16353,10 @@ ds align 256
 	@return:
 		jp 1234
 
-ds align 256
-	tiles_left_5_page: EQU 18 + 0b00100000
+	ORG 0
+	DUMP 19, 0
+	ds align 256
+	tiles_left_5_page: EQU 19 + 0b00100000
 	tiles_left_5:
 		jp @+left_5_0
 		nop
@@ -16369,8 +16374,7 @@ ds align 256
 		nop
 		jp @+left_5_7
 		nop
-		jr @+left_5_8
-		nop
+		jp @+left_5_8
 		nop
 		jp @+left_5_9
 		nop
@@ -16415,6 +16419,72 @@ ds align 256
 		jp @+left_5_29
 		nop
 		jp @+left_5_30
+
+
+	ds align 256
+	tiles_right_3_page: EQU 19 + 0b00100000
+	tiles_right_3:
+		jp @+right_3_0
+		nop
+		jp @+right_3_1
+		nop
+		jp @+right_3_2
+		nop
+		jp @+right_3_3
+		nop
+		jp @+right_3_4
+		nop
+		jp @+right_3_5
+		nop
+		jp @+right_3_6
+		nop
+		jp @+right_3_7
+		nop
+		jp @+right_3_8
+		nop
+		jp @+right_3_9
+		nop
+		jp @+right_3_10
+		nop
+		jp @+right_3_11
+		nop
+		jp @+right_3_12
+		nop
+		jp @+right_3_13
+		nop
+		jp @+right_3_14
+		nop
+		jp @+right_3_15
+		nop
+		jp @+right_3_16
+		nop
+		jp @+right_3_17
+		nop
+		jp @+right_3_18
+		nop
+		jp @+right_3_19
+		nop
+		jp @+right_3_20
+		nop
+		jp @+right_3_21
+		nop
+		jp @+right_3_22
+		nop
+		jp @+right_3_23
+		nop
+		jp @+right_3_24
+		nop
+		jp @+right_3_25
+		nop
+		jp @+right_3_26
+		nop
+		jp @+right_3_27
+		nop
+		jp @+right_3_28
+		nop
+		jp @+right_3_29
+		nop
+		jp @+right_3_30
 
 
 	@left_5_8:
@@ -19787,73 +19857,6 @@ ds align 256
 	@return:
 		jp 1234
 
-ds align 256
-	tiles_right_3_page: EQU 18 + 0b00100000
-	tiles_right_3:
-		jp @+right_3_0
-		nop
-		jp @+right_3_1
-		nop
-		jp @+right_3_2
-		nop
-		jp @+right_3_3
-		nop
-		jp @+right_3_4
-		nop
-		jp @+right_3_5
-		nop
-		jp @+right_3_6
-		nop
-		jp @+right_3_7
-		nop
-		jr @+right_3_8
-		nop
-		nop
-		jp @+right_3_9
-		nop
-		jp @+right_3_10
-		nop
-		jp @+right_3_11
-		nop
-		jp @+right_3_12
-		nop
-		jp @+right_3_13
-		nop
-		jp @+right_3_14
-		nop
-		jp @+right_3_15
-		nop
-		jp @+right_3_16
-		nop
-		jp @+right_3_17
-		nop
-		jp @+right_3_18
-		nop
-		jp @+right_3_19
-		nop
-		jp @+right_3_20
-		nop
-		jp @+right_3_21
-		nop
-		jp @+right_3_22
-		nop
-		jp @+right_3_23
-		nop
-		jp @+right_3_24
-		nop
-		jp @+right_3_25
-		nop
-		jp @+right_3_26
-		nop
-		jp @+right_3_27
-		nop
-		jp @+right_3_28
-		nop
-		jp @+right_3_29
-		nop
-		jp @+right_3_30
-
-
 	@right_3_8:
 		ld (@+return+1), de
 		ld sp, hl
@@ -22638,9 +22641,9 @@ ds align 256
 	@return:
 		jp 1234
 
-ORG 0
-DUMP 20, 0
-ds align 256
+	ORG 0
+	DUMP 20, 0
+	ds align 256
 	tiles_left_4_page: EQU 20 + 0b00100000
 	tiles_left_4:
 		jp @+left_4_0
@@ -22659,8 +22662,7 @@ ds align 256
 		nop
 		jp @+left_4_7
 		nop
-		jr @+left_4_8
-		nop
+		jp @+left_4_8
 		nop
 		jp @+left_4_9
 		nop
@@ -22705,6 +22707,72 @@ ds align 256
 		jp @+left_4_29
 		nop
 		jp @+left_4_30
+
+
+	ds align 256
+	tiles_right_4_page: EQU 20 + 0b00100000
+	tiles_right_4:
+		jp @+right_4_0
+		nop
+		jp @+right_4_1
+		nop
+		jp @+right_4_2
+		nop
+		jp @+right_4_3
+		nop
+		jp @+right_4_4
+		nop
+		jp @+right_4_5
+		nop
+		jp @+right_4_6
+		nop
+		jp @+right_4_7
+		nop
+		jp @+right_4_8
+		nop
+		jp @+right_4_9
+		nop
+		jp @+right_4_10
+		nop
+		jp @+right_4_11
+		nop
+		jp @+right_4_12
+		nop
+		jp @+right_4_13
+		nop
+		jp @+right_4_14
+		nop
+		jp @+right_4_15
+		nop
+		jp @+right_4_16
+		nop
+		jp @+right_4_17
+		nop
+		jp @+right_4_18
+		nop
+		jp @+right_4_19
+		nop
+		jp @+right_4_20
+		nop
+		jp @+right_4_21
+		nop
+		jp @+right_4_22
+		nop
+		jp @+right_4_23
+		nop
+		jp @+right_4_24
+		nop
+		jp @+right_4_25
+		nop
+		jp @+right_4_26
+		nop
+		jp @+right_4_27
+		nop
+		jp @+right_4_28
+		nop
+		jp @+right_4_29
+		nop
+		jp @+right_4_30
 
 
 	@left_4_8:
@@ -25565,73 +25633,6 @@ ds align 256
 		push bc
 	@return:
 		jp 1234
-
-ds align 256
-	tiles_right_4_page: EQU 20 + 0b00100000
-	tiles_right_4:
-		jp @+right_4_0
-		nop
-		jp @+right_4_1
-		nop
-		jp @+right_4_2
-		nop
-		jp @+right_4_3
-		nop
-		jp @+right_4_4
-		nop
-		jp @+right_4_5
-		nop
-		jp @+right_4_6
-		nop
-		jp @+right_4_7
-		nop
-		jr @+right_4_8
-		nop
-		nop
-		jp @+right_4_9
-		nop
-		jp @+right_4_10
-		nop
-		jp @+right_4_11
-		nop
-		jp @+right_4_12
-		nop
-		jp @+right_4_13
-		nop
-		jp @+right_4_14
-		nop
-		jp @+right_4_15
-		nop
-		jp @+right_4_16
-		nop
-		jp @+right_4_17
-		nop
-		jp @+right_4_18
-		nop
-		jp @+right_4_19
-		nop
-		jp @+right_4_20
-		nop
-		jp @+right_4_21
-		nop
-		jp @+right_4_22
-		nop
-		jp @+right_4_23
-		nop
-		jp @+right_4_24
-		nop
-		jp @+right_4_25
-		nop
-		jp @+right_4_26
-		nop
-		jp @+right_4_27
-		nop
-		jp @+right_4_28
-		nop
-		jp @+right_4_29
-		nop
-		jp @+right_4_30
-
 
 	@right_4_8:
 		ld (@+return+1), de
@@ -28503,8 +28504,10 @@ ds align 256
 	@return:
 		jp 1234
 
-ds align 256
-	tiles_left_3_page: EQU 20 + 0b00100000
+	ORG 0
+	DUMP 21, 0
+	ds align 256
+	tiles_left_3_page: EQU 21 + 0b00100000
 	tiles_left_3:
 		jp @+left_3_0
 		nop
@@ -28522,8 +28525,7 @@ ds align 256
 		nop
 		jp @+left_3_7
 		nop
-		jr @+left_3_8
-		nop
+		jp @+left_3_8
 		nop
 		jp @+left_3_9
 		nop
@@ -28568,6 +28570,72 @@ ds align 256
 		jp @+left_3_29
 		nop
 		jp @+left_3_30
+
+
+	ds align 256
+	tiles_right_5_page: EQU 21 + 0b00100000
+	tiles_right_5:
+		jp @+right_5_0
+		nop
+		jp @+right_5_1
+		nop
+		jp @+right_5_2
+		nop
+		jp @+right_5_3
+		nop
+		jp @+right_5_4
+		nop
+		jp @+right_5_5
+		nop
+		jp @+right_5_6
+		nop
+		jp @+right_5_7
+		nop
+		jp @+right_5_8
+		nop
+		jp @+right_5_9
+		nop
+		jp @+right_5_10
+		nop
+		jp @+right_5_11
+		nop
+		jp @+right_5_12
+		nop
+		jp @+right_5_13
+		nop
+		jp @+right_5_14
+		nop
+		jp @+right_5_15
+		nop
+		jp @+right_5_16
+		nop
+		jp @+right_5_17
+		nop
+		jp @+right_5_18
+		nop
+		jp @+right_5_19
+		nop
+		jp @+right_5_20
+		nop
+		jp @+right_5_21
+		nop
+		jp @+right_5_22
+		nop
+		jp @+right_5_23
+		nop
+		jp @+right_5_24
+		nop
+		jp @+right_5_25
+		nop
+		jp @+right_5_26
+		nop
+		jp @+right_5_27
+		nop
+		jp @+right_5_28
+		nop
+		jp @+right_5_29
+		nop
+		jp @+right_5_30
 
 
 	@left_3_8:
@@ -31339,73 +31407,6 @@ ds align 256
 		push bc
 	@return:
 		jp 1234
-
-ds align 256
-	tiles_right_5_page: EQU 20 + 0b00100000
-	tiles_right_5:
-		jp @+right_5_0
-		nop
-		jp @+right_5_1
-		nop
-		jp @+right_5_2
-		nop
-		jp @+right_5_3
-		nop
-		jp @+right_5_4
-		nop
-		jp @+right_5_5
-		nop
-		jp @+right_5_6
-		nop
-		jp @+right_5_7
-		nop
-		jr @+right_5_8
-		nop
-		nop
-		jp @+right_5_9
-		nop
-		jp @+right_5_10
-		nop
-		jp @+right_5_11
-		nop
-		jp @+right_5_12
-		nop
-		jp @+right_5_13
-		nop
-		jp @+right_5_14
-		nop
-		jp @+right_5_15
-		nop
-		jp @+right_5_16
-		nop
-		jp @+right_5_17
-		nop
-		jp @+right_5_18
-		nop
-		jp @+right_5_19
-		nop
-		jp @+right_5_20
-		nop
-		jp @+right_5_21
-		nop
-		jp @+right_5_22
-		nop
-		jp @+right_5_23
-		nop
-		jp @+right_5_24
-		nop
-		jp @+right_5_25
-		nop
-		jp @+right_5_26
-		nop
-		jp @+right_5_27
-		nop
-		jp @+right_5_28
-		nop
-		jp @+right_5_29
-		nop
-		jp @+right_5_30
-
 
 	@right_5_8:
 		ld (@+return+1), de
@@ -34772,9 +34773,9 @@ ds align 256
 	@return:
 		jp 1234
 
-ORG 0
-DUMP 22, 0
-ds align 256
+	ORG 0
+	DUMP 22, 0
+	ds align 256
 	tiles_left_2_page: EQU 22 + 0b00100000
 	tiles_left_2:
 		jp @+left_2_0
@@ -34793,8 +34794,7 @@ ds align 256
 		nop
 		jp @+left_2_7
 		nop
-		jr @+left_2_8
-		nop
+		jp @+left_2_8
 		nop
 		jp @+left_2_9
 		nop
@@ -34839,6 +34839,72 @@ ds align 256
 		jp @+left_2_29
 		nop
 		jp @+left_2_30
+
+
+	ds align 256
+	tiles_right_6_page: EQU 22 + 0b00100000
+	tiles_right_6:
+		jp @+right_6_0
+		nop
+		jp @+right_6_1
+		nop
+		jp @+right_6_2
+		nop
+		jp @+right_6_3
+		nop
+		jp @+right_6_4
+		nop
+		jp @+right_6_5
+		nop
+		jp @+right_6_6
+		nop
+		jp @+right_6_7
+		nop
+		jp @+right_6_8
+		nop
+		jp @+right_6_9
+		nop
+		jp @+right_6_10
+		nop
+		jp @+right_6_11
+		nop
+		jp @+right_6_12
+		nop
+		jp @+right_6_13
+		nop
+		jp @+right_6_14
+		nop
+		jp @+right_6_15
+		nop
+		jp @+right_6_16
+		nop
+		jp @+right_6_17
+		nop
+		jp @+right_6_18
+		nop
+		jp @+right_6_19
+		nop
+		jp @+right_6_20
+		nop
+		jp @+right_6_21
+		nop
+		jp @+right_6_22
+		nop
+		jp @+right_6_23
+		nop
+		jp @+right_6_24
+		nop
+		jp @+right_6_25
+		nop
+		jp @+right_6_26
+		nop
+		jp @+right_6_27
+		nop
+		jp @+right_6_28
+		nop
+		jp @+right_6_29
+		nop
+		jp @+right_6_30
 
 
 	@left_2_8:
@@ -37107,73 +37173,6 @@ ds align 256
 		push bc
 	@return:
 		jp 1234
-
-ds align 256
-	tiles_right_6_page: EQU 22 + 0b00100000
-	tiles_right_6:
-		jp @+right_6_0
-		nop
-		jp @+right_6_1
-		nop
-		jp @+right_6_2
-		nop
-		jp @+right_6_3
-		nop
-		jp @+right_6_4
-		nop
-		jp @+right_6_5
-		nop
-		jp @+right_6_6
-		nop
-		jp @+right_6_7
-		nop
-		jr @+right_6_8
-		nop
-		nop
-		jp @+right_6_9
-		nop
-		jp @+right_6_10
-		nop
-		jp @+right_6_11
-		nop
-		jp @+right_6_12
-		nop
-		jp @+right_6_13
-		nop
-		jp @+right_6_14
-		nop
-		jp @+right_6_15
-		nop
-		jp @+right_6_16
-		nop
-		jp @+right_6_17
-		nop
-		jp @+right_6_18
-		nop
-		jp @+right_6_19
-		nop
-		jp @+right_6_20
-		nop
-		jp @+right_6_21
-		nop
-		jp @+right_6_22
-		nop
-		jp @+right_6_23
-		nop
-		jp @+right_6_24
-		nop
-		jp @+right_6_25
-		nop
-		jp @+right_6_26
-		nop
-		jp @+right_6_27
-		nop
-		jp @+right_6_28
-		nop
-		jp @+right_6_29
-		nop
-		jp @+right_6_30
-
 
 	@right_6_8:
 		ld (@+return+1), de
@@ -40668,8 +40667,10 @@ ds align 256
 	@return:
 		jp 1234
 
-ds align 256
-	tiles_left_1_page: EQU 22 + 0b00100000
+	ORG 0
+	DUMP 23, 0
+	ds align 256
+	tiles_left_1_page: EQU 23 + 0b00100000
 	tiles_left_1:
 		jp @+left_1_0
 		nop
@@ -40687,8 +40688,7 @@ ds align 256
 		nop
 		jp @+left_1_7
 		nop
-		jr @+left_1_8
-		nop
+		jp @+left_1_8
 		nop
 		jp @+left_1_9
 		nop
@@ -40733,6 +40733,72 @@ ds align 256
 		jp @+left_1_29
 		nop
 		jp @+left_1_30
+
+
+	ds align 256
+	tiles_right_7_page: EQU 23 + 0b00100000
+	tiles_right_7:
+		jp @+right_7_0
+		nop
+		jp @+right_7_1
+		nop
+		jp @+right_7_2
+		nop
+		jp @+right_7_3
+		nop
+		jp @+right_7_4
+		nop
+		jp @+right_7_5
+		nop
+		jp @+right_7_6
+		nop
+		jp @+right_7_7
+		nop
+		jp @+right_7_8
+		nop
+		jp @+right_7_9
+		nop
+		jp @+right_7_10
+		nop
+		jp @+right_7_11
+		nop
+		jp @+right_7_12
+		nop
+		jp @+right_7_13
+		nop
+		jp @+right_7_14
+		nop
+		jp @+right_7_15
+		nop
+		jp @+right_7_16
+		nop
+		jp @+right_7_17
+		nop
+		jp @+right_7_18
+		nop
+		jp @+right_7_19
+		nop
+		jp @+right_7_20
+		nop
+		jp @+right_7_21
+		nop
+		jp @+right_7_22
+		nop
+		jp @+right_7_23
+		nop
+		jp @+right_7_24
+		nop
+		jp @+right_7_25
+		nop
+		jp @+right_7_26
+		nop
+		jp @+right_7_27
+		nop
+		jp @+right_7_28
+		nop
+		jp @+right_7_29
+		nop
+		jp @+right_7_30
 
 
 	@left_1_8:
@@ -42904,73 +42970,6 @@ ds align 256
 		ld (hl), a
 	@return:
 		jp 1234
-
-ds align 256
-	tiles_right_7_page: EQU 22 + 0b00100000
-	tiles_right_7:
-		jp @+right_7_0
-		nop
-		jp @+right_7_1
-		nop
-		jp @+right_7_2
-		nop
-		jp @+right_7_3
-		nop
-		jp @+right_7_4
-		nop
-		jp @+right_7_5
-		nop
-		jp @+right_7_6
-		nop
-		jp @+right_7_7
-		nop
-		jr @+right_7_8
-		nop
-		nop
-		jp @+right_7_9
-		nop
-		jp @+right_7_10
-		nop
-		jp @+right_7_11
-		nop
-		jp @+right_7_12
-		nop
-		jp @+right_7_13
-		nop
-		jp @+right_7_14
-		nop
-		jp @+right_7_15
-		nop
-		jp @+right_7_16
-		nop
-		jp @+right_7_17
-		nop
-		jp @+right_7_18
-		nop
-		jp @+right_7_19
-		nop
-		jp @+right_7_20
-		nop
-		jp @+right_7_21
-		nop
-		jp @+right_7_22
-		nop
-		jp @+right_7_23
-		nop
-		jp @+right_7_24
-		nop
-		jp @+right_7_25
-		nop
-		jp @+right_7_26
-		nop
-		jp @+right_7_27
-		nop
-		jp @+right_7_28
-		nop
-		jp @+right_7_29
-		nop
-		jp @+right_7_30
-
 
 	@right_7_8:
 		ld (@+return+1), de

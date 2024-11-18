@@ -260,30 +260,27 @@ static constexpr int TileSize = 16;
 	[map writeToFile:map_name atomically:NO encoding:NSUTF8StringEncoding error:nil];
 }
 
-// TODO: make it clear to caller that there is a [very, very small] benefit to tiles being sorted in frequency-of-surprise order.
+- (NSString *)tileDeclarationPairLeft:(NSString *)left right:(NSString *)right count:(size_t)count page:(int)page {
+	NSMutableString *code = [[NSMutableString alloc] init];
+	for(NSString *name in @[left, right]) {
+		if(!name.length) continue;
+
+		[code appendFormat:@"\tds align 256\n"];
+		[code appendFormat:@"\ttiles_%@_page: EQU %d + 0b00100000\n", name, page];
+		[code appendFormat:@"\ttiles_%@:\n", name];
+		for(size_t c = 0; c < count; c++) {
+			if(c) {
+				[code appendString:@"\t\tnop\n"];
+			}
+			[code appendFormat:@"\t\tjp @+%@_%d\n", name, int(c)];
+		}
+		[code appendString:@"\n\n"];
+	}
+	return code;
+}
+
 - (NSString *)tiles:(NSString *)name slice:(int)slice source:(std::vector<TileSerialiser<TileSize>> &)tiles page:(int)page {
 	NSMutableString *code = [[NSMutableString alloc] init];
-
-	[code appendFormat:@"ds align 256\n"];
-	[code appendFormat:@"\ttiles_%@_page: EQU %d + 0b00100000\n", name, page];
-	[code appendFormat:@"\ttiles_%@:\n", name];
-	for(size_t c = 0; c < tiles.size(); c++) {
-		if(c) {
-			[code appendString:@"\t\tnop\n"];
-		}
-
-		// Allow whatever is going to be encoded first to be a JR; everything else
-		// will need to be a JP since any one tile is guaranteed to be more than
-		// 256 bytes in length.
-		if(c != tiles[0].index()) {
-			[code appendFormat:@"\t\tjp @+%@_%d\n", name, int(c)];
-		} else {
-			[code appendFormat:@"\t\tjr @+%@_%d\n", name, int(c)];
-			[code appendString:@"\t\tnop\n"];
-		}
-	}
-	[code appendString:@"\n\n"];
-
 	for(auto &tile: tiles) {
 		tile.set_slice(slice);
 		TileRegisterAllocator<TileSize> allocator(tile);
@@ -460,28 +457,44 @@ static constexpr int TileSize = 16;
 	[code appendString:@"\t; fastest way of implementing that step subject to the bounds of my imagination.\n"];
 	[code appendString:@"\t;\n\n"];
 
-	[code appendString:@"ORG 0\nDUMP 16, 0\n"];
+	[code appendString:@"\tORG 0\n\tDUMP 16, 0\n"];
+	[code appendString:[self tileDeclarationPairLeft:@"full" right:@"" count:tiles.size() page:16]];
 	[code appendString:[self tiles:@"full" slice:0 source:tiles page:16]];
-	[code appendString:[self tiles:@"left_7" slice:-1 source:tiles page:16]];
-	[code appendString:[self tiles:@"right_1" slice:7 source:tiles page:16]];
 
-	[code appendString:@"ORG 0\nDUMP 18, 0\n"];
+	[code appendString:@"\tORG 0\n\tDUMP 17, 0\n"];
+	[code appendString:[self tileDeclarationPairLeft:@"left_7" right:@"right_1" count:tiles.size() page:17]];
+	[code appendString:[self tiles:@"left_7" slice:-1 source:tiles page:17]];
+	[code appendString:[self tiles:@"right_1" slice:7 source:tiles page:17]];
+
+	[code appendString:@"\tORG 0\n\tDUMP 18, 0\n"];
+	[code appendString:[self tileDeclarationPairLeft:@"left_6" right:@"right_2" count:tiles.size() page:18]];
 	[code appendString:[self tiles:@"left_6" slice:-2 source:tiles page:18]];
 	[code appendString:[self tiles:@"right_2" slice:6 source:tiles page:18]];
-	[code appendString:[self tiles:@"left_5" slice:-3 source:tiles page:18]];
-	[code appendString:[self tiles:@"right_3" slice:5 source:tiles page:18]];
 
-	[code appendString:@"ORG 0\nDUMP 20, 0\n"];
+	[code appendString:@"\tORG 0\n\tDUMP 19, 0\n"];
+	[code appendString:[self tileDeclarationPairLeft:@"left_5" right:@"right_3" count:tiles.size() page:19]];
+	[code appendString:[self tiles:@"left_5" slice:-3 source:tiles page:19]];
+	[code appendString:[self tiles:@"right_3" slice:5 source:tiles page:19]];
+
+	[code appendString:@"\tORG 0\n\tDUMP 20, 0\n"];
+	[code appendString:[self tileDeclarationPairLeft:@"left_4" right:@"right_4" count:tiles.size() page:20]];
 	[code appendString:[self tiles:@"left_4" slice:-4 source:tiles page:20]];
 	[code appendString:[self tiles:@"right_4" slice:4 source:tiles page:20]];
-	[code appendString:[self tiles:@"left_3" slice:-5 source:tiles page:20]];
-	[code appendString:[self tiles:@"right_5" slice:3 source:tiles page:20]];
 
-	[code appendString:@"ORG 0\nDUMP 22, 0\n"];
+	[code appendString:@"\tORG 0\n\tDUMP 21, 0\n"];
+	[code appendString:[self tileDeclarationPairLeft:@"left_3" right:@"right_5" count:tiles.size() page:21]];
+	[code appendString:[self tiles:@"left_3" slice:-5 source:tiles page:21]];
+	[code appendString:[self tiles:@"right_5" slice:3 source:tiles page:21]];
+
+	[code appendString:@"\tORG 0\n\tDUMP 22, 0\n"];
+	[code appendString:[self tileDeclarationPairLeft:@"left_2" right:@"right_6" count:tiles.size() page:22]];
 	[code appendString:[self tiles:@"left_2" slice:-6 source:tiles page:22]];
 	[code appendString:[self tiles:@"right_6" slice:2 source:tiles page:22]];
-	[code appendString:[self tiles:@"left_1" slice:-7 source:tiles page:22]];
-	[code appendString:[self tiles:@"right_7" slice:1 source:tiles page:22]];
+
+	[code appendString:@"\tORG 0\n\tDUMP 23, 0\n"];
+	[code appendString:[self tileDeclarationPairLeft:@"left_1" right:@"right_7" count:tiles.size() page:23]];
+	[code appendString:[self tiles:@"left_1" slice:-7 source:tiles page:23]];
+	[code appendString:[self tiles:@"right_7" slice:1 source:tiles page:23]];
 
 	[code writeToFile:[directory stringByAppendingPathComponent:@"tiles.z80s"] atomically:NO encoding:NSUTF8StringEncoding error:nil];
 }
