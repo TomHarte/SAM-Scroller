@@ -59,15 +59,15 @@ columns_end:
 	;
 	; I think it is cheaper to do this en masse than as the sliver loop walks
 	; as I don't need constantly to reset A or to write in byte quantities.
-	;
-	; TODO: eliminate assumption about column count here.
 	ld bc, 0x0000
 	ld sp, DIRTY_FLAGS + FLAGS_SIZE
-@zero_loop: EQU FOR 25
+@zero_loop: EQU FOR FLAGS_SIZE / 2
 	push bc
 NEXT @zero_loop
+IF FLAGS_SIZE & 1
 	xor a
-	ld (DIRTY_FLAGS + FLAGS_SIZE - 51), a
+	ld (DIRTY_FLAGS), a
+ENDIF
 
 	; Switch back to main page and return to the caller.
 	ld a, EXECPAGE + %00100000

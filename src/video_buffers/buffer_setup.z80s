@@ -1,10 +1,18 @@
+; The following should be one more than the number of whole
+; columns that should appear on the display.
+column_count: EQU 17
+
 ;
 ; Establish addresses of various things after appropriate paging.
 ;
 ORG (32 + 24)*1024
-	FLAGS_SIZE:		EQU 3*17
+	FLAGS_SIZE:		EQU 51
 	DIRTY_FLAGS:	ds FLAGS_SIZE
 	BUFFER_CODE:
+
+; TODO, possibly: make FLAGS_SIZE be 3*column_count, and
+; properly allow for smaller-than-whole-screen displays in
+; mark_dirty.z80s and possibly elsewhere.
 
 ;
 ; This is purely one-time startup stuff; store it in one of the initial
@@ -12,10 +20,6 @@ ORG (32 + 24)*1024
 ;
 DUMP SETUPPAGE, 0
 ORG 0
-
-; The following should be one more than the number of whole
-; columns that should appear on the display.
-column_count: EQU 17
 
 ; Setup all screens.
 setup_per_screen_code:
