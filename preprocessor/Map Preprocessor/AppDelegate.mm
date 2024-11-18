@@ -263,16 +263,19 @@ static constexpr int TileSize = 16;
 - (NSString *)tileDeclarationPairLeft:(NSString *)left right:(NSString *)right count:(size_t)count page:(int)page {
 	NSMutableString *code = [[NSMutableString alloc] init];
 	for(NSString *name in @[right, left]) {
-		if(!name.length) continue;
-
 		[code appendFormat:@"\tds align 256\n"];
-		[code appendFormat:@"\ttiles_%@_page: EQU %d + 0b00100000\n", name, page];
-		[code appendFormat:@"\ttiles_%@:\n", name];
+		NSString *set_name = name;
+		if(name.length) {
+			[code appendFormat:@"\ttiles_%@_page: EQU %d + 0b00100000\n", name, page];
+			[code appendFormat:@"\ttiles_%@:\n", name];
+		} else {
+			set_name = right;
+		}
 		for(size_t c = 0; c < count; c++) {
 			if(c) {
 				[code appendString:@"\t\tnop\n"];
 			}
-			[code appendFormat:@"\t\tjp @+%@_%d\n", name, int(c)];
+			[code appendFormat:@"\t\tjp @+%@_%d\n", set_name, int(c)];
 		}
 		[code appendString:@"\n\n"];
 	}
@@ -458,7 +461,7 @@ static constexpr int TileSize = 16;
 	[code appendString:@"\t;\n\n"];
 
 	[code appendString:@"\tORG 0\n\tDUMP 16, 0\n"];
-	[code appendString:[self tileDeclarationPairLeft:@"full" right:@"" count:tiles.size() page:16]];
+	[code appendString:[self tileDeclarationPairLeft:@"" right:@"full" count:tiles.size() page:16]];
 	[code appendString:[self tiles:@"full" slice:0 source:tiles page:16]];
 
 	[code appendString:@"\tORG 0\n\tDUMP 17, 0\n"];

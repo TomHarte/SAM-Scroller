@@ -88,6 +88,70 @@
 		jp @+full_30
 
 
+	ds align 256
+		jp @+full_0
+		nop
+		jp @+full_1
+		nop
+		jp @+full_2
+		nop
+		jp @+full_3
+		nop
+		jp @+full_4
+		nop
+		jp @+full_5
+		nop
+		jp @+full_6
+		nop
+		jp @+full_7
+		nop
+		jp @+full_8
+		nop
+		jp @+full_9
+		nop
+		jp @+full_10
+		nop
+		jp @+full_11
+		nop
+		jp @+full_12
+		nop
+		jp @+full_13
+		nop
+		jp @+full_14
+		nop
+		jp @+full_15
+		nop
+		jp @+full_16
+		nop
+		jp @+full_17
+		nop
+		jp @+full_18
+		nop
+		jp @+full_19
+		nop
+		jp @+full_20
+		nop
+		jp @+full_21
+		nop
+		jp @+full_22
+		nop
+		jp @+full_23
+		nop
+		jp @+full_24
+		nop
+		jp @+full_25
+		nop
+		jp @+full_26
+		nop
+		jp @+full_27
+		nop
+		jp @+full_28
+		nop
+		jp @+full_29
+		nop
+		jp @+full_30
+
+
 	@full_8:
 		ld (@+return+1), de
 		ld sp, hl

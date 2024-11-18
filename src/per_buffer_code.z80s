@@ -24,7 +24,11 @@ ENDIF
 
 		ld de, @+next
 	@jp_sliver:
+IF @column_loop > 0
 		jp right_slivers
+ELSE
+		jp left_slivers
+ENDIF
 	@next:
 
 NEXT @sliver_loop
