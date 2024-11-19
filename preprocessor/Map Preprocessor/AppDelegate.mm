@@ -460,7 +460,6 @@ static constexpr int TileSize = 16;
 
 	for(auto &sprite: sprites) {
 		[code appendFormat:@"\tsprite_%d:\n", sprite.index()];
-		std::optional<uint16_t> bc;
 
 		// Obtain register allocations.
 		OptionalRegisterAllocator<uint8_t> register_allocator(
