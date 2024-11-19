@@ -105,6 +105,7 @@ public:
 			case Register::Name::IYh:	if(iyh_) { return *iyh_; }	break;
 			case Register::Name::IYl:	if(iyl_) { return *iyl_; }	break;
 
+			case Register::Name::AF:	if(a_ && f_) 		{ return *f_ | *a_ << 8; }			break;
 			case Register::Name::BC:	if(b_ && c_) 		{ return *c_ | *b_ << 8; }			break;
 			case Register::Name::DE:	if(d_ && e_) 		{ return *e_ | *d_ << 8; }			break;
 			case Register::Name::HL:	if(h_ && l_) 		{ return *l_ | *h_ << 8; }			break;
@@ -173,6 +174,7 @@ public:
 			case Register::Name::IYh:	iyh_ = value;	break;
 			case Register::Name::IYl:	iyl_ = value;	break;
 
+			case Register::Name::AF:	a_ = uint8_t(value >> 8); f_ = uint8_t(value);		break;
 			case Register::Name::BC:	b_ = uint8_t(value >> 8); c_ = uint8_t(value);		break;
 			case Register::Name::DE:	d_ = uint8_t(value >> 8); e_ = uint8_t(value);		break;
 			case Register::Name::HL:	h_ = uint8_t(value >> 8); l_ = uint8_t(value);		break;
