@@ -68,8 +68,37 @@ public:
 		}
 
 		// If this is A, also consider simple manipulations.
-		if(reg == Register::Name::A && !target) {
-			return @"\t\txor a\n";
+		if(reg == Register::Name::A) {
+			if(!target) {
+				return @"\t\txor a\n";
+			}
+
+			if(previous) {
+				for(const auto source: {Register::Name::B, Register::Name::C, Register::Name::D, Register::Name::E, Register::Name::H, Register::Name::L}) {
+					const auto source_value = value<uint8_t>(source);
+					if(!source_value) continue;
+
+					if(uint8_t(*previous + *source_value) == target) {
+						return [NSString stringWithFormat:@"\t\tadd %s\n", Register::name(source)];
+					}
+
+					if(uint8_t(*previous - *source_value) == target) {
+						return [NSString stringWithFormat:@"\t\tsub %s\n", Register::name(source)];
+					}
+
+					if(uint8_t(*previous | *source_value) == target) {
+						return [NSString stringWithFormat:@"\t\tor %s\n", Register::name(source)];
+					}
+
+					if(uint8_t(*previous ^ *source_value) == target) {
+						return [NSString stringWithFormat:@"\t\txor %s\n", Register::name(source)];
+					}
+
+					if(uint8_t(*previous & *source_value) == target) {
+						return [NSString stringWithFormat:@"\t\tand %s\n", Register::name(source)];
+					}
+				}
+			}
 		}
 
 		// If this isn't a pair but the value already exists elsewhere in the register
