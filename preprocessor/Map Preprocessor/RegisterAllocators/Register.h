@@ -18,7 +18,7 @@ enum class Name {
 constexpr Name pair(Name r) {
 	switch(r) {
 		default: return r;
-			
+
 		case Name::B:
 		case Name::C:	return Name::BC;
 		case Name::D:
@@ -43,7 +43,7 @@ constexpr const char *name(Name r) {
 		case Name::HL:	return "bc";
 		case Name::IX:	return "ix";
 		case Name::IY:	return "iy";
-			
+
 		case Name::A:	return "a";
 		case Name::F:	return "f";
 		case Name::B:	return "b";
@@ -52,7 +52,7 @@ constexpr const char *name(Name r) {
 		case Name::E:	return "e";
 		case Name::H:	return "h";
 		case Name::L:	return "l";
-			
+
 		case Name::IXl:	return "ixl";
 		case Name::IXh:	return "ixh";
 		case Name::IYl: return "iyl";
@@ -68,7 +68,7 @@ constexpr Name low_part(Name r) {
 		case Name::HL:	return Name::L;
 		case Name::IX:	return Name::IXl;
 		case Name::IY:	return Name::IYl;
-			
+
 		case Name::A:	return Name::A;
 		case Name::F:	return Name::F;
 		case Name::B:	return Name::B;
@@ -77,7 +77,7 @@ constexpr Name low_part(Name r) {
 		case Name::E:	return Name::E;
 		case Name::H:	return Name::H;
 		case Name::L:	return Name::L;
-			
+
 		case Name::IXl:	return Name::IXl;
 		case Name::IXh:	return Name::IXh;
 		case Name::IYl: return Name::IYl;
@@ -93,7 +93,7 @@ constexpr Name high_part(Name r) {
 		case Name::HL:	return Name::H;
 		case Name::IX:	return Name::IXh;
 		case Name::IY:	return Name::IYh;
-			
+
 		case Name::A:	return Name::A;
 		case Name::F:	return Name::F;
 		case Name::B:	return Name::B;
@@ -102,7 +102,7 @@ constexpr Name high_part(Name r) {
 		case Name::E:	return Name::E;
 		case Name::H:	return Name::H;
 		case Name::L:	return Name::L;
-			
+
 		case Name::IXl:	return Name::IXl;
 		case Name::IXh:	return Name::IXh;
 		case Name::IYl: return Name::IYl;
@@ -118,7 +118,7 @@ constexpr size_t size(Name r) {
 		case Name::HL:
 		case Name::IX:
 		case Name::IY:	return 2;
-			
+
 		case Name::A:
 		case Name::F:
 		case Name::B:

@@ -17,11 +17,11 @@ public:
 		struct SetAtExit {
 			SetAtExit(Register::Name reg, IntT target, RegisterSet &set) :
 				reg_(reg), target_(target), set_(set) {}
-			
+
 			~SetAtExit() {
 				set_.set_value<IntT>(reg_, target_);
 			}
-			
+
 			Register::Name reg_;
 			IntT target_;
 			RegisterSet &set_;
@@ -141,10 +141,10 @@ public:
 			case Register::Name::IX:	if(ixh_ && ixl_)	{ return *ixl_ | *ixh_ << 8; }		break;
 			case Register::Name::IY:	if(iyh_ && iyl_)	{ return *iyl_ | *iyh_ << 8; }		break;
 		}
-		
+
 		return {};
 	}
-	
+
 	template <typename IntT>
 	std::optional<Register::Name> find(IntT key) {
 		if constexpr (std::is_same_v<IntT, uint16_t>) {
@@ -153,7 +153,7 @@ public:
 				if(!pair_value) return false;
 				return *pair_value == key;
 			};
-			
+
 			for(auto &source: {
 					Register::Name::BC,
 					Register::Name::DE,
@@ -171,7 +171,7 @@ public:
 				if(!r_value) return false;
 				return *r_value == key;
 			};
-			
+
 			for(auto &source: {
 					Register::Name::A,
 					Register::Name::B, 		Register::Name::C,

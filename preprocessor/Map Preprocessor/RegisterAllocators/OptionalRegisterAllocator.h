@@ -68,12 +68,12 @@ class OptionalRegisterAllocator {
 						}
 						location = span.second.active_range.end;
 					}
-					
+
 					if(endpoint - location > largest.length()) {
 						largest.begin = location;
 						largest.end = endpoint;
 					}
-					
+
 					return largest;
 				}
 			};
@@ -105,7 +105,7 @@ class OptionalRegisterAllocator {
 					states[index].spans[range.begin] = vacant;
 				}
 			}
-			
+
 			// Map down to return type.
 			std::map<Time, Allocation<IntT>> allocations;
 			size_t reg = 0;
@@ -139,5 +139,4 @@ class OptionalRegisterAllocator {
 			prioritiser.remove_value(at_time->active_range.begin, at_time->active_range.end, at_time->value);
 			return *at_time;
 		}
-	
 };

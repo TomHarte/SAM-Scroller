@@ -496,7 +496,7 @@ static constexpr int TileSize = 16;
 			if(event.type == SpriteEvent::Type::Stop) {
 				break;
 			}
-			
+
 			// Apply a new allocation if one pops into existence here.
 			if(next_allocation != allocations.end() && next_allocation->time == time) {
 				[code appendString:set.load(RegisterNames[next_allocation->reg], next_allocation->value)];
@@ -517,14 +517,14 @@ static constexpr int TileSize = 16;
 					++hl;
 				}
 				moved = false;
-				
+
 				if(const auto source = set.find(event.content.output); source) {
 					[code appendFormat:@"\t\tld (hl), %s\n", Register::name(*source)];
 				} else {
 					[code appendFormat:@"\t\tld (hl), 0x%02x\n", event.content.output];
 				}
 			}
-			
+
 			++time;
 		}
 

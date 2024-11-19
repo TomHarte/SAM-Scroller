@@ -105,12 +105,12 @@ public:
 	RegisterEvent next_word(uint16_t value) {
 		++time_;
 		RegisterEvent event;
-		
+
 		if(iy_cursor_ != iy_allocations_.end() && time_ == iy_cursor_->time) {
 			iy_ = value;
 			return RegisterEvent{.reg = Register::Name::IY, .type = RegisterEvent::Type::Load, .value = value};
 		}
-		
+
 		if(iy_ && value == *iy_) {
 			return RegisterEvent{.reg = Register::Name::IY, .type = RegisterEvent::Type::Reuse};
 		}

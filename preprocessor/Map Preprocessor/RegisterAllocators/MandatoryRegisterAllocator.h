@@ -21,13 +21,13 @@ template <typename IntT>
 class MandatoryRegisterAllocator {
 public:
 	MandatoryRegisterAllocator(size_t num_registers) : num_registers_(num_registers) {}
-	
+
 	void add_value(Time time, IntT value) {
 		values_.emplace(time, value);
 	}
-	
+
 	// TODO: all rest.
-	
+
 private:
 	size_t num_registers_;
 	std::map<Time, IntT> values_;
