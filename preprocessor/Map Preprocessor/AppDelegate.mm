@@ -463,10 +463,9 @@ static constexpr int TileSize = 16;
 		std::optional<uint16_t> bc;
 
 		// Obtain register allocations.
-		static constexpr size_t NumRegisters = 3;
-		static constexpr Register::Name RegisterNames[3] = {Register::Name::A, Register::Name::D, Register::Name::E};
-
-		OptionalRegisterAllocator<uint8_t> register_allocator(NumRegisters);
+		OptionalRegisterAllocator<uint8_t> register_allocator(
+			std::vector<Register::Name>{Register::Name::A, Register::Name::D, Register::Name::E}
+		);
 		sprite.reset();
 		int time = 0;
 		while(true) {
@@ -499,7 +498,7 @@ static constexpr int TileSize = 16;
 
 			// Apply a new allocation if one pops into existence here.
 			if(next_allocation != allocations.end() && next_allocation->time == time) {
-				[code appendString:set.load(RegisterNames[next_allocation->reg], next_allocation->value)];
+				[code appendString:set.load(next_allocation->reg, next_allocation->value)];
 				++next_allocation;
 			}
 
