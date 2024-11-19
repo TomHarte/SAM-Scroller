@@ -20,7 +20,6 @@ struct RegisterEvent {
 	} type;
 	Register::Name reg;
 	uint16_t value;
-	std::optional<uint16_t> previous_value;
 };
 
 template <int TileSize>
@@ -108,9 +107,8 @@ public:
 		RegisterEvent event;
 		
 		if(iy_cursor_ != iy_allocations_.end() && time_ == iy_cursor_->time) {
-			auto previous = iy_;
 			iy_ = value;
-			return RegisterEvent{.reg = Register::Name::IY, .type = RegisterEvent::Type::Load, .previous_value = previous, .value = value};
+			return RegisterEvent{.reg = Register::Name::IY, .type = RegisterEvent::Type::Load, .value = value};
 		}
 		
 		if(iy_ && value == *iy_) {
@@ -130,13 +128,11 @@ public:
 			event.type = RegisterEvent::Type::Load;
 			event.reg = Register::Name::BC;
 			event.value = value;
-			event.previous_value = bc_;
 			bc_ = value;
 		} else if(!de_) {
 			event.type = RegisterEvent::Type::Load;
 			event.reg = Register::Name::DE;
 			event.value = value;
-			event.previous_value = de_;
 			de_ = value;
 		} else {
 			event.type = RegisterEvent::Type::Load;
@@ -146,12 +142,10 @@ public:
 			) {
 				event.reg = Register::Name::BC;
 				event.value = value;
-				event.previous_value = bc_;
 				bc_ = value;
 			} else {
 				event.reg = Register::Name::DE;
 				event.value = value;
-				event.previous_value = de_;
 				de_ = value;
 			}
 		}
@@ -177,9 +171,8 @@ public:
 
 		// Is this a point at which A is loaded?
 		if(a_cursor_ != a_allocations_.end() && time_ == a_cursor_->time) {
-			auto previous = a_;
 			a_ = value;
-			return RegisterEvent{.reg = Register::Name::A, .type = RegisterEvent::Type::Load, .previous_value = previous, .value = value};
+			return RegisterEvent{.reg = Register::Name::A, .type = RegisterEvent::Type::Load, .value = value};
 		}
 
 		// Otherwise, does A have the right value already?
