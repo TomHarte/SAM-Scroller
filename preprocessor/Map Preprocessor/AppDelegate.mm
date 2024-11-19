@@ -261,7 +261,7 @@ static constexpr int TileSize = 16;
 							];
 							[[fallthrough]];
 						case RegisterEvent::Type::Reuse:
-							[code appendFormat:@"\t\tpush %s\n", Register::pair_name(action.reg)];
+							[code appendFormat:@"\t\tpush %s\n", Register::name(Register::pair(action.reg))];
 						break;
 
 						case RegisterEvent::Type::UseConstant:

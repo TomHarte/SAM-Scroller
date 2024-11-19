@@ -840,7 +840,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x00
+		ld d, e
 		push de
 		ld de, 0x1044
 		push de
@@ -899,7 +899,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x00
+		ld d, e
 		push de
 		push iy
 		ld de, 0x4414
@@ -993,7 +993,7 @@
 
 		ld de, 0x7177
 		push de
-		ld d, 0x77
+		ld d, b
 		push de
 		push de
 		push bc
@@ -1074,7 +1074,7 @@
 
 		ld de, 0x5055
 		push de
-		ld d, 0x55
+		ld d, e
 		push de
 		push de
 		ld bc, 0x5505
@@ -1114,7 +1114,7 @@
 
 		push bc
 		push bc
-		ld d, 0x00
+		ld d, b
 		push de
 		ld d, 0x14
 		push de
@@ -1160,7 +1160,7 @@
 
 		push bc
 		push bc
-		ld e, 0x41
+		ld e, d
 		push de
 		push iy
 		dec h
@@ -1243,7 +1243,7 @@
 
 		push bc
 		push bc
-		ld d, 0x00
+		ld d, b
 		push de
 		ld d, 0x12
 		push de
@@ -1393,7 +1393,7 @@
 		push bc
 		ld de, 0x2022
 		push de
-		ld d, 0x22
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -1402,7 +1402,7 @@
 		push bc
 		ld d, 0x10
 		push de
-		ld d, 0x22
+		ld d, e
 		push de
 		ld hl, 1672
 		add hl, sp
@@ -1530,18 +1530,18 @@
 		push de
 		ld iy, 0x3323
 		push iy
-		ld d, 0x33
+		ld d, e
 		push de
 		ld e, 0x22
 		push de
 		dec h
 		ld sp, hl
 
-		ld d, 0x22
+		ld d, e
 		push de
 		ld e, 0x32
 		push de
-		ld e, 0x22
+		ld e, d
 		push de
 		inc e
 		push de
@@ -1594,7 +1594,7 @@
 		push de
 		ld de, 0x2233
 		push de
-		ld e, 0x22
+		ld e, d
 		push de
 		dec h
 		ld sp, hl
@@ -1682,7 +1682,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x00
+		ld d, e
 		push de
 		ld de, 0x1022
 		push de
@@ -1741,7 +1741,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x00
+		ld d, e
 		push de
 		push iy
 		ld de, 0x2212
@@ -1822,7 +1822,7 @@
 
 		ld e, 0x44
 		push de
-		ld d, 0x44
+		ld d, e
 		push de
 		push de
 		push de
@@ -2197,7 +2197,7 @@
 		ld bc, 0x5555
 		push bc
 		push bc
-		ld d, 0x88
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -2365,7 +2365,7 @@
 		push iy
 		ld bc, 0x1811
 		push bc
-		ld b, 0x11
+		ld b, c
 		push bc
 		ld bc, 0x5855
 		push bc
@@ -2855,7 +2855,7 @@
 		push de
 		ld bc, 0x0800
 		push bc
-		ld b, 0x00
+		ld b, c
 		push bc
 		ld bc, 0x5855
 		push bc
@@ -2865,7 +2865,7 @@
 		push de
 		ld bc, 0x0800
 		push bc
-		ld b, 0x00
+		ld b, c
 		push bc
 		ld iy, 0x5855
 		push iy
@@ -2875,7 +2875,7 @@
 		push de
 		ld b, 0x08
 		push bc
-		ld b, 0x00
+		ld b, c
 		push bc
 		push iy
 		ld hl, 1672
@@ -2914,7 +2914,7 @@
 		push de
 		ld bc, 0x0800
 		push bc
-		ld b, 0x00
+		ld b, c
 		push bc
 		push iy
 		dec h
@@ -2923,7 +2923,7 @@
 		push de
 		ld b, 0x08
 		push bc
-		ld b, 0x00
+		ld b, c
 		push bc
 		push iy
 		dec h
@@ -3226,7 +3226,7 @@
 		ld de, 0x6666
 		push de
 		push de
-		ld e, 0x11
+		ld e, b
 		push de
 		dec h
 		ld sp, hl
@@ -3505,7 +3505,7 @@
 
 		push bc
 		push bc
-		ld d, 0x66
+		ld d, b
 		push de
 		ld iy, 0x1661
 		push iy
@@ -3606,7 +3606,7 @@
 		dec h
 		ld sp, hl
 
-		ld e, 0x00
+		ld e, d
 		push de
 		push bc
 		push iy
@@ -3781,7 +3781,7 @@
 		dec h
 		ld sp, hl
 
-		ld e, 0x55
+		ld e, b
 		push de
 		ld de, 0x8551
 		push de
@@ -3916,7 +3916,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x66
+		ld d, b
 		push de
 		ld iy, 0x1661
 		push iy
@@ -4022,7 +4022,7 @@
 		push iy
 		push iy
 		push bc
-		ld d, 0x00
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -5131,7 +5131,7 @@
 		push de
 		ld de, 0x1100
 		push de
-		ld d, 0x00
+		ld d, e
 		push de
 	@return:
 		jp 1234
@@ -5159,7 +5159,7 @@
 		ld sp, hl
 
 		ld (hl), c
-		ld d, 0x77
+		ld d, b
 		push de
 		ld b, 0x75
 		push bc
@@ -5195,7 +5195,7 @@
 		ld sp, hl
 
 		ld (hl), d
-		ld b, 0x77
+		ld b, d
 		push bc
 		ld bc, 0x5575
 		push bc
@@ -5231,7 +5231,7 @@
 		ld (hl), c
 		ld bc, 0x7711
 		push bc
-		ld c, 0x77
+		ld c, b
 		push bc
 		push de
 		dec h
@@ -5314,7 +5314,7 @@
 
 		ld (hl), c
 		push bc
-		ld d, 0x00
+		ld d, b
 		push de
 		ld d, 0x14
 		push de
@@ -5360,7 +5360,7 @@
 
 		ld (hl), c
 		push bc
-		ld e, 0x41
+		ld e, d
 		push de
 		push iy
 		dec h
@@ -5443,7 +5443,7 @@
 
 		ld (hl), c
 		push bc
-		ld d, 0x00
+		ld d, b
 		push de
 		ld d, 0x12
 		push de
@@ -5593,7 +5593,7 @@
 		push bc
 		ld de, 0x2022
 		push de
-		ld d, 0x22
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -5602,7 +5602,7 @@
 		push bc
 		ld d, 0x10
 		push de
-		ld d, 0x22
+		ld d, e
 		push de
 		ld hl, 1670
 		add hl, sp
@@ -5738,7 +5738,7 @@
 		ld (hl), e
 		ld de, 0x2232
 		push de
-		ld e, 0x22
+		ld e, d
 		push de
 		inc e
 		push de
@@ -5789,7 +5789,7 @@
 		push de
 		ld de, 0x2233
 		push de
-		ld e, 0x22
+		ld e, d
 		push de
 		dec h
 		ld sp, hl
@@ -5945,7 +5945,7 @@
 		push de
 		ld de, 0x1100
 		push de
-		ld d, 0x00
+		ld d, e
 		push de
 	@return:
 		jp 1234
@@ -6339,7 +6339,7 @@
 		ld de, 0x5555
 		push de
 		push de
-		ld b, 0x88
+		ld b, c
 		push bc
 		dec h
 		ld sp, hl
@@ -6499,7 +6499,7 @@
 		ld (hl), c
 		ld de, 0x1811
 		push de
-		ld d, 0x11
+		ld d, a
 		push de
 		push bc
 		dec h
@@ -6603,7 +6603,7 @@
 		ld (hl), c
 		push bc
 		push de
-		ld d, 0x55
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -6633,7 +6633,7 @@
 		ld (hl), c
 		push bc
 		push de
-		ld d, 0x55
+		ld d, e
 		push de
 		ld hl, 1670
 		add hl, sp
@@ -6649,7 +6649,7 @@
 
 		ld (hl), c
 		push bc
-		ld d, 0x55
+		ld d, e
 		push de
 		ld d, 0x51
 		push de
@@ -6659,7 +6659,7 @@
 		ld (hl), c
 		push bc
 		push de
-		ld d, 0x55
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -6668,7 +6668,7 @@
 		push bc
 		ld d, 0x51
 		push de
-		ld d, 0x55
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -6683,7 +6683,7 @@
 
 		ld (hl), c
 		push bc
-		ld d, 0x55
+		ld d, e
 		push de
 		ld d, 0x51
 		push de
@@ -6693,7 +6693,7 @@
 		ld (hl), c
 		push bc
 		push de
-		ld d, 0x55
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -6857,7 +6857,7 @@
 		ld sp, hl
 
 		ld (hl), e
-		ld d, 0x55
+		ld d, e
 		push de
 		push iy
 		push iy
@@ -6887,7 +6887,7 @@
 		ld sp, hl
 
 		ld (hl), e
-		ld d, 0x55
+		ld d, e
 		push de
 		push iy
 		push iy
@@ -6911,7 +6911,7 @@
 		ld sp, hl
 
 		ld (hl), e
-		ld d, 0x55
+		ld d, e
 		push de
 		push iy
 		push iy
@@ -6941,7 +6941,7 @@
 		ld sp, hl
 
 		ld (hl), e
-		ld d, 0x55
+		ld d, e
 		push de
 		push iy
 		push iy
@@ -7005,7 +7005,7 @@
 		ld (hl), c
 		ld de, 0x0800
 		push de
-		ld d, 0x00
+		ld d, e
 		push de
 		ld b, 0x58
 		push bc
@@ -7035,7 +7035,7 @@
 		ld (hl), c
 		ld de, 0x5155
 		push de
-		ld b, 0x55
+		ld b, c
 		push bc
 		push de
 		dec h
@@ -7311,7 +7311,7 @@
 		ld sp, hl
 
 		ld (hl), 0x64
-		ld e, 0x44
+		ld e, d
 		push de
 		ld bc, 0x4466
 		push bc
@@ -7321,7 +7321,7 @@
 		ld sp, hl
 
 		ld (hl), 0x64
-		ld e, 0x44
+		ld e, b
 		push de
 		push bc
 		ld e, 0x14
@@ -7330,7 +7330,7 @@
 		ld sp, hl
 
 		ld (hl), 0x64
-		ld e, 0x44
+		ld e, b
 		push de
 		push bc
 		ld e, 0x14
@@ -7339,7 +7339,7 @@
 		ld sp, hl
 
 		ld (hl), 0x64
-		ld e, 0x44
+		ld e, b
 		push de
 		push bc
 		ld e, 0x14
@@ -7348,7 +7348,7 @@
 		ld sp, hl
 
 		ld (hl), c
-		ld e, 0x44
+		ld e, b
 		push de
 		push bc
 		ld de, 0x6616
@@ -7650,7 +7650,7 @@
 
 		ld (hl), c
 		push bc
-		ld d, 0x66
+		ld d, b
 		push de
 		ld iy, 0x1661
 		push iy
@@ -7766,7 +7766,7 @@
 		ld sp, hl
 
 		ld (hl), d
-		ld e, 0x00
+		ld e, d
 		push de
 		ld de, 0x6166
 		push de
@@ -7889,7 +7889,7 @@
 		ld (hl), d
 		ld bc, 0x5518
 		push bc
-		ld c, 0x55
+		ld c, b
 		push bc
 		ld bc, 0x1188
 		push bc
@@ -7962,9 +7962,9 @@
 		ld (hl), d
 		ld bc, 0x5518
 		push bc
-		ld c, 0x55
+		ld c, b
 		push bc
-		ld c, 0x11
+		ld c, a
 		push bc
 		dec h
 		ld sp, hl
@@ -7972,9 +7972,9 @@
 		ld (hl), b
 		ld bc, 0x8551
 		push bc
-		ld e, 0x55
+		ld e, d
 		push de
-		ld e, 0x85
+		ld e, b
 		push de
 		dec h
 		ld sp, hl
@@ -7984,7 +7984,7 @@
 		push de
 		ld de, 0x5555
 		push de
-		ld e, 0x85
+		ld e, b
 		push de
 		dec h
 		ld sp, hl
@@ -7994,14 +7994,14 @@
 		push de
 		ld de, 0x5555
 		push de
-		ld e, 0x85
+		ld e, b
 		push de
 		dec h
 		ld sp, hl
 
 		ld (hl), d
 		push bc
-		ld e, 0x55
+		ld e, d
 		push de
 		ld bc, 0x5585
 		push bc
@@ -8162,7 +8162,7 @@
 		ld (hl), b
 		push iy
 		push bc
-		ld d, 0x00
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -11339,7 +11339,7 @@
 		push de
 		ld de, 0x1100
 		push de
-		ld d, 0x00
+		ld d, e
 		push de
 	@return:
 		jp 1234
@@ -11364,7 +11364,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x77
+		ld d, b
 		push de
 		ld b, 0x75
 		push bc
@@ -11395,7 +11395,7 @@
 		dec h
 		ld sp, hl
 
-		ld b, 0x77
+		ld b, d
 		push bc
 		ld bc, 0x5575
 		push bc
@@ -11427,7 +11427,7 @@
 
 		ld c, 0x11
 		push bc
-		ld c, 0x77
+		ld c, b
 		push bc
 		push de
 		dec h
@@ -11501,7 +11501,7 @@
 		ld sp, hl
 
 		push bc
-		ld d, 0x00
+		ld d, b
 		push de
 		ld d, 0x14
 		push de
@@ -11541,7 +11541,7 @@
 		ld sp, hl
 
 		push bc
-		ld e, 0x41
+		ld e, d
 		push de
 		push iy
 		dec h
@@ -11614,7 +11614,7 @@
 		ld sp, hl
 
 		push bc
-		ld d, 0x00
+		ld d, b
 		push de
 		ld d, 0x12
 		push de
@@ -11745,7 +11745,7 @@
 		push bc
 		ld de, 0x2022
 		push de
-		ld d, 0x22
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -11753,7 +11753,7 @@
 		push bc
 		ld d, 0x10
 		push de
-		ld d, 0x22
+		ld d, e
 		push de
 		ld hl, 1670
 		add hl, sp
@@ -11864,7 +11864,7 @@
 
 		ld de, 0x3323
 		push de
-		ld e, 0x33
+		ld e, d
 		push de
 		ld iy, 0x3322
 		push iy
@@ -11873,7 +11873,7 @@
 
 		ld de, 0x2232
 		push de
-		ld e, 0x22
+		ld e, d
 		push de
 		inc e
 		push de
@@ -11917,7 +11917,7 @@
 		push iy
 		ld de, 0x2233
 		push de
-		ld e, 0x22
+		ld e, d
 		push de
 		dec h
 		ld sp, hl
@@ -12053,7 +12053,7 @@
 		push de
 		ld de, 0x1100
 		push de
-		ld d, 0x00
+		ld d, e
 		push de
 	@return:
 		jp 1234
@@ -12393,7 +12393,7 @@
 		ld de, 0x5555
 		push de
 		push de
-		ld b, 0x88
+		ld b, c
 		push bc
 		dec h
 		ld sp, hl
@@ -12532,7 +12532,7 @@
 
 		ld de, 0x1811
 		push de
-		ld d, 0x11
+		ld d, e
 		push de
 		push bc
 		dec h
@@ -12623,7 +12623,7 @@
 
 		push iy
 		push de
-		ld d, 0x55
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -12649,7 +12649,7 @@
 
 		push iy
 		push de
-		ld d, 0x55
+		ld d, e
 		push de
 		ld hl, 1670
 		add hl, sp
@@ -12663,7 +12663,7 @@
 		ld sp, hl
 
 		push iy
-		ld d, 0x55
+		ld d, e
 		push de
 		ld bc, 0x5155
 		push bc
@@ -12836,7 +12836,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x55
+		ld d, e
 		push de
 		push iy
 		push iy
@@ -12862,7 +12862,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x55
+		ld d, e
 		push de
 		push iy
 		push iy
@@ -12883,7 +12883,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x55
+		ld d, e
 		push de
 		push iy
 		push iy
@@ -12909,7 +12909,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x55
+		ld d, e
 		push de
 		push iy
 		push iy
@@ -12965,7 +12965,7 @@
 
 		ld de, 0x0800
 		push de
-		ld d, 0x00
+		ld d, e
 		push de
 		ld b, 0x58
 		push bc
@@ -13015,7 +13015,7 @@
 
 		ld bc, 0x0800
 		push bc
-		ld b, 0x00
+		ld b, c
 		push bc
 		push iy
 		dec h
@@ -13517,7 +13517,7 @@
 		ld sp, hl
 
 		push bc
-		ld d, 0x66
+		ld d, b
 		push de
 		ld d, 0x16
 		push de
@@ -13623,7 +13623,7 @@
 		dec h
 		ld sp, hl
 
-		ld e, 0x00
+		ld e, d
 		push de
 		ld de, 0x6166
 		push de
@@ -13680,7 +13680,7 @@
 		dec h
 		ld sp, hl
 
-		ld e, 0x00
+		ld e, d
 		push de
 		ld de, 0x1066
 		push de
@@ -13696,7 +13696,7 @@
 		dec h
 		ld sp, hl
 
-		ld e, 0x00
+		ld e, d
 		push de
 		push de
 		ld de, 0x1066
@@ -13735,7 +13735,7 @@
 
 		ld bc, 0x5518
 		push bc
-		ld c, 0x55
+		ld c, b
 		push bc
 		ld bc, 0x1188
 		push bc
@@ -13794,7 +13794,7 @@
 
 		ld bc, 0x5518
 		push bc
-		ld c, 0x55
+		ld c, b
 		push bc
 		ld c, 0x11
 		push bc
@@ -13802,7 +13802,7 @@
 		ld sp, hl
 
 		push iy
-		ld c, 0x55
+		ld c, b
 		push bc
 		push de
 		dec h
@@ -13963,7 +13963,7 @@
 
 		push iy
 		push bc
-		ld d, 0x00
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -14921,7 +14921,7 @@
 		dec h
 		ld sp, hl
 
-		ld e, 0x22
+		ld e, d
 		push de
 		ld hl, 1666
 		add hl, sp
@@ -14959,7 +14959,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x22
+		ld d, e
 		push de
 	@return:
 		jp 1234
@@ -15270,7 +15270,7 @@
 		dec h
 		ld sp, hl
 
-		ld b, 0x11
+		ld b, c
 		push bc
 		dec h
 		ld sp, hl
@@ -17178,7 +17178,7 @@
 		ld (hl), 0x11
 		ld d, 0x11
 		push de
-		ld d, 0x00
+		ld d, e
 		push de
 	@return:
 		jp 1234
@@ -17225,7 +17225,7 @@
 		ld sp, hl
 
 		ld (hl), 0x75
-		ld e, 0x55
+		ld e, a
 		push de
 		push bc
 		dec h
@@ -17260,7 +17260,7 @@
 		ld sp, hl
 
 		ld (hl), 0x11
-		ld d, 0x77
+		ld d, b
 		push de
 		push bc
 		dec h
@@ -17323,14 +17323,14 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld c, 0x10
+		ld c, b
 		push bc
 		push iy
 		dec h
 		ld sp, hl
 
 		ld (hl), a
-		ld b, 0x00
+		ld b, a
 		push bc
 		ld de, 0x1410
 		push de
@@ -17371,7 +17371,7 @@
 		ld sp, hl
 
 		ld (hl), e
-		ld c, 0x41
+		ld c, b
 		push bc
 		push iy
 		dec h
@@ -17437,14 +17437,14 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld c, 0x10
+		ld c, b
 		push bc
 		push iy
 		dec h
 		ld sp, hl
 
 		ld (hl), a
-		ld b, 0x00
+		ld b, a
 		push bc
 		ld de, 0x1210
 		push de
@@ -17576,7 +17576,7 @@
 		ld (hl), c
 		ld de, 0x2022
 		push de
-		ld d, 0x22
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -17584,7 +17584,7 @@
 		ld (hl), c
 		ld d, 0x10
 		push de
-		ld d, 0x22
+		ld d, e
 		push de
 		ld hl, 1668
 		add hl, sp
@@ -17700,7 +17700,7 @@
 		ld sp, hl
 
 		ld (hl), 0x32
-		ld d, 0x22
+		ld d, e
 		push de
 		inc e
 		push de
@@ -17744,7 +17744,7 @@
 		ld (hl), 0x22
 		ld de, 0x2233
 		push de
-		ld e, 0x22
+		ld e, d
 		push de
 		dec h
 		ld sp, hl
@@ -17874,7 +17874,7 @@
 		ld (hl), 0x11
 		ld d, 0x11
 		push de
-		ld d, 0x00
+		ld d, e
 		push de
 	@return:
 		jp 1234
@@ -18211,7 +18211,7 @@
 		ld (hl), 0x55
 		ld de, 0x5555
 		push de
-		ld b, 0x88
+		ld b, c
 		push bc
 		dec h
 		ld sp, hl
@@ -18789,7 +18789,7 @@
 		ld sp, hl
 
 		ld (hl), e
-		ld d, 0x55
+		ld d, e
 		push de
 		push iy
 		dec h
@@ -18996,7 +18996,7 @@
 		ld sp, hl
 
 		ld (hl), b
-		ld e, 0x44
+		ld e, b
 		push de
 		push bc
 		ld hl, 1668
@@ -19300,7 +19300,7 @@
 		ld sp, hl
 
 		ld (hl), c
-		ld d, 0x66
+		ld d, b
 		push de
 		ld d, 0x16
 		push de
@@ -19418,7 +19418,7 @@
 		ld sp, hl
 
 		ld (hl), d
-		ld e, 0x00
+		ld e, d
 		push de
 		ld de, 0x6166
 		push de
@@ -19474,7 +19474,7 @@
 		ld sp, hl
 
 		ld (hl), d
-		ld e, 0x00
+		ld e, d
 		push de
 		ld de, 0x1066
 		push de
@@ -19551,7 +19551,7 @@
 		ld sp, hl
 
 		ld (hl), c
-		ld d, 0x51
+		ld d, a
 		push de
 		push bc
 		dec h
@@ -19574,7 +19574,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld e, 0x55
+		ld e, b
 		push de
 		push bc
 		dec h
@@ -19730,7 +19730,7 @@
 
 		ld (hl), b
 		push bc
-		ld d, 0x00
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -19949,7 +19949,7 @@
 		ld sp, hl
 
 		ld (hl), e
-		ld d, 0x00
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -20133,7 +20133,7 @@
 		ld sp, hl
 
 		ld (hl), e
-		ld d, 0x00
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -20459,7 +20459,7 @@
 		ld sp, hl
 
 		ld (hl), d
-		ld e, 0x00
+		ld e, a
 		push de
 	@return:
 		jp 1234
@@ -20996,7 +20996,7 @@
 		ld sp, hl
 
 		ld (hl), d
-		ld e, 0x00
+		ld e, a
 		push de
 	@return:
 		jp 1234
@@ -21309,7 +21309,7 @@
 		ld sp, hl
 
 		ld (hl), b
-		ld b, 0x88
+		ld b, c
 		push bc
 		ld hl, 1666
 		add hl, sp
@@ -21353,7 +21353,7 @@
 		ld sp, hl
 
 		ld (hl), b
-		ld b, 0x88
+		ld b, c
 		push bc
 	@return:
 		jp 1234
@@ -21381,7 +21381,7 @@
 		ld sp, hl
 
 		ld (hl), e
-		ld e, 0x55
+		ld e, d
 		push de
 		dec h
 		ld sp, hl
@@ -21422,7 +21422,7 @@
 		ld sp, hl
 
 		ld (hl), e
-		ld e, 0x55
+		ld e, b
 		push de
 		dec h
 		ld sp, hl
@@ -21741,7 +21741,7 @@
 		ld sp, hl
 
 		ld (hl), e
-		ld e, 0x55
+		ld e, d
 		push de
 		dec h
 		ld sp, hl
@@ -21781,7 +21781,7 @@
 		ld sp, hl
 
 		ld (hl), e
-		ld e, 0x55
+		ld e, b
 		push de
 		dec h
 		ld sp, hl
@@ -22007,7 +22007,7 @@
 		ld sp, hl
 
 		ld (hl), d
-		ld e, 0x00
+		ld e, d
 		push de
 		dec h
 		ld sp, hl
@@ -22274,7 +22274,7 @@
 		ld sp, hl
 
 		ld (hl), d
-		ld e, 0x00
+		ld e, d
 		push de
 		dec h
 		ld sp, hl
@@ -22505,7 +22505,7 @@
 		ld sp, hl
 
 		ld (hl), c
-		ld d, 0x66
+		ld d, b
 		push de
 		dec h
 		ld sp, hl
@@ -22570,7 +22570,7 @@
 		ld sp, hl
 
 		ld (hl), d
-		ld d, 0x00
+		ld d, e
 		push de
 		ld hl, 1666
 		add hl, sp
@@ -23370,7 +23370,7 @@
 
 		ld d, 0x11
 		push de
-		ld d, 0x00
+		ld d, e
 		push de
 	@return:
 		jp 1234
@@ -23440,7 +23440,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x77
+		ld d, b
 		push de
 		push bc
 		dec h
@@ -23494,7 +23494,7 @@
 		dec h
 		ld sp, hl
 
-		ld c, 0x10
+		ld c, b
 		push bc
 		push iy
 		dec h
@@ -23535,7 +23535,7 @@
 		dec h
 		ld sp, hl
 
-		ld e, 0x41
+		ld e, d
 		push de
 		push iy
 		dec h
@@ -23591,7 +23591,7 @@
 		dec h
 		ld sp, hl
 
-		ld c, 0x10
+		ld c, b
 		push bc
 		push iy
 		dec h
@@ -23710,14 +23710,14 @@
 
 		ld de, 0x2022
 		push de
-		ld d, 0x22
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
 
 		ld d, 0x10
 		push de
-		ld d, 0x22
+		ld d, e
 		push de
 		ld hl, 1668
 		add hl, sp
@@ -23817,7 +23817,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x22
+		ld d, e
 		push de
 		inc e
 		push de
@@ -23855,7 +23855,7 @@
 
 		ld de, 0x2233
 		push de
-		ld e, 0x22
+		ld e, d
 		push de
 		dec h
 		ld sp, hl
@@ -23967,7 +23967,7 @@
 
 		ld d, 0x11
 		push de
-		ld d, 0x00
+		ld d, e
 		push de
 	@return:
 		jp 1234
@@ -24251,7 +24251,7 @@
 
 		ld de, 0x5555
 		push de
-		ld b, 0x88
+		ld b, c
 		push bc
 		dec h
 		ld sp, hl
@@ -24739,7 +24739,7 @@
 		add hl, sp
 		ld sp, hl
 
-		ld d, 0x55
+		ld d, e
 		push de
 		push iy
 		dec h
@@ -24913,7 +24913,7 @@
 		dec h
 		ld sp, hl
 
-		ld e, 0x44
+		ld e, b
 		push de
 		push bc
 		ld hl, 1668
@@ -25170,7 +25170,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x66
+		ld d, b
 		push de
 		ld d, 0x16
 		push de
@@ -25272,7 +25272,7 @@
 		dec h
 		ld sp, hl
 
-		ld e, 0x00
+		ld e, d
 		push de
 		ld de, 0x6166
 		push de
@@ -25320,7 +25320,7 @@
 		dec h
 		ld sp, hl
 
-		ld e, 0x00
+		ld e, d
 		push de
 		ld de, 0x1066
 		push de
@@ -25536,7 +25536,7 @@
 		ld sp, hl
 
 		push bc
-		ld d, 0x00
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -26278,7 +26278,7 @@
 		dec h
 		ld sp, hl
 
-		ld e, 0x77
+		ld e, b
 		push de
 		ld c, 0x57
 		push bc
@@ -26311,7 +26311,7 @@
 		ld sp, hl
 
 		push iy
-		ld c, 0x77
+		ld c, b
 		push bc
 		ld hl, 1668
 		add hl, sp
@@ -26361,7 +26361,7 @@
 
 		ld bc, 0x5055
 		push bc
-		ld b, 0x55
+		ld b, c
 		push bc
 	@return:
 		jp 1234
@@ -26717,7 +26717,7 @@
 		dec h
 		ld sp, hl
 
-		ld e, 0x22
+		ld e, d
 		push de
 		inc e
 		push de
@@ -26907,7 +26907,7 @@
 
 		ld de, 0x6166
 		push de
-		ld d, 0x66
+		ld d, c
 		push de
 		dec h
 		ld sp, hl
@@ -27136,9 +27136,9 @@
 		dec h
 		ld sp, hl
 
-		ld b, 0x11
+		ld b, d
 		push bc
-		ld b, 0x88
+		ld b, c
 		push bc
 		ld hl, 1668
 		add hl, sp
@@ -27187,7 +27187,7 @@
 
 		ld b, 0x81
 		push bc
-		ld b, 0x88
+		ld b, c
 		push bc
 	@return:
 		jp 1234
@@ -27875,7 +27875,7 @@
 		add hl, sp
 		ld sp, hl
 
-		ld b, 0x00
+		ld b, d
 		push bc
 		ld bc, 0x6166
 		push bc
@@ -28106,7 +28106,7 @@
 		dec h
 		ld sp, hl
 
-		ld e, 0x00
+		ld e, d
 		push de
 		push bc
 		dec h
@@ -28220,7 +28220,7 @@
 
 		ld iy, 0x1511
 		push iy
-		ld b, 0x51
+		ld b, c
 		push bc
 		dec h
 		ld sp, hl
@@ -28318,7 +28318,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x66
+		ld d, b
 		push de
 		ld d, 0x16
 		push de
@@ -28429,7 +28429,7 @@
 
 		ld d, 0x16
 		push de
-		ld d, 0x00
+		ld d, e
 		push de
 		ld hl, 1668
 		add hl, sp
@@ -29046,7 +29046,7 @@
 		ld sp, hl
 
 		ld (hl), 0x51
-		ld d, 0x55
+		ld d, e
 		push de
 	@return:
 		jp 1234
@@ -29180,7 +29180,7 @@
 		ld sp, hl
 
 		ld (hl), 0x01
-		ld d, 0x00
+		ld d, e
 		push de
 		ld hl, 1666
 		add hl, sp
@@ -29729,7 +29729,7 @@
 		ld sp, hl
 
 		ld (hl), 0x01
-		ld d, 0x00
+		ld d, e
 		push de
 		ld hl, 1666
 		add hl, sp
@@ -30058,7 +30058,7 @@
 		ld sp, hl
 
 		ld (hl), 0x55
-		ld d, 0x88
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -30159,7 +30159,7 @@
 		ld sp, hl
 
 		ld (hl), e
-		ld d, 0x55
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -30199,7 +30199,7 @@
 		ld sp, hl
 
 		ld (hl), c
-		ld d, 0x55
+		ld d, c
 		push de
 		dec h
 		ld sp, hl
@@ -30517,7 +30517,7 @@
 		ld sp, hl
 
 		ld (hl), e
-		ld d, 0x55
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -30557,7 +30557,7 @@
 		ld sp, hl
 
 		ld (hl), c
-		ld d, 0x55
+		ld d, c
 		push de
 		dec h
 		ld sp, hl
@@ -30725,7 +30725,7 @@
 		ld sp, hl
 
 		ld (hl), b
-		ld c, 0x11
+		ld c, b
 		push bc
 		dec h
 		ld sp, hl
@@ -31313,7 +31313,7 @@
 		ld sp, hl
 
 		ld (hl), c
-		ld d, 0x00
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -32111,7 +32111,7 @@
 		ld sp, hl
 
 		ld (hl), d
-		ld e, 0x00
+		ld e, d
 		push de
 		ld de, 0x1111
 		push de
@@ -32132,13 +32132,13 @@
 		ld (hl), 0x71
 		ld de, 0x7177
 		push de
-		ld c, 0x77
+		ld c, e
 		push bc
 		dec h
 		ld sp, hl
 
 		ld (hl), d
-		ld d, 0x77
+		ld d, c
 		push de
 		ld bc, 0x5775
 		push bc
@@ -32228,7 +32228,7 @@
 		ld (hl), 0x71
 		ld d, 0x71
 		push de
-		ld d, 0x77
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -32639,7 +32639,7 @@
 		ld sp, hl
 
 		ld (hl), 0x11
-		ld d, 0x22
+		ld d, e
 		push de
 		ld de, 0x1110
 		push de
@@ -32772,7 +32772,7 @@
 		ld sp, hl
 
 		ld (hl), d
-		ld e, 0x00
+		ld e, d
 		push de
 		ld de, 0x1111
 		push de
@@ -33142,7 +33142,7 @@
 		ld (hl), d
 		ld e, 0x88
 		push de
-		ld d, 0x88
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -33196,7 +33196,7 @@
 		ld (hl), b
 		ld de, 0x8188
 		push de
-		ld d, 0x88
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -33242,7 +33242,7 @@
 		ld (hl), c
 		ld de, 0x1188
 		push de
-		ld d, 0x88
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -33562,7 +33562,7 @@
 		ld sp, hl
 
 		ld (hl), e
-		ld e, 0x55
+		ld e, d
 		push de
 		push iy
 		dec h
@@ -34303,7 +34303,7 @@
 		ld sp, hl
 
 		ld (hl), d
-		ld e, 0x00
+		ld e, d
 		push de
 		push bc
 		dec h
@@ -34450,7 +34450,7 @@
 		ld sp, hl
 
 		ld (hl), 0x11
-		ld c, 0x55
+		ld c, b
 		push bc
 		ld bc, 0x8551
 		push bc
@@ -34549,7 +34549,7 @@
 		ld (hl), c
 		ld e, 0x16
 		push de
-		ld e, 0x66
+		ld e, b
 		push de
 		dec h
 		ld sp, hl
@@ -34670,7 +34670,7 @@
 		ld (hl), c
 		ld d, 0x16
 		push de
-		ld d, 0x00
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -35252,7 +35252,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x55
+		ld d, e
 		push de
 	@return:
 		jp 1234
@@ -35362,7 +35362,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x00
+		ld d, e
 		push de
 		ld hl, 1666
 		add hl, sp
@@ -35812,7 +35812,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x00
+		ld d, e
 		push de
 		ld hl, 1666
 		add hl, sp
@@ -36164,7 +36164,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x55
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -36197,7 +36197,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x55
+		ld d, c
 		push de
 		dec h
 		ld sp, hl
@@ -36457,7 +36457,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x55
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -36490,7 +36490,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x55
+		ld d, c
 		push de
 		dec h
 		ld sp, hl
@@ -36627,7 +36627,7 @@
 		add hl, sp
 		ld sp, hl
 
-		ld c, 0x11
+		ld c, b
 		push bc
 		dec h
 		ld sp, hl
@@ -37953,7 +37953,7 @@
 		ld sp, hl
 
 		push bc
-		ld d, 0x77
+		ld d, c
 		push de
 		ld de, 0x5575
 		push de
@@ -37985,7 +37985,7 @@
 		push bc
 		ld e, 0x11
 		push de
-		ld e, 0x77
+		ld e, c
 		push de
 		dec h
 		ld sp, hl
@@ -38024,7 +38024,7 @@
 
 		ld de, 0x5055
 		push de
-		ld d, 0x55
+		ld d, e
 		push de
 		push de
 	@return:
@@ -38059,7 +38059,7 @@
 
 		push iy
 		push iy
-		ld d, 0x00
+		ld d, b
 		push de
 		dec h
 		ld sp, hl
@@ -38098,7 +38098,7 @@
 
 		push iy
 		push iy
-		ld e, 0x41
+		ld e, d
 		push de
 		dec h
 		ld sp, hl
@@ -38169,7 +38169,7 @@
 
 		push iy
 		push iy
-		ld d, 0x00
+		ld d, b
 		push de
 		dec h
 		ld sp, hl
@@ -38417,7 +38417,7 @@
 		push de
 		ld e, 0x32
 		push de
-		ld e, 0x22
+		ld e, d
 		push de
 		ld hl, 1670
 		add hl, sp
@@ -38474,7 +38474,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x22
+		ld d, e
 		push de
 		inc e
 		push de
@@ -38658,7 +38658,7 @@
 
 		ld e, 0x44
 		push de
-		ld d, 0x44
+		ld d, e
 		push de
 		push de
 		ld hl, 1670
@@ -38988,7 +38988,7 @@
 
 		ld d, 0x11
 		push de
-		ld d, 0x88
+		ld d, e
 		push de
 		push de
 		ld hl, 1670
@@ -39044,7 +39044,7 @@
 
 		ld d, 0x81
 		push de
-		ld d, 0x88
+		ld d, e
 		push de
 		push de
 	@return:
@@ -39102,7 +39102,7 @@
 		push iy
 		ld bc, 0x1811
 		push bc
-		ld b, 0x11
+		ld b, c
 		push bc
 		dec h
 		ld sp, hl
@@ -39209,7 +39209,7 @@
 
 		push iy
 		push iy
-		ld d, 0x55
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -39230,7 +39230,7 @@
 
 		push iy
 		push iy
-		ld d, 0x55
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -39256,7 +39256,7 @@
 
 		push iy
 		push iy
-		ld d, 0x55
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -39533,7 +39533,7 @@
 		push de
 		ld bc, 0x0800
 		push bc
-		ld b, 0x00
+		ld b, c
 		push bc
 		dec h
 		ld sp, hl
@@ -39541,7 +39541,7 @@
 		push de
 		ld b, 0x08
 		push bc
-		ld b, 0x00
+		ld b, c
 		push bc
 		dec h
 		ld sp, hl
@@ -39550,7 +39550,7 @@
 		push iy
 		ld b, 0x08
 		push bc
-		ld b, 0x00
+		ld b, c
 		push bc
 		ld hl, 1670
 		add hl, sp
@@ -39584,7 +39584,7 @@
 		push iy
 		ld bc, 0x0800
 		push bc
-		ld b, 0x00
+		ld b, c
 		push bc
 		dec h
 		ld sp, hl
@@ -39592,7 +39592,7 @@
 		push iy
 		ld b, 0x08
 		push bc
-		ld b, 0x00
+		ld b, c
 		push bc
 		dec h
 		ld sp, hl
@@ -40166,7 +40166,7 @@
 		dec h
 		ld sp, hl
 
-		ld e, 0x00
+		ld e, d
 		push de
 		push bc
 		push iy
@@ -40315,7 +40315,7 @@
 		dec h
 		ld sp, hl
 
-		ld c, 0x55
+		ld c, d
 		push bc
 		ld bc, 0x8551
 		push bc
@@ -40432,7 +40432,7 @@
 		dec h
 		ld sp, hl
 
-		ld d, 0x66
+		ld d, b
 		push de
 		ld d, 0x16
 		push de
@@ -40550,7 +40550,7 @@
 		push bc
 		ld d, 0x16
 		push de
-		ld d, 0x00
+		ld d, e
 		push de
 		dec h
 		ld sp, hl
@@ -40564,7 +40564,7 @@
 
 		ld d, 0x16
 		push de
-		ld d, 0x00
+		ld d, e
 		push de
 		push de
 		ld hl, 1670
@@ -43810,7 +43810,7 @@
 		ld (hl), 0x71
 		ld de, 0x7177
 		push de
-		ld c, 0x77
+		ld c, e
 		push bc
 		ld de, 0x7717
 		push de
@@ -43818,7 +43818,7 @@
 		ld sp, hl
 
 		ld (hl), 0x71
-		ld e, 0x77
+		ld e, c
 		push de
 		ld bc, 0x5775
 		push bc
@@ -43855,7 +43855,7 @@
 
 		ld (hl), 0x71
 		push de
-		ld c, 0x55
+		ld c, b
 		push bc
 		ld bc, 0x7577
 		push bc
@@ -44389,7 +44389,7 @@
 		push de
 		ld d, 0x32
 		push de
-		ld d, 0x22
+		ld d, e
 		push de
 		ld hl, 1670
 		add hl, sp
@@ -44443,7 +44443,7 @@
 		ld sp, hl
 
 		ld (hl), 0x32
-		ld d, 0x22
+		ld d, e
 		push de
 		ld de, 0x3333
 		push de
@@ -45002,7 +45002,7 @@
 		ld (hl), c
 		ld de, 0x1155
 		push de
-		ld d, 0x55
+		ld d, e
 		push de
 		ld iy, 0x5588
 		push iy
@@ -45010,7 +45010,7 @@
 		ld sp, hl
 
 		ld (hl), c
-		ld c, 0x55
+		ld c, d
 		push bc
 		push de
 		push iy
@@ -45034,7 +45034,7 @@
 		ld (hl), b
 		ld c, 0x88
 		push bc
-		ld b, 0x88
+		ld b, c
 		push bc
 		ld de, 0x8885
 		push de
@@ -45060,7 +45060,7 @@
 		ld (hl), e
 		ld d, 0x51
 		push de
-		ld d, 0x11
+		ld d, e
 		push de
 		ld e, 0x81
 		push de
@@ -45070,7 +45070,7 @@
 		ld (hl), d
 		ld e, 0x55
 		push de
-		ld d, 0x55
+		ld d, e
 		push de
 		push iy
 		dec h
@@ -45079,7 +45079,7 @@
 		ld (hl), 0x11
 		ld d, 0x11
 		push de
-		ld d, 0x55
+		ld d, e
 		push de
 		push iy
 		dec h
@@ -45088,7 +45088,7 @@
 		ld (hl), 0x11
 		ld d, 0x11
 		push de
-		ld d, 0x55
+		ld d, e
 		push de
 		push iy
 		dec h
@@ -45097,7 +45097,7 @@
 		ld (hl), 0x11
 		ld d, 0x11
 		push de
-		ld d, 0x55
+		ld d, e
 		push de
 		push iy
 		dec h
@@ -45158,7 +45158,7 @@
 		ld (hl), c
 		ld de, 0x1188
 		push de
-		ld d, 0x88
+		ld d, e
 		push de
 		ld e, 0x18
 		push de
@@ -45178,7 +45178,7 @@
 		push bc
 		ld bc, 0x1111
 		push bc
-		ld c, 0x58
+		ld c, e
 		push bc
 		dec h
 		ld sp, hl
@@ -45297,7 +45297,7 @@
 
 		ld (hl), c
 		push bc
-		ld d, 0x11
+		ld d, b
 		push de
 		push iy
 		dec h
@@ -45322,7 +45322,7 @@
 
 		ld (hl), c
 		push bc
-		ld d, 0x11
+		ld d, b
 		push de
 		push iy
 		dec h
@@ -45355,7 +45355,7 @@
 
 		ld (hl), c
 		push bc
-		ld d, 0x11
+		ld d, b
 		push de
 		push iy
 		dec h
@@ -45523,7 +45523,7 @@
 		ld (hl), 0x55
 		ld de, 0x5551
 		push de
-		ld e, 0x11
+		ld e, b
 		push de
 		ld iy, 0x1111
 		push iy
@@ -45538,9 +45538,9 @@
 		ld sp, hl
 
 		ld (hl), 0x51
-		ld e, 0x55
+		ld e, d
 		push de
-		ld e, 0x11
+		ld e, b
 		push de
 		push iy
 		dec h
@@ -45556,7 +45556,7 @@
 		ld (hl), d
 		ld e, 0x51
 		push de
-		ld e, 0x11
+		ld e, b
 		push de
 		push iy
 		dec h
@@ -45570,9 +45570,9 @@
 		ld sp, hl
 
 		ld (hl), 0x51
-		ld e, 0x55
+		ld e, d
 		push de
-		ld e, 0x11
+		ld e, b
 		push de
 		push iy
 		ld hl, 1670
@@ -45582,7 +45582,7 @@
 		ld (hl), d
 		ld e, 0x51
 		push de
-		ld e, 0x11
+		ld e, b
 		push de
 		push iy
 		dec h
@@ -45591,25 +45591,25 @@
 		ld (hl), d
 		ld e, 0x51
 		push de
-		ld e, 0x11
+		ld e, b
 		push de
 		push iy
 		dec h
 		ld sp, hl
 
 		ld (hl), 0x51
-		ld e, 0x55
+		ld e, d
 		push de
-		ld e, 0x11
+		ld e, b
 		push de
 		push iy
 		dec h
 		ld sp, hl
 
 		ld (hl), 0x51
-		ld e, 0x55
+		ld e, d
 		push de
-		ld e, 0x11
+		ld e, b
 		push de
 		push iy
 		dec h
@@ -45618,7 +45618,7 @@
 		ld (hl), d
 		ld e, 0x51
 		push de
-		ld e, 0x11
+		ld e, b
 		push de
 		push iy
 		dec h
@@ -45627,25 +45627,25 @@
 		ld (hl), d
 		ld e, 0x51
 		push de
-		ld e, 0x11
+		ld e, b
 		push de
 		push iy
 		dec h
 		ld sp, hl
 
 		ld (hl), 0x51
-		ld e, 0x55
+		ld e, d
 		push de
-		ld e, 0x11
+		ld e, b
 		push de
 		push iy
 		dec h
 		ld sp, hl
 
 		ld (hl), 0x51
-		ld e, 0x55
+		ld e, d
 		push de
-		ld e, 0x11
+		ld e, b
 		push de
 		push iy
 	@return:
@@ -45691,7 +45691,7 @@
 		ld (hl), 0x11
 		ld de, 0x1188
 		push de
-		ld d, 0x88
+		ld d, e
 		push de
 		ld e, 0x18
 		push de
@@ -46399,7 +46399,7 @@
 
 		ld (hl), c
 		push bc
-		ld d, 0x66
+		ld d, b
 		push de
 		ld de, 0x1166
 		push de
@@ -46443,7 +46443,7 @@
 		ld sp, hl
 
 		ld (hl), d
-		ld e, 0x00
+		ld e, d
 		push de
 		push bc
 		push iy
@@ -46680,7 +46680,7 @@
 		push bc
 		ld bc, 0x8188
 		push bc
-		ld b, 0x88
+		ld b, c
 		push bc
 	@return:
 		jp 1234
@@ -46797,7 +46797,7 @@
 		ld sp, hl
 
 		ld (hl), e
-		ld e, 0x66
+		ld e, b
 		push de
 		push bc
 		push bc

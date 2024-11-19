@@ -67,8 +67,23 @@ public:
 			}
 		}
 
+		// If this is A, also consider simple manipulations.
 		if(reg == Register::Name::A && !target) {
 			return @"\t\txor a\n";
+		}
+
+		// If this isn't a pair but the value already exists elsewhere in the register
+		// set, just load it from there (unless it's _from_ an index register because that
+		// doesn't save anything, or involves two index registers versus HL).
+		if(Register::size(reg) == 1) {
+			const auto source = find<uint8_t>(target);
+			if(
+				source &&
+				!Register::is_index_pair(Register::pair(*source)) &&
+				!(Register::is_index_pair(Register::pair(reg)) && Register::pair(*source) == Register::Name::HL)
+			) {
+				return [NSString stringWithFormat:@"\t\tld %s, %s\n", Register::name(reg), Register::name(*source)];
+			}
 		}
 
 		return [NSString stringWithFormat:@"\t\tld %s, 0x%.*x\n", Register::name(reg), int(Register::size(reg) * 2), target];
@@ -78,6 +93,7 @@ public:
 	std::optional<IntT> value(Register::Name r) const {
 		switch(r) {
 			case Register::Name::A:		if(a_) { return *a_; } 		break;
+			case Register::Name::F:		if(f_) { return *f_; } 		break;
 			case Register::Name::B:		if(b_) { return *b_; }		break;
 			case Register::Name::C:		if(c_) { return *c_; }		break;
 			case Register::Name::D:		if(d_) { return *d_; }		break;
@@ -145,6 +161,7 @@ public:
 	void set_value(Register::Name r, IntT value) {
 		switch(r) {
 			case Register::Name::A:		a_ = value;		break;
+			case Register::Name::F:		f_ = value;		break;
 			case Register::Name::B:		b_ = value;		break;
 			case Register::Name::C:		c_ = value;		break;
 			case Register::Name::D:		d_ = value;		break;
@@ -166,6 +183,7 @@ public:
 
 private:
 	std::optional<uint8_t> a_;
+	std::optional<uint8_t> f_;
 	std::optional<uint8_t> b_;
 	std::optional<uint8_t> c_;
 	std::optional<uint8_t> d_;

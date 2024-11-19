@@ -10,49 +10,48 @@
 namespace Register {
 
 enum class Name {
-	BC, DE, HL, IX, IY,
-	B, C, D, E, A, H, L,
+	AF, BC, DE, HL, IX, IY,
+	A, F, B, C, D, E, H, L,
 	IXl, IXh, IYl, IYh,
 };
 
-constexpr const char *pair_name(Name r) {
+constexpr Name pair(Name r) {
 	switch(r) {
-		case Name::BC:	return "bc";
-		case Name::DE:	return "de";
-		case Name::HL:	return "bc";
-		case Name::IX:	return "ix";
-		case Name::IY:	return "iy";
+		default: return r;
 			
 		case Name::B:
-		case Name::C:	return "bc";
+		case Name::C:	return Name::BC;
 		case Name::D:
-		case Name::E:	return "de";
+		case Name::E:	return Name::DE;
 		case Name::H:
-		case Name::L:	return "hl";
-		case Name::A:	return "af";
-			
+		case Name::L:	return Name::HL;
+		case Name::A:
+		case Name::F:	return Name::AF;
+
 		case Name::IXl:
-		case Name::IXh:	return "ix";
+		case Name::IXh:	return Name::IX;
 		case Name::IYl:
-		case Name::IYh:	return "iy";
+		case Name::IYh:	return Name::IY;
 	}
 }
 
 constexpr const char *name(Name r) {
 	switch(r) {
+		case Name::AF:	return "af";
 		case Name::BC:	return "bc";
 		case Name::DE:	return "de";
 		case Name::HL:	return "bc";
 		case Name::IX:	return "ix";
 		case Name::IY:	return "iy";
 			
+		case Name::A:	return "a";
+		case Name::F:	return "f";
 		case Name::B:	return "b";
 		case Name::C:	return "c";
 		case Name::D:	return "d";
 		case Name::E:	return "e";
 		case Name::H:	return "h";
 		case Name::L:	return "l";
-		case Name::A:	return "a";
 			
 		case Name::IXl:	return "ixl";
 		case Name::IXh:	return "ixh";
@@ -63,19 +62,21 @@ constexpr const char *name(Name r) {
 
 constexpr Name low_part(Name r) {
 	switch(r) {
+		case Name::AF:	return Name::F;
 		case Name::BC:	return Name::C;
 		case Name::DE:	return Name::E;
 		case Name::HL:	return Name::L;
 		case Name::IX:	return Name::IXl;
 		case Name::IY:	return Name::IYl;
 			
+		case Name::A:	return Name::A;
+		case Name::F:	return Name::F;
 		case Name::B:	return Name::B;
 		case Name::C:	return Name::C;
 		case Name::D:	return Name::D;
 		case Name::E:	return Name::E;
 		case Name::H:	return Name::H;
 		case Name::L:	return Name::L;
-		case Name::A:	return Name::A;
 			
 		case Name::IXl:	return Name::IXl;
 		case Name::IXh:	return Name::IXh;
@@ -86,19 +87,21 @@ constexpr Name low_part(Name r) {
 
 constexpr Name high_part(Name r) {
 	switch(r) {
+		case Name::AF:	return Name::A;
 		case Name::BC:	return Name::B;
 		case Name::DE:	return Name::D;
 		case Name::HL:	return Name::H;
 		case Name::IX:	return Name::IXh;
 		case Name::IY:	return Name::IYh;
 			
+		case Name::A:	return Name::A;
+		case Name::F:	return Name::F;
 		case Name::B:	return Name::B;
 		case Name::C:	return Name::C;
 		case Name::D:	return Name::D;
 		case Name::E:	return Name::E;
 		case Name::H:	return Name::H;
 		case Name::L:	return Name::L;
-		case Name::A:	return Name::A;
 			
 		case Name::IXl:	return Name::IXl;
 		case Name::IXh:	return Name::IXh;
@@ -109,24 +112,46 @@ constexpr Name high_part(Name r) {
 
 constexpr size_t size(Name r) {
 	switch(r) {
+		case Name::AF:
 		case Name::BC:
 		case Name::DE:
 		case Name::HL:
 		case Name::IX:
 		case Name::IY:	return 2;
 			
+		case Name::A:
+		case Name::F:
 		case Name::B:
 		case Name::C:
 		case Name::D:
 		case Name::E:
 		case Name::H:
 		case Name::L:
-		case Name::A:
-			
 		case Name::IXl:
 		case Name::IXh:
 		case Name::IYl:
 		case Name::IYh:	return 1;
+	}
+}
+
+constexpr bool is_index_pair_or_hl(Name r) {
+	switch(r) {
+		default: return false;
+
+		case Name::IX:
+		case Name::IY:
+		case Name::HL:
+			return true;
+	}
+}
+
+constexpr bool is_index_pair(Name r) {
+	switch(r) {
+		default: return false;
+
+		case Name::IX:
+		case Name::IY:
+			return true;
 	}
 }
 
