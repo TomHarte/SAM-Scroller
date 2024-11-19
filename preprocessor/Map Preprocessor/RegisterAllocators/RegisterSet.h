@@ -54,11 +54,11 @@ public:
 
 			if(reg == Register::Name::A) {
 				if(target == std::rotr(*previous, 1)) {
-					return @"\t\trra\n";
+					return @"\t\trrca\n";
 				}
 
 				if(target == std::rotl(*previous, 1)) {
-					return @"\t\trla\n";
+					return @"\t\trlca\n";
 				}
 
 				if(target == (*previous^0xff)) {
