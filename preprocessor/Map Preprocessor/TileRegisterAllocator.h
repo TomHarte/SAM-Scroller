@@ -9,7 +9,7 @@
 
 #include "OptionalRegisterAllocator.h"
 #include "TileSerialiser.h"
-#include "RegisterAllocators/Register.h"
+#include "Registers/Register.h"
 
 #include <unordered_map>
 #include <optional>
