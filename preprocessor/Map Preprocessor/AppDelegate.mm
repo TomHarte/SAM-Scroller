@@ -22,6 +22,59 @@
 
 static constexpr int TileSize = 16;
 
+namespace {
+
+// MARK: - Register load minimisation.
+
+template <typename IntT>
+NSString *load_register(Register::Name reg, std::optional<IntT> previous, IntT target) {
+	if(previous) {
+		if(*previous == target) {
+			return @"";
+		}
+
+		if(Register::size(reg) == 2) {
+			if((*previous&0xff00) == (target&0xff00)) {
+				return load_register<uint8_t>(Register::low_part(reg), *previous & 0xff, target & 0xff);
+			}
+
+			if((*previous&0x00ff) == (target&0x00ff)) {
+				return load_register<uint8_t>(Register::high_part(reg), *previous >> 8, target >> 8);
+			}
+		}
+
+		if(target == IntT(*previous + 1)) {
+			return [NSString stringWithFormat:@"\t\tinc %s\n", Register::name(reg)];
+		}
+		
+		if(target == IntT(*previous - 1)) {
+			return [NSString stringWithFormat:@"\t\tdec %s\n", Register::name(reg)];
+		}
+		
+		if(reg == Register::Name::A) {
+			if(target == std::rotr(*previous, 1)) {
+				return @"\t\trra\n";
+			}
+			
+			if(target == std::rotl(*previous, 1)) {
+				return @"\t\trla\n";
+			}
+			
+			if(target == (*previous^0xff)) {
+				return @"\t\tcpl\n";
+			}
+		}
+	}
+	
+	if(reg == Register::Name::A && !target) {
+		return @"\t\txor a\n";
+	}
+
+	return [NSString stringWithFormat:@"\t\tld %s, 0x%.*x\n", Register::name(reg), int(Register::size(reg) * 2), target];
+}
+
+}
+
 @class DraggableTextField;
 @protocol DraggableTextFieldFileDelegate
 - (void)draggableTextField:(DraggableTextField *)field didReceiveFile:(NSURL *)url;
@@ -98,65 +151,6 @@ static constexpr int TileSize = 16;
 	} else {
 		NSLog(@"NOT YET IMPLEMENTED");
 	}
-}
-
-// MARK: - Register load minimisation.
-
-- (NSString *)loadRegister:(char)reg previous:(std::optional<uint8_t>)previous target:(uint8_t)target {
-	if(previous) {
-		if(*previous == target) {
-			return @"";
-		}
-
-		if(target == ((*previous + 1) & 0xff)) {
-			return [NSString stringWithFormat:@"\t\tinc %c\n", reg];
-		}
-
-		if(target == ((*previous - 1) & 0xff)) {
-			return [NSString stringWithFormat:@"\t\tdec %c\n", reg];
-		}
-
-		if(reg == 'a') {
-			if(target == std::rotr(*previous, 1)) {
-				return @"\t\trra\n";
-			}
-
-			if(target == std::rotl(*previous, 1)) {
-				return @"\t\trla\n";
-			}
-
-			if(target == (*previous^0xff)) {
-				return @"\t\tcpl\n";
-			}
-		}
-	}
-
-	// Special trick for A only:
-	if(reg == 'a' && !target) {
-		return @"\t\txor a\n";
-	}
-
-	return [NSString stringWithFormat:@"\t\tld %c, 0x%02x\n", reg, target];
-}
-
-- (NSString *)loadPair:(const char *)pair previous:(std::optional<uint16_t>)previous target:(uint16_t)target {
-	// Logic below is just as valid for IX and IY as anything else, but string manipulation to
-	// get the high and low register names isn't. So skip it for now.
-	if(previous && strcmp(pair, "ix") && strcmp(pair, "iy")) {
-		if(*previous == target){
-			return @"";
-		}
-
-		if((*previous&0xff00) == (target&0xff00)) {
-			return [self loadRegister:pair[1] previous:*previous & 0x00ff target:target & 0x00ff];
-		}
-
-		if((*previous&0x00ff) == (target&0x00ff)) {
-			return [self loadRegister:pair[0] previous:*previous >> 8 target:target >> 8];
-		}
-	}
-
-	return [NSString stringWithFormat:@"\t\tld %s, 0x%04x\n", pair, target];
 }
 
 // MARK: - Conversion.
@@ -313,11 +307,11 @@ static constexpr int TileSize = 16;
 					switch(action.type) {
 						case RegisterEvent::Type::Load:
 							[code appendString:
-								[self loadPair:action.load_register() previous:action.previous_value target:action.value]
+								load_register(action.reg, action.previous_value, action.value)
 							];
 							[[fallthrough]];
 						case RegisterEvent::Type::Reuse:
-							[code appendFormat:@"\t\tpush %s\n", action.push_register()];
+							[code appendFormat:@"\t\tpush %s\n", Register::pair_name(action.reg)];
 						break;
 
 						case RegisterEvent::Type::UseConstant:
@@ -329,10 +323,10 @@ static constexpr int TileSize = 16;
 					const auto action = allocator.next_byte(event.content);
 					switch(action.type) {
 						case RegisterEvent::Type::Load:
-							[code appendString:[self loadRegister:action.load_register()[0] previous:action.previous_value target:action.value]];
+							[code appendString:load_register(action.reg, action.previous_value, action.value)];
 							[[fallthrough]];
 						case RegisterEvent::Type::Reuse:
-							[code appendFormat:@"\t\tld (hl), %s\n", action.load_register()];
+							[code appendFormat:@"\t\tld (hl), %s\n", Register::name(action.reg)];
 						break;
 
 						case RegisterEvent::Type::UseConstant:
@@ -520,7 +514,7 @@ static constexpr int TileSize = 16;
 
 		// Obtain register allocations.
 		static constexpr size_t NumRegisters = 3;
-		static constexpr char RegisterNames[3] = {'a', 'd', 'e'};
+		static constexpr Register::Name RegisterNames[3] = {Register::Name::A, Register::Name::D, Register::Name::E};
 
 		OptionalRegisterAllocator<uint8_t> register_allocator(NumRegisters);
 		sprite.reset();
@@ -555,7 +549,7 @@ static constexpr int TileSize = 16;
 			
 			// Apply a new allocation if one pops into existence here.
 			if(next_allocation != allocations.end() && next_allocation->time == time) {
-				[code appendString:[self loadRegister:RegisterNames[next_allocation->reg] previous:registers[next_allocation->reg] target:next_allocation->value]];
+				[code appendString:load_register(RegisterNames[next_allocation->reg], registers[next_allocation->reg], next_allocation->value)];
 				registers[next_allocation->reg] = next_allocation->value;
 				++next_allocation;
 			}
@@ -566,7 +560,7 @@ static constexpr int TileSize = 16;
 				const uint16_t offset = target - hl;
 				hl = target;
 
-				[code appendString:[self loadPair:"bc" previous:bc target:offset]];
+				[code appendString:load_register(Register::Name::BC, bc, offset)];
 				bc = offset;
 				[code appendString:@"\t\tadd hl, bc\n\n"];
 			} else {
@@ -580,7 +574,7 @@ static constexpr int TileSize = 16;
 				for(size_t c = 0; c < NumRegisters; c++) {
 					if(registers[c] && event.content.output == registers[c]) {
 						loaded = true;
-						[code appendFormat:@"\t\tld (hl), %c\n", RegisterNames[c]];
+						[code appendFormat:@"\t\tld (hl), %s\n", Register::name(RegisterNames[c])];
 						break;
 					}
 				}

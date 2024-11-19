@@ -29,6 +29,7 @@
 		4BC106872CDFF4C30048554C /* OptionalRegisterAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OptionalRegisterAllocator.h; sourceTree = "<group>"; };
 		4BC1068B2CDFF4E10048554C /* Allocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Allocation.h; sourceTree = "<group>"; };
 		4BC106902CE01CCC0048554C /* Prioritiser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prioritiser.h; sourceTree = "<group>"; };
+		4BD67D092CEC018B00613C01 /* Register.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Register.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +84,7 @@
 				4BC106862CDFF4C30048554C /* MandatoryRegisterAllocator.h */,
 				4BC106872CDFF4C30048554C /* OptionalRegisterAllocator.h */,
 				4BC106902CE01CCC0048554C /* Prioritiser.h */,
+				4BD67D092CEC018B00613C01 /* Register.h */,
 			);
 			path = RegisterAllocators;
 			sourceTree = "<group>";
