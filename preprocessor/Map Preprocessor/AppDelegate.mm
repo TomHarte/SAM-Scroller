@@ -33,6 +33,7 @@ NSString *load_register(Register::Name reg, std::optional<IntT> previous, IntT t
 			return @"";
 		}
 
+		// If this is a pair in which only one half has changed, do only a byte operation.
 		if(Register::size(reg) == 2) {
 			if((*previous&0xff00) == (target&0xff00)) {
 				return load_register<uint8_t>(Register::low_part(reg), *previous & 0xff, target & 0xff);
@@ -46,26 +47,26 @@ NSString *load_register(Register::Name reg, std::optional<IntT> previous, IntT t
 		if(target == IntT(*previous + 1)) {
 			return [NSString stringWithFormat:@"\t\tinc %s\n", Register::name(reg)];
 		}
-		
+
 		if(target == IntT(*previous - 1)) {
 			return [NSString stringWithFormat:@"\t\tdec %s\n", Register::name(reg)];
 		}
-		
+
 		if(reg == Register::Name::A) {
 			if(target == std::rotr(*previous, 1)) {
 				return @"\t\trra\n";
 			}
-			
+
 			if(target == std::rotl(*previous, 1)) {
 				return @"\t\trla\n";
 			}
-			
+
 			if(target == (*previous^0xff)) {
 				return @"\t\tcpl\n";
 			}
 		}
 	}
-	
+
 	if(reg == Register::Name::A && !target) {
 		return @"\t\txor a\n";
 	}
