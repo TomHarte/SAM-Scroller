@@ -13,6 +13,8 @@
 #include "TileRegisterAllocator.h"
 #include "SpriteSerialiser.h"
 
+#include "RegisterSet.h"
+
 #include <array>
 #include <bit>
 #include <map>
@@ -21,60 +23,6 @@
 #include <vector>
 
 static constexpr int TileSize = 16;
-
-namespace {
-
-// MARK: - Register load minimisation.
-
-template <typename IntT>
-NSString *load_register(Register::Name reg, std::optional<IntT> previous, IntT target) {
-	if(previous) {
-		if(*previous == target) {
-			return @"";
-		}
-
-		// If this is a pair in which only one half has changed, do only a byte operation.
-		if(Register::size(reg) == 2) {
-			if((*previous&0xff00) == (target&0xff00)) {
-				return load_register<uint8_t>(Register::low_part(reg), *previous & 0xff, target & 0xff);
-			}
-
-			if((*previous&0x00ff) == (target&0x00ff)) {
-				return load_register<uint8_t>(Register::high_part(reg), *previous >> 8, target >> 8);
-			}
-		}
-
-		if(target == IntT(*previous + 1)) {
-			return [NSString stringWithFormat:@"\t\tinc %s\n", Register::name(reg)];
-		}
-
-		if(target == IntT(*previous - 1)) {
-			return [NSString stringWithFormat:@"\t\tdec %s\n", Register::name(reg)];
-		}
-
-		if(reg == Register::Name::A) {
-			if(target == std::rotr(*previous, 1)) {
-				return @"\t\trra\n";
-			}
-
-			if(target == std::rotl(*previous, 1)) {
-				return @"\t\trla\n";
-			}
-
-			if(target == (*previous^0xff)) {
-				return @"\t\tcpl\n";
-			}
-		}
-	}
-
-	if(reg == Register::Name::A && !target) {
-		return @"\t\txor a\n";
-	}
-
-	return [NSString stringWithFormat:@"\t\tld %s, 0x%.*x\n", Register::name(reg), int(Register::size(reg) * 2), target];
-}
-
-}
 
 @class DraggableTextField;
 @protocol DraggableTextFieldFileDelegate
@@ -288,6 +236,7 @@ NSString *load_register(Register::Name reg, std::optional<IntT> previous, IntT t
 		[code appendString:@"\t\tld sp, hl\n\n"];
 
 		bool finished = false;
+		RegisterSet set;
 		while(!finished) {
 			auto event = tile.next();
 			switch(event.type) {
@@ -308,7 +257,7 @@ NSString *load_register(Register::Name reg, std::optional<IntT> previous, IntT t
 					switch(action.type) {
 						case RegisterEvent::Type::Load:
 							[code appendString:
-								load_register(action.reg, action.previous_value, action.value)
+								set.load(action.reg, action.value)
 							];
 							[[fallthrough]];
 						case RegisterEvent::Type::Reuse:
@@ -324,7 +273,7 @@ NSString *load_register(Register::Name reg, std::optional<IntT> previous, IntT t
 					const auto action = allocator.next_byte(event.content);
 					switch(action.type) {
 						case RegisterEvent::Type::Load:
-							[code appendString:load_register(action.reg, action.previous_value, action.value)];
+							[code appendString:set.load(action.reg, action.value)];
 							[[fallthrough]];
 						case RegisterEvent::Type::Reuse:
 							[code appendFormat:@"\t\tld (hl), %s\n", Register::name(action.reg)];
@@ -541,7 +490,7 @@ NSString *load_register(Register::Name reg, std::optional<IntT> previous, IntT t
 		uint16_t hl = 0;
 		time = 0;
 		sprite.reset();
-		std::optional<uint8_t> registers[NumRegisters];
+		RegisterSet set;
 		while(true) {
 			const auto event = sprite.next();
 			if(event.type == SpriteEvent::Type::Stop) {
@@ -550,8 +499,7 @@ NSString *load_register(Register::Name reg, std::optional<IntT> previous, IntT t
 			
 			// Apply a new allocation if one pops into existence here.
 			if(next_allocation != allocations.end() && next_allocation->time == time) {
-				[code appendString:load_register(RegisterNames[next_allocation->reg], registers[next_allocation->reg], next_allocation->value)];
-				registers[next_allocation->reg] = next_allocation->value;
+				[code appendString:set.load(RegisterNames[next_allocation->reg], next_allocation->value)];
 				++next_allocation;
 			}
 
@@ -561,8 +509,7 @@ NSString *load_register(Register::Name reg, std::optional<IntT> previous, IntT t
 				const uint16_t offset = target - hl;
 				hl = target;
 
-				[code appendString:load_register(Register::Name::BC, bc, offset)];
-				bc = offset;
+				[code appendString:set.load(Register::Name::BC, offset)];
 				[code appendString:@"\t\tadd hl, bc\n\n"];
 			} else {
 				if(!moved) {
@@ -571,15 +518,9 @@ NSString *load_register(Register::Name reg, std::optional<IntT> previous, IntT t
 				}
 				moved = false;
 				
-				bool loaded = false;
-				for(size_t c = 0; c < NumRegisters; c++) {
-					if(registers[c] && event.content.output == registers[c]) {
-						loaded = true;
-						[code appendFormat:@"\t\tld (hl), %s\n", Register::name(RegisterNames[c])];
-						break;
-					}
-				}
-				if(!loaded) {
+				if(const auto source = set.find(event.content.output); source) {
+					[code appendFormat:@"\t\tld (hl), %s\n", Register::name(*source)];
+				} else {
 					[code appendFormat:@"\t\tld (hl), 0x%02x\n", event.content.output];
 				}
 			}
