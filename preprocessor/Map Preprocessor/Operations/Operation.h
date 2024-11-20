@@ -11,6 +11,7 @@
 #include <optional>
 #include <variant>
 
+/// Provides a generic model of a Z80 instruction operand, to only the fidelity currently required by this program.
 struct Operand {
 	enum class Type {
 		Direct,
@@ -89,6 +90,7 @@ struct Operand {
 	}
 };
 
+/// Provides a generic model of a Z80 operation, along with basic costing logic.
 struct Operation {
 	enum class Type {
 		LD,
