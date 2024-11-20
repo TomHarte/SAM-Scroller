@@ -155,7 +155,6 @@
 	@full_8:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x2222
 		push iy
 		ld bc, 0x2201
@@ -215,7 +214,7 @@
 		push de
 		push de
 		push de
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -276,12 +275,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_9:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -339,7 +337,7 @@
 		push de
 		push bc
 		push bc
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -401,12 +399,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_14:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x4444
 		push iy
 		ld bc, 0x4401
@@ -466,7 +463,7 @@
 		push de
 		push de
 		push de
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -527,12 +524,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_28:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -592,7 +588,7 @@
 		push iy
 		ld e, 0x55
 		push de
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -658,12 +654,11 @@
 		ld de, 0x5555
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_29:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -718,7 +713,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -776,12 +771,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_15:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x4444
 		push bc
 		push bc
@@ -848,7 +842,7 @@
 		push de
 		ld de, 0x0000
 		push de
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -917,12 +911,11 @@
 		push bc
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_17:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -997,7 +990,7 @@
 		push de
 		push de
 		push bc
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -1080,12 +1073,11 @@
 		ld bc, 0x5505
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_16:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -1146,7 +1138,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -1209,12 +1201,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_12:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -1275,7 +1266,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -1338,12 +1329,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_13:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -1404,7 +1394,7 @@
 		push de
 		ld d, e
 		push de
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -1470,12 +1460,11 @@
 		ld de, 0x2222
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_11:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -1545,7 +1534,7 @@
 		push de
 		inc e
 		push de
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -1618,12 +1607,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_10:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x2222
 		push bc
 		push bc
@@ -1690,7 +1678,7 @@
 		push de
 		ld de, 0x0000
 		push de
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -1759,12 +1747,11 @@
 		push bc
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_21:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0011
 		push bc
 		ld de, 0x1111
@@ -1826,7 +1813,7 @@
 		push de
 		push de
 		push de
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -1897,12 +1884,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_20:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x4446
 		push bc
 		ld iy, 0x4444
@@ -1974,7 +1960,7 @@
 		ld de, 0x6644
 		push de
 		push bc
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -2048,12 +2034,11 @@
 		push de
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_22:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x0041
 		push iy
 		ld bc, 0x6464
@@ -2110,7 +2095,7 @@
 		push bc
 		push de
 		push de
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -2169,12 +2154,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_23:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1511
 		push bc
 		ld iy, 0x1111
@@ -2237,7 +2221,7 @@
 		push de
 		ld bc, 0x8885
 		push bc
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -2304,12 +2288,11 @@
 		ld bc, 0x8858
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_27:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -2378,7 +2361,7 @@
 		push bc
 		ld b, 0x58
 		push bc
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -2442,12 +2425,11 @@
 		ld de, 0x8888
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_26:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -2504,7 +2486,7 @@
 		push bc
 		push iy
 		push de
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -2562,12 +2544,11 @@
 		push iy
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_18:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		push iy
@@ -2624,7 +2605,7 @@
 		push bc
 		push de
 		push bc
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -2683,12 +2664,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_30:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -2745,7 +2725,7 @@
 		push de
 		push bc
 		push bc
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -2803,12 +2783,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_24:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -2878,7 +2857,7 @@
 		ld b, c
 		push bc
 		push iy
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -2946,12 +2925,11 @@
 		ld de, 0x8888
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_25:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		push iy
@@ -3008,7 +2986,7 @@
 		push bc
 		push de
 		push bc
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -3066,12 +3044,11 @@
 		push de
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_19:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -3141,7 +3118,7 @@
 		push iy
 		push iy
 		push bc
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -3215,12 +3192,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_4:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1166
 		push bc
 		ld de, 0x6666
@@ -3280,7 +3256,7 @@
 		push de
 		push de
 		push de
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -3342,12 +3318,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_5:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -3402,7 +3377,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -3460,12 +3435,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_7:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -3524,7 +3498,7 @@
 		push bc
 		push de
 		push bc
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -3583,12 +3557,11 @@
 		push de
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_6:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6166
 		push bc
 		ld iy, 0x6666
@@ -3651,7 +3624,7 @@
 		push de
 		ld bc, 0x0061
 		push bc
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -3717,12 +3690,11 @@
 		ld bc, 0x0010
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_2:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1511
 		push bc
 		ld de, 0x1181
@@ -3796,7 +3768,7 @@
 		push de
 		push bc
 		push iy
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -3873,12 +3845,11 @@
 		ld e, 0x58
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_3:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -3937,7 +3908,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -3996,12 +3967,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_1:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x6666
 		push iy
 		push iy
@@ -4064,7 +4034,7 @@
 		push de
 		push de
 		push de
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -4130,12 +4100,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@full_0:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -4190,7 +4159,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1672
+		ld hl, 0x0688
 		add hl, sp
 		ld sp, hl
 
@@ -4248,7 +4217,7 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	ORG 0
 	DUMP 17, 0
@@ -4387,7 +4356,6 @@
 	@left_7_8:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x22
 		ld (hl), a
 		ld bc, 0x2201
@@ -4447,7 +4415,7 @@
 		push iy
 		push iy
 		push iy
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -4508,12 +4476,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_9:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -4569,7 +4536,7 @@
 		push de
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -4628,12 +4595,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_14:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x44
 		ld (hl), a
 		ld bc, 0x4401
@@ -4693,7 +4659,7 @@
 		push iy
 		push iy
 		push iy
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -4754,12 +4720,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_28:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -4816,7 +4781,7 @@
 		push bc
 		ld de, 0x5155
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -4879,12 +4844,11 @@
 		ld de, 0x5555
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_29:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -4939,7 +4903,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -4997,12 +4961,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_15:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x44
 		ld bc, 0x4444
 		push bc
@@ -5066,7 +5029,7 @@
 		push de
 		ld de, 0x0000
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -5134,12 +5097,11 @@
 		ld d, e
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_17:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -5208,7 +5170,7 @@
 		push bc
 		push bc
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -5280,12 +5242,11 @@
 		ld e, 0x05
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_16:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -5346,7 +5307,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -5409,12 +5370,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_12:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -5475,7 +5435,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -5538,12 +5498,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_13:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -5604,7 +5563,7 @@
 		push de
 		ld d, e
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -5670,12 +5629,11 @@
 		ld de, 0x2222
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_11:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -5742,7 +5700,7 @@
 		push de
 		inc e
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -5811,12 +5769,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_10:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x22
 		ld bc, 0x2222
 		push bc
@@ -5880,7 +5837,7 @@
 		push de
 		ld de, 0x0000
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -5948,12 +5905,11 @@
 		ld d, e
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_21:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld iy, 0x1111
 		push iy
@@ -6011,7 +5967,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -6070,12 +6026,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_20:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x46
 		ld (hl), a
 		ld bc, 0x4444
@@ -6133,7 +6088,7 @@
 		push bc
 		push iy
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -6191,12 +6146,11 @@
 		push iy
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_22:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x41
 		ld (hl), a
 		ld bc, 0x6464
@@ -6253,7 +6207,7 @@
 		push bc
 		push de
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -6312,12 +6266,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_23:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld iy, 0x1111
@@ -6378,7 +6331,7 @@
 		push bc
 		ld de, 0x8885
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -6441,12 +6394,11 @@
 		ld de, 0x8858
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_27:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld bc, 0x1111
@@ -6510,7 +6462,7 @@
 		ld de, 0x5155
 		push de
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -6569,12 +6521,11 @@
 		ld de, 0x8888
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_26:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld bc, 0x1111
@@ -6635,7 +6586,7 @@
 		push de
 		ld d, e
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -6704,12 +6655,11 @@
 		push bc
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_18:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld iy, 0x1111
@@ -6767,7 +6717,7 @@
 		push de
 		push bc
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -6826,12 +6776,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_30:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -6891,7 +6840,7 @@
 		push de
 		push iy
 		push iy
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -6953,12 +6902,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_24:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld bc, 0x1111
@@ -7028,7 +6976,7 @@
 		push iy
 		ld bc, 0x5855
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -7094,12 +7042,11 @@
 		ld bc, 0x8888
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_25:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld iy, 0x1111
@@ -7157,7 +7104,7 @@
 		push de
 		push bc
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -7215,12 +7162,11 @@
 		push bc
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_19:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -7289,7 +7235,7 @@
 		push de
 		push de
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -7362,12 +7308,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_4:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -7426,7 +7371,7 @@
 		push de
 		push de
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -7487,12 +7432,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_5:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -7547,7 +7491,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -7605,12 +7549,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_7:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -7669,7 +7612,7 @@
 		push bc
 		push de
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -7728,12 +7671,11 @@
 		push de
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_6:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -7796,7 +7738,7 @@
 		push iy
 		ld de, 0x0061
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -7860,12 +7802,11 @@
 		ld de, 0x0010
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_2:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld bc, 0x1181
@@ -7938,7 +7879,7 @@
 		ld bc, 0x5555
 		push bc
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -8016,12 +7957,11 @@
 		ld c, 0x58
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_3:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -8077,7 +8017,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -8135,12 +8075,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_1:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x66
 		ld (hl), a
 		ld iy, 0x6666
@@ -8202,7 +8141,7 @@
 		push de
 		push de
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -8266,12 +8205,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_7_0:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -8326,7 +8264,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -8384,12 +8322,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_8:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x22
 		dec h
 		ld sp, hl
@@ -8419,7 +8356,7 @@
 		ld sp, hl
 
 		ld (hl), 0x00
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -8454,12 +8391,11 @@
 
 		ld (hl), 0x00
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_9:
 		ld (@+return+1), de
 		ld sp, hl
-
 		xor a
 		ld (hl), a
 		dec h
@@ -8490,7 +8426,7 @@
 		ld sp, hl
 
 		ld (hl), 0x32
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -8524,12 +8460,11 @@
 
 		ld (hl), 0x22
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_14:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x44
 		dec h
 		ld sp, hl
@@ -8559,7 +8494,7 @@
 		ld sp, hl
 
 		ld (hl), 0x00
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -8594,12 +8529,11 @@
 
 		ld (hl), 0x00
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_28:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		dec h
@@ -8630,7 +8564,7 @@
 		ld sp, hl
 
 		ld (hl), 0x51
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -8664,12 +8598,11 @@
 
 		ld (hl), 0x51
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_29:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		dec h
@@ -8700,7 +8633,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -8734,12 +8667,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_15:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x44
 		ld (hl), a
 		dec h
@@ -8770,7 +8702,7 @@
 		ld sp, hl
 
 		ld (hl), 0x00
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -8804,12 +8736,11 @@
 
 		ld (hl), 0x00
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_17:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		dec h
 		ld sp, hl
@@ -8840,7 +8771,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -8874,12 +8805,11 @@
 
 		ld (hl), 0x50
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_16:
 		ld (@+return+1), de
 		ld sp, hl
-
 		xor a
 		ld (hl), a
 		dec h
@@ -8910,7 +8840,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -8944,12 +8874,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_12:
 		ld (@+return+1), de
 		ld sp, hl
-
 		xor a
 		ld (hl), a
 		dec h
@@ -8980,7 +8909,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -9014,12 +8943,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_13:
 		ld (@+return+1), de
 		ld sp, hl
-
 		xor a
 		ld (hl), a
 		dec h
@@ -9050,7 +8978,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -9084,12 +9012,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_11:
 		ld (@+return+1), de
 		ld sp, hl
-
 		xor a
 		ld (hl), a
 		dec h
@@ -9120,7 +9047,7 @@
 		ld sp, hl
 
 		ld (hl), 0x22
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -9154,12 +9081,11 @@
 
 		ld (hl), 0x22
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_10:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x22
 		ld (hl), a
 		dec h
@@ -9190,7 +9116,7 @@
 		ld sp, hl
 
 		ld (hl), 0x00
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -9224,12 +9150,11 @@
 
 		ld (hl), 0x00
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_21:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		dec h
 		ld sp, hl
@@ -9260,7 +9185,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -9294,12 +9219,11 @@
 
 		ld (hl), 0x11
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_20:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x44
 		ld (hl), a
 		dec h
@@ -9330,7 +9254,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -9364,12 +9288,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_22:
 		ld (@+return+1), de
 		ld sp, hl
-
 		xor a
 		ld (hl), a
 		dec h
@@ -9400,7 +9323,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -9434,12 +9357,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_23:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x15
 		dec h
 		ld sp, hl
@@ -9470,7 +9392,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -9504,12 +9426,11 @@
 
 		ld (hl), 0x81
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_27:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		dec h
 		ld sp, hl
@@ -9540,7 +9461,7 @@
 		ld sp, hl
 
 		ld (hl), 0x55
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -9574,12 +9495,11 @@
 
 		ld (hl), 0x88
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_26:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		dec h
@@ -9610,7 +9530,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -9644,12 +9564,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_18:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		dec h
 		ld sp, hl
@@ -9680,7 +9599,7 @@
 		ld sp, hl
 
 		ld (hl), 0x51
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -9714,12 +9633,11 @@
 
 		ld (hl), 0x88
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_30:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		dec h
 		ld sp, hl
@@ -9750,7 +9668,7 @@
 		ld sp, hl
 
 		ld (hl), 0x51
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -9784,12 +9702,11 @@
 
 		ld (hl), 0x51
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_24:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		dec h
 		ld sp, hl
@@ -9820,7 +9737,7 @@
 		ld sp, hl
 
 		ld (hl), 0x55
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -9854,12 +9771,11 @@
 
 		ld (hl), 0x88
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_25:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		dec h
 		ld sp, hl
@@ -9890,7 +9806,7 @@
 		ld sp, hl
 
 		ld (hl), 0x51
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -9924,12 +9840,11 @@
 
 		ld (hl), 0x51
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_19:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		dec h
 		ld sp, hl
@@ -9960,7 +9875,7 @@
 		ld sp, hl
 
 		ld (hl), 0x44
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -9994,12 +9909,11 @@
 
 		ld (hl), 0x11
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_4:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		dec h
 		ld sp, hl
@@ -10030,7 +9944,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -10064,12 +9978,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_5:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x66
 		ld (hl), a
 		dec h
@@ -10100,7 +10013,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -10134,12 +10047,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_7:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x66
 		ld (hl), a
 		dec h
@@ -10170,7 +10082,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -10204,12 +10116,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_6:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x61
 		dec h
 		ld sp, hl
@@ -10240,7 +10151,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -10274,12 +10185,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_2:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x15
 		dec h
 		ld sp, hl
@@ -10310,7 +10220,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -10344,12 +10254,11 @@
 
 		ld (hl), 0x85
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_3:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x66
 		ld (hl), a
 		dec h
@@ -10380,7 +10289,7 @@
 		ld sp, hl
 
 		ld (hl), 0x16
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -10414,12 +10323,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_1:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x66
 		ld (hl), a
 		dec h
@@ -10450,7 +10358,7 @@
 		ld sp, hl
 
 		ld (hl), 0x16
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -10484,12 +10392,11 @@
 
 		ld (hl), 0x01
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_1_0:
 		ld (@+return+1), de
 		ld sp, hl
-
 		xor a
 		ld (hl), a
 		dec h
@@ -10520,7 +10427,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -10554,7 +10461,7 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	ORG 0
 	DUMP 18, 0
@@ -10693,7 +10600,6 @@
 	@left_6_8:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x2201
 		push bc
 		ld de, 0x0000
@@ -10744,7 +10650,7 @@
 		push iy
 		push iy
 		push iy
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -10797,12 +10703,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_9:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -10850,7 +10755,7 @@
 		push de
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -10901,12 +10806,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_14:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x4401
 		push bc
 		ld de, 0x0000
@@ -10957,7 +10861,7 @@
 		push iy
 		push iy
 		push iy
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -11010,12 +10914,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_28:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -11065,7 +10968,7 @@
 		push iy
 		ld de, 0x5155
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -11120,12 +11023,11 @@
 		ld de, 0x5555
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_29:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -11172,7 +11074,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -11222,12 +11124,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_15:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x4444
 		push bc
 		push bc
@@ -11283,7 +11184,7 @@
 		push iy
 		ld de, 0x0000
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -11342,12 +11243,11 @@
 		ld d, e
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_17:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -11407,7 +11307,7 @@
 		push bc
 		push bc
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -11471,12 +11371,11 @@
 		ld de, 0x5505
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_16:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		ld de, 0x1044
@@ -11529,7 +11428,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -11584,12 +11483,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_12:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		ld de, 0x1022
@@ -11642,7 +11540,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -11697,12 +11595,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_13:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -11755,7 +11652,7 @@
 		push de
 		ld d, e
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -11813,12 +11710,11 @@
 		ld de, 0x2222
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_11:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -11877,7 +11773,7 @@
 		push de
 		inc e
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -11936,12 +11832,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_10:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x2222
 		push bc
 		push bc
@@ -11997,7 +11892,7 @@
 		push iy
 		ld de, 0x0000
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -12056,12 +11951,11 @@
 		ld d, e
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_21:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		push iy
@@ -12111,7 +12005,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -12162,12 +12056,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_20:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x4444
 		push bc
 		ld iy, 0x6644
@@ -12216,7 +12109,7 @@
 		push bc
 		push iy
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -12266,12 +12159,11 @@
 		push iy
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_22:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6464
 		push bc
 		ld de, 0x6666
@@ -12319,7 +12211,7 @@
 		push bc
 		push de
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -12370,12 +12262,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_23:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		push iy
@@ -12427,7 +12318,7 @@
 		push bc
 		ld de, 0x8885
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -12482,12 +12373,11 @@
 		ld de, 0x8858
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_27:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -12542,7 +12432,7 @@
 		ld de, 0x5155
 		push de
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -12593,12 +12483,11 @@
 		ld de, 0x8888
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_26:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -12651,7 +12540,7 @@
 		push de
 		ld d, e
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -12704,12 +12593,11 @@
 		push bc
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_18:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		push iy
@@ -12758,7 +12646,7 @@
 		push de
 		push bc
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -12809,12 +12697,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_30:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -12866,7 +12753,7 @@
 		push de
 		push iy
 		push iy
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -12920,12 +12807,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_24:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -12983,7 +12869,7 @@
 		push bc
 		push de
 		push iy
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -13039,12 +12925,11 @@
 		ld de, 0x8888
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_25:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		push iy
@@ -13093,7 +12978,7 @@
 		push de
 		push bc
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -13143,12 +13028,11 @@
 		push bc
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_19:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -13210,7 +13094,7 @@
 		push iy
 		push iy
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -13267,12 +13151,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_4:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -13323,7 +13206,7 @@
 		push de
 		push de
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -13376,12 +13259,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_5:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -13428,7 +13310,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -13478,12 +13360,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_7:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -13535,7 +13416,7 @@
 		push iy
 		push de
 		push iy
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -13590,12 +13471,11 @@
 		push de
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_6:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -13650,7 +13530,7 @@
 		push de
 		push de
 		push iy
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -13710,12 +13590,11 @@
 		ld e, 0x10
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_2:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1181
 		push bc
 		ld de, 0x1511
@@ -13773,7 +13652,7 @@
 		push iy
 		push bc
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -13837,12 +13716,11 @@
 		ld e, 0x58
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_3:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -13890,7 +13768,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -13940,12 +13818,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_1:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x6666
 		push iy
 		push iy
@@ -13998,7 +13875,7 @@
 		push de
 		push de
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -14054,12 +13931,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_6_0:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -14106,7 +13982,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -14156,12 +14032,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_8:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x2222
 		push bc
 		dec h
@@ -14194,7 +14069,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -14229,12 +14104,11 @@
 
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_9:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		dec h
@@ -14267,7 +14141,7 @@
 
 		ld de, 0x3222
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -14304,12 +14178,11 @@
 		ld de, 0x2223
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_14:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x4444
 		push bc
 		dec h
@@ -14342,7 +14215,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -14377,12 +14250,11 @@
 
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_28:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		dec h
@@ -14415,7 +14287,7 @@
 
 		ld de, 0x5115
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -14453,12 +14325,11 @@
 		ld e, 0x55
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_29:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		dec h
@@ -14489,7 +14360,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -14523,12 +14394,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_15:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x4444
 		push bc
 		dec h
@@ -14562,7 +14432,7 @@
 
 		dec e
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -14600,12 +14470,11 @@
 
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_17:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		dec h
@@ -14638,7 +14507,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -14673,12 +14542,11 @@
 		ld de, 0x5055
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_16:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		dec h
@@ -14709,7 +14577,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -14743,12 +14611,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_12:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		dec h
@@ -14779,7 +14646,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -14813,12 +14680,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_13:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		dec h
@@ -14849,7 +14715,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -14883,12 +14749,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_11:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		dec h
@@ -14923,7 +14788,7 @@
 
 		ld e, d
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -14962,12 +14827,11 @@
 		ld d, e
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_10:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x2222
 		push bc
 		dec h
@@ -15001,7 +14865,7 @@
 
 		dec e
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -15039,12 +14903,11 @@
 
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_21:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0011
 		push bc
 		dec h
@@ -15077,7 +14940,7 @@
 
 		ld bc, 0x4144
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -15114,12 +14977,11 @@
 		ld de, 0x1111
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_20:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x4446
 		push bc
 		dec h
@@ -15150,7 +15012,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -15184,12 +15046,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_22:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0041
 		push bc
 		dec h
@@ -15220,7 +15081,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -15254,12 +15115,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_23:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1511
 		push bc
 		dec h
@@ -15293,7 +15153,7 @@
 
 		ld e, 0x88
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -15331,12 +15191,11 @@
 		ld de, 0x8188
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_27:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		dec h
@@ -15369,7 +15228,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -15404,12 +15263,11 @@
 		ld de, 0x8888
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_26:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		dec h
@@ -15440,7 +15298,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -15474,12 +15332,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_18:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		dec h
@@ -15512,7 +15369,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -15547,12 +15404,11 @@
 		ld de, 0x8888
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_30:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		dec h
@@ -15585,7 +15441,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -15619,12 +15475,11 @@
 
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_24:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		dec h
@@ -15657,7 +15512,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -15692,12 +15547,11 @@
 		ld de, 0x8888
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_25:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		dec h
@@ -15730,7 +15584,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -15764,12 +15618,11 @@
 
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_19:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		dec h
@@ -15802,7 +15655,7 @@
 
 		ld de, 0x4444
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -15837,12 +15690,11 @@
 
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_4:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1166
 		push bc
 		dec h
@@ -15874,7 +15726,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -15909,12 +15761,11 @@
 
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_5:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		dec h
@@ -15945,7 +15796,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -15979,12 +15830,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_7:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		dec h
@@ -16015,7 +15865,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -16049,12 +15899,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_6:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6166
 		push bc
 		dec h
@@ -16087,7 +15936,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -16123,12 +15972,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_2:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1511
 		push bc
 		dec h
@@ -16160,7 +16008,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -16197,12 +16045,11 @@
 		ld b, 0x85
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_3:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		dec h
@@ -16235,7 +16082,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -16271,12 +16118,11 @@
 		ld de, 0x6661
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_1:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		dec h
@@ -16309,7 +16155,7 @@
 
 		ld de, 0x1600
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -16345,12 +16191,11 @@
 		ld de, 0x0100
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_2_0:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		dec h
@@ -16381,7 +16226,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -16415,7 +16260,7 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	ORG 0
 	DUMP 19, 0
@@ -16554,7 +16399,6 @@
 	@left_5_8:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x01
 		ld bc, 0x0000
 		push bc
@@ -16601,7 +16445,7 @@
 		ld (hl), c
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -16651,12 +16495,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_9:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -16703,7 +16546,7 @@
 		ld (hl), c
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -16753,12 +16596,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_14:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x01
 		ld bc, 0x0000
 		push bc
@@ -16805,7 +16647,7 @@
 		ld (hl), c
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -16855,12 +16697,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_28:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -16910,7 +16751,7 @@
 		push iy
 		ld de, 0x5155
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -16964,12 +16805,11 @@
 		ld de, 0x5555
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_29:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -17016,7 +16856,7 @@
 		ld (hl), c
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -17066,12 +16906,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_15:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x44
 		ld bc, 0x4444
 		push bc
@@ -17123,7 +16962,7 @@
 		push de
 		ld de, 0x0000
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -17181,12 +17020,11 @@
 		ld d, e
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_17:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -17242,7 +17080,7 @@
 		ld de, 0x7777
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -17300,12 +17138,11 @@
 		ld e, 0x05
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_16:
 		ld (@+return+1), de
 		ld sp, hl
-
 		xor a
 		ld (hl), a
 		ld bc, 0x1044
@@ -17359,7 +17196,7 @@
 		ld (hl), b
 		push de
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -17414,12 +17251,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_12:
 		ld (@+return+1), de
 		ld sp, hl
-
 		xor a
 		ld (hl), a
 		ld bc, 0x1022
@@ -17473,7 +17309,7 @@
 		ld (hl), b
 		push de
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -17528,12 +17364,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_13:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -17586,7 +17421,7 @@
 		push de
 		ld d, e
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -17644,12 +17479,11 @@
 		ld de, 0x2222
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_11:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -17704,7 +17538,7 @@
 		push de
 		inc e
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -17762,12 +17596,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_10:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x22
 		ld bc, 0x2222
 		push bc
@@ -17819,7 +17652,7 @@
 		push de
 		ld de, 0x0000
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -17877,12 +17710,11 @@
 		ld d, e
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_21:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld iy, 0x1111
 		push iy
@@ -17931,7 +17763,7 @@
 		ld de, 0x4444
 		push de
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -17981,12 +17813,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_20:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x44
 		ld bc, 0x6644
 		push bc
@@ -18034,7 +17865,7 @@
 		ld (hl), c
 		push bc
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -18084,12 +17915,11 @@
 		push bc
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_22:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x64
 		ld (hl), a
 		ld bc, 0x6666
@@ -18137,7 +17967,7 @@
 		ld (hl), a
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -18187,12 +18017,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_23:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld iy, 0x1111
@@ -18245,7 +18074,7 @@
 		push bc
 		ld de, 0x8885
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -18300,12 +18129,11 @@
 		ld de, 0x8858
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_27:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld bc, 0x1111
@@ -18360,7 +18188,7 @@
 		ld (hl), c
 		push iy
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -18412,12 +18240,11 @@
 		ld de, 0x8888
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_26:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld iy, 0x1111
@@ -18467,7 +18294,7 @@
 		ld (hl), a
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -18517,12 +18344,11 @@
 		push de
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_18:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld iy, 0x1111
@@ -18572,7 +18398,7 @@
 		ld (hl), c
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -18623,12 +18449,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_30:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -18675,7 +18500,7 @@
 		ld (hl), 0x55
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -18725,12 +18550,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_24:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld bc, 0x1111
@@ -18784,7 +18608,7 @@
 		ld (hl), c
 		push bc
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -18837,12 +18661,11 @@
 		ld de, 0x8888
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_25:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld iy, 0x1111
@@ -18892,7 +18715,7 @@
 		ld (hl), c
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -18942,12 +18765,11 @@
 		push de
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_19:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld iy, 0x1111
@@ -18999,7 +18821,7 @@
 		ld e, b
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -19051,12 +18873,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_4:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x66
 		ld (hl), a
 		ld bc, 0x6666
@@ -19107,7 +18928,7 @@
 		ld (hl), c
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -19159,12 +18980,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_5:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -19211,7 +19031,7 @@
 		ld (hl), c
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -19261,12 +19081,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_7:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -19317,7 +19136,7 @@
 		ld (hl), c
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -19372,12 +19191,11 @@
 		push de
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_6:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -19430,7 +19248,7 @@
 		push de
 		ld e, 0x61
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -19487,12 +19305,11 @@
 		ld e, 0x10
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_2:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x81
 		ld bc, 0x1511
 		push bc
@@ -19546,7 +19363,7 @@
 		ld (hl), a
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -19604,12 +19421,11 @@
 		ld e, 0x58
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_3:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -19656,7 +19472,7 @@
 		ld (hl), c
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -19706,12 +19522,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_1:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x66
 		ld (hl), a
 		ld iy, 0x6666
@@ -19763,7 +19578,7 @@
 		ld (hl), c
 		push de
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -19817,12 +19632,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_5_0:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -19869,7 +19683,7 @@
 		ld (hl), c
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -19919,12 +19733,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_8:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x22
 		ld bc, 0x2222
 		push bc
@@ -19966,7 +19779,7 @@
 
 		ld (hl), e
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -20011,12 +19824,11 @@
 		ld (hl), c
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_9:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -20057,7 +19869,7 @@
 		ld (hl), 0x32
 		ld de, 0x2201
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -20103,12 +19915,11 @@
 		ld de, 0x2312
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_14:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x44
 		ld bc, 0x4444
 		push bc
@@ -20150,7 +19961,7 @@
 
 		ld (hl), e
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -20195,12 +20006,11 @@
 		ld (hl), c
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_28:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -20240,7 +20050,7 @@
 		ld (hl), 0x51
 		ld de, 0x1511
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -20283,12 +20093,11 @@
 		ld de, 0x5515
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_29:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -20327,7 +20136,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -20369,12 +20178,11 @@
 		ld (hl), c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_15:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x44
 		ld bc, 0x4444
 		push bc
@@ -20416,7 +20224,7 @@
 		ld (hl), a
 		ld de, 0x0010
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -20462,12 +20270,11 @@
 		ld e, a
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_17:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -20510,7 +20317,7 @@
 
 		ld (hl), 0x71
 		push iy
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -20557,12 +20364,11 @@
 		ld de, 0x5555
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_16:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -20601,7 +20407,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -20643,12 +20449,11 @@
 		ld (hl), c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_12:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -20687,7 +20492,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -20729,12 +20534,11 @@
 		ld (hl), c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_13:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -20773,7 +20577,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -20815,12 +20619,11 @@
 		ld (hl), c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_11:
 		ld (@+return+1), de
 		ld sp, hl
-
 		xor a
 		ld (hl), a
 		ld iy, 0x0000
@@ -20863,7 +20666,7 @@
 
 		ld (hl), e
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -20906,12 +20709,11 @@
 		ld (hl), e
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_10:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x22
 		ld bc, 0x2222
 		push bc
@@ -20953,7 +20755,7 @@
 		ld (hl), a
 		ld de, 0x0010
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -20999,12 +20801,11 @@
 		ld e, a
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_21:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld iy, 0x1111
 		push iy
@@ -21045,7 +20846,7 @@
 		ld (hl), 0x41
 		ld de, 0x4444
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -21089,12 +20890,11 @@
 		ld (hl), 0x11
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_20:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x44
 		ld bc, 0x4644
 		push bc
@@ -21133,7 +20933,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -21175,12 +20975,11 @@
 		ld (hl), c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_22:
 		ld (@+return+1), de
 		ld sp, hl
-
 		xor a
 		ld (hl), a
 		ld bc, 0x4164
@@ -21220,7 +21019,7 @@
 
 		ld (hl), a
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -21263,12 +21062,11 @@
 		ld (hl), a
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_23:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x15
 		ld iy, 0x1111
 		push iy
@@ -21311,7 +21109,7 @@
 		ld (hl), b
 		ld b, c
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -21356,12 +21154,11 @@
 		ld b, c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_27:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld bc, 0x1111
@@ -21406,7 +21203,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -21451,12 +21248,11 @@
 		ld de, 0x8858
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_26:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -21495,7 +21291,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -21537,12 +21333,11 @@
 		ld (hl), c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_18:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld iy, 0x1111
@@ -21584,7 +21379,7 @@
 
 		ld (hl), c
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -21627,12 +21422,11 @@
 		ld bc, 0x8888
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_30:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld iy, 0x1111
@@ -21674,7 +21468,7 @@
 
 		ld (hl), c
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -21716,12 +21510,11 @@
 		ld (hl), c
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_24:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld bc, 0x1111
@@ -21765,7 +21558,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -21810,12 +21603,11 @@
 		ld de, 0x8808
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_25:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld iy, 0x1111
@@ -21857,7 +21649,7 @@
 
 		ld (hl), c
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -21899,12 +21691,11 @@
 		ld (hl), c
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_19:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld iy, 0x1111
 		push iy
@@ -21945,7 +21736,7 @@
 		ld (hl), c
 		ld de, 0x4444
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -21988,12 +21779,11 @@
 		ld (hl), 0x11
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_4:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x6666
 		push bc
@@ -22034,7 +21824,7 @@
 
 		ld (hl), e
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -22077,12 +21867,11 @@
 		ld (hl), e
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_5:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -22121,7 +21910,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -22163,12 +21952,11 @@
 		ld (hl), c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_7:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -22207,7 +21995,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -22249,12 +22037,11 @@
 		ld (hl), c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_6:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x61
 		ld bc, 0x6666
 		push bc
@@ -22296,7 +22083,7 @@
 
 		ld (hl), e
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -22340,12 +22127,11 @@
 		ld (hl), b
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_2:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x15
 		ld bc, 0x1111
 		push bc
@@ -22387,7 +22173,7 @@
 
 		ld (hl), c
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -22433,12 +22219,11 @@
 		ld bc, 0x8858
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_3:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -22480,7 +22265,7 @@
 
 		ld (hl), e
 		push iy
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -22525,12 +22310,11 @@
 		ld de, 0x6166
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_1:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -22572,7 +22356,7 @@
 		ld (hl), d
 		ld d, e
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -22617,12 +22401,11 @@
 		dec d
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_3_0:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -22661,7 +22444,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -22703,7 +22486,7 @@
 		ld (hl), c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	ORG 0
 	DUMP 20, 0
@@ -22842,7 +22625,6 @@
 	@left_4_8:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -22881,7 +22663,7 @@
 
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -22923,12 +22705,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_9:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -22967,7 +22748,7 @@
 
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -23009,12 +22790,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_14:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -23053,7 +22833,7 @@
 
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -23095,12 +22875,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_28:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -23141,7 +22920,7 @@
 		push bc
 		ld de, 0x5155
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -23188,12 +22967,11 @@
 		ld de, 0x5555
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_29:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -23232,7 +23010,7 @@
 
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -23274,12 +23052,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_15:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x4444
 		push bc
 		push bc
@@ -23323,7 +23100,7 @@
 		push de
 		ld de, 0x0000
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -23373,12 +23150,11 @@
 		ld d, e
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_17:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -23425,7 +23201,7 @@
 		ld de, 0x7777
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -23475,12 +23251,11 @@
 		ld e, 0x05
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_16:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1044
 		push bc
 		ld iy, 0x4444
@@ -23525,7 +23300,7 @@
 
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -23572,12 +23347,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_12:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1022
 		push bc
 		ld iy, 0x2222
@@ -23622,7 +23396,7 @@
 
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -23669,12 +23443,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_13:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -23719,7 +23492,7 @@
 		push de
 		ld d, e
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -23769,12 +23542,11 @@
 		ld de, 0x2222
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_11:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -23821,7 +23593,7 @@
 		push de
 		inc e
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -23871,12 +23643,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_10:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x2222
 		push bc
 		push bc
@@ -23920,7 +23691,7 @@
 		push de
 		ld de, 0x0000
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -23970,12 +23741,11 @@
 		ld d, e
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_21:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		push iy
@@ -24016,7 +23786,7 @@
 		ld de, 0x4444
 		push de
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -24058,12 +23828,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_20:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6644
 		push bc
 		ld de, 0x1400
@@ -24103,7 +23872,7 @@
 
 		push bc
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -24145,12 +23914,11 @@
 		push bc
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_22:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -24189,7 +23957,7 @@
 
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -24231,12 +23999,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_23:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		push iy
@@ -24280,7 +24047,7 @@
 		push bc
 		ld de, 0x8885
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -24327,12 +24094,11 @@
 		ld de, 0x8858
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_27:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -24378,7 +24144,7 @@
 
 		push iy
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -24422,12 +24188,11 @@
 		ld de, 0x8888
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_26:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		push iy
@@ -24468,7 +24233,7 @@
 
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -24510,12 +24275,11 @@
 		push de
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_18:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		push iy
@@ -24556,7 +24320,7 @@
 
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -24599,12 +24363,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_30:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -24643,7 +24406,7 @@
 
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -24685,12 +24448,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_24:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -24735,7 +24497,7 @@
 
 		push bc
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -24780,12 +24542,11 @@
 		ld de, 0x8888
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_25:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		push iy
@@ -24826,7 +24587,7 @@
 
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -24868,12 +24629,11 @@
 		push de
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_19:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		ld bc, 0x1100
@@ -24916,7 +24676,7 @@
 		ld e, b
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -24960,12 +24720,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_4:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		ld de, 0x6611
@@ -25007,7 +24766,7 @@
 
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -25051,12 +24810,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_5:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -25095,7 +24853,7 @@
 
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -25137,12 +24895,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_7:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -25186,7 +24943,7 @@
 
 		push de
 		push iy
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -25233,12 +24990,11 @@
 		push de
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_6:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -25283,7 +25039,7 @@
 		push de
 		ld e, 0x61
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -25332,12 +25088,11 @@
 		ld e, 0x10
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_2:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1511
 		push bc
 		ld de, 0x1151
@@ -25382,7 +25137,7 @@
 
 		push iy
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -25430,12 +25185,11 @@
 		ld e, 0x58
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_3:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -25474,7 +25228,7 @@
 
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -25516,12 +25270,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_1:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x6666
 		push iy
 		ld bc, 0x6616
@@ -25564,7 +25317,7 @@
 
 		push de
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -25610,12 +25363,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_4_0:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -25654,7 +25406,7 @@
 
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -25696,12 +25448,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_8:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x2222
 		push bc
 		ld de, 0x2201
@@ -25746,7 +25497,7 @@
 
 		push de
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -25792,12 +25543,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_9:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -25839,7 +25589,7 @@
 		push de
 		ld de, 0x0100
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -25885,12 +25635,11 @@
 		ld de, 0x1200
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_14:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x4444
 		push bc
 		ld de, 0x4401
@@ -25935,7 +25684,7 @@
 
 		push de
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -25981,12 +25730,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_28:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -26028,7 +25776,7 @@
 		push de
 		ld iy, 0x1111
 		push iy
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -26074,12 +25822,11 @@
 		ld de, 0x1511
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_29:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -26118,7 +25865,7 @@
 
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -26160,12 +25907,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_15:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x4444
 		push bc
 		push bc
@@ -26210,7 +25956,7 @@
 		push de
 		ld de, 0x1044
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -26259,12 +26005,11 @@
 		ld e, 0x11
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_17:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -26313,7 +26058,7 @@
 		push iy
 		ld c, b
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -26364,12 +26109,11 @@
 		ld b, c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_16:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -26408,7 +26152,7 @@
 
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -26450,12 +26194,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_12:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -26494,7 +26237,7 @@
 
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -26536,12 +26279,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_13:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -26580,7 +26322,7 @@
 
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -26622,12 +26364,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_11:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -26673,7 +26414,7 @@
 		push de
 		ld iy, 0x2232
 		push iy
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -26722,12 +26463,11 @@
 		inc e
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_10:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x2222
 		push bc
 		push bc
@@ -26772,7 +26512,7 @@
 		push de
 		ld de, 0x1022
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -26821,12 +26561,11 @@
 		ld e, 0x11
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_21:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0011
 		push bc
 		ld iy, 0x1111
@@ -26870,7 +26609,7 @@
 		push de
 		ld bc, 0x4444
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -26915,12 +26654,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_20:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x4446
 		push bc
 		ld de, 0x4444
@@ -26960,7 +26698,7 @@
 
 		push bc
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -27002,12 +26740,11 @@
 		push bc
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_22:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0041
 		push bc
 		ld de, 0x6464
@@ -27047,7 +26784,7 @@
 
 		push bc
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -27090,12 +26827,11 @@
 		push bc
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_23:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1511
 		push bc
 		ld de, 0x1111
@@ -27140,7 +26876,7 @@
 		push bc
 		ld b, c
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -27190,12 +26926,11 @@
 		ld b, c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_27:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -27243,7 +26978,7 @@
 		push de
 		ld bc, 0x5855
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -27290,12 +27025,11 @@
 		ld bc, 0x5855
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_26:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -27334,7 +27068,7 @@
 
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -27376,12 +27110,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_18:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		push iy
@@ -27422,7 +27155,7 @@
 
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -27465,12 +27198,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_30:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		push iy
@@ -27511,7 +27243,7 @@
 
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -27553,12 +27285,11 @@
 		push de
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_24:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		push iy
@@ -27601,7 +27332,7 @@
 
 		push bc
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -27647,12 +27378,11 @@
 		ld de, 0x0800
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_25:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		push iy
@@ -27693,7 +27423,7 @@
 
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -27735,12 +27465,11 @@
 		push de
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_19:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		push iy
@@ -27781,7 +27510,7 @@
 
 		push de
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -27824,12 +27553,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_4:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1166
 		push bc
 		ld de, 0x6666
@@ -27871,7 +27599,7 @@
 
 		push de
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -27915,12 +27643,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_5:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -27959,7 +27686,7 @@
 
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -28001,12 +27728,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_7:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -28045,7 +27771,7 @@
 
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -28087,12 +27813,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_6:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6166
 		push bc
 		ld iy, 0x6666
@@ -28135,7 +27860,7 @@
 
 		push de
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -28181,12 +27906,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_2:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1511
 		push bc
 		ld de, 0x1181
@@ -28233,7 +27957,7 @@
 
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -28285,12 +28009,11 @@
 		ld bc, 0x5881
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_3:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -28334,7 +28057,7 @@
 
 		push de
 		push iy
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -28381,12 +28104,11 @@
 		push de
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_1:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -28431,7 +28153,7 @@
 		push de
 		ld d, e
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -28480,12 +28202,11 @@
 		dec d
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_4_0:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -28524,7 +28245,7 @@
 
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -28566,7 +28287,7 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	ORG 0
 	DUMP 21, 0
@@ -28705,7 +28426,6 @@
 	@left_3_8:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -28744,7 +28464,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -28786,12 +28506,11 @@
 		ld (hl), c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_9:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -28830,7 +28549,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -28872,12 +28591,11 @@
 		ld (hl), c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_14:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -28916,7 +28634,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -28958,12 +28676,11 @@
 		ld (hl), c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_28:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -29004,7 +28721,7 @@
 		ld (hl), c
 		ld de, 0x5155
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -29049,12 +28766,11 @@
 		ld d, e
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_29:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -29093,7 +28809,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -29135,12 +28851,11 @@
 		ld (hl), c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_15:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x44
 		ld bc, 0x4444
 		push bc
@@ -29182,7 +28897,7 @@
 		ld (hl), 0x01
 		ld d, e
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -29228,12 +28943,11 @@
 		dec d
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_17:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -29274,7 +28988,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -29317,12 +29031,11 @@
 		ld de, 0x5505
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_16:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x44
 		ld bc, 0x4444
 		push bc
@@ -29364,7 +29077,7 @@
 
 		ld (hl), e
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -29408,12 +29121,11 @@
 		ld (hl), e
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_12:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x22
 		ld bc, 0x2222
 		push bc
@@ -29455,7 +29167,7 @@
 
 		ld (hl), e
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -29499,12 +29211,11 @@
 		ld (hl), e
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_13:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -29545,7 +29256,7 @@
 
 		ld (hl), e
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -29590,12 +29301,11 @@
 		ld (hl), 0x21
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_11:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -29638,7 +29348,7 @@
 		ld (hl), e
 		ld de, 0x2223
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -29684,12 +29394,11 @@
 		ld de, 0x2222
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_10:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x22
 		ld bc, 0x2222
 		push bc
@@ -29731,7 +29440,7 @@
 		ld (hl), 0x01
 		ld d, e
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -29777,12 +29486,11 @@
 		dec d
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_21:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld iy, 0x1111
@@ -29824,7 +29532,7 @@
 		ld (hl), 0x44
 		ld de, 0x4444
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -29866,12 +29574,11 @@
 		ld (hl), a
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_20:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x44
 		ld (hl), a
 		ld bc, 0x1400
@@ -29911,7 +29618,7 @@
 
 		ld (hl), a
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -29953,12 +29660,11 @@
 		ld (hl), a
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_22:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -29997,7 +29703,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -30039,12 +29745,11 @@
 		ld (hl), c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_23:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -30088,7 +29793,7 @@
 		ld (hl), c
 		ld bc, 0x8885
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -30134,12 +29839,11 @@
 		ld bc, 0x8858
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_27:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld bc, 0x1111
@@ -30183,7 +29887,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -30228,12 +29932,11 @@
 		ld de, 0x8888
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_26:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld iy, 0x1111
@@ -30275,7 +29978,7 @@
 
 		ld (hl), c
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -30317,12 +30020,11 @@
 		ld (hl), c
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_18:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld iy, 0x1111
@@ -30364,7 +30066,7 @@
 
 		ld (hl), c
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -30407,12 +30109,11 @@
 		ld bc, 0x8888
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_30:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -30451,7 +30152,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -30493,12 +30194,11 @@
 		ld (hl), c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_24:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -30541,7 +30241,7 @@
 
 		ld (hl), 0x00
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -30586,12 +30286,11 @@
 		ld de, 0x8888
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_25:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld iy, 0x1111
@@ -30633,7 +30332,7 @@
 
 		ld (hl), c
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -30675,12 +30374,11 @@
 		ld (hl), c
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_19:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1100
 		push bc
@@ -30720,7 +30418,7 @@
 
 		ld (hl), d
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -30766,12 +30464,11 @@
 		ld bc, 0x1111
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_4:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6611
 		push bc
@@ -30811,7 +30508,7 @@
 
 		ld (hl), e
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -30854,12 +30551,11 @@
 		ld (hl), c
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_5:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -30898,7 +30594,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -30940,12 +30636,11 @@
 		ld (hl), c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_7:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -30985,7 +30680,7 @@
 
 		ld (hl), 0x11
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -31027,12 +30722,11 @@
 		ld (hl), e
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_6:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -31073,7 +30767,7 @@
 		ld (hl), 0x00
 		ld de, 0x0061
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -31117,12 +30811,11 @@
 		ld de, 0x0010
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_2:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1151
 		push bc
@@ -31163,7 +30856,7 @@
 
 		ld (hl), d
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -31208,12 +30901,11 @@
 		ld bc, 0x8858
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_3:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -31252,7 +30944,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -31294,12 +30986,11 @@
 		ld (hl), c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_1:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6616
 		push bc
@@ -31340,7 +31031,7 @@
 
 		ld (hl), e
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -31384,12 +31075,11 @@
 		ld (hl), c
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_3_0:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -31428,7 +31118,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -31470,12 +31160,11 @@
 		ld (hl), c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_8:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x22
 		ld (hl), a
 		ld bc, 0x2222
@@ -31527,7 +31216,7 @@
 		ld (hl), c
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -31581,12 +31270,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_9:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -31635,7 +31323,7 @@
 		ld de, 0x2201
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -31689,12 +31377,11 @@
 		push de
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_14:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x44
 		ld (hl), a
 		ld bc, 0x4444
@@ -31746,7 +31433,7 @@
 		ld (hl), c
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -31800,12 +31487,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_28:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -31853,7 +31539,7 @@
 		ld de, 0x1511
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -31904,12 +31590,11 @@
 		push de
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_29:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -31956,7 +31641,7 @@
 		ld (hl), c
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -32006,12 +31691,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_15:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x44
 		ld bc, 0x4444
 		push bc
@@ -32061,7 +31745,7 @@
 		ld de, 0x0010
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -32116,12 +31800,11 @@
 		ld de, 0x1111
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_17:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -32177,7 +31860,7 @@
 		ld (hl), 0x71
 		push de
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -32238,12 +31921,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_16:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -32292,7 +31974,7 @@
 		ld (hl), c
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -32342,12 +32024,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_12:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -32396,7 +32077,7 @@
 		ld (hl), c
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -32446,12 +32127,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_13:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -32500,7 +32180,7 @@
 		push bc
 		ld e, 0x10
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -32551,12 +32231,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_11:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -32610,7 +32289,7 @@
 		push de
 		ld d, 0x32
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -32667,12 +32346,11 @@
 		inc d
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_10:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x22
 		ld bc, 0x2222
 		push bc
@@ -32722,7 +32400,7 @@
 		ld de, 0x0010
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -32777,12 +32455,11 @@
 		ld de, 0x1111
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_21:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld iy, 0x1111
 		push iy
@@ -32832,7 +32509,7 @@
 		ld bc, 0x4444
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -32884,12 +32561,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_20:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x44
 		ld bc, 0x4644
 		push bc
@@ -32937,7 +32613,7 @@
 		ld (hl), c
 		push bc
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -32987,12 +32663,11 @@
 		push bc
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_22:
 		ld (@+return+1), de
 		ld sp, hl
-
 		xor a
 		ld (hl), a
 		ld bc, 0x4164
@@ -33041,7 +32716,7 @@
 		ld (hl), a
 		push bc
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -33093,12 +32768,11 @@
 		push de
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_23:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x15
 		ld iy, 0x1111
 		push iy
@@ -33150,7 +32824,7 @@
 		ld (hl), 0x11
 		push de
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -33205,12 +32879,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_27:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld bc, 0x1111
@@ -33266,7 +32939,7 @@
 		push de
 		ld bc, 0x5551
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -33318,12 +32991,11 @@
 		ld bc, 0x5551
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_26:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -33374,7 +33046,7 @@
 		push bc
 		ld e, 0x51
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -33428,12 +33100,11 @@
 		push bc
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_18:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld iy, 0x1111
@@ -33483,7 +33154,7 @@
 		ld (hl), c
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -33534,12 +33205,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_30:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -33591,7 +33261,7 @@
 		ld (hl), 0x51
 		push de
 		push iy
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -33642,12 +33312,11 @@
 		push de
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_24:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld bc, 0x1111
@@ -33701,7 +33370,7 @@
 		ld (hl), d
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -33754,12 +33423,11 @@
 		push de
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_25:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld iy, 0x1111
@@ -33809,7 +33477,7 @@
 		ld (hl), c
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -33859,12 +33527,11 @@
 		push de
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_19:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld iy, 0x1111
 		push iy
@@ -33913,7 +33580,7 @@
 		ld (hl), c
 		push de
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -33964,12 +33631,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_4:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld iy, 0x6666
 		push iy
@@ -34019,7 +33685,7 @@
 		ld (hl), b
 		push de
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -34070,12 +33736,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_5:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -34122,7 +33787,7 @@
 		ld (hl), c
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -34172,12 +33837,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_7:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -34225,7 +33889,7 @@
 		ld (hl), c
 		push bc
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -34275,12 +33939,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_6:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x61
 		ld iy, 0x6666
 		push iy
@@ -34331,7 +33994,7 @@
 		ld (hl), b
 		push de
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -34385,12 +34048,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_2:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x15
 		ld bc, 0x1111
 		push bc
@@ -34445,7 +34107,7 @@
 		ld (hl), d
 		push bc
 		push de
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -34507,12 +34169,11 @@
 		ld bc, 0x8188
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_3:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -34564,7 +34225,7 @@
 		ld (hl), 0x16
 		push de
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -34620,12 +34281,11 @@
 		push de
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_1:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -34679,7 +34339,7 @@
 		ld iy, 0x0000
 		push iy
 		push iy
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -34733,12 +34393,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_5_0:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -34785,7 +34444,7 @@
 		ld (hl), c
 		push bc
 		push bc
-		ld hl, 1668
+		ld hl, 0x0684
 		add hl, sp
 		ld sp, hl
 
@@ -34835,7 +34494,7 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	ORG 0
 	DUMP 22, 0
@@ -34974,7 +34633,6 @@
 	@left_2_8:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		dec h
@@ -35005,7 +34663,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -35039,12 +34697,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_9:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		dec h
@@ -35075,7 +34732,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -35109,12 +34766,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_14:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		dec h
@@ -35145,7 +34801,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -35179,12 +34835,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_28:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		dec h
@@ -35217,7 +34872,7 @@
 
 		ld de, 0x5155
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -35255,12 +34910,11 @@
 		ld d, e
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_29:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		dec h
@@ -35291,7 +34945,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -35325,12 +34979,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_15:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x4444
 		push bc
 		dec h
@@ -35364,7 +35017,7 @@
 
 		ld d, e
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -35403,12 +35056,11 @@
 		dec d
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_17:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		dec h
@@ -35441,7 +35093,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -35476,12 +35128,11 @@
 		ld de, 0x5505
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_16:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x4444
 		push bc
 		dec h
@@ -35514,7 +35165,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -35550,12 +35201,11 @@
 
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_12:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x2222
 		push bc
 		dec h
@@ -35588,7 +35238,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -35624,12 +35274,11 @@
 
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_13:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		dec h
@@ -35662,7 +35311,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -35697,12 +35346,11 @@
 
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_11:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		dec h
@@ -35737,7 +35385,7 @@
 
 		ld de, 0x2223
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -35775,12 +35423,11 @@
 		ld de, 0x2222
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_10:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x2222
 		push bc
 		dec h
@@ -35814,7 +35461,7 @@
 
 		ld d, e
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -35853,12 +35500,11 @@
 		dec d
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_21:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		dec h
@@ -35891,7 +35537,7 @@
 
 		ld de, 0x4444
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -35925,12 +35571,11 @@
 
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_20:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1400
 		push bc
 		dec h
@@ -35961,7 +35606,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -35995,12 +35640,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_22:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		dec h
@@ -36031,7 +35675,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -36065,12 +35709,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_23:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		dec h
@@ -36105,7 +35748,7 @@
 
 		ld de, 0x8885
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -36143,12 +35786,11 @@
 		ld de, 0x8858
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_27:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		dec h
@@ -36184,7 +35826,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -36221,12 +35863,11 @@
 		ld de, 0x8888
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_26:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		dec h
@@ -36259,7 +35900,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -36293,12 +35934,11 @@
 
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_18:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		dec h
@@ -36331,7 +35971,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -36366,12 +36006,11 @@
 		ld de, 0x8888
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_30:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		dec h
@@ -36402,7 +36041,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -36436,12 +36075,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_24:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		dec h
@@ -36477,7 +36115,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -36514,12 +36152,11 @@
 		ld de, 0x8888
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_25:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		dec h
@@ -36552,7 +36189,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -36586,12 +36223,11 @@
 
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_19:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1100
 		push bc
 		dec h
@@ -36623,7 +36259,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -36660,12 +36296,11 @@
 		ld bc, 0x1111
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_4:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6611
 		push bc
 		dec h
@@ -36697,7 +36332,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -36732,12 +36367,11 @@
 
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_5:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		dec h
@@ -36768,7 +36402,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -36802,12 +36436,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_7:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		dec h
@@ -36839,7 +36472,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -36873,12 +36506,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_6:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		dec h
@@ -36911,7 +36543,7 @@
 
 		ld de, 0x0061
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -36947,12 +36579,11 @@
 		ld de, 0x0010
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_2:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1151
 		push bc
 		dec h
@@ -36985,7 +36616,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -37022,12 +36653,11 @@
 		ld bc, 0x8858
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_3:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		dec h
@@ -37058,7 +36688,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -37092,12 +36722,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_1:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6616
 		push bc
 		dec h
@@ -37130,7 +36759,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -37166,12 +36795,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_2_0:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		dec h
@@ -37202,7 +36830,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 1666
+		ld hl, 0x0682
 		add hl, sp
 		ld sp, hl
 
@@ -37236,12 +36864,11 @@
 
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_8:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x2222
 		push iy
 		ld bc, 0x2201
@@ -37293,7 +36920,7 @@
 		push de
 		push de
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -37346,12 +36973,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_9:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -37401,7 +37027,7 @@
 		ld de, 0x0100
 		push de
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -37455,12 +37081,11 @@
 		push de
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_14:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x4444
 		push iy
 		ld bc, 0x4401
@@ -37512,7 +37137,7 @@
 		push de
 		push de
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -37565,12 +37190,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_28:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -37620,7 +37244,7 @@
 		push de
 		push iy
 		push iy
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -37675,12 +37299,11 @@
 		ld de, 0x1151
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_29:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -37727,7 +37350,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -37777,12 +37400,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_15:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x4444
 		push bc
 		push bc
@@ -37838,7 +37460,7 @@
 		push de
 		ld de, 0x4401
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -37898,12 +37520,11 @@
 		ld de, 0x1100
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_17:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -37964,7 +37585,7 @@
 		ld de, 0x7777
 		push de
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -38028,12 +37649,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_16:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -38085,7 +37705,7 @@
 		push iy
 		push iy
 		push iy
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -38138,12 +37758,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_12:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -38195,7 +37814,7 @@
 		push iy
 		push iy
 		push iy
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -38248,12 +37867,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_13:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -38303,7 +37921,7 @@
 		push bc
 		ld d, 0x10
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -38356,12 +37974,11 @@
 		ld de, 0x0021
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_11:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -38419,7 +38036,7 @@
 		push de
 		ld e, d
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -38481,12 +38098,11 @@
 		ld bc, 0x2222
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_10:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x2222
 		push bc
 		push bc
@@ -38542,7 +38158,7 @@
 		push de
 		ld de, 0x2201
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -38602,12 +38218,11 @@
 		ld de, 0x1100
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_21:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0011
 		push bc
 		ld de, 0x1111
@@ -38661,7 +38276,7 @@
 		ld d, e
 		push de
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -38724,12 +38339,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_20:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x4446
 		push bc
 		ld iy, 0x4444
@@ -38778,7 +38392,7 @@
 		push bc
 		push iy
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -38828,12 +38442,11 @@
 		push iy
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_22:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0041
 		push bc
 		ld de, 0x6464
@@ -38882,7 +38495,7 @@
 		push bc
 		push de
 		push iy
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -38933,12 +38546,11 @@
 		push de
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_23:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1511
 		push bc
 		ld de, 0x1111
@@ -38991,7 +38603,7 @@
 		ld d, e
 		push de
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -39048,12 +38660,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_27:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -39112,7 +38723,7 @@
 		push bc
 		ld b, 0x51
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -39167,12 +38778,11 @@
 		ld b, 0x51
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_26:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -39224,7 +38834,7 @@
 		push iy
 		ld d, 0x51
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -39278,12 +38888,11 @@
 		push iy
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_18:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		push iy
@@ -39332,7 +38941,7 @@
 		push de
 		push bc
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -39383,12 +38992,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_30:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -39437,7 +39045,7 @@
 		push iy
 		push de
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -39487,12 +39095,11 @@
 		push de
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_24:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -39552,7 +39159,7 @@
 		push bc
 		ld b, c
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -39610,12 +39217,11 @@
 		push de
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_25:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld iy, 0x1111
 		push iy
 		push iy
@@ -39664,7 +39270,7 @@
 		push de
 		push bc
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -39714,12 +39320,11 @@
 		push bc
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_19:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1111
 		push bc
 		push bc
@@ -39770,7 +39375,7 @@
 		push iy
 		push iy
 		push iy
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -39828,12 +39433,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_4:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1166
 		push bc
 		ld de, 0x6666
@@ -39884,7 +39488,7 @@
 		push de
 		push de
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -39937,12 +39541,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_5:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -39989,7 +39592,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -40039,12 +39642,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_7:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -40094,7 +39696,7 @@
 		ld iy, 0x6666
 		push iy
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -40145,12 +39747,11 @@
 		ld de, 0x6661
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_6:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6166
 		push bc
 		ld iy, 0x6666
@@ -40203,7 +39804,7 @@
 		push de
 		push de
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -40259,12 +39860,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_2:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x1511
 		push bc
 		ld de, 0x1181
@@ -40328,7 +39928,7 @@
 		ld bc, 0x8551
 		push bc
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -40394,12 +39994,11 @@
 		ld bc, 0x8888
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_3:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -40451,7 +40050,7 @@
 		push de
 		push iy
 		push iy
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -40506,12 +40105,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_1:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x6666
 		push bc
 		push bc
@@ -40567,7 +40165,7 @@
 		ld d, e
 		push de
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -40627,12 +40225,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_6_0:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld bc, 0x0000
 		push bc
 		push bc
@@ -40679,7 +40276,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -40729,7 +40326,7 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	ORG 0
 	DUMP 23, 0
@@ -40868,7 +40465,6 @@
 	@left_1_8:
 		ld (@+return+1), de
 		ld sp, hl
-
 		xor a
 		ld (hl), a
 		dec h
@@ -40899,7 +40495,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -40933,12 +40529,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_9:
 		ld (@+return+1), de
 		ld sp, hl
-
 		xor a
 		ld (hl), a
 		dec h
@@ -40969,7 +40564,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -41003,12 +40598,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_14:
 		ld (@+return+1), de
 		ld sp, hl
-
 		xor a
 		ld (hl), a
 		dec h
@@ -41039,7 +40633,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -41073,12 +40667,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_28:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		dec h
@@ -41109,7 +40702,7 @@
 		ld sp, hl
 
 		ld (hl), 0x55
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -41143,12 +40736,11 @@
 
 		ld (hl), 0x55
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_29:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		dec h
@@ -41179,7 +40771,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -41213,12 +40805,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_15:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x44
 		ld (hl), a
 		dec h
@@ -41249,7 +40840,7 @@
 		ld sp, hl
 
 		ld (hl), 0x00
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -41283,12 +40874,11 @@
 
 		ld (hl), 0x00
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_17:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		dec h
 		ld sp, hl
@@ -41319,7 +40909,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -41353,12 +40943,11 @@
 
 		ld (hl), 0x05
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_16:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x44
 		dec h
 		ld sp, hl
@@ -41388,7 +40977,7 @@
 		ld sp, hl
 
 		ld (hl), 0x00
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -41423,12 +41012,11 @@
 
 		ld (hl), 0x00
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_12:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x22
 		dec h
 		ld sp, hl
@@ -41458,7 +41046,7 @@
 		ld sp, hl
 
 		ld (hl), 0x00
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -41493,12 +41081,11 @@
 
 		ld (hl), 0x00
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_13:
 		ld (@+return+1), de
 		ld sp, hl
-
 		xor a
 		ld (hl), a
 		dec h
@@ -41529,7 +41116,7 @@
 		ld sp, hl
 
 		ld (hl), 0x22
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -41563,12 +41150,11 @@
 
 		ld (hl), 0x22
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_11:
 		ld (@+return+1), de
 		ld sp, hl
-
 		xor a
 		ld (hl), a
 		dec h
@@ -41599,7 +41185,7 @@
 		ld sp, hl
 
 		ld (hl), 0x23
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -41633,12 +41219,11 @@
 
 		ld (hl), 0x22
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_10:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x22
 		ld (hl), a
 		dec h
@@ -41669,7 +41254,7 @@
 		ld sp, hl
 
 		ld (hl), 0x00
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -41703,12 +41288,11 @@
 
 		ld (hl), 0x00
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_21:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		dec h
 		ld sp, hl
@@ -41739,7 +41323,7 @@
 		ld sp, hl
 
 		ld (hl), 0x44
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -41773,12 +41357,11 @@
 
 		ld (hl), 0x11
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_20:
 		ld (@+return+1), de
 		ld sp, hl
-
 		xor a
 		ld (hl), a
 		dec h
@@ -41809,7 +41392,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -41843,12 +41426,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_22:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x66
 		ld (hl), a
 		dec h
@@ -41879,7 +41461,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -41913,12 +41495,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_23:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		dec h
 		ld sp, hl
@@ -41949,7 +41530,7 @@
 		ld sp, hl
 
 		ld (hl), 0x85
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -41983,12 +41564,11 @@
 
 		ld (hl), 0x58
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_27:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		dec h
 		ld sp, hl
@@ -42019,7 +41599,7 @@
 		ld sp, hl
 
 		ld (hl), 0x55
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -42053,12 +41633,11 @@
 
 		ld (hl), 0x88
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_26:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		dec h
 		ld sp, hl
@@ -42089,7 +41668,7 @@
 		ld sp, hl
 
 		ld (hl), 0x55
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -42123,12 +41702,11 @@
 
 		ld (hl), 0x55
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_18:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		dec h
 		ld sp, hl
@@ -42159,7 +41737,7 @@
 		ld sp, hl
 
 		ld (hl), 0x55
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -42193,12 +41771,11 @@
 
 		ld (hl), 0x88
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_30:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		dec h
@@ -42229,7 +41806,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -42263,12 +41840,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_24:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		dec h
 		ld sp, hl
@@ -42299,7 +41875,7 @@
 		ld sp, hl
 
 		ld (hl), 0x55
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -42333,12 +41909,11 @@
 
 		ld (hl), 0x88
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_25:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		dec h
 		ld sp, hl
@@ -42369,7 +41944,7 @@
 		ld sp, hl
 
 		ld (hl), 0x55
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -42403,12 +41978,11 @@
 
 		ld (hl), 0x55
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_19:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		dec h
 		ld sp, hl
@@ -42439,7 +42013,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -42473,12 +42047,11 @@
 
 		ld (hl), 0x11
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_4:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		dec h
 		ld sp, hl
@@ -42509,7 +42082,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -42543,12 +42116,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_5:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x66
 		ld (hl), a
 		dec h
@@ -42579,7 +42151,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -42613,12 +42185,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_7:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x66
 		ld (hl), a
 		dec h
@@ -42649,7 +42220,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -42683,12 +42254,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_6:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x66
 		ld (hl), a
 		dec h
@@ -42719,7 +42289,7 @@
 		ld sp, hl
 
 		ld (hl), 0x61
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -42753,12 +42323,11 @@
 
 		ld (hl), 0x10
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_2:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x51
 		dec h
 		ld sp, hl
@@ -42789,7 +42358,7 @@
 		ld sp, hl
 
 		ld (hl), 0x85
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -42823,12 +42392,11 @@
 
 		ld (hl), 0x58
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_3:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x66
 		ld (hl), a
 		dec h
@@ -42859,7 +42427,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -42893,12 +42461,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_1:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x16
 		dec h
 		ld sp, hl
@@ -42929,7 +42496,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -42963,12 +42530,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@left_1_0:
 		ld (@+return+1), de
 		ld sp, hl
-
 		xor a
 		ld (hl), a
 		dec h
@@ -42999,7 +42565,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 1664
+		ld hl, 0x0680
 		add hl, sp
 		ld sp, hl
 
@@ -43033,12 +42599,11 @@
 
 		ld (hl), a
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_8:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x22
 		ld (hl), a
 		ld bc, 0x2222
@@ -43100,7 +42665,7 @@
 		push iy
 		push iy
 		push iy
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -43164,12 +42729,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_9:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -43227,7 +42791,7 @@
 		push bc
 		ld iy, 0x0000
 		push iy
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -43288,12 +42852,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_14:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x44
 		ld (hl), a
 		ld bc, 0x4444
@@ -43355,7 +42918,7 @@
 		push iy
 		push iy
 		push iy
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -43419,12 +42982,11 @@
 		push iy
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_28:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -43481,7 +43043,7 @@
 		push bc
 		ld de, 0x1151
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -43541,12 +43103,11 @@
 		ld de, 0x5155
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_29:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -43601,7 +43162,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -43659,12 +43220,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_15:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x44
 		ld bc, 0x4444
 		push bc
@@ -43726,7 +43286,7 @@
 		push bc
 		ld de, 0x0100
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -43793,12 +43353,11 @@
 		ld de, 0x0000
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_17:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -43866,7 +43425,7 @@
 		push de
 		push de
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -43936,12 +43495,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_16:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -44002,7 +43560,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -44064,12 +43622,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_12:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -44130,7 +43687,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -44192,12 +43749,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_13:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -44257,7 +43813,7 @@
 		push de
 		ld de, 0x2222
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -44321,12 +43877,11 @@
 		dec d
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_11:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -44391,7 +43946,7 @@
 		push de
 		ld d, e
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -44460,12 +44015,11 @@
 		dec d
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_10:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x22
 		ld bc, 0x2222
 		push bc
@@ -44527,7 +44081,7 @@
 		push bc
 		ld de, 0x0100
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -44594,12 +44148,11 @@
 		ld de, 0x0000
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_21:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x1111
 		push bc
@@ -44659,7 +44212,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -44720,12 +44273,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_20:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x44
 		ld bc, 0x4644
 		push bc
@@ -44782,7 +44334,7 @@
 		push bc
 		push iy
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -44840,12 +44392,11 @@
 		push iy
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_22:
 		ld (@+return+1), de
 		ld sp, hl
-
 		xor a
 		ld (hl), a
 		ld bc, 0x4164
@@ -44903,7 +44454,7 @@
 		push bc
 		push iy
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -44977,12 +44528,11 @@
 		ld de, 0x6666
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_23:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x15
 		ld bc, 0x1111
 		push bc
@@ -45045,7 +44595,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -45117,12 +44667,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_27:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld bc, 0x1111
@@ -45188,7 +44737,7 @@
 		ld bc, 0x5551
 		push bc
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -45249,12 +44798,11 @@
 		ld c, 0x88
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_26:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -45316,7 +44864,7 @@
 		push de
 		ld de, 0x5555
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -45384,12 +44932,11 @@
 		ld de, 0x5555
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_18:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld iy, 0x1111
@@ -45447,7 +44994,7 @@
 		push de
 		push bc
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -45506,12 +45053,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_30:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -45575,7 +45121,7 @@
 		ld e, b
 		push de
 		push iy
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -45649,12 +45195,11 @@
 		push de
 		push iy
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_24:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -45724,7 +45269,7 @@
 		push iy
 		ld bc, 0x0058
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -45791,12 +45336,11 @@
 		ld bc, 0x0088
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_25:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x11
 		ld (hl), a
 		ld iy, 0x1111
@@ -45854,7 +45398,7 @@
 		push de
 		push bc
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -45912,12 +45456,11 @@
 		push bc
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_19:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld bc, 0x1111
 		push bc
@@ -45976,7 +45519,7 @@
 		push iy
 		push iy
 		push iy
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -46042,12 +45585,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_4:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x11
 		ld iy, 0x6666
 		push iy
@@ -46106,7 +45648,7 @@
 		push de
 		push de
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -46166,12 +45708,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_5:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -46226,7 +45767,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -46284,12 +45825,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_7:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -46349,7 +45889,7 @@
 		push de
 		ld de, 0x1166
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -46412,12 +45952,11 @@
 		ld d, 0x61
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_6:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x61
 		ld iy, 0x6666
 		push iy
@@ -46478,7 +46017,7 @@
 		push de
 		push de
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -46542,12 +46081,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_2:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x15
 		ld bc, 0x1111
 		push bc
@@ -46613,7 +46151,7 @@
 		push iy
 		push bc
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -46683,12 +46221,11 @@
 		ld b, c
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_3:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x66
 		ld bc, 0x6666
 		push bc
@@ -46748,7 +46285,7 @@
 		push de
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -46809,12 +46346,11 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_1:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld a, 0x66
 		ld (hl), a
 		ld bc, 0x6666
@@ -46877,7 +46413,7 @@
 		push de
 		push de
 		push de
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -46943,12 +46479,11 @@
 		push de
 		push de
 	@return:
-		jp 1234
+		jp 0x1234
 
 	@right_7_0:
 		ld (@+return+1), de
 		ld sp, hl
-
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
@@ -47003,7 +46538,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 1670
+		ld hl, 0x0686
 		add hl, sp
 		ld sp, hl
 
@@ -47061,5 +46596,5 @@
 		push bc
 		push bc
 	@return:
-		jp 1234
+		jp 0x1234
 

@@ -17,8 +17,41 @@ struct Operand {
 		Indirect,
 		Immediate,
 		Label,
+		LabelIndirect,
 	} type;
 	std::variant<Register::Name, uint16_t, uint8_t, std::string> value;
+
+	static Operand label(const char *name) {
+		return Operand{
+			.type = Type::Label,
+			.value = std::string(name)
+		};
+	}
+	static Operand label_indirect(const char *name) {
+		return Operand{
+			.type = Type::LabelIndirect,
+			.value = std::string(name)
+		};
+	}
+	static Operand direct(Register::Name name) {
+		return Operand{
+			.type = Type::Direct,
+			.value = name
+		};
+	}
+	static Operand indirect(Register::Name name) {
+		return Operand{
+			.type = Type::Indirect,
+			.value = name
+		};
+	}
+	template <typename IntT>
+	static Operand immediate(IntT v) {
+		return Operand{
+			.type = Type::Immediate,
+			.value = v
+		};
+	}
 
 	bool is_index_pair() const {
 		if(const auto* reg = std::get_if<Register::Name>(&value)) {
@@ -43,9 +76,10 @@ struct Operand {
 
 	NSString *text() const {
 		switch(type) {
-			case Type::Direct:		return [NSString stringWithUTF8String:Register::name(std::get<Register::Name>(value))];
-			case Type::Indirect:	return [NSString stringWithFormat:@"(%s)", Register::name(std::get<Register::Name>(value))];
-			case Type::Label:		return [NSString stringWithFormat:@"(%s)", std::get<std::string>(value).c_str()];
+			case Type::Direct:			return [NSString stringWithFormat:@"%s", Register::name(std::get<Register::Name>(value))];
+			case Type::Indirect:		return [NSString stringWithFormat:@"(%s)", Register::name(std::get<Register::Name>(value))];
+			case Type::Label:			return [NSString stringWithFormat:@"%s", std::get<std::string>(value).c_str()];
+			case Type::LabelIndirect:	return [NSString stringWithFormat:@"(%s)", std::get<std::string>(value).c_str()];
 			case Type::Immediate:
 				if(const uint8_t *value8 = std::get_if<uint8_t>(&value)) {
 					return [NSString stringWithFormat:@"0x%02x", *value8];
@@ -62,11 +96,52 @@ struct Operation {
 		RRCA, RLCA, CPL,
 		ADD, SUB, OR, XOR, AND,
 		PUSH,
+		JP,
 
-		BLANK,
+		BLANK_LINE,
+		NONE,
+		LABEL,
 	} type;
 	std::optional<Operand> destination;
 	std::optional<Operand> source;
+
+	static Operation nullary(Type type) {	return Operation{.type = type};	}
+	static Operation unary(Type type, Register::Name destination) {
+		return Operation{
+			.type = type,
+			.destination = Operand::direct(destination),
+		};
+	}
+
+	static Operation label(const char *name) {
+		return Operation{
+			.type = Type::LABEL,
+			.destination = Operand::label(name),
+		};
+	}
+	static Operation ld(Operand destination, Operand source) {
+		return Operation{
+			.type = Type::LD,
+			.destination = destination,
+			.source = source,
+		};
+	}
+	static Operation ld(Register::Name destination, Register::Name source) {
+		return ld(Operand::direct(destination), Operand::direct(source));
+	}
+	static Operation add(Register::Name destination, Register::Name source) {
+		return Operation{
+			.type = Type::ADD,
+			.destination = Operand::direct(destination),
+			.source = Operand::direct(source),
+		};
+	}
+	static Operation jp(uint16_t destination) {
+		return Operation{
+			.type = Type::JP,
+			.destination = Operand::immediate(destination),
+		};
+	}
 
 	NSString *text() const {
 		NSMutableString *text = [[NSMutableString alloc] init];
@@ -80,11 +155,15 @@ struct Operation {
 			case Type::XOR:		[text appendString:@"xor"];		break;
 			case Type::AND:		[text appendString:@"and"];		break;
 			case Type::PUSH:	[text appendString:@"push"];	break;
+			case Type::JP:		[text appendString:@"jp"];		break;
 
-			case Type::BLANK:	return @"";
+			case Type::NONE:
+			case Type::BLANK_LINE:	return @"";
 			case Type::RRCA:	return @"rrca";		break;
 			case Type::RLCA:	return @"rlca";		break;
 			case Type::CPL:		return @"cpl";		break;
+
+			case Type::LABEL:	return [NSString stringWithFormat:@"%@:", destination->text()];
 		}
 
 		if(destination) {
@@ -148,7 +227,11 @@ struct Operation {
 			case Type::RRCA:
 			case Type::CPL:		return 1;
 
-			case Type::BLANK:	return 0;
+			case Type::JP:		return 3;
+
+			case Type::LABEL:
+			case Type::BLANK_LINE:
+			case Type::NONE:	return 0;
 		}
 
 		assert(false);

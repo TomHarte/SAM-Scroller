@@ -25,6 +25,30 @@
 
 static constexpr int TileSize = 16;
 
+namespace {
+
+NSString *stringify(const std::vector<Operation> &operations) {
+	NSMutableString *code = [[NSMutableString alloc] init];
+
+	for(const auto &operation: operations) {
+		if(operation.type == Operation::Type::NONE) {
+			continue;
+		}
+
+		switch(operation.type) {
+			case Operation::Type::BLANK_LINE: break;
+			case Operation::Type::LABEL: [code appendString:@"\t"];	break;
+			default: [code appendString:@"\t\t"];	break;
+		}
+		[code appendString:operation.text()];
+		[code appendString:@"\n"];
+	}
+
+	return code;
+}
+
+}
+
 @class DraggableTextField;
 @protocol DraggableTextFieldFileDelegate
 - (void)draggableTextField:(DraggableTextField *)field didReceiveFile:(NSURL *)url;
@@ -232,9 +256,10 @@ static constexpr int TileSize = 16;
 		tile.set_slice(slice);
 		TileRegisterAllocator<TileSize> allocator(tile);
 
-		[code appendFormat:@"\t@%@_%d:\n", name, tile.index()];
-		[code appendString:@"\t\tld (@+return+1), de\n"];
-		[code appendString:@"\t\tld sp, hl\n\n"];
+		std::vector<Operation> operations;
+		operations.push_back(Operation::label([[NSString stringWithFormat:@"@%@_%d", name, tile.index()] UTF8String]));
+		operations.push_back(Operation::ld(Operand::label_indirect("@+return+1"), Operand::direct(Register::Name::DE)));
+		operations.push_back(Operation::ld(Register::Name::SP, Register::Name::HL));
 
 		bool finished = false;
 		RegisterSet set;
@@ -244,25 +269,25 @@ static constexpr int TileSize = 16;
 				case TileEvent::Type::Stop:	finished = true;	break;
 
 				case TileEvent::Type::Up2:
-					[code appendString:@"\t\tdec h\n"];
-					[code appendString:@"\t\tld sp, hl\n\n"];
+					operations.push_back(Operation::unary(Operation::Type::DEC, Register::Name::H));
+					operations.push_back(Operation::ld(Register::Name::SP, Register::Name::HL));
+					operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
 				break;
 				case TileEvent::Type::DownN:
-					[code appendFormat:@"\t\tld hl, %d\n", event.content];
-					[code appendString:@"\t\tadd hl, sp\n"];
-					[code appendString:@"\t\tld sp, hl\n\n"];
+					operations.push_back(Operation::ld(Operand::direct(Register::Name::HL), Operand::immediate<uint16_t>(event.content)));
+					operations.push_back(Operation::add(Register::Name::HL, Register::Name::SP));
+					operations.push_back(Operation::ld(Register::Name::SP, Register::Name::HL));
+					operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
 				break;
 
 				case TileEvent::Type::OutputWord: {
 					const auto action = allocator.next_word(event.content);
 					switch(action.type) {
 						case RegisterEvent::Type::Load:
-							[code appendString:
-								set.load(action.reg, action.value)
-							];
+							operations.push_back(set.load(action.reg, action.value));
 							[[fallthrough]];
 						case RegisterEvent::Type::Reuse:
-							[code appendFormat:@"\t\tpush %s\n", Register::name(Register::pair(action.reg))];
+							operations.push_back(Operation::unary(Operation::Type::PUSH, Register::pair(action.reg)));
 						break;
 
 						case RegisterEvent::Type::UseConstant:
@@ -274,22 +299,25 @@ static constexpr int TileSize = 16;
 					const auto action = allocator.next_byte(event.content);
 					switch(action.type) {
 						case RegisterEvent::Type::Load:
-							[code appendString:set.load(action.reg, action.value)];
+							operations.push_back(set.load(action.reg, action.value));
 							[[fallthrough]];
 						case RegisterEvent::Type::Reuse:
-							[code appendFormat:@"\t\tld (hl), %s\n", Register::name(action.reg)];
+							operations.push_back(Operation::ld(Operand::indirect(Register::Name::HL), Operand::direct(action.reg)));
 						break;
 
 						case RegisterEvent::Type::UseConstant:
-							[code appendFormat:@"\t\tld (hl), 0x%02x\n", action.value];
+							operations.push_back(Operation::ld(Operand::indirect(Register::Name::HL), Operand::immediate<uint8_t>(action.value)));
 						break;
 					}
 				} break;
 			}
 		}
 
-		[code appendFormat:@"\t@return:\n"];
-		[code appendString:@"\t\tjp 1234\n\n"];
+		operations.push_back(Operation::label("@return"));
+		operations.push_back(Operation::jp(0x1234));
+		operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
+
+		[code appendString:stringify(operations)];
 	}
 
 	return code;
@@ -498,7 +526,7 @@ static constexpr int TileSize = 16;
 
 			// Apply a new allocation if one pops into existence here.
 			if(next_allocation != allocations.end() && next_allocation->time == time) {
-				[code appendString:set.load(next_allocation->reg, next_allocation->value)];
+				[code appendFormat:@"\t\t%@\n", set.load(next_allocation->reg, next_allocation->value).text()];
 				++next_allocation;
 			}
 
@@ -508,7 +536,7 @@ static constexpr int TileSize = 16;
 				const uint16_t offset = target - hl;
 				hl = target;
 
-				[code appendString:set.load(Register::Name::BC, offset)];
+				[code appendFormat:@"\t\t%@\n", set.load(Register::Name::BC, offset).text()];
 				[code appendString:@"\t\tadd hl, bc\n\n"];
 			} else {
 				if(!moved) {

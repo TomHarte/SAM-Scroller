@@ -8,11 +8,12 @@
 #pragma once
 
 #include "Register.h"
+#include "Operation.h"
 
 class RegisterSet {
 public:
 	template <typename IntT>
-	NSString *load(Register::Name reg, IntT target) {
+	Operation load(Register::Name reg, IntT target) {
 		const auto previous = value<IntT>(reg);
 		struct SetAtExit {
 			SetAtExit(Register::Name reg, IntT target, RegisterSet &set) :
@@ -29,7 +30,7 @@ public:
 		SetAtExit at_exit(reg, target, *this);
 
 		if(previous && *previous == target) {
-			return @"";
+			return Operation::nullary(Operation::Type::NONE);
 		}
 
 		// If this is a pair in which only one half has changed, do only a byte operation.
@@ -45,24 +46,24 @@ public:
 
 		if(previous) {
 			if(target == IntT(*previous + 1)) {
-				return [NSString stringWithFormat:@"\t\tinc %s\n", Register::name(reg)];
+				return Operation::unary(Operation::Type::INC, reg);
 			}
 
 			if(target == IntT(*previous - 1)) {
-				return [NSString stringWithFormat:@"\t\tdec %s\n", Register::name(reg)];
+				return Operation::unary(Operation::Type::DEC, reg);
 			}
 
 			if(reg == Register::Name::A) {
 				if(target == std::rotr(*previous, 1)) {
-					return @"\t\trrca\n";
+					return Operation::nullary(Operation::Type::RRCA);
 				}
 
 				if(target == std::rotl(*previous, 1)) {
-					return @"\t\trlca\n";
+					return Operation::nullary(Operation::Type::RLCA);
 				}
 
 				if(target == (*previous^0xff)) {
-					return @"\t\tcpl\n";
+					return Operation::nullary(Operation::Type::CPL);
 				}
 			}
 		}
@@ -70,7 +71,7 @@ public:
 		// If this is A, also consider simple manipulations.
 		if(reg == Register::Name::A) {
 			if(!target) {
-				return @"\t\txor a\n";
+				return Operation::unary(Operation::Type::XOR, Register::Name::A);
 			}
 
 			if(previous) {
@@ -79,23 +80,23 @@ public:
 					if(!source_value) continue;
 
 					if(uint8_t(*previous + *source_value) == target) {
-						return [NSString stringWithFormat:@"\t\tadd %s\n", Register::name(source)];
+						return Operation::unary(Operation::Type::ADD, source);
 					}
 
 					if(uint8_t(*previous - *source_value) == target) {
-						return [NSString stringWithFormat:@"\t\tsub %s\n", Register::name(source)];
+						return Operation::unary(Operation::Type::SUB, source);
 					}
 
 					if(uint8_t(*previous | *source_value) == target) {
-						return [NSString stringWithFormat:@"\t\tor %s\n", Register::name(source)];
+						return Operation::unary(Operation::Type::OR, source);
 					}
 
 					if(uint8_t(*previous ^ *source_value) == target) {
-						return [NSString stringWithFormat:@"\t\txor %s\n", Register::name(source)];
+						return Operation::unary(Operation::Type::XOR, source);
 					}
 
 					if(uint8_t(*previous & *source_value) == target) {
-						return [NSString stringWithFormat:@"\t\tand %s\n", Register::name(source)];
+						return Operation::unary(Operation::Type::AND, source);
 					}
 				}
 			}
@@ -111,11 +112,15 @@ public:
 				!Register::is_index_pair(Register::pair(*source)) &&
 				!(Register::is_index_pair(Register::pair(reg)) && Register::pair(*source) == Register::Name::HL)
 			) {
-				return [NSString stringWithFormat:@"\t\tld %s, %s\n", Register::name(reg), Register::name(*source)];
+				return Operation::ld(reg, *source);
 			}
 		}
 
-		return [NSString stringWithFormat:@"\t\tld %s, 0x%.*x\n", Register::name(reg), int(Register::size(reg) * 2), target];
+		if(Register::size(reg) == 2) {
+			return Operation::ld(Operand::direct(reg), Operand::immediate<uint16_t>(target));
+		} else {
+			return Operation::ld(Operand::direct(reg), Operand::immediate<uint8_t>(target));
+		}
 	}
 
 	template <typename IntT>
@@ -133,6 +138,8 @@ public:
 			case Register::Name::IXl:	if(ixl_) { return *ixl_; }	break;
 			case Register::Name::IYh:	if(iyh_) { return *iyh_; }	break;
 			case Register::Name::IYl:	if(iyl_) { return *iyl_; }	break;
+			case Register::Name::SPh:	if(sph_) { return *sph_; }	break;
+			case Register::Name::SPl:	if(spl_) { return *spl_; }	break;
 
 			case Register::Name::AF:	if(a_ && f_) 		{ return *f_ | *a_ << 8; }			break;
 			case Register::Name::BC:	if(b_ && c_) 		{ return *c_ | *b_ << 8; }			break;
@@ -140,6 +147,7 @@ public:
 			case Register::Name::HL:	if(h_ && l_) 		{ return *l_ | *h_ << 8; }			break;
 			case Register::Name::IX:	if(ixh_ && ixl_)	{ return *ixl_ | *ixh_ << 8; }		break;
 			case Register::Name::IY:	if(iyh_ && iyl_)	{ return *iyl_ | *iyh_ << 8; }		break;
+			case Register::Name::SP:	if(sph_ && spl_)	{ return *spl_ | *sph_ << 8; }		break;
 		}
 
 		return {};
@@ -202,6 +210,8 @@ public:
 			case Register::Name::IXl:	ixl_ = value;	break;
 			case Register::Name::IYh:	iyh_ = value;	break;
 			case Register::Name::IYl:	iyl_ = value;	break;
+			case Register::Name::SPh:	sph_ = value;	break;
+			case Register::Name::SPl:	spl_ = value;	break;
 
 			case Register::Name::AF:	a_ = uint8_t(value >> 8); f_ = uint8_t(value);		break;
 			case Register::Name::BC:	b_ = uint8_t(value >> 8); c_ = uint8_t(value);		break;
@@ -209,6 +219,7 @@ public:
 			case Register::Name::HL:	h_ = uint8_t(value >> 8); l_ = uint8_t(value);		break;
 			case Register::Name::IX:	ixh_ = uint8_t(value >> 8); ixl_ = uint8_t(value);	break;
 			case Register::Name::IY:	iyh_ = uint8_t(value >> 8); iyl_ = uint8_t(value);	break;
+			case Register::Name::SP:	sph_ = uint8_t(value >> 8); spl_ = uint8_t(value);	break;
 		}
 	}
 
@@ -225,4 +236,6 @@ private:
 	std::optional<uint8_t> ixl_;
 	std::optional<uint8_t> iyh_;
 	std::optional<uint8_t> iyl_;
+	std::optional<uint8_t> sph_;
+	std::optional<uint8_t> spl_;
 };
