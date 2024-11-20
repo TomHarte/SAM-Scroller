@@ -146,7 +146,7 @@ public:
 	}
 
 	template <typename IntT>
-	std::optional<Register::Name> find(IntT key) {
+	std::optional<Register::Name> find(IntT key) const {
 		if constexpr (std::is_same_v<IntT, uint16_t>) {
 			const auto is_equal = [&](Register::Name pair) -> bool {
 				const auto pair_value = value<uint16_t>(pair);

@@ -14,6 +14,7 @@
 #include "SpriteSerialiser.h"
 
 #include "RegisterSet.h"
+#include "Operation.h"
 
 #include <array>
 #include <bit>
