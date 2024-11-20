@@ -24,6 +24,7 @@
 #include <vector>
 
 static constexpr int TileSize = 16;
+const auto SpriteSerialisationOrder = SpriteSerialiser::Order::RowsFirstDownward;
 
 namespace {
 
@@ -399,7 +400,7 @@ NSString *stringify(const std::vector<Operation> &operations) {
 			[[file lastPathComponent] intValue],
 			accessor,
 			palette,
-			SpriteSerialiser::Order::RowsFirstDownward);
+			SpriteSerialisationOrder);
 	}
 
 	// Write palette, in Sam format.
@@ -543,15 +544,34 @@ NSString *stringify(const std::vector<Operation> &operations) {
 				operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
 			} else {
 				if(!moved) {
-					operations.push_back(Operation::unary(Operation::Type::INC, Register::Name::L));
-					++hl;
+					switch(SpriteSerialisationOrder) {
+						case SpriteSerialiser::Order::RowsFirstDownward:
+							operations.push_back(Operation::unary(Operation::Type::INC, Register::Name::L));
+							++hl;
+						break;
+						case SpriteSerialiser::Order::ColumnsFirstRightward:
+						case SpriteSerialiser::Order::ColumnsFirstLeftward:
+							operations.push_back(Operation::unary(Operation::Type::INC, Register::Name::H));
+							hl += 256;
+						break;
+					}
 				}
 				moved = false;
 
 				if(const auto source = set.find(event.content.output); source) {
-					operations.push_back(Operation::ld(Operand::indirect(Register::Name::HL), Operand::direct(*source)));
+					operations.push_back(
+						Operation::ld(
+							Operand::indirect(Register::Name::HL),
+							Operand::direct(*source)
+						)
+					);
 				} else {
-					operations.push_back(Operation::ld(Operand::indirect(Register::Name::HL), Operand::immediate<uint8_t>(event.content.output)));
+					operations.push_back(
+						Operation::ld(
+							Operand::indirect(Register::Name::HL),
+							Operand::immediate<uint8_t>(event.content.output)
+						)
+					);
 				}
 			}
 
@@ -560,6 +580,8 @@ NSString *stringify(const std::vector<Operation> &operations) {
 
 		operations.push_back(Operation::nullary(Operation::Type::RET));
 		operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
+
+		NSLog(@"%d has cost %zu", sprite.index(), cost(operations));
 		[code appendString:stringify(operations)];
 	}
 

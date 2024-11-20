@@ -197,12 +197,20 @@ struct Operation {
 					return 1;
 				}
 
-				// There's really only LD (HL), n in this category.
+				// LD (HL), n.
 				if(
 					destination->type == Operand::Type::Indirect &&
 					source->type == Operand::Type::Immediate
 				) {
 					return 3 + destination->index_cost();
+				}
+
+				// LD (HL), r.
+				if(
+					destination->type == Operand::Type::Indirect &&
+					source->type == Operand::Type::Direct
+				) {
+					return 2 + destination->index_cost();
 				}
 
 				// Hopefully that leaves only LD r,n and LR r,nn, at least
@@ -243,3 +251,11 @@ struct Operation {
 		return 99;
 	}
 };
+
+size_t cost(const std::vector<Operation> &operations) {
+	size_t result = 0;
+	for(const auto &operation: operations) {
+		result += operation.cost();
+	}
+	return result;
+}

@@ -94,13 +94,14 @@ class SpriteSerialiser {
 			switch(order_) {
 				default:
 					x_ = y_ = 0;
+					continuous_ = true;
 				break;
 				case Order::ColumnsFirstLeftward:
 					y_ = 0;
 					x_ = contents_.width() - 2;
+					continuous_ = false;
 				break;
 			}
-			continuous_ = true;
 			enqueued_ = {};
 		}
 
