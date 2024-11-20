@@ -354,6 +354,7 @@
 		inc l
 		ld (hl), d
 		ret
+
 	sprite_5:
 		ld bc, 0x0202
 		add hl, bc
@@ -650,6 +651,7 @@
 		inc l
 		ld (hl), e
 		ret
+
 	sprite_2:
 		ld bc, 0x0002
 		add hl, bc
@@ -992,6 +994,7 @@
 
 		ld (hl), d
 		ret
+
 	sprite_3:
 		ld bc, 0x0002
 		add hl, bc
@@ -1361,6 +1364,7 @@
 		inc l
 		ld (hl), d
 		ret
+
 	sprite_1:
 		ld bc, 0x0002
 		add hl, bc
@@ -1658,6 +1662,7 @@
 		inc l
 		ld (hl), d
 		ret
+
 	sprite_0:
 		ld bc, 0x0002
 		add hl, bc
@@ -1995,3 +2000,4 @@
 
 		ld (hl), d
 		ret
+

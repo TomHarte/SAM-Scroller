@@ -558,6 +558,7 @@ NSString *stringify(const std::vector<Operation> &operations) {
 		}
 
 		operations.push_back(Operation::nullary(Operation::Type::RET));
+		operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
 		[code appendString:stringify(operations)];
 	}
 
