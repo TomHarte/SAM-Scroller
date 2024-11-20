@@ -9,7 +9,7 @@
 
 #include "OptionalRegisterAllocator.h"
 #include "TileSerialiser.h"
-#include "Registers/Register.h"
+#include "Register.h"
 
 #include <unordered_map>
 #include <optional>
@@ -106,11 +106,12 @@ public:
 		++time_;
 		RegisterEvent event;
 
+		// Consult the preformed list of IY special cases, updating IY now if necessary and
+		// possibly removing the incoming value from further consideration.
 		if(iy_cursor_ != iy_allocations_.end() && time_ == iy_cursor_->time) {
 			iy_ = value;
 			return RegisterEvent{.reg = Register::Name::IY, .type = RegisterEvent::Type::Load, .value = value};
 		}
-
 		if(iy_ && value == *iy_) {
 			return RegisterEvent{.reg = Register::Name::IY, .type = RegisterEvent::Type::Reuse};
 		}
