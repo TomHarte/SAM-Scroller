@@ -398,7 +398,8 @@ NSString *stringify(const std::vector<Operation> &operations) {
 		sprites.emplace_back(
 			[[file lastPathComponent] intValue],
 			accessor,
-			palette);
+			palette,
+			SpriteSerialiser::Order::RowsFirstDownward);
 	}
 
 	// Write palette, in Sam format.
