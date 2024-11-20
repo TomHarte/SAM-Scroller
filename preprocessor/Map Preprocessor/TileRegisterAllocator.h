@@ -9,6 +9,7 @@
 
 #include "OptionalRegisterAllocator.h"
 #include "TileSerialiser.h"
+#include "Registers/Register.h"
 
 #include <unordered_map>
 #include <optional>
@@ -17,47 +18,8 @@ struct RegisterEvent {
 	enum class Type {
 		Load, Reuse, UseConstant
 	} type;
-	enum class Register {
-		BC, DE, HL, IX, IY,
-		B, C, D, E, A, H, L,
-	} reg;
+	Register::Name reg;
 	uint16_t value;
-	std::optional<uint16_t> previous_value;
-
-	const char *push_register() const {
-		switch(reg) {
-			case RegisterEvent::Register::BC:	return "bc";
-			case RegisterEvent::Register::DE:	return "de";
-			case RegisterEvent::Register::HL:	return "bc";
-			case RegisterEvent::Register::IX:	return "ix";
-			case RegisterEvent::Register::IY:	return "iy";
-
-			case RegisterEvent::Register::B:	return "bc";
-			case RegisterEvent::Register::C:	return "bc";
-			case RegisterEvent::Register::D:	return "de";
-			case RegisterEvent::Register::E:	return "de";
-			case RegisterEvent::Register::H:	return "hl";
-			case RegisterEvent::Register::L:	return "hl";
-			case RegisterEvent::Register::A:	return "af";
-		}
-	}
-	const char *load_register() const {
-		switch(reg) {
-			case RegisterEvent::Register::BC:	return "bc";
-			case RegisterEvent::Register::DE:	return "de";
-			case RegisterEvent::Register::HL:	return "bc";
-			case RegisterEvent::Register::IX:	return "ix";
-			case RegisterEvent::Register::IY:	return "iy";
-
-			case RegisterEvent::Register::B:	return "b";
-			case RegisterEvent::Register::C:	return "c";
-			case RegisterEvent::Register::D:	return "d";
-			case RegisterEvent::Register::E:	return "e";
-			case RegisterEvent::Register::H:	return "h";
-			case RegisterEvent::Register::L:	return "l";
-			case RegisterEvent::Register::A:	return "a";
-		}
-	}
 };
 
 template <int TileSize>
@@ -143,15 +105,14 @@ public:
 	RegisterEvent next_word(uint16_t value) {
 		++time_;
 		RegisterEvent event;
-		
+
 		if(iy_cursor_ != iy_allocations_.end() && time_ == iy_cursor_->time) {
-			auto previous = iy_;
 			iy_ = value;
-			return RegisterEvent{.reg = RegisterEvent::Register::IY, .type = RegisterEvent::Type::Load, .previous_value = previous, .value = value};
+			return RegisterEvent{.reg = Register::Name::IY, .type = RegisterEvent::Type::Load, .value = value};
 		}
-		
+
 		if(iy_ && value == *iy_) {
-			return RegisterEvent{.reg = RegisterEvent::Register::IY, .type = RegisterEvent::Type::Reuse};
+			return RegisterEvent{.reg = Register::Name::IY, .type = RegisterEvent::Type::Reuse};
 		}
 
 		// Simple, dumb strategy: reuse BC or DE if the value is already loaded.
@@ -159,21 +120,19 @@ public:
 		// Otherwise, evict whichever value has the least remaining usages.
 		if(bc_ && *bc_ == value) {
 			event.type = RegisterEvent::Type::Reuse;
-			event.reg = RegisterEvent::Register::BC;
+			event.reg = Register::Name::BC;
 		} else if(de_ && *de_ == value) {
 			event.type = RegisterEvent::Type::Reuse;
-			event.reg = RegisterEvent::Register::DE;
+			event.reg = Register::Name::DE;
 		} else if(!bc_) {
 			event.type = RegisterEvent::Type::Load;
-			event.reg = RegisterEvent::Register::BC;
+			event.reg = Register::Name::BC;
 			event.value = value;
-			event.previous_value = bc_;
 			bc_ = value;
 		} else if(!de_) {
 			event.type = RegisterEvent::Type::Load;
-			event.reg = RegisterEvent::Register::DE;
+			event.reg = Register::Name::DE;
 			event.value = value;
-			event.previous_value = de_;
 			de_ = value;
 		} else {
 			event.type = RegisterEvent::Type::Load;
@@ -181,14 +140,12 @@ public:
 				word_priorities_.priority_at(time_, word_priorities_.end_time(), *bc_) <
 				word_priorities_.priority_at(time_, word_priorities_.end_time(), *de_)
 			) {
-				event.reg = RegisterEvent::Register::BC;
+				event.reg = Register::Name::BC;
 				event.value = value;
-				event.previous_value = bc_;
 				bc_ = value;
 			} else {
-				event.reg = RegisterEvent::Register::DE;
+				event.reg = Register::Name::DE;
 				event.value = value;
-				event.previous_value = de_;
 				de_ = value;
 			}
 		}
@@ -200,28 +157,27 @@ public:
 	RegisterEvent next_byte(uint8_t value) {
 		++time_;
 		if(bc_ && (*bc_ & 0xff) == value) {
-			return RegisterEvent{.type = RegisterEvent::Type::Reuse, .reg = RegisterEvent::Register::C};
+			return RegisterEvent{.type = RegisterEvent::Type::Reuse, .reg = Register::Name::C};
 		}
 		if(bc_ && (*bc_ >> 8) == value) {
-			return RegisterEvent{.type = RegisterEvent::Type::Reuse, .reg = RegisterEvent::Register::B};
+			return RegisterEvent{.type = RegisterEvent::Type::Reuse, .reg = Register::Name::B};
 		}
 		if(de_ && (*de_ & 0xff) == value) {
-			return RegisterEvent{.type = RegisterEvent::Type::Reuse, .reg = RegisterEvent::Register::E};
+			return RegisterEvent{.type = RegisterEvent::Type::Reuse, .reg = Register::Name::E};
 		}
 		if(de_ && (*de_ >> 8) == value) {
-			return RegisterEvent{.type = RegisterEvent::Type::Reuse, .reg = RegisterEvent::Register::D};
+			return RegisterEvent{.type = RegisterEvent::Type::Reuse, .reg = Register::Name::D};
 		}
 
 		// Is this a point at which A is loaded?
 		if(a_cursor_ != a_allocations_.end() && time_ == a_cursor_->time) {
-			auto previous = a_;
 			a_ = value;
-			return RegisterEvent{.reg = RegisterEvent::Register::A, .type = RegisterEvent::Type::Load, .previous_value = previous, .value = value};
+			return RegisterEvent{.reg = Register::Name::A, .type = RegisterEvent::Type::Load, .value = value};
 		}
 
 		// Otherwise, does A have the right value already?
 		if(a_ && *a_ == value) {
-			return RegisterEvent{.reg = RegisterEvent::Register::A, .type = RegisterEvent::Type::Reuse, .value = value};
+			return RegisterEvent{.reg = Register::Name::A, .type = RegisterEvent::Type::Reuse, .value = value};
 		} else {
 			return RegisterEvent{.type = RegisterEvent::Type::UseConstant, .value = value};
 		}

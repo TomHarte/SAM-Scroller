@@ -13,6 +13,9 @@
 #include "TileRegisterAllocator.h"
 #include "SpriteSerialiser.h"
 
+#include "RegisterSet.h"
+#include "Operation.h"
+
 #include <array>
 #include <bit>
 #include <map>
@@ -21,6 +24,30 @@
 #include <vector>
 
 static constexpr int TileSize = 16;
+
+namespace {
+
+NSString *stringify(const std::vector<Operation> &operations) {
+	NSMutableString *code = [[NSMutableString alloc] init];
+
+	for(const auto &operation: operations) {
+		if(operation.type == Operation::Type::NONE) {
+			continue;
+		}
+
+		switch(operation.type) {
+			case Operation::Type::BLANK_LINE: break;
+			case Operation::Type::LABEL: [code appendString:@"\t"];	break;
+			default: [code appendString:@"\t\t"];	break;
+		}
+		[code appendString:operation.text()];
+		[code appendString:@"\n"];
+	}
+
+	return code;
+}
+
+}
 
 @class DraggableTextField;
 @protocol DraggableTextFieldFileDelegate
@@ -98,65 +125,6 @@ static constexpr int TileSize = 16;
 	} else {
 		NSLog(@"NOT YET IMPLEMENTED");
 	}
-}
-
-// MARK: - Register load minimisation.
-
-- (NSString *)loadRegister:(char)reg previous:(std::optional<uint8_t>)previous target:(uint8_t)target {
-	if(previous) {
-		if(*previous == target) {
-			return @"";
-		}
-
-		if(target == ((*previous + 1) & 0xff)) {
-			return [NSString stringWithFormat:@"\t\tinc %c\n", reg];
-		}
-
-		if(target == ((*previous - 1) & 0xff)) {
-			return [NSString stringWithFormat:@"\t\tdec %c\n", reg];
-		}
-
-		if(reg == 'a') {
-			if(target == std::rotr(*previous, 1)) {
-				return @"\t\trra\n";
-			}
-
-			if(target == std::rotl(*previous, 1)) {
-				return @"\t\trla\n";
-			}
-
-			if(target == (*previous^0xff)) {
-				return @"\t\tcpl\n";
-			}
-		}
-	}
-
-	// Special trick for A only:
-	if(reg == 'a' && !target) {
-		return @"\t\txor a\n";
-	}
-
-	return [NSString stringWithFormat:@"\t\tld %c, 0x%02x\n", reg, target];
-}
-
-- (NSString *)loadPair:(const char *)pair previous:(std::optional<uint16_t>)previous target:(uint16_t)target {
-	// Logic below is just as valid for IX and IY as anything else, but string manipulation to
-	// get the high and low register names isn't. So skip it for now.
-	if(previous && strcmp(pair, "ix") && strcmp(pair, "iy")) {
-		if(*previous == target){
-			return @"";
-		}
-
-		if((*previous&0xff00) == (target&0xff00)) {
-			return [self loadRegister:pair[1] previous:*previous & 0x00ff target:target & 0x00ff];
-		}
-
-		if((*previous&0x00ff) == (target&0x00ff)) {
-			return [self loadRegister:pair[0] previous:*previous >> 8 target:target >> 8];
-		}
-	}
-
-	return [NSString stringWithFormat:@"\t\tld %s, 0x%04x\n", pair, target];
 }
 
 // MARK: - Conversion.
@@ -288,36 +256,38 @@ static constexpr int TileSize = 16;
 		tile.set_slice(slice);
 		TileRegisterAllocator<TileSize> allocator(tile);
 
-		[code appendFormat:@"\t@%@_%d:\n", name, tile.index()];
-		[code appendString:@"\t\tld (@+return+1), de\n"];
-		[code appendString:@"\t\tld sp, hl\n\n"];
+		std::vector<Operation> operations;
+		operations.push_back(Operation::label([[NSString stringWithFormat:@"@%@_%d", name, tile.index()] UTF8String]));
+		operations.push_back(Operation::ld(Operand::label_indirect("@+return+1"), Operand::direct(Register::Name::DE)));
+		operations.push_back(Operation::ld(Register::Name::SP, Register::Name::HL));
 
 		bool finished = false;
+		RegisterSet set;
 		while(!finished) {
 			auto event = tile.next();
 			switch(event.type) {
 				case TileEvent::Type::Stop:	finished = true;	break;
 
 				case TileEvent::Type::Up2:
-					[code appendString:@"\t\tdec h\n"];
-					[code appendString:@"\t\tld sp, hl\n\n"];
+					operations.push_back(Operation::unary(Operation::Type::DEC, Register::Name::H));
+					operations.push_back(Operation::ld(Register::Name::SP, Register::Name::HL));
+					operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
 				break;
 				case TileEvent::Type::DownN:
-					[code appendFormat:@"\t\tld hl, %d\n", event.content];
-					[code appendString:@"\t\tadd hl, sp\n"];
-					[code appendString:@"\t\tld sp, hl\n\n"];
+					operations.push_back(Operation::ld(Operand::direct(Register::Name::HL), Operand::immediate<uint16_t>(event.content)));
+					operations.push_back(Operation::add(Register::Name::HL, Register::Name::SP));
+					operations.push_back(Operation::ld(Register::Name::SP, Register::Name::HL));
+					operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
 				break;
 
 				case TileEvent::Type::OutputWord: {
 					const auto action = allocator.next_word(event.content);
 					switch(action.type) {
 						case RegisterEvent::Type::Load:
-							[code appendString:
-								[self loadPair:action.load_register() previous:action.previous_value target:action.value]
-							];
+							operations.push_back(set.load(action.reg, action.value));
 							[[fallthrough]];
 						case RegisterEvent::Type::Reuse:
-							[code appendFormat:@"\t\tpush %s\n", action.push_register()];
+							operations.push_back(Operation::unary(Operation::Type::PUSH, Register::pair(action.reg)));
 						break;
 
 						case RegisterEvent::Type::UseConstant:
@@ -329,22 +299,25 @@ static constexpr int TileSize = 16;
 					const auto action = allocator.next_byte(event.content);
 					switch(action.type) {
 						case RegisterEvent::Type::Load:
-							[code appendString:[self loadRegister:action.load_register()[0] previous:action.previous_value target:action.value]];
+							operations.push_back(set.load(action.reg, action.value));
 							[[fallthrough]];
 						case RegisterEvent::Type::Reuse:
-							[code appendFormat:@"\t\tld (hl), %s\n", action.load_register()];
+							operations.push_back(Operation::ld(Operand::indirect(Register::Name::HL), Operand::direct(action.reg)));
 						break;
 
 						case RegisterEvent::Type::UseConstant:
-							[code appendFormat:@"\t\tld (hl), 0x%02x\n", action.value];
+							operations.push_back(Operation::ld(Operand::indirect(Register::Name::HL), Operand::immediate<uint8_t>(action.value)));
 						break;
 					}
 				} break;
 			}
 		}
 
-		[code appendFormat:@"\t@return:\n"];
-		[code appendString:@"\t\tjp 1234\n\n"];
+		operations.push_back(Operation::label("@return"));
+		operations.push_back(Operation::jp(0x1234));
+		operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
+
+		[code appendString:stringify(operations)];
 	}
 
 	return code;
@@ -515,14 +488,13 @@ static constexpr int TileSize = 16;
 	[code appendString:@"\t;\n\n"];
 
 	for(auto &sprite: sprites) {
-		[code appendFormat:@"\tsprite_%d:\n", sprite.index()];
-		std::optional<uint16_t> bc;
+		std::vector<Operation> operations;
+		operations.push_back(Operation::label([[NSString stringWithFormat:@"sprite_%d", sprite.index()] UTF8String]));
 
 		// Obtain register allocations.
-		static constexpr size_t NumRegisters = 3;
-		static constexpr char RegisterNames[3] = {'a', 'd', 'e'};
-
-		OptionalRegisterAllocator<uint8_t> register_allocator(NumRegisters);
+		OptionalRegisterAllocator<uint8_t> register_allocator(
+			std::vector<Register::Name>{Register::Name::A, Register::Name::D, Register::Name::E}
+		);
 		sprite.reset();
 		int time = 0;
 		while(true) {
@@ -546,17 +518,16 @@ static constexpr int TileSize = 16;
 		uint16_t hl = 0;
 		time = 0;
 		sprite.reset();
-		std::optional<uint8_t> registers[NumRegisters];
+		RegisterSet set;
 		while(true) {
 			const auto event = sprite.next();
 			if(event.type == SpriteEvent::Type::Stop) {
 				break;
 			}
-			
+
 			// Apply a new allocation if one pops into existence here.
 			if(next_allocation != allocations.end() && next_allocation->time == time) {
-				[code appendString:[self loadRegister:RegisterNames[next_allocation->reg] previous:registers[next_allocation->reg] target:next_allocation->value]];
-				registers[next_allocation->reg] = next_allocation->value;
+				operations.push_back(set.load(next_allocation->reg, next_allocation->value));
 				++next_allocation;
 			}
 
@@ -566,33 +537,29 @@ static constexpr int TileSize = 16;
 				const uint16_t offset = target - hl;
 				hl = target;
 
-				[code appendString:[self loadPair:"bc" previous:bc target:offset]];
-				bc = offset;
-				[code appendString:@"\t\tadd hl, bc\n\n"];
+				operations.push_back(set.load(Register::Name::BC, offset));
+				operations.push_back(Operation::add(Register::Name::HL, Register::Name::BC));
+				operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
 			} else {
 				if(!moved) {
-					[code appendString:@"\t\tinc l\n"];
+					operations.push_back(Operation::unary(Operation::Type::INC, Register::Name::L));
 					++hl;
 				}
 				moved = false;
-				
-				bool loaded = false;
-				for(size_t c = 0; c < NumRegisters; c++) {
-					if(registers[c] && event.content.output == registers[c]) {
-						loaded = true;
-						[code appendFormat:@"\t\tld (hl), %c\n", RegisterNames[c]];
-						break;
-					}
-				}
-				if(!loaded) {
-					[code appendFormat:@"\t\tld (hl), 0x%02x\n", event.content.output];
+
+				if(const auto source = set.find(event.content.output); source) {
+					operations.push_back(Operation::ld(Operand::indirect(Register::Name::HL), Operand::direct(*source)));
+				} else {
+					operations.push_back(Operation::ld(Operand::indirect(Register::Name::HL), Operand::immediate<uint8_t>(event.content.output)));
 				}
 			}
-			
+
 			++time;
 		}
 
-		[code appendString:@"\t\tret\n\n"];
+		operations.push_back(Operation::nullary(Operation::Type::RET));
+		operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
+		[code appendString:stringify(operations)];
 	}
 
 	[code writeToFile:[directory stringByAppendingPathComponent:@"sprites.z80s"] atomically:NO encoding:NSUTF8StringEncoding error:nil];

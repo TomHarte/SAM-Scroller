@@ -1,3 +1,12 @@
+	; The following sprite outputters are automatically generated. They are intended to
+	; be CALLed in the ordinary Z80 fashion.
+	;
+	; Input:
+	;	* HL is the screen address of the top-left corner of the sprite.
+	;
+	; Each outputter potentially overwrites the contents of all registers.
+	;
+
 	sprite_4:
 		ld bc, 0x0002
 		add hl, bc
@@ -843,7 +852,7 @@
 		ld (hl), e
 		add hl, bc
 
-		ld a, 0x1d
+		sub c
 		ld (hl), a
 		inc l
 		ld (hl), 0xdc
@@ -1556,7 +1565,7 @@
 		ld (hl), d
 		add hl, bc
 
-		ld a, 0x1d
+		sub c
 		ld (hl), a
 		inc l
 		ld (hl), 0xcd

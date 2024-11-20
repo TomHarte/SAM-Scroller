@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include "Register.h"
+
 using Time = int;
 
 struct TimeSpan {
@@ -18,5 +20,5 @@ template <typename IntT>
 struct Allocation {
 	Time time;
 	IntT value;
-	size_t reg;
+	Register::Name reg;
 };

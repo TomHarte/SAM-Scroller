@@ -47,7 +47,7 @@ public:
 			}
 		}
 	}
-	
+
 	Time end_time() const {
 		if(values_.empty()) return 0;
 		auto back = values_.end();
@@ -64,7 +64,7 @@ public:
 		}
 		return entry->second.usages_remaining;
 	}
-	
+
 	std::optional<PrioritisedValue<IntT>> prioritised_value_at(Time time, Time horizon) const {
 		// Version 1 has a very simple metric: number of remaining usages.
 		// TODO: incorporate a sense of how imminent those usages are.
@@ -82,7 +82,7 @@ public:
 
 private:
 	std::map<Time, IntT> values_;
-	
+
 	std::unordered_map<IntT, PrioritisedValue<IntT>> all_priorities(Time time, Time horizon, IntT &top_value) const {
 		std::unordered_map<IntT, PrioritisedValue<IntT>> priorities;
 
