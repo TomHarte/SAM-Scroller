@@ -488,7 +488,8 @@ NSString *stringify(const std::vector<Operation> &operations) {
 	[code appendString:@"\t;\n\n"];
 
 	for(auto &sprite: sprites) {
-		[code appendFormat:@"\tsprite_%d:\n", sprite.index()];
+		std::vector<Operation> operations;
+		operations.push_back(Operation::label([[NSString stringWithFormat:@"sprite_%d", sprite.index()] UTF8String]));
 
 		// Obtain register allocations.
 		OptionalRegisterAllocator<uint8_t> register_allocator(
@@ -526,7 +527,7 @@ NSString *stringify(const std::vector<Operation> &operations) {
 
 			// Apply a new allocation if one pops into existence here.
 			if(next_allocation != allocations.end() && next_allocation->time == time) {
-				[code appendFormat:@"\t\t%@\n", set.load(next_allocation->reg, next_allocation->value).text()];
+				operations.push_back(set.load(next_allocation->reg, next_allocation->value));
 				++next_allocation;
 			}
 
@@ -536,26 +537,28 @@ NSString *stringify(const std::vector<Operation> &operations) {
 				const uint16_t offset = target - hl;
 				hl = target;
 
-				[code appendFormat:@"\t\t%@\n", set.load(Register::Name::BC, offset).text()];
-				[code appendString:@"\t\tadd hl, bc\n\n"];
+				operations.push_back(set.load(Register::Name::BC, offset));
+				operations.push_back(Operation::add(Register::Name::HL, Register::Name::BC));
+				operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
 			} else {
 				if(!moved) {
-					[code appendString:@"\t\tinc l\n"];
+					operations.push_back(Operation::unary(Operation::Type::INC, Register::Name::L));
 					++hl;
 				}
 				moved = false;
 
 				if(const auto source = set.find(event.content.output); source) {
-					[code appendFormat:@"\t\tld (hl), %s\n", Register::name(*source)];
+					operations.push_back(Operation::ld(Operand::indirect(Register::Name::HL), Operand::direct(*source)));
 				} else {
-					[code appendFormat:@"\t\tld (hl), 0x%02x\n", event.content.output];
+					operations.push_back(Operation::ld(Operand::indirect(Register::Name::HL), Operand::immediate<uint8_t>(event.content.output)));
 				}
 			}
 
 			++time;
 		}
 
-		[code appendString:@"\t\tret\n\n"];
+		operations.push_back(Operation::nullary(Operation::Type::RET));
+		[code appendString:stringify(operations)];
 	}
 
 	[code writeToFile:[directory stringByAppendingPathComponent:@"sprites.z80s"] atomically:NO encoding:NSUTF8StringEncoding error:nil];

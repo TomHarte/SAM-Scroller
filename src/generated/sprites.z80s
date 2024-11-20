@@ -62,7 +62,6 @@
 		ld (hl), a
 		inc l
 		ld (hl), 0x91
-		
 		add hl, bc
 
 		ld (hl), 0x01
@@ -98,7 +97,6 @@
 		ld (hl), 0xa9
 		inc l
 		ld (hl), 0x10
-		
 		add hl, bc
 
 		ld (hl), 0x19
@@ -130,7 +128,6 @@
 		ld (hl), 0xc1
 		inc l
 		ld (hl), 0xa1
-		
 		add hl, bc
 
 		ld (hl), 0x01
@@ -146,7 +143,6 @@
 		ld (hl), 0xc1
 		inc l
 		ld (hl), 0xa1
-		
 		add hl, bc
 
 		ld (hl), 0x19
@@ -183,7 +179,6 @@
 		ld (hl), 0xaa
 		inc l
 		ld (hl), 0x10
-		
 		add hl, bc
 
 		ld (hl), a
@@ -202,7 +197,6 @@
 		ld (hl), 0xa1
 		inc l
 		ld (hl), 0x10
-		
 		add hl, bc
 
 		ld (hl), 0x1a
@@ -220,7 +214,6 @@
 		ld (hl), 0x1a
 		inc l
 		ld (hl), 0xa1
-		
 		add hl, bc
 
 		ld (hl), 0x1a
@@ -238,7 +231,6 @@
 		ld (hl), 0xca
 		inc l
 		ld (hl), 0xa1
-		
 		add hl, bc
 
 		ld (hl), a
@@ -272,7 +264,6 @@
 		ld (hl), a
 		inc l
 		ld (hl), 0x10
-		
 		add hl, bc
 
 		ld (hl), e
@@ -306,7 +297,6 @@
 		ld (hl), 0xee
 		inc l
 		ld (hl), 0x10
-		
 		add hl, bc
 
 		ld (hl), a
@@ -324,7 +314,6 @@
 		ld (hl), 0xee
 		inc l
 		ld (hl), 0x10
-		
 		add hl, bc
 
 		ld (hl), a
@@ -343,7 +332,6 @@
 		ld d, 0x10
 		inc l
 		ld (hl), d
-		
 		add hl, bc
 
 		ld (hl), a
@@ -366,7 +354,6 @@
 		inc l
 		ld (hl), d
 		ret
-
 	sprite_5:
 		ld bc, 0x0202
 		add hl, bc
@@ -423,7 +410,6 @@
 		ld (hl), a
 		inc l
 		ld (hl), 0x91
-		
 		add hl, bc
 
 		ld (hl), d
@@ -459,7 +445,6 @@
 		ld (hl), 0xa9
 		inc l
 		ld (hl), e
-		
 		add hl, bc
 
 		ld (hl), 0x19
@@ -491,7 +476,6 @@
 		ld (hl), 0xc1
 		inc l
 		ld (hl), 0xa1
-		
 		add hl, bc
 
 		ld (hl), d
@@ -507,7 +491,6 @@
 		ld (hl), 0xc1
 		inc l
 		ld (hl), 0xa1
-		
 		add hl, bc
 
 		ld (hl), 0x19
@@ -571,7 +554,6 @@
 		ld (hl), 0x11
 		inc l
 		ld (hl), e
-		
 		add hl, bc
 
 		ld (hl), 0x1c
@@ -610,7 +592,6 @@
 		ld (hl), 0xd1
 		inc l
 		ld (hl), 0xc1
-		
 		add hl, bc
 
 		ld (hl), 0x1a
@@ -669,7 +650,6 @@
 		inc l
 		ld (hl), e
 		ret
-
 	sprite_2:
 		ld bc, 0x0002
 		add hl, bc
@@ -726,7 +706,6 @@
 		ld (hl), a
 		inc l
 		ld (hl), 0x91
-		
 		add hl, bc
 
 		ld (hl), d
@@ -762,7 +741,6 @@
 		ld (hl), 0xa9
 		inc l
 		ld (hl), e
-		
 		add hl, bc
 
 		ld (hl), 0x19
@@ -794,7 +772,6 @@
 		ld (hl), 0xc1
 		inc l
 		ld (hl), 0xa1
-		
 		add hl, bc
 
 		ld (hl), d
@@ -810,7 +787,6 @@
 		ld (hl), 0xc1
 		inc l
 		ld (hl), 0xa1
-		
 		add hl, bc
 
 		ld (hl), 0x19
@@ -872,7 +848,6 @@
 		ld (hl), 0x11
 		inc l
 		ld (hl), e
-		
 		add hl, bc
 
 		sub c
@@ -905,7 +880,6 @@
 		ld (hl), 0xdc
 		inc l
 		ld (hl), 0xc1
-		
 		add hl, bc
 
 		ld (hl), 0x1a
@@ -933,7 +907,6 @@
 		ld (hl), 0xaa
 		inc l
 		ld (hl), e
-		
 		add hl, bc
 
 		ld (hl), d
@@ -1019,7 +992,6 @@
 
 		ld (hl), d
 		ret
-
 	sprite_3:
 		ld bc, 0x0002
 		add hl, bc
@@ -1075,7 +1047,6 @@
 		ld (hl), a
 		inc l
 		ld (hl), 0x91
-		
 		add hl, bc
 
 		ld (hl), d
@@ -1091,7 +1062,6 @@
 		ld (hl), 0xa9
 		inc l
 		ld (hl), 0x91
-		
 		add hl, bc
 
 		ld (hl), 0x19
@@ -1127,7 +1097,6 @@
 		ld (hl), 0xa9
 		inc l
 		ld (hl), 0x10
-		
 		add hl, bc
 
 		ld (hl), 0x19
@@ -1159,7 +1128,6 @@
 		ld (hl), 0xac
 		inc l
 		ld (hl), d
-		
 		add hl, bc
 
 		ld (hl), 0x19
@@ -1195,7 +1163,6 @@
 		ld (hl), 0xaa
 		inc l
 		ld (hl), 0x10
-		
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1242,7 +1209,6 @@
 		ld (hl), e
 		inc l
 		ld (hl), 0x10
-		
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1259,7 +1225,6 @@
 		ld (hl), e
 		inc l
 		ld (hl), 0xc1
-		
 		add hl, bc
 
 		ld (hl), 0x1c
@@ -1295,7 +1260,6 @@
 		ld (hl), 0xcc
 		inc l
 		ld (hl), 0xc1
-		
 		add hl, bc
 
 		ld (hl), 0x1a
@@ -1313,7 +1277,6 @@
 		ld (hl), 0x1a
 		inc l
 		ld (hl), 0xa1
-		
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1355,7 +1318,6 @@
 		ld (hl), 0x1d
 		inc l
 		ld (hl), a
-		
 		add hl, bc
 
 		ld (hl), 0x01
@@ -1385,7 +1347,6 @@
 		ld (hl), e
 		inc l
 		ld (hl), 0xe1
-		
 		add hl, bc
 
 		ld (hl), d
@@ -1400,7 +1361,6 @@
 		inc l
 		ld (hl), d
 		ret
-
 	sprite_1:
 		ld bc, 0x0002
 		add hl, bc
@@ -1457,7 +1417,6 @@
 		ld (hl), a
 		inc l
 		ld (hl), 0x91
-		
 		add hl, bc
 
 		ld (hl), e
@@ -1493,7 +1452,6 @@
 		ld (hl), 0xa9
 		inc l
 		ld (hl), d
-		
 		add hl, bc
 
 		ld (hl), 0x19
@@ -1525,7 +1483,6 @@
 		ld (hl), 0xc1
 		inc l
 		ld (hl), 0xa1
-		
 		add hl, bc
 
 		ld (hl), e
@@ -1541,7 +1498,6 @@
 		ld (hl), 0xc1
 		inc l
 		ld (hl), 0xa1
-		
 		add hl, bc
 
 		ld (hl), 0x19
@@ -1603,7 +1559,6 @@
 		ld (hl), 0x11
 		inc l
 		ld (hl), d
-		
 		add hl, bc
 
 		sub c
@@ -1632,7 +1587,6 @@
 		ld (hl), a
 		inc l
 		ld (hl), d
-		
 		add hl, bc
 
 		ld (hl), 0x1c
@@ -1642,7 +1596,6 @@
 		ld (hl), a
 		inc l
 		ld (hl), d
-		
 		add hl, bc
 
 		ld (hl), 0x1a
@@ -1652,7 +1605,6 @@
 		ld (hl), 0xa1
 		inc l
 		ld (hl), d
-		
 		add hl, bc
 
 		ld (hl), 0x1a
@@ -1662,7 +1614,6 @@
 		ld (hl), a
 		inc l
 		ld (hl), d
-		
 		add hl, bc
 
 		ld (hl), e
@@ -1678,7 +1629,6 @@
 		ld (hl), 0xdd
 		inc l
 		ld (hl), d
-		
 		add hl, bc
 
 		ld (hl), e
@@ -1687,7 +1637,6 @@
 		ld (hl), a
 		inc l
 		ld (hl), 0xe1
-		
 		add hl, bc
 
 		ld (hl), e
@@ -1709,7 +1658,6 @@
 		inc l
 		ld (hl), d
 		ret
-
 	sprite_0:
 		ld bc, 0x0002
 		add hl, bc
@@ -1766,7 +1714,6 @@
 		ld (hl), a
 		inc l
 		ld (hl), 0x91
-		
 		add hl, bc
 
 		ld (hl), e
@@ -1802,7 +1749,6 @@
 		ld (hl), 0xa9
 		inc l
 		ld (hl), d
-		
 		add hl, bc
 
 		ld (hl), 0x19
@@ -1834,7 +1780,6 @@
 		ld (hl), 0xc1
 		inc l
 		ld (hl), 0xa1
-		
 		add hl, bc
 
 		ld (hl), e
@@ -1850,7 +1795,6 @@
 		ld (hl), 0xc1
 		inc l
 		ld (hl), 0xa1
-		
 		add hl, bc
 
 		ld (hl), 0x19
@@ -1912,7 +1856,6 @@
 		ld (hl), 0x11
 		inc l
 		ld (hl), d
-		
 		add hl, bc
 
 		ld (hl), 0x1d
@@ -1991,7 +1934,6 @@
 		ld (hl), 0x11
 		inc l
 		ld (hl), d
-		
 		add hl, bc
 
 		ld (hl), 0x1e
@@ -2005,7 +1947,6 @@
 		ld (hl), 0xde
 		inc l
 		ld (hl), 0xe1
-		
 		add hl, bc
 
 		ld a, 0x1e
@@ -2020,7 +1961,6 @@
 		ld (hl), 0xee
 		inc l
 		ld (hl), 0xe1
-		
 		add hl, bc
 
 		ld (hl), a
@@ -2055,4 +1995,3 @@
 
 		ld (hl), d
 		ret
-

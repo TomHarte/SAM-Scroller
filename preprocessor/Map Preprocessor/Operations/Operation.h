@@ -97,6 +97,7 @@ struct Operation {
 		ADD, SUB, OR, XOR, AND,
 		PUSH,
 		JP,
+		RET,
 
 		BLANK_LINE,
 		NONE,
@@ -159,9 +160,10 @@ struct Operation {
 
 			case Type::NONE:
 			case Type::BLANK_LINE:	return @"";
-			case Type::RRCA:	return @"rrca";		break;
-			case Type::RLCA:	return @"rlca";		break;
-			case Type::CPL:		return @"cpl";		break;
+			case Type::RRCA:	return @"rrca";
+			case Type::RLCA:	return @"rlca";
+			case Type::CPL:		return @"cpl";
+			case Type::RET:		return @"ret";
 
 			case Type::LABEL:	return [NSString stringWithFormat:@"%@:", destination->text()];
 		}
@@ -227,7 +229,8 @@ struct Operation {
 			case Type::RRCA:
 			case Type::CPL:		return 1;
 
-			case Type::JP:		return 3;
+			case Type::JP:
+			case Type::RET:		return 3;
 
 			case Type::LABEL:
 			case Type::BLANK_LINE:
