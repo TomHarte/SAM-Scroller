@@ -8,6 +8,7 @@
 #pragma once
 
 #include "OptionalRegisterAllocator.h"
+#include "MandatoryRegisterAllocator.h"
 #include "TileSerialiser.h"
 #include "Register.h"
 
@@ -48,7 +49,8 @@ public:
 
 		// Reset state.
 		reset();
-		OptionalRegisterAllocator<uint8_t> a_allocator(1);
+		const auto registers8 = { Register::Name::A };
+		OptionalRegisterAllocator<uint8_t> a_allocator(registers8);
 		OptionalRegisterAllocator<uint16_t> iy_allocator(1);
 		time = 0;
 		while(true) {

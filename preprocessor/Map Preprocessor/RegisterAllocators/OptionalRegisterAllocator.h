@@ -32,7 +32,8 @@ class OptionalRegisterAllocator {
 public:
 	/// Takes a list of permissible registers, in any form that can construct a vector.
 	template<typename ListT>
-	OptionalRegisterAllocator(const ListT &registers) : registers_(registers) {}
+	OptionalRegisterAllocator(const ListT &registers) :
+		registers_(registers) {}
 
 	void add_value(Time time, IntT value) {
 		prioritiser_.add_value(time, value);

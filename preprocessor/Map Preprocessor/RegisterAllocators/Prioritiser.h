@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <limits>
 #include <optional>
 #include <unordered_map>
 #include <unordered_set>
@@ -55,6 +56,27 @@ public:
 		return back->first + 1;
 	}
 
+	std::optional<TimeSpan> span_of(IntT value, Time start = 0) const {
+		// Do a dumb, linear search.
+		TimeSpan result{
+			.begin = std::numeric_limits<Time>::max(),
+			.end = std::numeric_limits<Time>::min(),
+		};
+
+		auto it = values_.lower_bound(start);
+		while(it != values_.end()) {
+			if(it->second == value) {
+				result.begin = std::min(result.begin, it->first);
+				result.end = std::max(result.begin, it->first);
+			}
+			++it;
+		}
+
+		if(result.begin > result.end) {
+			return {};
+		}
+	}
+
 	std::optional<int> priority_at(Time time, Time horizon, IntT value) const {
 		IntT throwaway;
 		const auto priorities = all_priorities(time, horizon, throwaway);
@@ -78,6 +100,10 @@ public:
 			return {};
 		}
 		return priorities.find(top_value)->second;
+	}
+
+	const std::map<Time, IntT> &values() {
+		return values_;
 	}
 
 private:
