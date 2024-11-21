@@ -75,6 +75,7 @@ public:
 		if(result.begin > result.end) {
 			return {};
 		}
+		return result;
 	}
 
 	std::optional<int> priority_at(Time time, Time horizon, IntT value) const {

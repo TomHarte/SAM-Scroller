@@ -42,10 +42,12 @@ public:
 
 		for(const auto &pair: prioritiser_.values()) {
 			const auto allocate = [&](Register::Name reg) {
-				auto &allocation = spans.push_back();
+				auto &allocation = spans.emplace_back();
 				allocation.value = pair.second;
-				allocation.start = allocation.end = pair.first;
+				allocation.time = pair.first;
+				allocation.reg = reg;
 				active_allocations_[reg] = &allocation;
+				state_.set_value(reg, pair.second);
 			};
 
 			// Is this a reuse or possibly a new allocation?
@@ -54,14 +56,13 @@ public:
 				const auto value = state_.value<IntT>(reg);
 				if(value) {
 					if(*value == pair.second) {
-						active_allocations_[reg]->end = pair.first;
 						resolved = true;
-						continue;
+						break;
 					}
 				} else {
 					allocate(reg);
 					resolved = true;
-					continue;
+					break;
 				}
 			}
 

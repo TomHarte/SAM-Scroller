@@ -27,6 +27,9 @@ template <int TileSize>
 class TileRegisterAllocator {
 public:
 	TileRegisterAllocator(TileSerialiser<TileSize> &serialiser) : a_cursor_(a_allocations_.end()) {
+		const auto registers = { Register::Name::BC, Register::Name::DE};
+		MandatoryRegisterAllocator<uint16_t> allocator(registers);
+
 		// Accumulate word priorities.
 		Time time = 0;
 		while(true) {
@@ -40,9 +43,12 @@ public:
 				default: break;
 				case TileEvent::Type::OutputWord:
 					word_priorities_.add_value(time, event.content);
+					allocator.add_value(time, event.content);
 				break;
 			}
 		}
+
+		const auto test = allocator.spans();
 
 		// Look for IY and A optimisations.
 		serialiser.reset();
