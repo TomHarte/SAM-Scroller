@@ -282,7 +282,7 @@ NSString *stringify(const std::vector<Operation> &operations) {
 				break;
 
 				case TileEvent::Type::OutputWord: {
-					const auto action = allocator.next_word(event.content);
+					const auto action = allocator.next_word(tile.event_offset(), event.content);
 					switch(action.type) {
 						case RegisterEvent::Type::Load:
 							operations.push_back(set.load(action.reg, action.value));
@@ -297,7 +297,7 @@ NSString *stringify(const std::vector<Operation> &operations) {
 					}
 				} break;
 				case TileEvent::Type::OutputByte: {
-					const auto action = allocator.next_byte(event.content);
+					const auto action = allocator.next_byte(tile.event_offset(), event.content);
 					switch(action.type) {
 						case RegisterEvent::Type::Load:
 							operations.push_back(set.load(action.reg, action.value));

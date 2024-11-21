@@ -22,6 +22,8 @@
 
 	Side chat: this therefore models the Z80 scenario of writing out a stream of constants
 	via SP, as the only way to write a value is by first putting it into a register.
+
+	TODO: treat index registers as second class.
 */
 template <typename IntT>
 class MandatoryRegisterAllocator {
@@ -74,7 +76,7 @@ public:
 			// the time range for which the new value persists.
 			const auto interesting_span = *prioritiser_.span_of(pair.second, pair.first);
 
-			Register::Name selected;
+			Register::Name selected = Register::Name::SP;			// A clearly invalid value.
 			int min_priority = std::numeric_limits<int>::max();
 			for(auto reg: registers_) {
 				const auto current_priority =
