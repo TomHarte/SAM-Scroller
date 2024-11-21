@@ -29,18 +29,42 @@ template <typename IntT>
 class MandatoryRegisterAllocator {
 public:
 	template<typename ListT>
-	MandatoryRegisterAllocator(const ListT &registers) :
-		registers_(registers) {}
+	MandatoryRegisterAllocator(const ListT &registers) {
+		for(const auto reg: registers) {
+			if(Register::is_index_pair(reg)) {
+				index_registers_.push_back(reg);
+			} else {
+				registers_.push_back(reg);
+			}
+		}
+	}
 
 	void add_value(Time time, IntT value) {
 		prioritiser_.add_value(time, value);
 	}
 
 	std::vector<Allocation<IntT>> spans() {
+		return spans({});
+	}
+
+private:
+	RegisterSet state_;
+	std::vector<Register::Name> registers_;
+	std::vector<Register::Name> index_registers_;
+	Prioritiser<IntT> prioritiser_;
+
+	std::vector<Allocation<IntT>> spans(const std::vector<Allocation<IntT>> &index_reservations) {
 		// Dumb algorithm: at each time that a value is needed,
 		// evict whichever held value has the lowest priority.
+		//
+		// Use the provided set of index_reservations to maintain
+		// a set of values that are in the index registers.
 		std::vector<Allocation<IntT>> spans;
 		std::map<Register::Name, Allocation<IntT>*> active_allocations_;
+		auto index_cursor = index_reservations.begin();
+
+		std::vector<Register::Name> all_registers = registers_;
+		all_registers.insert(all_registers.end(), index_registers_.begin(), index_registers_.end());
 
 		for(const auto &pair: prioritiser_.values()) {
 			const auto allocate = [&](Register::Name reg) {
@@ -52,9 +76,15 @@ public:
 				state_.set_value(reg, pair.second);
 			};
 
+			// Apply any hit index reservations.
+			if(index_cursor != index_reservations.end() && index_cursor->time == pair.first) {
+				state_.set_value<uint16_t>(index_cursor->reg, index_cursor->value);
+				++index_cursor;
+			}
+
 			// Is this a reuse or possibly a new allocation?
 			bool resolved = false;
-			for(auto reg: registers_) {
+			for(auto reg: all_registers) {
 				const auto value = state_.value<IntT>(reg);
 				if(value) {
 					if(*value == pair.second) {
@@ -103,9 +133,4 @@ public:
 
 		return spans;
 	}
-
-private:
-	RegisterSet state_;
-	std::vector<Register::Name> registers_;
-	Prioritiser<IntT> prioritiser_;
 };
