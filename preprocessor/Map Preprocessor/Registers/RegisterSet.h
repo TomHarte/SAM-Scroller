@@ -10,6 +10,12 @@
 #include "Register.h"
 #include "Operation.h"
 
+/// Models the full set of Z80 registers of which this program's code generators are aware
+/// and provides the minimal route to loading values to registers given their current state.
+///
+/// E.g. if BC is currently 0x23 and the request is to load BC with 0x23, no operation is generated.
+/// If it's to load BC with 0x123 then a load to B is generated. If it's to load BC with 0x24 then an
+/// INC C is generated. Etc.
 class RegisterSet {
 public:
 	template <typename IntT>
@@ -75,7 +81,10 @@ public:
 			}
 
 			if(previous) {
-				for(const auto source: {Register::Name::B, Register::Name::C, Register::Name::D, Register::Name::E, Register::Name::H, Register::Name::L}) {
+				for(const auto source: {
+					Register::Name::B, Register::Name::C, Register::Name::D,
+					Register::Name::E, Register::Name::H, Register::Name::L,
+				}) {
 					const auto source_value = value<uint8_t>(source);
 					if(!source_value) continue;
 

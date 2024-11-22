@@ -35,7 +35,7 @@ struct TileSerialiser {
 		const PixelAccessor &accessor,
 		const std::map<uint32_t, uint8_t> &palette) :
 			index_(index),
-			contents_(accessor, palette, true)
+			contents_(accessor, palette, PalettedPixelAccessor::Transformation::ReverseX)
 	{
 		set_slice(0);
 	}
@@ -59,6 +59,8 @@ struct TileSerialiser {
 	}
 
 	TileEvent next() {
+		++event_offset_;
+
 		// See whether advance proceeds from pixels to a line boundary.
 		if(x_ == (words_wide_ << 2) + (odd_width_ << 1)) {
 			x_ = 0;
@@ -102,25 +104,31 @@ struct TileSerialiser {
 		x_ = 0;
 		y_ = 0;
 		previous_ = TileEvent{};
+		event_offset_ = 0;
 	}
 
 	uint8_t index() const {
 		return index_;
 	}
 
-	private:
-		const uint8_t *swizzled_offset() {
-			const auto y = ((y_ & ~8) * 2) + (y_ >> 3);
-			return contents_.pixels(x_, y);
-		}
+	int event_offset() const {
+		return event_offset_;
+	}
 
-		int x_, y_;
-		int odd_width_;
-		int byte_begin_;
-		int words_wide_;
+private:
+	const uint8_t *swizzled_offset() {
+		const auto y = ((y_ & ~8) * 2) + (y_ >> 3);
+		return contents_.pixels(x_, y);
+	}
 
-		TileEvent previous_;
+	int x_, y_;
+	int odd_width_;
+	int byte_begin_;
+	int words_wide_;
 
-		uint8_t index_;
-		PalettedPixelAccessor contents_;
+	TileEvent previous_;
+
+	uint8_t index_;
+	PalettedPixelAccessor contents_;
+	int event_offset_;
 };
