@@ -2,6 +2,8 @@
 
 This project attempts to implement a full-screen 50Hz scrolling title for the SAM Coupé. It is therefore possibly iterating towards a two-thirds screen 25Hz scrolling title for the SAM Coupé.
 
+![Sample screenshot](readme-images/WB3.gif)
+
 ## Technical Background
 
 The SAM Coupé is an 8-bit computer from the 1980s with a 6Mhz Z80 and a 24kb native-mode frame buffer which does not support any form of hardware scrolling, accelerated drawing or other adornments — though the buffer can be set to start at any 32kb boundary. Video RAM sits in the CPU's address space and is subject to arbitrated access; the CPU may access RAM only once in every four cycles during the border and once in every eight cycles during the active display area.
