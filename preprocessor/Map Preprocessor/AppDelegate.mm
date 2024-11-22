@@ -377,7 +377,8 @@ NSString *stringify(const std::vector<Operation> &operations) {
 	NSArray<NSString *> *sprite_files = [self spriteFiles:directory];
 
 	// Build palette based on tiles and sprites.
-	Palettiser palettiser;
+	Palettiser palettiser(4);	// TODO: super-hack here; I'm supplying a rotation I picked to make sure that
+								// colour 0 is the background one. That needs to be automated.
 	for(NSString *file in [tile_files arrayByAddingObjectsFromArray:sprite_files]) {
 		NSData *fileData = [NSData dataWithContentsOfFile:file];
 		const PixelAccessor accessor([[NSImage alloc] initWithData:fileData]);
