@@ -54,76 +54,53 @@ public:
 			return baseline;
 		}
 
-		// Henceforth maintain a set of spilled numbers which don't improve
-		// life if moved into index registers and those which do, and try using
-		// an optional allocator on those which do.
-		//
-		// Continue until either all spilled numbers have vanished, or returns
-		// have stopped being found.
-		std::unordered_set<IntT> extracted;
-		std::unordered_set<IntT> dont_extract;
-
-		while(true) {
-			// Get list of new spills, ordered by frequency.
-			std::unordered_map<IntT, size_t> spills;
-			for(const auto &allocation: baseline) {
-				--spills[allocation.value];	// Use negative values because I cannot be bothered writing a custom
-											// orderer for the multimap below.
-			}
-
-			std::multimap<size_t, IntT> ordered_spills;
-			for(const auto &spill: spills) {
-				if(spill.first < 2) {
-					// Simple metric: if this 'spill' is actually loaded only a grand total of once,
-					// it isn't going to be improved by being loaded to an index register as nothing
-					// else seems to compete with it.
-					continue;
-				}
-				ordered_spills.emplace(spill.second, spill.first);
-			}
-
-			if(ordered_spills.empty()) {
-				return baseline;
-			}
-
-			// If spills count is less than some threshold, brute force it.
-			//
-			// Otherwise take the top item, check whether it helps, and put it
-			// either into the extracted or the dont_extract set. Then continue.
-			if(ordered_spills.size() < 10) {
-				printf("Brute forcing: %zu\n", ordered_spills.size());
-				for(int try_list = 1; try_list < 1 << ordered_spills.size(); try_list++) {
-					OptionalRegisterAllocator<uint16_t> index_allocator(index_registers_);
-
-					int index = 1;
-					for(const auto &spill: ordered_spills) {
-						if(try_list & index) {
-							for(const auto &pair: prioritiser_.values()) {
-								if(pair.second == spill.second) {
-									index_allocator.add_value(pair.first, pair.second);
-								}
-							}
-						}
-						index <<= 1;
-					}
-
-					const auto index_spans = index_allocator.spans();
-					if(index_spans.empty()) continue;	// Non-use of the index registers has already been tested.
-
-					const auto new_encoding = spans(index_spans);
-					if(cost(new_encoding) < cost(baseline)) {
-						baseline = new_encoding;
-					}
-				}
-
-				return baseline;
-			} else {
-				printf("Should search: %zu\n", ordered_spills.size());
-				break;
-			}
+		// Get list of new spills, ordered by frequency.
+		std::unordered_map<IntT, size_t> spills;
+		for(const auto &allocation: baseline) {
+			--spills[allocation.value];	// Use negative values because I cannot be bothered writing a custom
+										// orderer for the multimap below.
 		}
 
-		// TODO: some sort of zip.
+		std::multimap<size_t, IntT> ordered_spills;
+		for(const auto &spill: spills) {
+			if(spill.first < 2) {
+				// Simple metric: if this 'spill' is actually loaded only a grand total of once,
+				// it isn't going to be improved by being loaded to an index register as nothing
+				// else seems to compete with it.
+				continue;
+			}
+			ordered_spills.emplace(spill.second, spill.first);
+		}
+
+		if(ordered_spills.empty()) {
+			return baseline;
+		}
+
+		// Try all combinations of the first few spills as sorted by spill size.
+		const size_t spills_to_try = std::min(ordered_spills.size(), size_t(10));
+		for(int try_list = 1; try_list < 1 << spills_to_try; try_list++) {
+			OptionalRegisterAllocator<uint16_t> index_allocator(index_registers_);
+
+			int index = 1;
+			for(const auto &spill: ordered_spills) {
+				if(try_list & index) {
+					for(const auto &pair: prioritiser_.values()) {
+						if(pair.second == spill.second) {
+							index_allocator.add_value(pair.first, pair.second);
+						}
+					}
+				}
+				index <<= 1;
+			}
+
+			const auto index_spans = index_allocator.spans();
+			if(index_spans.empty()) continue;	// Non-use of the index registers has already been tested.
+
+			const auto new_encoding = spans(index_spans);
+			if(cost(new_encoding) < cost(baseline)) {
+				baseline = new_encoding;
+			}
+		}
 
 		return baseline;
 	}
