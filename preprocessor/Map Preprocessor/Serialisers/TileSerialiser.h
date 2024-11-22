@@ -10,6 +10,7 @@
 #include <array>
 #include <cstdint>
 #include <cmath>
+#include <map>
 
 struct TileEvent {
 	enum class Type {
@@ -33,7 +34,7 @@ struct TileSerialiser {
 	TileSerialiser(
 		uint8_t index,
 		const PixelAccessor &accessor,
-		const std::map<uint32_t, uint8_t> &palette) :
+		const std::unordered_map<uint32_t, uint8_t> &palette) :
 			index_(index),
 			contents_(accessor, palette, PalettedPixelAccessor::Transformation::ReverseX)
 	{

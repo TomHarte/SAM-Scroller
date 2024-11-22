@@ -15,6 +15,7 @@
 
 #include "RegisterSet.h"
 #include "Operation.h"
+#include "Palettiser.h"
 
 #include <array>
 #include <bit>
@@ -357,29 +358,14 @@ NSString *stringify(const std::vector<Operation> &operations) {
 	NSArray<NSString *> *tile_files = [self tileFiles:directory];
 	NSArray<NSString *> *sprite_files = [self spriteFiles:directory];
 
-	// Build palette based on tiels and sprites.
-	std::map<uint32_t, uint8_t> palette;
+	// Build palette based on tiles and sprites.
+	Palettiser palettiser;
 	for(NSString *file in [tile_files arrayByAddingObjectsFromArray:sprite_files]) {
-		// Tiles: grab all included colours.
 		NSData *fileData = [NSData dataWithContentsOfFile:file];
-		PixelAccessor accessor([[NSImage alloc] initWithData:fileData]);
-		for(size_t y = 0; y < accessor.height(); y++) {
-			for(size_t x = 0; x < accessor.width(); x++) {
-				const uint8_t palette_index = static_cast<uint8_t>(palette.size());
-
-				// TODO: map to Sam palette here, so that multiple different input RGBs that map to the same
-				// thing on the Sam don't get unique palette locations.
-				//
-				// (or, possibly, defer to a palette reduction step?)
-
-				// Quick hack! Just don't allow more than 15 colours. Overflow will compete.
-				const auto colour = accessor.pixel(x, y);
-				if(!PixelAccessor::is_transparent(colour)) {
-					palette.try_emplace(colour, std::min(palette_index, uint8_t(15)));
-				}
-			}
-		}
+		const PixelAccessor accessor([[NSImage alloc] initWithData:fileData]);
+		palettiser.add_colours(accessor);
 	}
+	const auto palette = palettiser.palette();
 
 	// Prepare lists of tiles and sprites for future dicing and writing.
 	std::vector<TileSerialiser<TileSize>> tiles;
@@ -389,7 +375,7 @@ NSString *stringify(const std::vector<Operation> &operations) {
 		tiles.emplace_back(
 			[[file lastPathComponent] intValue],
 			accessor,
-			palette);
+			palette.source_mapping);
 	}
 
 	std::vector<SpriteSerialiser> sprites;
@@ -399,12 +385,12 @@ NSString *stringify(const std::vector<Operation> &operations) {
 		sprites.emplace_back(
 			[[file lastPathComponent] intValue],
 			accessor,
-			palette,
+			palette.source_mapping,
 			SpriteSerialisationOrder);
 	}
 
 	// Write palette, in Sam format.
-	[self writePalette:palette file:[directory stringByAppendingPathComponent:@"palette.z80s"]];
+	[self writePalette:palette.sam_palette file:[directory stringByAppendingPathComponent:@"palette.z80s"]];
 
 	// Compile all.
 	[self compileSprites:sprites directory:directory];
@@ -588,44 +574,12 @@ NSString *stringify(const std::vector<Operation> &operations) {
 	[code writeToFile:[directory stringByAppendingPathComponent:@"sprites.z80s"] atomically:NO encoding:NSUTF8StringEncoding error:nil];
 }
 
-- (void)writePalette:(std::map<uint32_t, uint8_t> &)palette file:(NSString *)file {
+- (void)writePalette:(const std::vector<uint8_t> &)palette file:(NSString *)file {
 	NSMutableString *encoded = [[NSMutableString alloc] init];
 	[encoded appendFormat:@"\tpalette:\n\t\tdb "];
 
-	std::array<uint8_t, 16> values{};
-	for(const auto &colour: palette) {
-		const uint8_t wide_red = (colour.first >> 0) & 0xff;
-		const uint8_t wide_green = (colour.first >> 8) & 0xff;
-		const uint8_t wide_blue = (colour.first >> 16) & 0xff;
-
-		const auto remap = [](uint8_t source) {
-			return int(roundf(7.0 * static_cast<float>(source) / 255.0));
-		};
-
-		const uint8_t red = remap(wide_red);
-		const uint8_t green = remap(wide_green);
-		const uint8_t blue = remap(wide_blue);
-
-		const uint8_t bright = (red & 1) + (green & 1) + (blue & 1);
-		const uint8_t sam_colour =
-			((green & 4) ? 0x40 : 0x00) |
-			((red & 4) ? 0x20 : 0x00) |
-			((blue & 4) ? 0x10 : 0x00) |
-
-			((green & 2) ? 0x08 : 0x00) |
-			((red & 2) ? 0x04 : 0x00) |
-			((blue & 2) ? 0x02 : 0x00) |
-
-			// Rule for bright: at least two voted for it, and none were zero
-			// (as to me it looks odder to introduce red, green or blue
-			// when there is meant to be none than it does to have the whole
-			// colour be slightly darker.
-			((bright >= 2 && red && green && blue) ? 0x01 : 0x00);
-		values[colour.second] = sam_colour;
-	}
-
 	bool is_first = true;
-	for(uint8_t value: values) {
+	for(uint8_t value: palette) {
 		if(!is_first) [encoded appendString:@", "];
 		[encoded appendFormat:@"0x%02x", value];
 		is_first = false;
