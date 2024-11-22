@@ -18,6 +18,8 @@ struct Palette {
 template <size_t TargetCount = 16, size_t TargetOffset = 0>
 class Palettiser {
 public:
+	Palettiser(size_t rotation) : rotation_(rotation) {}
+
 	void add_colour(uint32_t colour) {
 		colours_.insert(colour);
 	}
@@ -60,6 +62,10 @@ public:
 			Bucket *selected_bucket = nullptr;
 			int max_range = 0;
 			for(auto &bucket: buckets) {
+				if(bucket.colours.size() == 1) {
+					continue;
+				}
+
 				uint32_t max = 0, min = 255;
 				for(int index = 0; index < 24; index += 8) {
 					for(const auto colour: bucket.colours) {
@@ -101,10 +107,15 @@ public:
 
 		// Build final palette.
 		Palette result;
+		result.sam_palette.resize(TargetCount);
+		uint8_t palette_index = rotation_;
 		for(const auto &bucket: buckets) {
+			const uint8_t index = palette_index + TargetOffset;
+			palette_index = (palette_index + 1) % TargetCount;
+
 			uint32_t sum[3]{};
 			for(const auto colour: bucket.colours) {
-				result.source_mapping[colour] = static_cast<uint8_t>(result.sam_palette.size());
+				result.source_mapping[colour] = index;
 				sum[0] += (colour >> 0) & 0xff;
 				sum[1] += (colour >> 8) & 0xff;
 				sum[2] += (colour >> 16) & 0xff;
@@ -137,7 +148,7 @@ public:
 				// when there is meant to be none than it does to have the whole
 				// colour be slightly darker.
 				((bright >= 2 && red && green && blue) ? 0x01 : 0x00);
-			result.sam_palette.push_back(sam_colour);
+			result.sam_palette[index] = sam_colour;
 		}
 
 		return result;
@@ -145,4 +156,5 @@ public:
 
 private:
 	std::unordered_set<uint32_t> colours_;
+	size_t rotation_;
 };

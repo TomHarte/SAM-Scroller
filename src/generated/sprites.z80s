@@ -11,242 +11,243 @@
 		ld bc, 0x0002
 		add hl, bc
 
-		xor a
-		ld (hl), a
+		ld (hl), 0x04
+		ld e, 0x44
 		inc l
-		ld (hl), a
+		ld (hl), e
 		inc l
-		ld (hl), a
+		ld (hl), e
 		ld c, 0x7d
 		add hl, bc
 
+		ld (hl), 0x04
+		inc l
+		ld (hl), 0x4f
+		ld a, 0xff
+		inc l
 		ld (hl), a
-		ld e, 0x05
+		inc l
+		ld (hl), a
 		inc l
 		ld (hl), e
-		ld d, 0x55
 		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), a
+		ld (hl), 0x40
 		ld c, 0x7b
 		add hl, bc
 
-		ld (hl), e
+		ld (hl), 0x4f
 		inc l
-		ld (hl), d
+		ld (hl), a
 		inc l
-		ld (hl), d
+		ld (hl), a
 		inc l
-		ld (hl), d
+		ld (hl), a
 		inc l
-		ld (hl), d
+		ld (hl), a
 		inc l
-		ld (hl), 0x50
+		ld (hl), 0xf4
 		dec c
 		add hl, bc
 
+		ld (hl), 0x04
+		inc l
 		ld (hl), a
 		inc l
-		ld (hl), d
+		ld (hl), a
 		inc l
-		ld (hl), d
+		ld (hl), a
 		inc l
-		ld (hl), d
+		ld (hl), a
 		inc l
-		ld (hl), d
+		ld (hl), a
 		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x50
+		ld (hl), 0xf4
 		add hl, bc
 
-		ld (hl), a
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xb5
+		ld (hl), 0x04
 		inc l
 		ld (hl), a
+		inc l
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0x40
 		dec c
 		add hl, bc
 
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0x1b
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), a
-		add hl, bc
-
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xb1
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0x99
-		inc l
-		ld (hl), 0xb0
-		inc c
-		add hl, bc
-
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xb1
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), 0x90
-		inc l
-		ld (hl), 0xb0
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xb1
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), 0x90
-		inc l
-		ld (hl), 0xb0
-		add hl, bc
-
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0x15
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), 0x99
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), a
-		dec c
-		add hl, bc
-
-		ld (hl), a
+		ld (hl), 0x4f
 		inc l
 		ld (hl), a
 		inc l
-		ld (hl), a
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), a
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xb0
-		inc l
-		ld (hl), a
-		add hl, bc
-
-		ld (hl), 0x0b
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), 0x99
-		inc l
-		ld (hl), 0x99
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), 0x0b
-		inc l
-		ld (hl), 0xb0
-		add hl, bc
-
-		ld (hl), 0x0b
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x80
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x9b
-		inc l
-		ld (hl), 0xb0
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), d
+		ld (hl), 0x88
 		inc l
 		ld (hl), 0x58
 		inc l
 		ld (hl), a
 		inc l
-		ld (hl), a
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0x40
+		add hl, bc
+
+		ld (hl), 0x4f
 		inc l
 		ld (hl), a
+		inc l
+		ld (hl), 0x85
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0xdd
+		inc l
+		ld (hl), 0x84
+		inc c
+		add hl, bc
+
+		ld (hl), 0x4f
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x85
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0x8d
+		inc l
+		ld (hl), 0xd4
+		inc l
+		ld (hl), 0x84
+		add hl, bc
+
+		ld (hl), 0x04
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x85
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0x8d
+		inc l
+		ld (hl), 0xd4
+		inc l
+		ld (hl), 0x84
+		add hl, bc
+
+		ld (hl), 0x4f
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0x5f
+		inc l
+		ld (hl), 0x8d
+		inc l
+		ld (hl), 0xdd
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x40
+		dec c
+		add hl, bc
+
+		ld a, 0x04
+		ld (hl), a
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x40
+		add hl, bc
+
+		ld (hl), a
+		inc l
+		ld (hl), 0x8d
+		ld d, 0x99
+		inc l
+		ld (hl), d
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x84
+		inc l
+		ld (hl), 0x40
+		add hl, bc
+
+		ld (hl), 0x48
+		inc l
+		ld (hl), 0x8d
+		inc l
+		ld (hl), 0xdd
+		inc l
+		ld (hl), 0xdd
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), 0x48
+		inc l
+		ld (hl), 0x84
+		add hl, bc
+
+		ld (hl), 0x48
+		inc l
+		ld (hl), 0x8d
+		inc l
+		ld (hl), d
+		inc l
+		ld (hl), d
+		inc l
+		ld (hl), 0xc4
+		inc l
+		ld (hl), d
+		inc l
+		ld (hl), 0xd8
+		inc l
+		ld (hl), 0x84
+		add hl, bc
+
+		ld (hl), a
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), d
+		inc l
+		ld (hl), 0x9c
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), 0x40
 		inc c
 		add hl, bc
 
@@ -258,14 +259,14 @@
 		inc l
 		ld (hl), d
 		inc l
-		ld (hl), a
+		ld (hl), 0x40
 		inc l
 		ld (hl), a
 		inc l
-		ld (hl), a
+		ld (hl), 0x40
 		add hl, bc
 
-		ld (hl), a
+		ld (hl), e
 		inc l
 		ld (hl), d
 		inc l
@@ -273,17 +274,34 @@
 		inc l
 		ld (hl), d
 		inc l
-		ld (hl), a
+		ld (hl), e
 		inc l
-		ld (hl), 0x08
+		ld (hl), 0x4c
 		inc l
-		ld (hl), a
+		ld (hl), 0x40
 		dec c
 		add hl, bc
 
 		ld (hl), a
 		inc l
-		ld (hl), 0x80
+		ld (hl), 0xc4
+		inc l
+		ld (hl), 0x49
+		inc l
+		ld (hl), d
+		inc l
+		ld (hl), d
+		inc l
+		ld (hl), d
+		inc l
+		ld (hl), 0xcc
+		inc l
+		ld (hl), 0x40
+		add hl, bc
+
+		ld (hl), a
+		inc l
+		ld (hl), 0xcc
 		inc l
 		ld (hl), e
 		inc l
@@ -293,96 +311,80 @@
 		inc l
 		ld (hl), d
 		inc l
-		ld (hl), 0x88
+		ld (hl), 0xcc
 		inc l
-		ld (hl), a
+		ld (hl), 0x40
 		add hl, bc
 
 		ld (hl), a
 		inc l
-		ld (hl), 0x88
-		inc l
-		ld (hl), a
+		ld (hl), 0xcc
 		inc l
 		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x88
-		inc l
-		ld (hl), a
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), 0x88
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), a
 		inc l
 		ld (hl), e
 		inc l
+		ld (hl), 0x49
+		inc l
 		ld (hl), d
 		inc l
-		ld (hl), 0x88
+		ld (hl), 0xcc
+		ld d, 0x40
 		inc l
-		ld (hl), a
+		ld (hl), d
 		add hl, bc
 
 		ld (hl), a
 		inc l
-		ld (hl), 0x80
+		ld (hl), 0xc4
 		inc l
-		ld (hl), a
+		ld (hl), e
 		ld c, 0x02
 		add hl, bc
 
 		ld (hl), a
 		inc l
-		ld (hl), a
+		ld (hl), e
 		inc l
-		ld (hl), a
+		ld (hl), e
 		ld c, 0x7a
 		add hl, bc
 
 		ld (hl), a
 		inc l
-		ld (hl), a
+		ld (hl), d
 		ret
 
 	sprite_5:
 		ld bc, 0x0202
 		add hl, bc
 
-		ld d, 0x00
+		ld d, 0x04
 		ld (hl), d
 		inc l
-		ld (hl), d
+		ld (hl), 0x44
 		inc l
-		ld (hl), d
+		ld (hl), 0x44
 		ld bc, 0x007d
 		add hl, bc
 
-		ld (hl), b
-		ld e, 0x05
+		ld (hl), d
+		inc l
+		ld (hl), 0x4f
+		ld a, 0xff
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x44
+		ld e, 0x40
 		inc l
 		ld (hl), e
-		ld a, 0x55
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), b
-		inc l
-		ld (hl), b
 		ld c, 0x7b
 		add hl, bc
 
-		ld (hl), e
+		ld (hl), 0x4f
 		inc l
 		ld (hl), a
 		inc l
@@ -392,11 +394,11 @@
 		inc l
 		ld (hl), a
 		inc l
-		ld (hl), 0x50
+		ld (hl), 0xf4
 		dec c
 		add hl, bc
 
-		ld (hl), b
+		ld (hl), d
 		inc l
 		ld (hl), a
 		inc l
@@ -408,554 +410,551 @@
 		inc l
 		ld (hl), a
 		inc l
-		ld (hl), 0x50
+		ld (hl), 0xf4
 		add hl, bc
 
-		ld (hl), b
+		ld (hl), d
 		inc l
 		ld (hl), a
 		inc l
-		ld (hl), 0x5b
+		ld (hl), 0xf8
 		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), a
+		ld (hl), 0x8f
 		inc l
 		ld (hl), a
 		inc l
-		ld (hl), 0xb5
+		ld (hl), a
 		inc l
-		ld (hl), b
+		ld (hl), 0x8f
+		inc l
+		ld (hl), e
 		dec c
 		add hl, bc
 
-		ld (hl), e
+		ld (hl), 0x4f
 		inc l
 		ld (hl), a
 		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0x1b
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), b
-		add hl, bc
-
-		ld (hl), e
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), 0xb1
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0x99
-		inc l
-		ld (hl), 0xb0
-		inc c
-		add hl, bc
-
-		ld (hl), e
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), 0xb1
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), 0x90
-		inc l
-		ld (hl), 0xb0
-		add hl, bc
-
-		ld (hl), b
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), 0xb1
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), 0x90
-		inc l
-		ld (hl), 0xb0
-		add hl, bc
-
-		ld (hl), e
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0x15
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), 0x99
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), b
-		dec c
-		add hl, bc
-
-		ld (hl), b
-		inc l
-		ld (hl), e
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), b
-		inc c
-		add hl, bc
-
-		ld (hl), b
-		inc l
-		ld (hl), e
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xb0
-		inc c
-		add hl, bc
-
-		ld (hl), b
-		inc l
-		ld (hl), 0x09
-		inc l
-		ld (hl), 0x98
-		inc l
-		ld (hl), 0x80
-		inc l
-		ld (hl), b
-		inc l
-		ld (hl), b
-		add hl, bc
-
-		ld (hl), 0x09
-		inc l
-		ld (hl), 0x95
+		ld (hl), 0x88
 		inc l
 		ld (hl), 0x58
 		inc l
-		ld (hl), 0x80
+		ld (hl), a
+		inc l
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), e
+		add hl, bc
+
+		ld (hl), 0x4f
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x85
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0xdd
+		inc l
+		ld (hl), 0x84
 		inc c
 		add hl, bc
 
-		ld (hl), b
-		inc l
-		ld (hl), 0x95
+		ld (hl), 0x4f
 		inc l
 		ld (hl), a
 		inc l
+		ld (hl), 0x85
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0x8d
+		inc l
+		ld (hl), 0xd4
+		inc l
+		ld (hl), 0x84
+		add hl, bc
+
+		ld (hl), d
+		inc l
 		ld (hl), a
 		inc l
-		ld (hl), 0x50
+		ld (hl), 0x85
 		inc l
-		ld (hl), b
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0x8d
+		inc l
+		ld (hl), 0xd4
+		inc l
+		ld (hl), 0x84
+		add hl, bc
+
+		ld (hl), 0x4f
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0x5f
+		inc l
+		ld (hl), 0x8d
+		inc l
+		ld (hl), 0xdd
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), e
 		dec c
 		add hl, bc
 
-		ld (hl), 0x0b
+		ld (hl), d
 		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), e
+		ld (hl), 0x4f
 		inc l
 		ld (hl), a
 		inc l
-		ld (hl), 0x50
+		ld (hl), 0x8f
 		inc l
-		ld (hl), 0x90
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), e
+		inc c
 		add hl, bc
 
-		ld (hl), 0x0b
+		ld (hl), d
 		inc l
-		ld (hl), 0xb8
+		ld (hl), 0x4f
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x84
+		inc c
+		add hl, bc
+
+		ld (hl), d
+		inc l
+		ld (hl), 0x4d
+		inc l
+		ld (hl), 0xdc
+		inc l
+		ld (hl), 0xc4
+		inc l
+		ld (hl), 0x44
 		inc l
 		ld (hl), e
+		add hl, bc
+
+		ld (hl), 0x4d
+		inc l
+		ld (hl), 0xd9
+		inc l
+		ld (hl), 0x9c
+		inc l
+		ld (hl), 0xc4
+		inc c
+		add hl, bc
+
+		ld (hl), d
+		inc l
+		ld (hl), 0xd9
+		ld a, 0x99
 		inc l
 		ld (hl), a
 		inc l
 		ld (hl), a
 		inc l
-		ld (hl), 0x0b
+		ld (hl), 0x94
 		inc l
-		ld (hl), b
+		ld (hl), e
 		dec c
 		add hl, bc
 
-		ld (hl), b
-		ld e, 0x88
+		ld (hl), 0x48
+		inc l
+		ld (hl), 0x8d
+		inc l
+		ld (hl), 0x49
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x94
+		inc l
+		ld (hl), 0xd4
+		add hl, bc
+
+		ld (hl), 0x48
+		inc l
+		ld (hl), 0x8c
+		inc l
+		ld (hl), 0x49
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x48
 		inc l
 		ld (hl), e
+		dec c
+		add hl, bc
+
+		ld (hl), d
+		inc l
+		ld (hl), 0xcc
 		inc l
 		ld (hl), a
 		inc l
-		ld (hl), 0x58
-		ld a, 0x85
+		ld (hl), 0x9c
 		inc l
-		ld (hl), a
+		ld (hl), 0xc9
 		inc l
-		ld (hl), 0x50
+		ld (hl), 0x94
 		inc c
 		add hl, bc
 
-		ld (hl), b
+		ld (hl), d
+		ld d, 0xcc
+		inc l
+		ld (hl), d
+		inc l
+		ld (hl), 0xc9
+		inc l
+		ld (hl), 0x94
+		inc l
+		ld (hl), d
+		inc l
+		ld (hl), 0xc4
+		inc c
+		add hl, bc
+
+		ld a, 0x44
+		ld (hl), a
+		inc l
+		ld (hl), a
 		inc l
 		ld (hl), e
 		inc l
 		ld (hl), a
 		inc l
-		ld (hl), 0x50
-		inc l
 		ld (hl), e
-		inc l
-		ld (hl), 0x80
-		inc c
-		add hl, bc
-
-		ld (hl), b
-		inc l
-		ld (hl), b
-		inc l
-		ld (hl), b
-		inc l
-		ld (hl), b
-		inc l
-		ld (hl), b
 		ret
 
 	sprite_2:
 		ld bc, 0x0002
 		add hl, bc
 
-		xor a
-		ld (hl), a
+		ld d, 0x04
+		ld (hl), d
 		inc l
-		ld (hl), a
+		ld (hl), 0x44
 		inc l
-		ld (hl), a
+		ld (hl), 0x44
 		ld c, 0x7d
 		add hl, bc
 
+		ld (hl), d
+		inc l
+		ld (hl), 0x4f
+		ld a, 0xff
+		inc l
 		ld (hl), a
-		ld e, 0x05
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x44
+		ld e, 0x40
 		inc l
 		ld (hl), e
-		ld d, 0x55
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), a
 		ld c, 0x7b
 		add hl, bc
 
-		ld (hl), e
+		ld (hl), 0x4f
 		inc l
-		ld (hl), d
+		ld (hl), a
 		inc l
-		ld (hl), d
+		ld (hl), a
 		inc l
-		ld (hl), d
+		ld (hl), a
 		inc l
-		ld (hl), d
+		ld (hl), a
 		inc l
-		ld (hl), 0x50
+		ld (hl), 0xf4
 		dec c
 		add hl, bc
 
+		ld (hl), d
+		inc l
 		ld (hl), a
 		inc l
-		ld (hl), d
+		ld (hl), a
 		inc l
-		ld (hl), d
+		ld (hl), a
 		inc l
-		ld (hl), d
+		ld (hl), a
 		inc l
-		ld (hl), d
+		ld (hl), a
 		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x50
+		ld (hl), 0xf4
 		add hl, bc
 
+		ld (hl), d
+		inc l
 		ld (hl), a
 		inc l
-		ld (hl), d
+		ld (hl), 0xf8
 		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xb5
+		ld (hl), 0x8f
 		inc l
 		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), e
 		dec c
 		add hl, bc
 
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0x1b
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), a
-		add hl, bc
-
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xb1
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0x99
-		inc l
-		ld (hl), 0xb0
-		inc c
-		add hl, bc
-
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xb1
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), 0x90
-		inc l
-		ld (hl), 0xb0
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xb1
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), 0x90
-		inc l
-		ld (hl), 0xb0
-		add hl, bc
-
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0x15
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), 0x99
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), a
-		dec c
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), a
-		inc c
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xb0
-		ld c, 0x7c
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), 0x99
+		ld (hl), 0x4f
 		inc l
 		ld (hl), a
 		inc l
-		ld (hl), a
-		inc l
-		ld (hl), a
-		add hl, bc
-
-		ld (hl), e
-		inc l
-		ld (hl), 0x59
+		ld (hl), 0x88
 		inc l
 		ld (hl), 0x58
 		inc l
 		ld (hl), a
-		inc c
-		add hl, bc
-
-		ld (hl), e
 		inc l
-		ld (hl), d
+		ld (hl), 0xf8
 		inc l
-		ld (hl), 0x95
-		inc l
-		ld (hl), 0x80
-		dec c
-		add hl, bc
-
-		ld (hl), a
+		ld (hl), 0x8f
 		inc l
 		ld (hl), e
-		inc l
-		ld (hl), e
-		inc l
-		ld (hl), 0x59
-		inc l
-		ld (hl), 0x90
 		add hl, bc
 
-		ld (hl), 0x0b
-		inc l
-		ld (hl), e
-		inc l
-		ld (hl), 0x50
-		inc l
-		ld (hl), 0x59
-		inc l
-		ld (hl), 0xbb
+		ld (hl), 0x4f
 		inc l
 		ld (hl), a
-		dec c
-		add hl, bc
-
-		ld (hl), 0x0b
-		inc l
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x0b
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), a
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x50
-		inc l
-		ld (hl), 0xb0
-		inc c
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x50
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), a
-		dec c
-		add hl, bc
-
-		ld d, 0x08
-		ld (hl), d
 		inc l
 		ld (hl), 0x85
 		inc l
-		ld (hl), 0x50
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0xdd
+		inc l
+		ld (hl), 0x84
+		inc c
+		add hl, bc
+
+		ld (hl), 0x4f
 		inc l
 		ld (hl), a
-		ld e, 0x88
 		inc l
-		ld (hl), e
+		ld (hl), 0x85
 		inc l
-		ld (hl), e
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0x8d
+		inc l
+		ld (hl), 0xd4
+		inc l
+		ld (hl), 0x84
+		add hl, bc
+
+		ld (hl), d
 		inc l
 		ld (hl), a
+		inc l
+		ld (hl), 0x85
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0x8d
+		inc l
+		ld (hl), 0xd4
+		inc l
+		ld (hl), 0x84
+		add hl, bc
+
+		ld (hl), 0x4f
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0x5f
+		inc l
+		ld (hl), 0x8d
+		inc l
+		ld (hl), 0xdd
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), e
+		dec c
+		add hl, bc
+
+		ld (hl), d
+		inc l
+		ld (hl), 0x4f
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), e
+		inc c
+		add hl, bc
+
+		ld (hl), d
+		inc l
+		ld (hl), 0x4f
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x84
+		ld c, 0x7c
+		add hl, bc
+
+		ld (hl), d
+		inc l
+		ld (hl), 0xdd
+		inc l
+		ld (hl), 0x44
+		inc l
+		ld (hl), 0x44
+		inc l
+		ld (hl), e
+		add hl, bc
+
+		ld a, 0x49
+		ld (hl), a
+		inc l
+		ld (hl), 0x9d
+		inc l
+		ld (hl), 0x9c
+		inc l
+		ld (hl), e
+		inc c
+		add hl, bc
+
+		ld (hl), a
+		inc l
+		ld (hl), 0x99
+		inc l
+		ld (hl), 0xd9
+		inc l
+		ld (hl), 0xc4
+		dec c
+		add hl, bc
+
+		ld (hl), d
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x9d
+		inc l
+		ld (hl), 0xd4
+		add hl, bc
+
+		ld (hl), 0x48
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x94
+		inc l
+		ld (hl), 0x9d
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), e
+		dec c
+		add hl, bc
+
+		ld (hl), 0x48
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x99
+		inc l
+		ld (hl), 0x48
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), e
+		add hl, bc
+
+		ld (hl), d
+		inc l
+		ld (hl), 0x99
+		inc l
+		ld (hl), 0x99
+		inc l
+		ld (hl), 0x94
+		inc l
+		ld (hl), 0x84
+		inc c
+		add hl, bc
+
+		ld (hl), d
+		inc l
+		ld (hl), 0x99
+		inc l
+		ld (hl), 0x99
+		inc l
+		ld (hl), 0x94
+		inc l
+		ld (hl), 0x44
+		inc l
+		ld (hl), 0x44
+		dec c
+		add hl, bc
+
+		ld (hl), 0x4c
+		inc l
+		ld (hl), 0xc9
+		inc l
+		ld (hl), 0x94
+		inc l
+		ld (hl), 0x44
+		ld a, 0xcc
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), e
 		ld c, 0x79
 		add hl, bc
 
-		ld (hl), a
-		inc l
-		ld (hl), e
-		inc l
-		ld (hl), e
+		ld (hl), d
 		inc l
 		ld (hl), a
 		inc l
@@ -963,1035 +962,1042 @@
 		inc l
 		ld (hl), e
 		inc l
-		ld (hl), 0x80
+		ld (hl), d
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0xc4
+		ld c, 0x7b
+		add hl, bc
+
+		ld (hl), 0x4c
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), e
+		ld c, 0x02
+		add hl, bc
+
+		ld (hl), 0x4c
+		inc l
+		ld (hl), e
 		ld c, 0x7b
 		add hl, bc
 
 		ld (hl), d
 		inc l
-		ld (hl), e
+		ld (hl), 0x44
 		inc l
-		ld (hl), a
+		ld (hl), e
 		ld c, 0x02
 		add hl, bc
 
 		ld (hl), d
-		inc l
-		ld (hl), a
-		ld c, 0x7b
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), a
-		ld c, 0x02
-		add hl, bc
-
-		ld (hl), a
 		ret
 
 	sprite_3:
 		ld bc, 0x0002
 		add hl, bc
 
-		xor a
-		ld (hl), a
+		ld d, 0x44
+		ld (hl), d
 		inc l
-		ld (hl), a
+		ld (hl), d
 		inc l
-		ld (hl), a
+		ld (hl), d
 		ld c, 0x7d
 		add hl, bc
 
-		ld (hl), a
-		ld d, 0x55
-		inc l
 		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
+		ld a, 0xff
 		inc l
 		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), d
 		ld c, 0x7b
 		add hl, bc
 
-		ld (hl), a
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
+		ld (hl), 0x04
 		inc l
 		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x40
 		dec c
 		add hl, bc
 
+		ld (hl), 0x04
+		inc l
 		ld (hl), a
 		inc l
-		ld (hl), d
+		ld (hl), a
 		inc l
-		ld (hl), d
+		ld (hl), a
 		inc l
-		ld (hl), d
+		ld (hl), a
 		inc l
-		ld (hl), d
+		ld (hl), a
 		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x50
+		ld (hl), 0xf4
 		add hl, bc
 
-		ld (hl), a
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), 0x50
-		add hl, bc
-
-		ld e, 0x05
-		ld (hl), e
-		inc l
-		ld (hl), 0xb1
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), a
-		dec c
-		add hl, bc
-
-		ld (hl), e
-		inc l
-		ld (hl), 0xb1
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), 0x9b
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), a
-		add hl, bc
-
-		ld (hl), e
-		inc l
-		ld (hl), 0xb1
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0x99
-		inc l
-		ld (hl), 0x0b
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), a
-		inc c
-		add hl, bc
-
-		ld (hl), e
-		inc l
-		ld (hl), 0xb1
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0x99
-		inc l
-		ld (hl), 0x0b
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), a
-		add hl, bc
-
-		ld (hl), e
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0x99
-		inc l
-		ld (hl), 0x9b
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), 0x9b
-		inc l
-		ld (hl), a
-		dec c
-		add hl, bc
-
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0x11
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), a
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xb0
-		ld c, 0x7b
-		add hl, bc
-
-		ld (hl), 0x09
-		inc l
-		ld (hl), 0x95
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), a
-		dec c
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), 0x95
-		inc l
-		ld (hl), d
-		inc l
 		ld (hl), d
 		inc l
 		ld (hl), 0x88
 		inc l
-		ld (hl), d
+		ld (hl), a
 		inc l
 		ld (hl), a
+		inc l
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0xf4
 		add hl, bc
 
-		ld (hl), a
+		ld (hl), 0x4f
 		inc l
-		ld (hl), 0x95
+		ld (hl), 0x85
 		inc l
-		ld (hl), 0x50
+		ld (hl), 0x8f
 		inc l
-		ld (hl), d
+		ld (hl), 0xf8
 		inc l
 		ld (hl), 0x88
 		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x90
-		add hl, bc
-
-		ld (hl), 0x09
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x50
-		inc l
-		ld (hl), 0x59
+		ld (hl), 0x88
 		inc l
 		ld (hl), a
+		inc l
+		ld (hl), 0x40
 		dec c
 		add hl, bc
 
-		ld (hl), 0x09
+		ld (hl), 0x4f
 		inc l
-		ld (hl), 0x99
+		ld (hl), 0x85
 		inc l
-		ld (hl), e
+		ld (hl), a
 		inc l
-		ld (hl), d
+		ld (hl), 0x8d
 		inc l
-		ld (hl), d
+		ld (hl), 0xd8
 		inc l
-		ld (hl), 0x50
+		ld (hl), 0x8d
 		inc l
-		ld (hl), 0x99
+		ld (hl), 0x8f
 		inc l
-		ld (hl), 0x90
+		ld (hl), 0x40
 		add hl, bc
 
-		ld (hl), 0x0b
+		ld (hl), 0x4f
 		inc l
-		ld (hl), 0xbb
+		ld (hl), 0x85
 		inc l
-		ld (hl), e
+		ld (hl), 0xf8
 		inc l
-		ld (hl), d
+		ld (hl), 0xdd
 		inc l
-		ld (hl), d
+		ld (hl), 0x48
 		inc l
-		ld (hl), 0x50
-		inc l
-		ld (hl), 0x0b
-		inc l
-		ld (hl), 0xb0
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), a
+		ld (hl), 0x8d
 		inc l
 		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), e
-		inc l
-		ld (hl), 0x50
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), a
 		inc c
 		add hl, bc
 
+		ld (hl), 0x4f
+		inc l
+		ld (hl), 0x85
+		inc l
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0xdd
+		inc l
+		ld (hl), 0x48
+		inc l
+		ld (hl), 0x8d
+		inc l
+		ld (hl), d
+		add hl, bc
+
+		ld (hl), 0x4f
+		inc l
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0xdd
+		inc l
+		ld (hl), 0xd8
+		inc l
+		ld (hl), 0x8d
+		inc l
+		ld (hl), 0xd8
+		inc l
+		ld (hl), 0x40
+		dec c
+		add hl, bc
+
+		ld (hl), 0x4f
+		inc l
 		ld (hl), a
+		inc l
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x55
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x40
+		add hl, bc
+
+		ld (hl), 0x04
+		inc l
+		ld (hl), 0x4f
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x84
+		ld c, 0x7b
+		add hl, bc
+
+		ld (hl), 0x4d
+		inc l
+		ld (hl), 0xd9
 		inc l
 		ld (hl), d
 		inc l
-		ld (hl), 0x50
+		ld (hl), d
+		inc l
+		ld (hl), d
+		inc l
+		ld (hl), 0x40
+		dec c
+		add hl, bc
+
+		ld (hl), 0x04
+		inc l
+		ld (hl), 0xd9
+		ld e, 0x99
 		inc l
 		ld (hl), e
 		inc l
-		ld (hl), 0x50
+		ld (hl), e
+		inc l
+		ld (hl), 0xcc
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), 0x40
+		add hl, bc
+
+		ld (hl), 0x04
+		inc l
+		ld (hl), 0xd9
+		ld a, 0x94
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), 0xcc
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), 0xd4
+		add hl, bc
+
+		ld (hl), 0x4d
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), 0x49
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x9d
+		inc l
+		ld (hl), 0x40
+		dec c
+		add hl, bc
+
+		ld (hl), 0x4d
+		inc l
+		ld (hl), 0xdd
+		inc l
+		ld (hl), 0x49
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0xdd
+		inc l
+		ld (hl), 0xd4
+		add hl, bc
+
+		ld (hl), 0x48
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x49
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x48
+		inc l
+		ld (hl), 0x84
+		add hl, bc
+
+		ld (hl), 0x04
+		inc l
+		ld (hl), d
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), 0x49
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x04
+		inc l
+		ld (hl), 0x40
+		inc c
+		add hl, bc
+
+		ld (hl), 0x04
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x49
+		inc l
+		ld (hl), a
 		ld c, 0x7c
 		add hl, bc
 
-		ld (hl), a
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x50
+		ld (hl), 0x04
 		inc l
 		ld (hl), e
 		inc l
-		ld (hl), 0x50
+		ld (hl), a
+		inc l
+		ld (hl), 0x49
+		inc l
+		ld (hl), a
 		add hl, bc
 
-		ld (hl), a
-		ld d, 0x88
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x80
-		ld e, 0x08
+		ld (hl), 0x04
+		ld e, 0xcc
 		inc l
 		ld (hl), e
 		inc l
-		ld (hl), d
+		ld (hl), 0xc4
+		ld a, 0x4c
 		inc l
 		ld (hl), a
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), 0x40
 		dec c
 		add hl, bc
 
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x80
+		ld (hl), a
 		inc l
 		ld (hl), e
 		inc l
-		ld (hl), d
+		ld (hl), 0xc4
 		inc l
-		ld (hl), 0x80
+		ld (hl), a
+		inc l
+		ld (hl), e
+		inc l
+		ld (hl), 0xc4
 		add hl, bc
 
-		ld (hl), a
+		ld (hl), d
 		inc l
-		ld (hl), a
+		ld (hl), d
 		inc l
-		ld (hl), a
+		ld (hl), d
 		inc l
-		ld (hl), a
+		ld (hl), d
 		inc l
-		ld (hl), a
+		ld (hl), d
 		inc l
-		ld (hl), a
+		ld (hl), d
 		ret
 
 	sprite_1:
 		ld bc, 0x0002
 		add hl, bc
 
-		xor a
-		ld (hl), a
+		ld e, 0x04
+		ld (hl), e
 		inc l
-		ld (hl), a
+		ld (hl), 0x44
 		inc l
-		ld (hl), a
+		ld (hl), 0x44
 		ld c, 0x7d
 		add hl, bc
 
-		ld (hl), a
-		ld e, 0x05
-		inc l
 		ld (hl), e
-		ld d, 0x55
 		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
+		ld (hl), 0x4f
+		ld a, 0xff
 		inc l
 		ld (hl), a
 		inc l
 		ld (hl), a
+		inc l
+		ld (hl), 0x44
+		ld d, 0x40
+		inc l
+		ld (hl), d
 		ld c, 0x7b
 		add hl, bc
 
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x50
-		dec c
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x50
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xb5
+		ld (hl), 0x4f
 		inc l
 		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0xf4
 		dec c
 		add hl, bc
 
 		ld (hl), e
 		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0x1b
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0xb5
+		ld (hl), a
 		inc l
 		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0xf4
 		add hl, bc
 
 		ld (hl), e
 		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x8f
+		inc l
 		ld (hl), d
+		dec c
+		add hl, bc
+
+		ld (hl), 0x4f
 		inc l
-		ld (hl), 0xb1
+		ld (hl), a
 		inc l
-		ld (hl), 0xb5
+		ld (hl), 0x88
 		inc l
-		ld (hl), 0x5b
+		ld (hl), 0x58
 		inc l
-		ld (hl), 0x99
+		ld (hl), a
 		inc l
-		ld (hl), 0xb0
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), d
+		add hl, bc
+
+		ld (hl), 0x4f
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x85
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0xdd
+		inc l
+		ld (hl), 0x84
+		inc c
+		add hl, bc
+
+		ld (hl), 0x4f
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x85
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0x8d
+		inc l
+		ld (hl), 0xd4
+		inc l
+		ld (hl), 0x84
+		add hl, bc
+
+		ld (hl), e
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x85
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0x8d
+		inc l
+		ld (hl), 0xd4
+		inc l
+		ld (hl), 0x84
+		add hl, bc
+
+		ld (hl), 0x4f
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0x5f
+		inc l
+		ld (hl), 0x8d
+		inc l
+		ld (hl), 0xdd
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), d
+		dec c
+		add hl, bc
+
+		ld (hl), e
+		inc l
+		ld (hl), 0x4f
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), d
 		inc c
 		add hl, bc
 
 		ld (hl), e
 		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xb1
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), 0x90
-		inc l
-		ld (hl), 0xb0
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xb1
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), 0x90
-		inc l
-		ld (hl), 0xb0
-		add hl, bc
-
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0x15
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), 0x99
-		inc l
-		ld (hl), 0xbb
+		ld (hl), 0x4f
 		inc l
 		ld (hl), a
-		dec c
-		add hl, bc
-
-		ld (hl), a
 		inc l
-		ld (hl), e
+		ld (hl), 0x88
 		inc l
-		ld (hl), d
+		ld (hl), 0x88
 		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), a
-		inc c
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xb0
+		ld (hl), 0x84
 		ld c, 0x7c
 		add hl, bc
 
-		ld (hl), a
-		inc l
-		ld (hl), 0x99
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), a
-		add hl, bc
-
 		ld (hl), e
 		inc l
-		ld (hl), 0x95
+		ld (hl), 0xdd
 		inc l
-		ld (hl), 0x80
+		ld (hl), 0x44
+		inc l
+		ld (hl), 0x44
+		inc l
+		ld (hl), d
+		add hl, bc
+
+		ld a, 0x49
+		ld (hl), a
+		inc l
+		ld (hl), 0xd9
+		inc l
+		ld (hl), 0xc4
 		ld c, 0x7e
 		add hl, bc
 
-		ld (hl), e
-		inc l
-		ld (hl), 0x95
-		inc l
-		ld (hl), 0x08
-		inc l
 		ld (hl), a
+		inc l
+		ld (hl), 0xd9
+		inc l
+		ld (hl), 0x4c
+		inc l
+		ld (hl), d
 		dec c
 		add hl, bc
 
-		ld (hl), e
-		inc l
-		ld (hl), 0x95
-		inc l
-		ld (hl), e
-		inc l
-		ld (hl), a
-		add hl, bc
-
-		ld (hl), 0x09
-		inc l
-		ld (hl), 0x99
-		inc l
-		ld (hl), e
-		inc l
-		ld (hl), a
-		add hl, bc
-
-		ld (hl), 0x0b
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xb0
-		inc l
-		ld (hl), a
-		add hl, bc
-
-		ld (hl), 0x0b
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), e
-		inc l
-		ld (hl), a
-		add hl, bc
-
 		ld (hl), a
 		inc l
-		ld (hl), a
+		ld (hl), 0xd9
 		inc l
-		ld (hl), 0x50
-		inc c
-		add hl, bc
-
 		ld (hl), a
 		inc l
 		ld (hl), d
-		inc l
-		ld (hl), a
 		add hl, bc
 
+		ld (hl), 0x4d
+		inc l
+		ld (hl), 0xdd
+		inc l
 		ld (hl), a
-		ld e, 0x88
 		inc l
-		ld (hl), e
-		inc l
-		ld (hl), 0x80
+		ld (hl), d
 		add hl, bc
 
+		ld (hl), 0x48
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x84
+		inc l
+		ld (hl), d
+		add hl, bc
+
+		ld (hl), 0x48
+		inc l
+		ld (hl), 0x88
+		inc l
 		ld (hl), a
 		inc l
+		ld (hl), d
+		add hl, bc
+
 		ld (hl), e
 		inc l
+		ld (hl), 0x44
+		inc l
+		ld (hl), 0x94
+		inc c
+		add hl, bc
+
+		ld (hl), e
+		inc l
+		ld (hl), 0x99
+		inc l
+		ld (hl), d
+		add hl, bc
+
+		ld (hl), e
+		ld a, 0xcc
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0xc4
+		add hl, bc
+
 		ld (hl), e
 		inc l
 		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), d
 		dec c
 		add hl, bc
 
-		ld (hl), a
+		ld (hl), e
+		ld a, 0x44
 		inc l
 		ld (hl), a
 		inc l
 		ld (hl), a
 		inc l
-		ld (hl), a
+		ld (hl), d
 		ret
 
 	sprite_0:
 		ld bc, 0x0002
 		add hl, bc
 
-		xor a
-		ld (hl), a
+		ld e, 0x04
+		ld (hl), e
 		inc l
-		ld (hl), a
+		ld (hl), 0x44
 		inc l
-		ld (hl), a
+		ld (hl), 0x44
 		ld c, 0x7d
 		add hl, bc
 
-		ld (hl), a
-		ld e, 0x05
-		inc l
 		ld (hl), e
-		ld d, 0x55
 		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
+		ld (hl), 0x4f
+		ld a, 0xff
 		inc l
 		ld (hl), a
 		inc l
 		ld (hl), a
+		inc l
+		ld (hl), 0x44
+		ld d, 0x40
+		inc l
+		ld (hl), d
 		ld c, 0x7b
 		add hl, bc
 
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x50
-		dec c
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x50
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xb5
+		ld (hl), 0x4f
 		inc l
 		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0xf4
 		dec c
 		add hl, bc
 
 		ld (hl), e
 		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0x1b
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0xb5
+		ld (hl), a
 		inc l
 		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0xf4
 		add hl, bc
 
 		ld (hl), e
 		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x8f
+		inc l
 		ld (hl), d
+		dec c
+		add hl, bc
+
+		ld (hl), 0x4f
 		inc l
-		ld (hl), 0xb1
+		ld (hl), a
 		inc l
-		ld (hl), 0xb5
+		ld (hl), 0x88
 		inc l
-		ld (hl), 0x5b
+		ld (hl), 0x58
 		inc l
-		ld (hl), 0x99
+		ld (hl), a
 		inc l
-		ld (hl), 0xb0
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), d
+		add hl, bc
+
+		ld (hl), 0x4f
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x85
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0xdd
+		inc l
+		ld (hl), 0x84
+		inc c
+		add hl, bc
+
+		ld (hl), 0x4f
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x85
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0x8d
+		inc l
+		ld (hl), 0xd4
+		inc l
+		ld (hl), 0x84
+		add hl, bc
+
+		ld (hl), e
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x85
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0x8d
+		inc l
+		ld (hl), 0xd4
+		inc l
+		ld (hl), 0x84
+		add hl, bc
+
+		ld (hl), 0x4f
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0xf8
+		inc l
+		ld (hl), 0x5f
+		inc l
+		ld (hl), 0x8d
+		inc l
+		ld (hl), 0xdd
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), d
+		dec c
+		add hl, bc
+
+		ld (hl), e
+		inc l
+		ld (hl), 0x4f
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x8f
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), d
 		inc c
 		add hl, bc
 
 		ld (hl), e
 		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xb1
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), 0x90
-		inc l
-		ld (hl), 0xb0
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xb1
-		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), 0x90
-		inc l
-		ld (hl), 0xb0
-		add hl, bc
-
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x5b
-		inc l
-		ld (hl), 0x15
-		inc l
-		ld (hl), 0xb9
-		inc l
-		ld (hl), 0x99
-		inc l
-		ld (hl), 0xbb
+		ld (hl), 0x4f
 		inc l
 		ld (hl), a
-		dec c
-		add hl, bc
-
-		ld (hl), a
 		inc l
-		ld (hl), e
+		ld (hl), 0x88
 		inc l
-		ld (hl), d
+		ld (hl), 0x88
 		inc l
-		ld (hl), 0xb5
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), a
-		inc c
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0xb0
+		ld (hl), 0x84
 		ld c, 0x7c
 		add hl, bc
 
-		ld (hl), a
-		inc l
-		ld (hl), 0x99
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), a
-		add hl, bc
-
 		ld (hl), e
 		inc l
-		ld (hl), 0x95
+		ld (hl), 0xdd
 		inc l
-		ld (hl), 0x80
+		ld (hl), 0x44
+		inc l
+		ld (hl), 0x44
+		inc l
+		ld (hl), d
+		add hl, bc
+
+		ld (hl), 0x49
+		inc l
+		ld (hl), 0xd9
+		inc l
+		ld (hl), 0xc4
 		inc c
 		add hl, bc
 
-		ld (hl), a
-		inc l
-		ld (hl), 0x59
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x58
-		inc l
-		ld (hl), a
-		dec c
-		add hl, bc
-
-		ld (hl), 0x09
-		inc l
-		ld (hl), 0x95
-		inc l
-		ld (hl), 0x50
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), a
-		dec c
-		add hl, bc
-
-		ld (hl), a
-		inc l
-		ld (hl), 0xbb
-		inc l
-		ld (hl), 0x95
-		inc l
 		ld (hl), e
 		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x0b
+		ld (hl), 0x9d
+		ld a, 0x99
 		inc l
 		ld (hl), a
+		inc l
+		ld (hl), 0x9c
+		inc l
+		ld (hl), d
 		dec c
 		add hl, bc
 
+		ld (hl), 0x4d
+		inc l
+		ld (hl), 0xd9
+		inc l
+		ld (hl), 0x94
+		inc l
 		ld (hl), a
 		inc l
-		ld (hl), 0xbb
+		ld (hl), 0x44
+		dec c
+		add hl, bc
+
+		ld (hl), e
 		inc l
-		ld (hl), 0xb0
+		ld (hl), 0x88
+		inc l
+		ld (hl), 0xd9
+		inc l
+		ld (hl), 0x49
+		inc l
+		ld (hl), a
+		inc l
+		ld (hl), 0x48
 		inc l
 		ld (hl), d
+		dec c
+		add hl, bc
+
+		ld (hl), e
 		inc l
-		ld (hl), 0x50
+		ld (hl), 0x88
 		inc l
-		ld (hl), 0xbb
+		ld (hl), 0x84
 		inc l
 		ld (hl), a
+		inc l
+		ld (hl), 0x94
+		inc l
+		ld (hl), 0x88
+		inc l
+		ld (hl), d
 		inc c
 		add hl, bc
 
+		ld (hl), 0x44
+		inc l
+		ld (hl), 0x49
+		inc l
 		ld (hl), a
 		inc l
-		ld (hl), e
+		ld (hl), a
+		inc l
+		ld (hl), 0x44
 		inc l
 		ld (hl), d
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), a
-		inc l
-		ld (hl), a
 		add hl, bc
 
-		ld (hl), 0x08
+		ld (hl), 0x4c
 		inc l
-		ld (hl), 0x80
+		ld (hl), 0xc4
 		inc l
-		ld (hl), e
-		inc l
-		ld (hl), d
-		inc l
-		ld (hl), 0x58
-		inc l
-		ld (hl), 0x80
-		add hl, bc
-
-		ld d, 0x08
-		ld (hl), d
-		inc l
-		ld (hl), 0x88
+		ld (hl), 0x49
 		inc l
 		ld (hl), a
 		inc l
-		ld (hl), e
+		ld (hl), 0x9c
 		inc l
-		ld (hl), 0x88
-		ld e, 0x80
-		inc l
-		ld (hl), e
+		ld (hl), 0xc4
 		add hl, bc
 
-		ld (hl), d
-		inc l
-		ld (hl), e
-		ld c, 0x02
-		add hl, bc
-
-		ld (hl), d
-		inc l
-		ld (hl), 0x88
-		inc l
+		ld a, 0x4c
 		ld (hl), a
-		ld c, 0x7b
+		inc l
+		ld (hl), 0xcc
+		inc l
+		ld (hl), 0x44
+		inc l
+		ld (hl), 0x49
+		inc l
+		ld (hl), 0xcc
+		inc l
+		ld (hl), 0xc4
 		add hl, bc
 
-		ld (hl), d
-		inc l
 		ld (hl), a
+		inc l
+		ld (hl), 0xc4
 		ld c, 0x02
 		add hl, bc
 
 		ld (hl), a
 		inc l
+		ld (hl), 0xcc
+		inc l
+		ld (hl), d
+		ld c, 0x7b
+		add hl, bc
+
+		ld (hl), a
+		inc l
+		ld (hl), d
+		ld c, 0x02
+		add hl, bc
+
 		ld (hl), e
+		inc l
+		ld (hl), 0xc4
 		ld c, 0x7c
 		add hl, bc
 
-		ld (hl), a
-		ld c, 0x04
+		ld (hl), 0x44
+		ld c, e
 		add hl, bc
 
-		ld (hl), a
+		ld (hl), d
 		ret
 
