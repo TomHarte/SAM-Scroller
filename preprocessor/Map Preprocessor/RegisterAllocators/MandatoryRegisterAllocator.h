@@ -77,7 +77,7 @@ public:
 		}
 
 		// Try all combinations of the first few spills as sorted by spill size.
-		const size_t spills_to_try = std::min(ordered_spills.size(), size_t(10));
+		const size_t spills_to_try = std::min(ordered_spills.size(), size_t(8));
 		for(int try_list = 1; try_list < 1 << spills_to_try; try_list++) {
 			OptionalRegisterAllocator<uint16_t> index_allocator(index_registers_);
 

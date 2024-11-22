@@ -25,11 +25,16 @@ struct RegisterEvent {
 
 template <int TileSize>
 class TileRegisterAllocator {
-	static constexpr auto Registers = { Register::Name::BC, Register::Name::DE, Register::Name::IY };
+	static constexpr auto RegistersSansIX = { Register::Name::BC, Register::Name::DE, Register::Name::IY };
+	static constexpr auto RegistersPlusIX = { Register::Name::BC, Register::Name::DE, Register::Name::IY, Register::Name::IX };
 
 public:
-	TileRegisterAllocator(TileSerialiser<TileSize> &serialiser) : a_cursor_(a_allocations_.end()) {
-		MandatoryRegisterAllocator<uint16_t> allocator(Registers);
+	TileRegisterAllocator(TileSerialiser<TileSize> &serialiser, bool permit_ix) :
+		a_cursor_(a_allocations_.end()),
+		registers_(permit_ix ? RegistersPlusIX : RegistersSansIX)
+	{
+		MandatoryRegisterAllocator<uint16_t> allocator(registers_);
+		serialiser.reset();
 
 		// Accumulate word priorities.
 		while(true) {
@@ -94,7 +99,7 @@ public:
 
 		// Now it should be true that `value` is definitely, definitely in
 		// the register set.
-		for(auto reg: Registers) {
+		for(auto reg: registers_) {
 			const auto reg_value = state_.value<uint16_t>(reg);
 			if(reg_value && *reg_value == value) {
 				return RegisterEvent{.type = RegisterEvent::Type::Reuse, .reg = reg};
@@ -108,7 +113,7 @@ public:
 
 	RegisterEvent next_byte(size_t time, uint8_t value) {
 		// Test for existence in B, C, D, E.
-		for(auto reg: Registers) {
+		for(auto reg: registers_) {
 			if(Register::is_index_pair(reg)) {
 				continue;
 			}
@@ -147,6 +152,7 @@ public:
 	}
 
 private:
+	std::vector<Register::Name> registers_;
 	RegisterSet state_;
 
 	std::vector<Allocation<uint16_t>> allocations_;

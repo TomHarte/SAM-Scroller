@@ -256,68 +256,86 @@ NSString *stringify(const std::vector<Operation> &operations) {
 	NSMutableString *code = [[NSMutableString alloc] init];
 	for(auto &tile: tiles) {
 		tile.set_slice(slice);
-		TileRegisterAllocator<TileSize> allocator(tile);
 
+		// Two trials are performed; one with IX (and appropriate logic to preserve it across the call) and one without.
+		// Whichever ends up with the lowest cost wins.
 		std::vector<Operation> operations;
-		operations.push_back(Operation::label([[NSString stringWithFormat:@"@%@_%d", name, tile.index()] UTF8String]));
-		operations.push_back(Operation::ld(Operand::label_indirect("@+return+1"), Operand::direct(Register::Name::DE)));
-		operations.push_back(Operation::ld(Register::Name::SP, Register::Name::HL));
 
-		bool finished = false;
-		RegisterSet set;
-		while(!finished) {
-			auto event = tile.next();
-			switch(event.type) {
-				case TileEvent::Type::Stop:	finished = true;	break;
+		for(int c = 0; c < 2; c++) {
+			TileRegisterAllocator<TileSize> allocator(tile, c & 1);
 
-				case TileEvent::Type::Up2:
-					operations.push_back(Operation::unary(Operation::Type::DEC, Register::Name::H));
-					operations.push_back(Operation::ld(Register::Name::SP, Register::Name::HL));
-					operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
-				break;
-				case TileEvent::Type::DownN:
-					operations.push_back(Operation::ld(Operand::direct(Register::Name::HL), Operand::immediate<uint16_t>(event.content)));
-					operations.push_back(Operation::add(Register::Name::HL, Register::Name::SP));
-					operations.push_back(Operation::ld(Register::Name::SP, Register::Name::HL));
-					operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
-				break;
+			std::vector<Operation> trial;
+			trial.push_back(Operation::label([[NSString stringWithFormat:@"@%@_%d", name, tile.index()] UTF8String]));
+			trial.push_back(Operation::ld(Operand::label_indirect("@+return+1"), Operand::direct(Register::Name::DE)));
+			if(c & 1) {
+				trial.push_back(Operation::ld(Operand::label_indirect("@+reload_ix+2"), Operand::direct(Register::Name::IX)));
+			}
+			trial.push_back(Operation::ld(Register::Name::SP, Register::Name::HL));
 
-				case TileEvent::Type::OutputWord: {
-					const auto action = allocator.next_word(tile.event_offset(), event.content);
-					switch(action.type) {
-						case RegisterEvent::Type::Load:
-							operations.push_back(set.load(action.reg, action.value));
-							[[fallthrough]];
-						case RegisterEvent::Type::Reuse:
-							operations.push_back(Operation::unary(Operation::Type::PUSH, Register::pair(action.reg)));
-						break;
+			bool finished = false;
+			RegisterSet set;
+			while(!finished) {
+				auto event = tile.next();
+				switch(event.type) {
+					case TileEvent::Type::Stop:	finished = true;	break;
 
-						case RegisterEvent::Type::UseConstant:
-							throw 0;	// Impossible.
-						break;
-					}
-				} break;
-				case TileEvent::Type::OutputByte: {
-					const auto action = allocator.next_byte(tile.event_offset(), event.content);
-					switch(action.type) {
-						case RegisterEvent::Type::Load:
-							operations.push_back(set.load(action.reg, action.value));
-							[[fallthrough]];
-						case RegisterEvent::Type::Reuse:
-							operations.push_back(Operation::ld(Operand::indirect(Register::Name::HL), Operand::direct(action.reg)));
-						break;
+					case TileEvent::Type::Up2:
+						trial.push_back(Operation::unary(Operation::Type::DEC, Register::Name::H));
+						trial.push_back(Operation::ld(Register::Name::SP, Register::Name::HL));
+						trial.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
+					break;
+					case TileEvent::Type::DownN:
+						trial.push_back(Operation::ld(Operand::direct(Register::Name::HL), Operand::immediate<uint16_t>(event.content)));
+						trial.push_back(Operation::add(Register::Name::HL, Register::Name::SP));
+						trial.push_back(Operation::ld(Register::Name::SP, Register::Name::HL));
+						trial.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
+					break;
 
-						case RegisterEvent::Type::UseConstant:
-							operations.push_back(Operation::ld(Operand::indirect(Register::Name::HL), Operand::immediate<uint8_t>(action.value)));
-						break;
-					}
-				} break;
+					case TileEvent::Type::OutputWord: {
+						const auto action = allocator.next_word(tile.event_offset(), event.content);
+						switch(action.type) {
+							case RegisterEvent::Type::Load:
+								trial.push_back(set.load(action.reg, action.value));
+								[[fallthrough]];
+							case RegisterEvent::Type::Reuse:
+								trial.push_back(Operation::unary(Operation::Type::PUSH, Register::pair(action.reg)));
+							break;
+
+							case RegisterEvent::Type::UseConstant:
+								throw 0;	// Impossible.
+							break;
+						}
+					} break;
+					case TileEvent::Type::OutputByte: {
+						const auto action = allocator.next_byte(tile.event_offset(), event.content);
+						switch(action.type) {
+							case RegisterEvent::Type::Load:
+								trial.push_back(set.load(action.reg, action.value));
+								[[fallthrough]];
+							case RegisterEvent::Type::Reuse:
+								trial.push_back(Operation::ld(Operand::indirect(Register::Name::HL), Operand::direct(action.reg)));
+							break;
+
+							case RegisterEvent::Type::UseConstant:
+								trial.push_back(Operation::ld(Operand::indirect(Register::Name::HL), Operand::immediate<uint8_t>(action.value)));
+							break;
+						}
+					} break;
+				}
+			}
+
+			if(c & 1) {
+				trial.push_back(Operation::label("@reload_ix"));
+				trial.push_back(Operation::ld(Operand::direct(Register::Name::IX), Operand::immediate<uint16_t>(0x1234)));
+			}
+			trial.push_back(Operation::label("@return"));
+			trial.push_back(Operation::jp(0x1234));
+			trial.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
+
+			if(operations.empty() || cost(trial) < cost(operations)) {
+				operations = trial;
 			}
 		}
-
-		operations.push_back(Operation::label("@return"));
-		operations.push_back(Operation::jp(0x1234));
-		operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
 
 		[code appendString:stringify(operations)];
 	}

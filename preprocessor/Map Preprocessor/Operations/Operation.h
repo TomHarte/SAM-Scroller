@@ -213,6 +213,14 @@ struct Operation {
 					return 2 + destination->index_cost();
 				}
 
+				// LD (nn), r/rr.
+				if(
+					destination->type == Operand::Type::LabelIndirect &&
+					source->type == Operand::Type::Direct
+				) {
+					return 3 + destination->size() + destination->index_cost();
+				}
+
 				// Hopefully that leaves only LD r,n and LR r,nn, at least
 				// as far as this project is concerned.
 				if(
