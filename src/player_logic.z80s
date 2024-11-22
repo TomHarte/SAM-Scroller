@@ -46,8 +46,8 @@ HORIZONTAL_GROUND_STRENGTH:	EQU 256 >> HORIZONTAL_GROUND_DAMPING
 ;	jumping over the top of the frame is standard platformer behaviour but dipping
 ;	below the bottom isn't so common. So that gives 8 rows below and 56 above.
 ;
-player_current:		dw 64 << 8, START_Y << 8
-player_previous:	dw 64 << 8, START_Y << 8
+player_current:		dw 64 << 8, (START_Y + 64) << 8
+player_previous:	dw 64 << 8, (START_Y + 64) << 8
 X_OFFSET:	EQU 0
 Y_OFFSET:	EQU 2
 
@@ -601,20 +601,41 @@ test_map_collisions_horizontal:
 ;
 @is_solid:
 	ld a, (hl)
+	rrca
+	rrca
+	exx
+	ld h, @+solid_table >> 8
+	ld l, a
+	ld a, (hl)
+	exx
 
-	; Simplified test: a > 17 || a == 2
-	cp 17 << 2
-	ret nc
-
-	cp 2 << 2
-	jp z, @+ret_c
+	or a
+	ret nz
 
 	scf
 	ret
 
-@ret_c:
-	xor a
-	ret	
+	; Simplified test: a > 17 || a == 2
+;	cp 17 << 2
+;	ret nc
+
+;	cp 2 << 2
+;	jp z, @+ret_c
+
+;	scf
+;	ret
+
+;@ret_c:
+;	xor a
+;	ret	
+
+ds align 256
+@solid_table:
+	db 1, 1, 0, 0, 0, 1, 1, 1, 0
+	db 0, 0, 0, 0, 0, 0, 0, 0, 0
+	db 0, 0, 0, 0, 0, 0, 0, 0, 1
+	db 0, 0, 0, 0, 0, 0, 0, 0, 0
+	db 0, 0, 0, 0, 0, 0, 0, 0, 0
 
 
 ;

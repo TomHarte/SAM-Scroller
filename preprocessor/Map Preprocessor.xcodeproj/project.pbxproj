@@ -28,6 +28,7 @@
 		4BB24ACD2CEE616100D39739 /* TileSerialiser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TileSerialiser.h; sourceTree = "<group>"; };
 		4BB24ACF2CEE968800D39739 /* PixelAccessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PixelAccessor.h; sourceTree = "<group>"; };
 		4BB24AD02CEE96A900D39739 /* TileRegisterAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TileRegisterAllocator.h; sourceTree = "<group>"; };
+		4BB24AD12CF0D1C300D39739 /* Palettiser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Palettiser.h; sourceTree = "<group>"; };
 		4BC106862CDFF4C30048554C /* MandatoryRegisterAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MandatoryRegisterAllocator.h; sourceTree = "<group>"; };
 		4BC106872CDFF4C30048554C /* OptionalRegisterAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OptionalRegisterAllocator.h; sourceTree = "<group>"; };
 		4BC1068B2CDFF4E10048554C /* Allocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Allocation.h; sourceTree = "<group>"; };
@@ -98,6 +99,7 @@
 		4BB24ACE2CEE616100D39739 /* Serialisers */ = {
 			isa = PBXGroup;
 			children = (
+				4BB24AD12CF0D1C300D39739 /* Palettiser.h */,
 				4BB24ACF2CEE968800D39739 /* PixelAccessor.h */,
 				4BB24ACC2CEE616100D39739 /* SpriteSerialiser.h */,
 				4BB24ACD2CEE616100D39739 /* TileSerialiser.h */,

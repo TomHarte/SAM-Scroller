@@ -80,7 +80,7 @@ class PalettedPixelAccessor {
 
 		PalettedPixelAccessor(
 			const PixelAccessor &accessor,
-			const std::map<uint32_t, uint8_t> &palette,
+			const std::unordered_map<uint32_t, uint8_t> &palette,
 			Transformation transformation
 		) :
 			width_(accessor.width()),
