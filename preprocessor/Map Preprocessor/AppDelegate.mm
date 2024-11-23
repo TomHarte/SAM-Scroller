@@ -296,8 +296,9 @@ NSString *stringify(const std::vector<Operation> &operations) {
 					case TileEvent::Type::Up1: {
 						const bool might_be_at_screen_edge = !(slice&1) && (slice <= 0);
 						if(might_be_at_screen_edge) {
-							trial.push_back(Operation::ld(Operand::direct(Register::Name::HL), Operand::immediate<uint16_t>(-128 + stack_count)));
-							trial.push_back(Operation::add(Register::Name::HL, Register::Name::SP));
+							trial.push_back(Operation::unary(Operation::Type::DEC, Register::Name::HL));
+							trial.push_back(Operation::unary(Operation::Type::RES7, Register::Name::L));
+							trial.push_back(Operation::unary(Operation::Type::INC, Register::Name::L));
 						} else {
 							trial.push_back(Operation::unary(Operation::Type::RES7, Register::Name::L));
 						}
