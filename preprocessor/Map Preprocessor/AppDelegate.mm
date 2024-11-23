@@ -294,19 +294,16 @@ NSString *stringify(const std::vector<Operation> &operations) {
 						stack_count = 0;
 					break;
 					case TileEvent::Type::Up1: {
-						trial.push_back(Operation::ld(Operand::direct(Register::Name::HL), Operand::immediate<uint16_t>(-128 + stack_count)));
-						trial.push_back(Operation::add(Register::Name::HL, Register::Name::SP));
+						const bool might_be_at_screen_edge = !(slice&1) && (slice <= 0);
+						if(might_be_at_screen_edge) {
+							trial.push_back(Operation::ld(Operand::direct(Register::Name::HL), Operand::immediate<uint16_t>(-128 + stack_count)));
+							trial.push_back(Operation::add(Register::Name::HL, Register::Name::SP));
+						} else {
+							trial.push_back(Operation::unary(Operation::Type::RES7, Register::Name::L));
+						}
+						// To consider: if an extra 8kb is available for a duplicate set of the full-size tiles,
+						// use those for everywhere except the rightmost column and implement them as `res 7`.
 
-/*
-//						const bool might_be_at_screen_edge = true;//!(slice&1) && (slice >= 0);
-//						if(might_be_at_screen_edge) {
-							trial.push_back(Operation::unary(Operation::Type::DEC, Register::Name::L));
-//						}
-						trial.push_back(Operation::unary(Operation::Type::RES7, Register::Name::L));
-//						if(might_be_at_screen_edge) {
-							trial.push_back(Operation::unary(Operation::Type::INC, Register::Name::L));
-//						}
-*/
 						trial.push_back(Operation::ld(Register::Name::SP, Register::Name::HL));
 						trial.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
 						stack_count = 0;

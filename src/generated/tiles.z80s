@@ -7178,8 +7178,7 @@
 		push bc
 		ld b, c
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -7309,8 +7308,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -7431,8 +7429,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -7572,8 +7569,7 @@
 		push bc
 		ld bc, 0x0000
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -7719,8 +7715,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -7847,8 +7842,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -7981,8 +7975,7 @@
 		push bc
 		ld b, d
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x70
@@ -8113,8 +8106,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -8233,8 +8225,7 @@
 		push bc
 		push bc
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -8355,8 +8346,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -8473,8 +8463,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -8597,8 +8586,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -8733,8 +8721,7 @@
 		push bc
 		ld bc, 0x7600
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x67
@@ -8882,8 +8869,7 @@
 		push bc
 		ld c, 0x7a
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -9017,8 +9003,7 @@
 		push de
 		push de
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -9137,8 +9122,7 @@
 		push de
 		push de
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld a, 0x22
@@ -9267,8 +9251,7 @@
 		ld b, 0x54
 		push bc
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x44
@@ -9391,8 +9374,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -9515,8 +9497,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -9642,8 +9623,7 @@
 		push de
 		ld b, a
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -9776,8 +9756,7 @@
 		push bc
 		push bc
 		push iy
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -9906,8 +9885,7 @@
 		push bc
 		push iy
 		push ix
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -10027,8 +10005,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -10151,8 +10128,7 @@
 		push iy
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -10274,8 +10250,7 @@
 		push bc
 		push de
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld a, 0x22
@@ -10401,8 +10376,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -10539,8 +10513,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x44
@@ -10688,8 +10661,7 @@
 		ld bc, 0x5444
 		push bc
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x55
@@ -10818,8 +10790,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -10940,8 +10911,7 @@
 		push iy
 		push de
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xdd
@@ -11060,8 +11030,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -11180,8 +11149,7 @@
 		push bc
 		push bc
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -11311,8 +11279,7 @@
 		push de
 		ld c, 0x45
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), e
@@ -11443,8 +11410,7 @@
 		push bc
 		ld bc, 0xdddd
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x00
@@ -11584,8 +11550,7 @@
 		push bc
 		ld bc, 0x11dd
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x22
@@ -11734,8 +11699,7 @@
 		ld bc, 0x5335
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -11877,8 +11841,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xdd
@@ -12015,8 +11978,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -12146,8 +12108,7 @@
 		push de
 		ld de, 0x5355
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -12285,8 +12246,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -12422,8 +12382,7 @@
 		push bc
 		push bc
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -12557,8 +12516,7 @@
 		push bc
 		ld b, c
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -12688,8 +12646,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -12806,8 +12763,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -12928,8 +12884,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -13060,8 +13015,7 @@
 		push bc
 		ld c, 0x4f
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -13206,8 +13160,7 @@
 		ld bc, 0x5335
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -13357,8 +13310,7 @@
 		push bc
 		ld bc, 0x11dd
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x22
@@ -13503,8 +13455,7 @@
 		push bc
 		ld c, 0x4f
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -13609,8 +13560,7 @@
 		ld sp, hl
 
 		ld (hl), 0x53
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -13679,8 +13629,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -13748,8 +13697,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -13817,8 +13765,7 @@
 		ld sp, hl
 
 		ld (hl), 0xa7
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x70
@@ -13887,8 +13834,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -13956,8 +13902,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -14025,8 +13970,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x70
@@ -14094,8 +14038,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -14163,8 +14106,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -14232,8 +14174,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xd2
@@ -14301,8 +14242,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -14370,8 +14310,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -14439,8 +14378,7 @@
 		ld sp, hl
 
 		ld (hl), 0x67
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -14509,8 +14447,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -14578,8 +14515,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -14647,8 +14583,7 @@
 		ld sp, hl
 
 		ld (hl), 0xdd
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld a, 0x22
@@ -14717,8 +14652,7 @@
 		ld sp, hl
 
 		ld (hl), 0x44
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x44
@@ -14786,8 +14720,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -14855,8 +14788,7 @@
 		ld sp, hl
 
 		ld (hl), 0x35
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -14924,8 +14856,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -14993,8 +14924,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -15062,8 +14992,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -15131,8 +15060,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -15200,8 +15128,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -15268,8 +15195,7 @@
 		ld sp, hl
 
 		ld (hl), 0xdd
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld a, 0x22
@@ -15338,8 +15264,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x05
@@ -15407,8 +15332,7 @@
 		ld sp, hl
 
 		ld (hl), 0x84
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x44
@@ -15476,8 +15400,7 @@
 		ld sp, hl
 
 		ld (hl), 0x54
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x54
@@ -15545,8 +15468,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xd2
@@ -15614,8 +15536,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -15683,8 +15604,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -15752,8 +15672,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -15821,8 +15740,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -15890,8 +15808,7 @@
 		ld sp, hl
 
 		ld (hl), 0x00
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x00
@@ -15959,8 +15876,7 @@
 		ld sp, hl
 
 		ld (hl), 0xd2
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x22
@@ -16028,8 +15944,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x55
@@ -16098,8 +16013,7 @@
 		ld sp, hl
 
 		ld (hl), 0xda
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xdd
@@ -16167,8 +16081,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -16236,8 +16149,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -16305,8 +16217,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -16375,8 +16286,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -16445,8 +16355,7 @@
 		ld sp, hl
 
 		ld (hl), 0x53
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -16515,8 +16424,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -16584,8 +16492,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -16653,8 +16560,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -16722,8 +16628,7 @@
 		ld sp, hl
 
 		ld (hl), 0xf4
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x44
@@ -16791,8 +16696,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x55
@@ -16861,8 +16765,7 @@
 		ld sp, hl
 
 		ld (hl), 0xd2
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x22
@@ -16930,8 +16833,7 @@
 		ld sp, hl
 
 		ld (hl), 0xf4
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x44
@@ -22856,8 +22758,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x5555
@@ -22931,8 +22832,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -23001,8 +22901,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -23077,8 +22976,7 @@
 
 		ld bc, 0xa7aa
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x7077
@@ -23155,8 +23053,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -23228,8 +23125,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -23303,8 +23199,7 @@
 
 		ld bc, 0x0067
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x7070
@@ -23379,8 +23274,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -23448,8 +23342,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -23518,8 +23411,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0xd202
@@ -23591,8 +23483,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -23665,8 +23556,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x5500
@@ -23743,8 +23633,7 @@
 
 		ld bc, 0x677a
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push de
@@ -23823,8 +23712,7 @@
 
 		ld c, b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -23900,8 +23788,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -23972,8 +23859,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x2222
@@ -24049,8 +23935,7 @@
 
 		ld c, b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -24123,8 +24008,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -24198,8 +24082,7 @@
 
 		ld bc, 0x3553
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push de
@@ -24272,8 +24155,7 @@
 
 		ld c, 0x54
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld c, b
@@ -24347,8 +24229,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -24417,8 +24298,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -24486,8 +24366,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -24558,8 +24437,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -24631,8 +24509,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x2222
@@ -24707,8 +24584,7 @@
 
 		ld bc, 0x5500
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld b, 0x05
@@ -24786,8 +24662,7 @@
 
 		ld bc, 0x84dd
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x4444
@@ -24866,8 +24741,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -24937,8 +24811,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0xd202
@@ -25009,8 +24882,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push de
@@ -25079,8 +24951,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -25148,8 +25019,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -25219,8 +25089,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -25289,8 +25158,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -25366,8 +25234,7 @@
 
 		ld bc, 0xd2cc
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x2222
@@ -25447,8 +25314,7 @@
 
 		ld bc, 0xdddd
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push iy
@@ -25528,8 +25394,7 @@
 
 		ld bc, 0xdada
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0xdddd
@@ -25605,8 +25470,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -25678,8 +25542,7 @@
 		ld sp, hl
 
 		push de
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push de
@@ -25756,8 +25619,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -25834,8 +25696,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -25911,8 +25772,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x5555
@@ -25986,8 +25846,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -26055,8 +25914,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -26124,8 +25982,7 @@
 		ld sp, hl
 
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -26198,8 +26055,7 @@
 
 		ld bc, 0xf4dd
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x44ff
@@ -26277,8 +26133,7 @@
 
 		ld bc, 0xdddd
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push iy
@@ -26357,8 +26212,7 @@
 
 		ld bc, 0xd2cc
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x2222
@@ -26436,8 +26290,7 @@
 
 		ld bc, 0xf4dd
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x44ff
@@ -26742,8 +26595,7 @@
 		push bc
 		ld b, c
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -26852,8 +26704,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -26958,8 +26809,7 @@
 		ld c, a
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -27074,8 +26924,7 @@
 		push de
 		ld b, c
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x77
@@ -27198,8 +27047,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -27308,8 +27156,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -27421,8 +27268,7 @@
 		push bc
 		ld b, 0xa7
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xa6
@@ -27533,8 +27379,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -27637,8 +27482,7 @@
 		ld (hl), b
 		push bc
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -27743,8 +27587,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -27845,8 +27688,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -27952,8 +27794,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -28066,8 +27907,7 @@
 		push bc
 		ld bc, 0x7600
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), e
@@ -28187,8 +28027,7 @@
 		ld bc, 0xaaaa
 		push bc
 		push iy
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x77
@@ -28301,8 +28140,7 @@
 		ld (hl), d
 		push de
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -28406,8 +28244,7 @@
 		ld (hl), b
 		push de
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld a, 0x22
@@ -28517,8 +28354,7 @@
 		ld (hl), c
 		push bc
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x44
@@ -28623,8 +28459,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -28731,8 +28566,7 @@
 		ld bc, 0x3553
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -28840,8 +28674,7 @@
 		ld (hl), e
 		push bc
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), e
@@ -28954,8 +28787,7 @@
 		ld bc, 0x0000
 		push bc
 		push iy
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -29064,8 +28896,7 @@
 		ld (hl), a
 		push bc
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -29167,8 +28998,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -29271,8 +29101,7 @@
 		ld (hl), 0x94
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -29373,8 +29202,7 @@
 		ld (hl), a
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -29479,8 +29307,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -29596,8 +29423,7 @@
 		ld bc, 0xdddd
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x44
@@ -29723,8 +29549,7 @@
 		push bc
 		ld b, c
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -29835,8 +29660,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -29941,8 +29765,7 @@
 		ld (hl), b
 		push de
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), c
@@ -30045,8 +29868,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -30149,8 +29971,7 @@
 		ld (hl), b
 		push bc
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -30261,8 +30082,7 @@
 		ld bc, 0x3533
 		push bc
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -30375,8 +30195,7 @@
 		push bc
 		ld bc, 0xdddd
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -30491,8 +30310,7 @@
 		push bc
 		ld bc, 0x11dd
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xcc
@@ -30616,8 +30434,7 @@
 		ld (hl), d
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -30739,8 +30556,7 @@
 		ld bc, 0xdada
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xdd
@@ -30857,8 +30673,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -30968,8 +30783,7 @@
 		push bc
 		ld bc, 0x5355
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), c
@@ -31084,8 +30898,7 @@
 		ld (hl), b
 		push de
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -31199,8 +31012,7 @@
 		ld bc, 0x0000
 		push bc
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -31315,8 +31127,7 @@
 		push bc
 		ld b, c
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -31425,8 +31236,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -31527,8 +31337,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -31632,8 +31441,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -31745,8 +31553,7 @@
 		push bc
 		ld c, 0x4f
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xff
@@ -31868,8 +31675,7 @@
 		ld (hl), d
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -31992,8 +31798,7 @@
 		push bc
 		ld bc, 0x11dd
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xcc
@@ -32115,8 +31920,7 @@
 		push bc
 		ld c, 0x4f
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xff
@@ -32225,8 +32029,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), e
@@ -32316,8 +32119,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -32404,8 +32206,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -32500,8 +32301,7 @@
 		ld (hl), b
 		ld b, c
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x70
@@ -32598,8 +32398,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -32688,8 +32487,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -32779,8 +32577,7 @@
 		ld (hl), e
 		ld bc, 0x67a6
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x70
@@ -32871,8 +32668,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -32957,8 +32753,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -33044,8 +32839,7 @@
 
 		ld (hl), a
 		push de
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xd2
@@ -33133,8 +32927,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -33225,8 +33018,7 @@
 		ld (hl), b
 		ld c, 0x00
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -33318,8 +33110,7 @@
 		ld (hl), b
 		ld bc, 0x7a67
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xa6
@@ -33416,8 +33207,7 @@
 		ld (hl), a
 		ld bc, 0x0070
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -33512,8 +33302,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -33599,8 +33388,7 @@
 
 		ld (hl), b
 		push de
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld a, 0x22
@@ -33692,8 +33480,7 @@
 		ld (hl), 0x44
 		ld bc, 0x4444
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -33782,8 +33569,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -33874,8 +33660,7 @@
 		ld (hl), 0x35
 		ld bc, 0x5335
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -33966,8 +33751,7 @@
 		ld (hl), a
 		ld bc, 0x544d
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -34060,8 +33844,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -34148,8 +33931,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -34234,8 +34016,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -34324,8 +34105,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -34414,8 +34194,7 @@
 
 		ld (hl), b
 		push de
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld a, 0x22
@@ -34508,8 +34287,7 @@
 		ld (hl), d
 		ld b, c
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x05
@@ -34602,8 +34380,7 @@
 
 		ld (hl), 0x84
 		push iy
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x44
@@ -34695,8 +34472,7 @@
 
 		ld (hl), 0x54
 		push de
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x54
@@ -34782,8 +34558,7 @@
 
 		ld (hl), a
 		push de
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xd2
@@ -34869,8 +34644,7 @@
 
 		ld (hl), c
 		push de
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), c
@@ -34956,8 +34730,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -35042,8 +34815,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -35131,8 +34903,7 @@
 
 		ld (hl), a
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -35221,8 +34992,7 @@
 		ld (hl), 0x00
 		ld bc, 0x0000
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -35314,8 +35084,7 @@
 		ld (hl), 0xd2
 		ld bc, 0xcccc
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x22
@@ -35415,8 +35184,7 @@
 		ld (hl), d
 		ld bc, 0xdddd
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x55
@@ -35515,8 +35283,7 @@
 		ld (hl), 0xda
 		ld bc, 0xdada
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xdd
@@ -35611,8 +35378,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -35701,8 +35467,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -35795,8 +35560,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -35890,8 +35654,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -35985,8 +35748,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), e
@@ -36076,8 +35838,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -36162,8 +35923,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -36250,8 +36010,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -36342,8 +36101,7 @@
 		ld (hl), 0xf4
 		ld b, c
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x44
@@ -36441,8 +36199,7 @@
 		ld (hl), d
 		ld bc, 0xdddd
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x55
@@ -36540,8 +36297,7 @@
 		ld (hl), 0xd2
 		ld bc, 0xcccc
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x22
@@ -36639,8 +36395,7 @@
 		ld (hl), 0xf4
 		ld b, c
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x44
@@ -41614,8 +41369,7 @@
 		ld c, 0x35
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push iy
@@ -41709,8 +41463,7 @@
 
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -41797,8 +41550,7 @@
 
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -41896,8 +41648,7 @@
 
 		push iy
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x7077
@@ -41999,8 +41750,7 @@
 
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -42092,8 +41842,7 @@
 
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -42184,8 +41933,7 @@
 		push bc
 		ld bc, 0xa6a7
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x7070
@@ -42276,8 +42024,7 @@
 
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -42361,8 +42108,7 @@
 
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -42448,8 +42194,7 @@
 
 		push iy
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0xd202
@@ -42537,8 +42282,7 @@
 
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -42628,8 +42372,7 @@
 		push de
 		ld bc, 0x0000
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld iy, 0x5500
@@ -42727,8 +42470,7 @@
 		push bc
 		ld c, 0x76
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0xa667
@@ -42833,8 +42575,7 @@
 		ld bc, 0x0000
 		push bc
 		push iy
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -42935,8 +42676,7 @@
 
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -43024,8 +42764,7 @@
 
 		push de
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x2222
@@ -43123,8 +42862,7 @@
 		push bc
 		ld c, 0x55
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld c, b
@@ -43216,8 +42954,7 @@
 
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -43307,8 +43044,7 @@
 		ld bc, 0x3553
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push de
@@ -43402,8 +43138,7 @@
 		push iy
 		ld bc, 0x4dde
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x3535
@@ -43500,8 +43235,7 @@
 
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -43588,8 +43322,7 @@
 
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -43673,8 +43406,7 @@
 
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -43766,8 +43498,7 @@
 
 		push bc
 		push iy
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -43857,8 +43588,7 @@
 
 		push iy
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x2222
@@ -43951,8 +43681,7 @@
 
 		push iy
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld de, 0x0500
@@ -44055,8 +43784,7 @@
 		push bc
 		ld b, c
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x4444
@@ -44160,8 +43888,7 @@
 
 		push bc
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -44251,8 +43978,7 @@
 
 		push iy
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0xd202
@@ -44340,8 +44066,7 @@
 		push de
 		ld bc, 0xdd0d
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push de
@@ -44427,8 +44152,7 @@
 
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -44512,8 +44236,7 @@
 
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -44602,8 +44325,7 @@
 
 		push bc
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -44692,8 +44414,7 @@
 		ld b, c
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -44792,8 +44513,7 @@
 		ld bc, 0xd2cc
 		push bc
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x2222
@@ -44898,8 +44618,7 @@
 		push bc
 		ld c, 0x55
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld b, c
@@ -45000,8 +44719,7 @@
 		ld bc, 0xdada
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0xdddd
@@ -45097,8 +44815,7 @@
 
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -45189,8 +44906,7 @@
 
 		push de
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push de
@@ -45288,8 +45004,7 @@
 
 		push de
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push de
@@ -45387,8 +45102,7 @@
 
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -45488,8 +45202,7 @@
 		ld c, 0x35
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push iy
@@ -45583,8 +45296,7 @@
 
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -45668,8 +45380,7 @@
 
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -45755,8 +45466,7 @@
 
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -45850,8 +45560,7 @@
 		ld bc, 0xf4dd
 		push bc
 		push iy
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x44ff
@@ -45955,8 +45664,7 @@
 		push bc
 		ld c, 0x55
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld b, c
@@ -46062,8 +45770,7 @@
 		ld bc, 0xd2cc
 		push bc
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x2222
@@ -46168,8 +45875,7 @@
 		ld bc, 0xf4dd
 		push bc
 		push iy
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x44ff
@@ -46477,8 +46183,7 @@
 		ld (hl), d
 		ld bc, 0xdddd
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x55
@@ -46568,8 +46273,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -46655,8 +46359,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -46750,8 +46453,7 @@
 		ld (hl), b
 		ld b, c
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -46844,8 +46546,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -46934,8 +46635,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -47026,8 +46726,7 @@
 		ld (hl), d
 		ld bc, 0xa776
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), c
@@ -47116,8 +46815,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -47203,8 +46901,7 @@
 
 		ld (hl), a
 		push de
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -47293,8 +46990,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -47379,8 +47075,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -47469,8 +47164,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -47564,8 +47258,7 @@
 		ld (hl), b
 		ld bc, 0x7600
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x66
@@ -47664,8 +47357,7 @@
 		ld (hl), 0xaa
 		ld bc, 0xaa7a
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -47754,8 +47446,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -47841,8 +47532,7 @@
 
 		ld (hl), b
 		push de
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld a, 0x22
@@ -47933,8 +47623,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -48022,8 +47711,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -48114,8 +47802,7 @@
 		ld (hl), 0x53
 		ld bc, 0x3553
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -48205,8 +47892,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -48299,8 +47985,7 @@
 		ld (hl), 0x00
 		ld bc, 0x0055
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -48390,8 +48075,7 @@
 
 		ld (hl), b
 		push de
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -48477,8 +48161,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -48564,8 +48247,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -48650,8 +48332,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -48737,8 +48418,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -48828,8 +48508,7 @@
 
 		ld (hl), d
 		push de
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x44
@@ -48926,8 +48605,7 @@
 		ld (hl), c
 		dec b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -49017,8 +48695,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -49106,8 +48783,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -49193,8 +48869,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -49280,8 +48955,7 @@
 
 		ld (hl), a
 		push de
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -49372,8 +49046,7 @@
 		ld (hl), a
 		ld c, e
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -49463,8 +49136,7 @@
 
 		ld (hl), 0xd0
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x00
@@ -49557,8 +49229,7 @@
 		ld (hl), d
 		ld bc, 0x11dd
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -49654,8 +49325,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x55
@@ -49753,8 +49423,7 @@
 		ld (hl), 0xda
 		ld bc, 0xdada
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xdd
@@ -49850,8 +49519,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -49941,8 +49609,7 @@
 		ld (hl), 0x33
 		ld bc, 0x5355
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x33
@@ -50032,8 +49699,7 @@
 		ld (hl), c
 		ld b, c
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -50126,8 +49792,7 @@
 
 		ld (hl), 0x00
 		push de
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x00
@@ -50222,8 +49887,7 @@
 		ld (hl), d
 		ld bc, 0xdddd
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x55
@@ -50313,8 +49977,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -50399,8 +50062,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -50488,8 +50150,7 @@
 
 		ld (hl), b
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -50580,8 +50241,7 @@
 		ld (hl), 0xdd
 		ld bc, 0xdd4f
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -50675,8 +50335,7 @@
 
 		ld (hl), c
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x55
@@ -50772,8 +50431,7 @@
 		ld (hl), d
 		ld bc, 0x11dd
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -50868,8 +50526,7 @@
 		ld (hl), 0xdd
 		ld bc, 0xdd4f
 		push bc
-		ld hl, 0xff82
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -50977,8 +50634,7 @@
 		push bc
 		ld c, a
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), c
@@ -51090,8 +50746,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -51195,8 +50850,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -51314,8 +50968,7 @@
 		push bc
 		ld c, 0x6a
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x70
@@ -51436,8 +51089,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -51546,8 +51198,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -51654,8 +51305,7 @@
 		push bc
 		ld bc, 0xa767
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x70
@@ -51761,8 +51411,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -51863,8 +51512,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -51967,8 +51615,7 @@
 		ld (hl), a
 		push iy
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xd2
@@ -52072,8 +51719,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -52181,8 +51827,7 @@
 		push bc
 		ld b, c
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -52293,8 +51938,7 @@
 		push bc
 		ld bc, 0x767a
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -52419,8 +52063,7 @@
 		push bc
 		ld bc, 0xa6aa
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -52537,8 +52180,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -52641,8 +52283,7 @@
 		ld (hl), b
 		push de
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld a, 0x22
@@ -52755,8 +52396,7 @@
 		ld de, 0x4444
 		push de
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -52866,8 +52506,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -52974,8 +52613,7 @@
 		ld bc, 0x5335
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -53085,8 +52723,7 @@
 		ld bc, 0x544d
 		push bc
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), e
@@ -53201,8 +52838,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -53309,8 +52945,7 @@
 		ld (hl), b
 		push bc
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -53411,8 +53046,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -53520,8 +53154,7 @@
 		push bc
 		ld b, 0x94
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), c
@@ -53629,8 +53262,7 @@
 		ld (hl), b
 		push iy
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld a, 0x22
@@ -53742,8 +53374,7 @@
 		ld (hl), d
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x05
@@ -53858,8 +53489,7 @@
 		ld bc, 0xdddd
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x44
@@ -53975,8 +53605,7 @@
 		ld (hl), c
 		push de
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), c
@@ -54086,8 +53715,7 @@
 		ld (hl), a
 		push iy
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xd2
@@ -54191,8 +53819,7 @@
 		push de
 		ld bc, 0x0d00
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -54296,8 +53923,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -54398,8 +54024,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -54505,8 +54130,7 @@
 		ld (hl), e
 		push bc
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), e
@@ -54612,8 +54236,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -54727,8 +54350,7 @@
 		ld bc, 0xcccc
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x22
@@ -54856,8 +54478,7 @@
 		push bc
 		ld bc, 0x5553
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -54976,8 +54597,7 @@
 		ld bc, 0xdada
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xdd
@@ -55092,8 +54712,7 @@
 		ld (hl), b
 		push de
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -55201,8 +54820,7 @@
 		ld (hl), d
 		push de
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -55315,8 +54933,7 @@
 		ld (hl), d
 		push de
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -55431,8 +55048,7 @@
 		ld (hl), b
 		push de
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -55550,8 +55166,7 @@
 		push bc
 		ld c, a
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), c
@@ -55663,8 +55278,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -55765,8 +55379,7 @@
 		ld (hl), b
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -55871,8 +55484,7 @@
 		ld (hl), b
 		push de
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -55981,8 +55593,7 @@
 		ld (hl), 0xf4
 		push de
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x44
@@ -56104,8 +55715,7 @@
 		push bc
 		ld bc, 0x5553
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -56226,8 +55836,7 @@
 		ld bc, 0xcccc
 		push bc
 		push bc
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x22
@@ -56350,8 +55959,7 @@
 		ld (hl), 0xf4
 		push de
 		push de
-		ld hl, 0xff84
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x44
@@ -60341,8 +59949,7 @@
 		push bc
 		push bc
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x5555
@@ -60460,8 +60067,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -60565,8 +60171,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -60687,8 +60292,7 @@
 		push bc
 		ld bc, 0x6a07
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x7077
@@ -60812,8 +60416,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -60923,8 +60526,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -61035,8 +60637,7 @@
 		push bc
 		ld bc, 0x6776
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x7070
@@ -61145,8 +60746,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -61246,8 +60846,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -61349,8 +60948,7 @@
 		push iy
 		push de
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0xd202
@@ -61454,8 +61052,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -61561,8 +61158,7 @@
 		push de
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld iy, 0x5500
@@ -61681,8 +61277,7 @@
 		push bc
 		ld bc, 0x7a6a
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0xa667
@@ -61813,8 +61408,7 @@
 		ld bc, 0x70a6
 		push bc
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x0000
@@ -61936,8 +61530,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -62042,8 +61635,7 @@
 		push de
 		push de
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x2222
@@ -62161,8 +61753,7 @@
 		push bc
 		ld b, 0x54
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push de
@@ -62272,8 +61863,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -62379,8 +61969,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push de
@@ -62492,8 +62081,7 @@
 		ld b, 0x4d
 		push bc
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x3535
@@ -62611,8 +62199,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -62719,8 +62306,7 @@
 		push bc
 		push bc
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -62820,8 +62406,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -62929,8 +62514,7 @@
 		ld de, 0x4494
 		push de
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -63039,8 +62623,7 @@
 		push ix
 		push iy
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x2222
@@ -63154,8 +62737,7 @@
 		push de
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld iy, 0x0500
@@ -63277,8 +62859,7 @@
 		ld b, c
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x4444
@@ -63402,8 +62983,7 @@
 		push bc
 		ld bc, 0x5444
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push de
@@ -63512,8 +63092,7 @@
 		push iy
 		push de
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0xd202
@@ -63619,8 +63198,7 @@
 		push bc
 		ld bc, 0x0000
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push de
@@ -63721,8 +63299,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -63822,8 +63399,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -63929,8 +63505,7 @@
 		push bc
 		push de
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -64039,8 +63614,7 @@
 		push bc
 		ld c, 0xd0
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld c, b
@@ -64163,8 +63737,7 @@
 		ld b, c
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x2222
@@ -64296,8 +63869,7 @@
 		push de
 		ld bc, 0x5335
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x5555
@@ -64421,8 +63993,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0xdddd
@@ -64538,8 +64109,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -64650,8 +64220,7 @@
 		push de
 		push de
 		push iy
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push de
@@ -64774,8 +64343,7 @@
 		push de
 		push de
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push de
@@ -64892,8 +64460,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -65013,8 +64580,7 @@
 		push bc
 		push bc
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x5555
@@ -65132,8 +64698,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -65233,8 +64798,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -65338,8 +64902,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		push bc
@@ -65451,8 +65014,7 @@
 		ld b, c
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x44ff
@@ -65579,8 +65141,7 @@
 		push de
 		ld bc, 0x5335
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x5555
@@ -65712,8 +65273,7 @@
 		ld b, c
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x2222
@@ -65843,8 +65403,7 @@
 		ld b, c
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld bc, 0x44ff
@@ -66148,8 +65707,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x55
@@ -66218,8 +65776,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -66287,8 +65844,7 @@
 		ld sp, hl
 
 		ld (hl), 0x00
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x00
@@ -66356,8 +65912,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -66425,8 +65980,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -66495,8 +66049,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -66564,8 +66117,7 @@
 		ld sp, hl
 
 		ld (hl), 0x76
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -66634,8 +66186,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -66703,8 +66254,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x2d
@@ -66772,8 +66322,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -66841,8 +66390,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -66910,8 +66458,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -66980,8 +66527,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x07
@@ -67049,8 +66595,7 @@
 		ld sp, hl
 
 		ld (hl), 0x7a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x07
@@ -67119,8 +66664,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -67187,8 +66731,7 @@
 		ld sp, hl
 
 		ld (hl), 0x2d
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld a, 0x22
@@ -67257,8 +66800,7 @@
 		ld sp, hl
 
 		ld (hl), 0x35
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x35
@@ -67326,8 +66868,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -67395,8 +66936,7 @@
 		ld sp, hl
 
 		ld (hl), 0x53
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -67464,8 +67004,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -67533,8 +67072,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x50
@@ -67601,8 +67139,7 @@
 		ld sp, hl
 
 		ld (hl), 0xdd
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld a, 0x22
@@ -67671,8 +67208,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -67740,8 +67276,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -67809,8 +67344,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -67878,8 +67412,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -67947,8 +67480,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x44
@@ -68016,8 +67548,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -68086,8 +67617,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -68155,8 +67685,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -68224,8 +67753,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -68293,8 +67821,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x2d
@@ -68362,8 +67889,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -68431,8 +67957,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -68500,8 +68025,7 @@
 		ld sp, hl
 
 		ld (hl), 0xdd
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x22
@@ -68569,8 +68093,7 @@
 		ld sp, hl
 
 		ld (hl), 0x35
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -68639,8 +68162,7 @@
 		ld sp, hl
 
 		ld (hl), 0xda
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xdd
@@ -68710,8 +68232,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -68780,8 +68301,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -68849,8 +68369,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -68919,8 +68438,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -68988,8 +68506,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x55
@@ -69058,8 +68575,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -69127,8 +68643,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -69196,8 +68711,7 @@
 		ld sp, hl
 
 		ld (hl), a
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -69266,8 +68780,7 @@
 		ld sp, hl
 
 		ld (hl), 0x4f
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x44
@@ -69335,8 +68848,7 @@
 		ld sp, hl
 
 		ld (hl), 0x35
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -69405,8 +68917,7 @@
 		ld sp, hl
 
 		ld (hl), 0xdd
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x22
@@ -69474,8 +68985,7 @@
 		ld sp, hl
 
 		ld (hl), 0x4f
-		ld hl, 0xff80
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x44
@@ -69588,8 +69098,7 @@
 		push bc
 		ld bc, 0xdddd
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -69716,8 +69225,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -69839,8 +69347,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -69987,8 +69494,7 @@
 		push bc
 		ld bc, 0x0700
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x70
@@ -70130,8 +69636,7 @@
 		push de
 		push de
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -70256,8 +69761,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -70388,8 +69892,7 @@
 		push bc
 		ld bc, 0x76a7
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x70
@@ -70521,8 +70024,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -70641,8 +70143,7 @@
 		push bc
 		push bc
 		push iy
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -70764,8 +70265,7 @@
 		push iy
 		push de
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xd2
@@ -70885,8 +70385,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -71011,8 +70510,7 @@
 		push iy
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -71148,8 +70646,7 @@
 		push bc
 		ld bc, 0x6a76
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -71301,8 +70798,7 @@
 		ld bc, 0xa6aa
 		push bc
 		push iy
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), a
@@ -71444,8 +70940,7 @@
 		push de
 		push de
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), c
@@ -71565,8 +71060,7 @@
 		push de
 		push de
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld a, 0x22
@@ -71697,8 +71191,7 @@
 		push bc
 		push iy
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -71826,8 +71319,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -71950,8 +71442,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -72079,8 +71570,7 @@
 		push de
 		ld bc, 0x3333
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), e
@@ -72216,8 +71706,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -72349,8 +71838,7 @@
 		push bc
 		push iy
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -72468,8 +71956,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -72593,8 +72080,7 @@
 		ld de, 0x9444
 		push de
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -72726,8 +72212,7 @@
 		push bc
 		push iy
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld a, 0x22
@@ -72857,8 +72342,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x05
@@ -72993,8 +72477,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x44
@@ -73133,8 +72616,7 @@
 		push bc
 		ld bc, 0x4444
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x54
@@ -73268,8 +72750,7 @@
 		push iy
 		push de
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xd2
@@ -73392,8 +72873,7 @@
 		push bc
 		ld b, c
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -73512,8 +72992,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -73632,8 +73111,7 @@
 		push bc
 		push bc
 		push iy
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -73759,8 +73237,7 @@
 		push bc
 		push de
 		push iy
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), e
@@ -73889,8 +73366,7 @@
 		push bc
 		ld bc, 0xd0dd
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x00
@@ -74028,8 +73504,7 @@
 		push bc
 		ld de, 0xcc11
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x22
@@ -74181,8 +73656,7 @@
 		push bc
 		ld b, 0x35
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x55
@@ -74321,8 +73795,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0xdd
@@ -74456,8 +73929,7 @@
 		push de
 		push de
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -74585,8 +74057,7 @@
 		push de
 		ld c, 0x53
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -74721,8 +74192,7 @@
 		push de
 		push de
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -74856,8 +74326,7 @@
 		push de
 		push de
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -74999,8 +74468,7 @@
 		push bc
 		ld bc, 0xdddd
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), d
@@ -75127,8 +74595,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -75245,8 +74712,7 @@
 		push bc
 		push bc
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -75369,8 +74835,7 @@
 		push de
 		push de
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), b
@@ -75505,8 +74970,7 @@
 		push de
 		push de
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x44
@@ -75656,8 +75120,7 @@
 		push bc
 		ld b, 0x35
 		push bc
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x55
@@ -75803,8 +75266,7 @@
 		push bc
 		ld de, 0xcc11
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x22
@@ -75953,8 +75415,7 @@
 		push de
 		push de
 		push de
-		ld hl, 0xff86
-		add hl, sp
+		res 7, l
 		ld sp, hl
 
 		ld (hl), 0x44
