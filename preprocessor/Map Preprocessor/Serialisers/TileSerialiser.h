@@ -16,8 +16,10 @@ struct TileEvent {
 	enum class Type {
 		/// Start a new line two lines up from the start of the current line.
 		Up2,
-		/// Add @c .content to the current output address.
-		DownN,
+		/// Start a new line one line up from the start of the current line.
+		Up1,
+		/// Start a new line two lines down from the start of the current line.
+		Down2,
 		/// Output the word described by @c .content.
 		OutputWord,
 		/// Output the byte described by @c content.
@@ -69,11 +71,12 @@ struct TileSerialiser {
 
 			if(y_ == TileSize) {
 				return TileEvent{.type = TileEvent::Type::Stop};
-			} else if(y_ == TileSize >> 1) {
-				previous_.content = 13*128 + (words_wide_ << 1);
-				previous_.type = TileEvent::Type::DownN;
-			} else if(y_) {
+			} else if(y_ < (TileSize >> 1)) {
 				previous_.type = TileEvent::Type::Up2;
+			} else if(y_ == TileSize >> 1) {
+				previous_.type = TileEvent::Type::Up1;
+			} else {
+				previous_.type = TileEvent::Type::Down2;
 			}
 			return previous_;
 		}
@@ -118,7 +121,10 @@ struct TileSerialiser {
 
 private:
 	const uint8_t *swizzled_offset() {
-		const auto y = ((y_ & ~8) * 2) + (y_ >> 3);
+		const auto y = [&] {
+			if(y_ & 8) return 31 - (y_ << 1);
+			return y_ << 1;
+		}();
 		return contents_.pixels(x_, y);
 	}
 

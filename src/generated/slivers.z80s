@@ -100,7 +100,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -6272
+		ld bc, -8064
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -118,7 +118,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -4224
+		ld bc, -6016
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -134,7 +134,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 2)
 		ld (@+jpslot1 + 1), a
@@ -143,7 +143,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -4224
+		ld bc, -6016
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -161,7 +161,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -2176
+		ld bc, -3968
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -177,7 +177,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -2176
+		ld bc, -3968
 		add hl, bc
 		ld a, (ix - 3)
 		ld (@+jpslot1 + 1), a
@@ -186,7 +186,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -2176
+		ld bc, -3968
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -204,7 +204,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 3)
 		ld (@+jpslot1 + 1), a
@@ -213,7 +213,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -2176
+		ld bc, -3968
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -229,7 +229,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 2)
 		ld (@+jpslot1 + 1), a
@@ -238,7 +238,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 3)
 		ld (@+jpslot2 + 1), a
@@ -247,7 +247,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -2176
+		ld bc, -3968
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -265,7 +265,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -281,7 +281,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -4224
+		ld bc, -6016
 		add hl, bc
 		ld a, (ix - 4)
 		ld (@+jpslot1 + 1), a
@@ -290,7 +290,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -308,7 +308,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -2176
+		ld bc, -3968
 		add hl, bc
 		ld a, (ix - 4)
 		ld (@+jpslot1 + 1), a
@@ -317,7 +317,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -333,7 +333,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 2)
 		ld (@+jpslot1 + 1), a
@@ -342,7 +342,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -2176
+		ld bc, -3968
 		add hl, bc
 		ld a, (ix - 4)
 		ld (@+jpslot2 + 1), a
@@ -351,7 +351,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -369,7 +369,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 4)
 		ld (@+jpslot1 + 1), a
@@ -378,7 +378,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -394,7 +394,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -2176
+		ld bc, -3968
 		add hl, bc
 		ld a, (ix - 3)
 		ld (@+jpslot1 + 1), a
@@ -403,7 +403,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 4)
 		ld (@+jpslot2 + 1), a
@@ -412,7 +412,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -430,7 +430,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 3)
 		ld (@+jpslot1 + 1), a
@@ -439,7 +439,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 4)
 		ld (@+jpslot2 + 1), a
@@ -448,7 +448,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -464,7 +464,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 2)
 		ld (@+jpslot1 + 1), a
@@ -473,7 +473,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 3)
 		ld (@+jpslot2 + 1), a
@@ -482,7 +482,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 4)
 		ld (@+jpslot3 + 1), a
@@ -491,7 +491,7 @@
 		jp tiles_left_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -516,7 +516,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -6272
+		ld bc, -8064
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -534,7 +534,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -4224
+		ld bc, -6016
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -550,7 +550,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 2)
 		ld (@+jpslot1 + 1), a
@@ -559,7 +559,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -4224
+		ld bc, -6016
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -577,7 +577,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -2176
+		ld bc, -3968
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -593,7 +593,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -2176
+		ld bc, -3968
 		add hl, bc
 		ld a, (ix - 3)
 		ld (@+jpslot1 + 1), a
@@ -602,7 +602,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -2176
+		ld bc, -3968
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -620,7 +620,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 3)
 		ld (@+jpslot1 + 1), a
@@ -629,7 +629,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -2176
+		ld bc, -3968
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -645,7 +645,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 2)
 		ld (@+jpslot1 + 1), a
@@ -654,7 +654,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 3)
 		ld (@+jpslot2 + 1), a
@@ -663,7 +663,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -2176
+		ld bc, -3968
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -681,7 +681,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -697,7 +697,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -4224
+		ld bc, -6016
 		add hl, bc
 		ld a, (ix - 4)
 		ld (@+jpslot1 + 1), a
@@ -706,7 +706,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -724,7 +724,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -2176
+		ld bc, -3968
 		add hl, bc
 		ld a, (ix - 4)
 		ld (@+jpslot1 + 1), a
@@ -733,7 +733,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -749,7 +749,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 2)
 		ld (@+jpslot1 + 1), a
@@ -758,7 +758,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -2176
+		ld bc, -3968
 		add hl, bc
 		ld a, (ix - 4)
 		ld (@+jpslot2 + 1), a
@@ -767,7 +767,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -785,7 +785,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 4)
 		ld (@+jpslot1 + 1), a
@@ -794,7 +794,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -810,7 +810,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -2176
+		ld bc, -3968
 		add hl, bc
 		ld a, (ix - 3)
 		ld (@+jpslot1 + 1), a
@@ -819,7 +819,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 4)
 		ld (@+jpslot2 + 1), a
@@ -828,7 +828,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -846,7 +846,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 3)
 		ld (@+jpslot1 + 1), a
@@ -855,7 +855,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 4)
 		ld (@+jpslot2 + 1), a
@@ -864,7 +864,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld bc, -4
 		add ix, bc
@@ -880,7 +880,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 2)
 		ld (@+jpslot1 + 1), a
@@ -889,7 +889,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 3)
 		ld (@+jpslot2 + 1), a
@@ -898,7 +898,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld a, (ix - 4)
 		ld (@+jpslot3 + 1), a
@@ -907,7 +907,7 @@
 		jp tiles_right_7
 	@end_dispatch:
 
-		ld bc, -128
+		ld bc, -1920
 		add hl, bc
 		ld bc, -4
 		add ix, bc

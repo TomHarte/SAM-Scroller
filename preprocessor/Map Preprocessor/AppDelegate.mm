@@ -274,6 +274,7 @@ NSString *stringify(const std::vector<Operation> &operations) {
 
 			bool finished = false;
 			RegisterSet set;
+			int stack_count = 0;
 			while(!finished) {
 				auto event = tile.next();
 				switch(event.type) {
@@ -283,15 +284,35 @@ NSString *stringify(const std::vector<Operation> &operations) {
 						trial.push_back(Operation::unary(Operation::Type::DEC, Register::Name::H));
 						trial.push_back(Operation::ld(Register::Name::SP, Register::Name::HL));
 						trial.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
+						stack_count = 0;
 					break;
-					case TileEvent::Type::DownN:
-						trial.push_back(Operation::ld(Operand::direct(Register::Name::HL), Operand::immediate<uint16_t>(event.content)));
-						trial.push_back(Operation::add(Register::Name::HL, Register::Name::SP));
+					case TileEvent::Type::Down2:
+						trial.push_back(Operation::unary(Operation::Type::INC, Register::Name::H));
 						trial.push_back(Operation::ld(Register::Name::SP, Register::Name::HL));
 						trial.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
+						stack_count = 0;
 					break;
+					case TileEvent::Type::Up1: {
+						trial.push_back(Operation::ld(Operand::direct(Register::Name::HL), Operand::immediate<uint16_t>(-128 + stack_count)));
+						trial.push_back(Operation::add(Register::Name::HL, Register::Name::SP));
+
+/*
+//						const bool might_be_at_screen_edge = true;//!(slice&1) && (slice >= 0);
+//						if(might_be_at_screen_edge) {
+							trial.push_back(Operation::unary(Operation::Type::DEC, Register::Name::L));
+//						}
+						trial.push_back(Operation::unary(Operation::Type::RES7, Register::Name::L));
+//						if(might_be_at_screen_edge) {
+							trial.push_back(Operation::unary(Operation::Type::INC, Register::Name::L));
+//						}
+*/
+						trial.push_back(Operation::ld(Register::Name::SP, Register::Name::HL));
+						trial.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
+						stack_count = 0;
+					} break;
 
 					case TileEvent::Type::OutputWord: {
+						stack_count += 2;
 						const auto action = allocator.next_word(tile.event_offset(), event.content);
 						switch(action.type) {
 							case RegisterEvent::Type::Load:
@@ -430,9 +451,9 @@ NSString *stringify(const std::vector<Operation> &operations) {
 	[code appendString:@"\t;	* SP is overtly available for any use the outputter prefers.\n"];
 	[code appendString:@"\t;\n"];
 	[code appendString:@"\t; At exit:\n"];
-	[code appendString:@"\t;	* HL will be 15 lines earlier than it was at input.\n"];
+	[code appendString:@"\t;	* HL will be 1 line earlier than it was at input.\n"];
 	[code appendString:@"\t; i.e. if stacking tiles from bottom to top, the caller will need to subtract a\n"];
-	[code appendString:@"\t; further 128 from HL before calling the next outputter.\n"];
+	[code appendString:@"\t; further 15*128 from HL before calling the next outputter.\n"];
 	[code appendString:@"\t;\n"];
 	[code appendString:@"\t; Each set of tiles is preceded by a long sequence of JP statements that jump to each tile in turn;\n"];
 	[code appendString:@"\t; this is the means by which dynamic branching happens elsewhere — the map is stored as the low byte\n"];
@@ -668,7 +689,7 @@ NSString *stringify(const std::vector<Operation> &operations) {
 			while(mask < 16) {
 				if(c & mask) {
 					append_offset();
-					offset = 128;
+					offset = 15*128;
 
 					const auto slot = load_slot++;
 					[code appendFormat:@"\t\tld a, (ix - %d)\n", ix_offset];
