@@ -87,6 +87,7 @@ NSString *stringify(const std::vector<Operation> &operations) {
 @property (weak) IBOutlet NSTextField *workFolderTextField;
 @property (weak) IBOutlet DraggableTextField *extractTilesView;
 @property (weak) IBOutlet DraggableTextField *convertMapView;
+@property (weak) IBOutlet NSProgressIndicator *progressIndicator;
 @end
 
 @implementation AppDelegate {
@@ -274,6 +275,7 @@ NSString *stringify(const std::vector<Operation> &operations) {
 
 			bool finished = false;
 			RegisterSet set;
+			int stack_count = 0;
 			while(!finished) {
 				auto event = tile.next();
 				switch(event.type) {
@@ -283,15 +285,32 @@ NSString *stringify(const std::vector<Operation> &operations) {
 						trial.push_back(Operation::unary(Operation::Type::DEC, Register::Name::H));
 						trial.push_back(Operation::ld(Register::Name::SP, Register::Name::HL));
 						trial.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
+						stack_count = 0;
 					break;
-					case TileEvent::Type::DownN:
-						trial.push_back(Operation::ld(Operand::direct(Register::Name::HL), Operand::immediate<uint16_t>(event.content)));
-						trial.push_back(Operation::add(Register::Name::HL, Register::Name::SP));
+					case TileEvent::Type::Down2:
+						trial.push_back(Operation::unary(Operation::Type::INC, Register::Name::H));
 						trial.push_back(Operation::ld(Register::Name::SP, Register::Name::HL));
 						trial.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
+						stack_count = 0;
 					break;
+					case TileEvent::Type::Up1: {
+						const bool might_be_at_screen_edge = !(slice&1) && (slice <= 0);
+						if(might_be_at_screen_edge) {
+							trial.push_back(Operation::ld(Operand::direct(Register::Name::HL), Operand::immediate<uint16_t>(-128 + stack_count)));
+							trial.push_back(Operation::add(Register::Name::HL, Register::Name::SP));
+						} else {
+							trial.push_back(Operation::unary(Operation::Type::RES7, Register::Name::L));
+						}
+						// To consider: if an extra 8kb is available for a duplicate set of the full-size tiles,
+						// use those for everywhere except the rightmost column and implement them as `res 7`.
+
+						trial.push_back(Operation::ld(Register::Name::SP, Register::Name::HL));
+						trial.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
+						stack_count = 0;
+					} break;
 
 					case TileEvent::Type::OutputWord: {
+						stack_count += 2;
 						const auto action = allocator.next_word(tile.event_offset(), event.content);
 						switch(action.type) {
 							case RegisterEvent::Type::Load:
@@ -430,9 +449,9 @@ NSString *stringify(const std::vector<Operation> &operations) {
 	[code appendString:@"\t;	* SP is overtly available for any use the outputter prefers.\n"];
 	[code appendString:@"\t;\n"];
 	[code appendString:@"\t; At exit:\n"];
-	[code appendString:@"\t;	* HL will be 15 lines earlier than it was at input.\n"];
+	[code appendString:@"\t;	* HL will be 1 line earlier than it was at input.\n"];
 	[code appendString:@"\t; i.e. if stacking tiles from bottom to top, the caller will need to subtract a\n"];
-	[code appendString:@"\t; further 128 from HL before calling the next outputter.\n"];
+	[code appendString:@"\t; further 15*128 from HL before calling the next outputter.\n"];
 	[code appendString:@"\t;\n"];
 	[code appendString:@"\t; Each set of tiles is preceded by a long sequence of JP statements that jump to each tile in turn;\n"];
 	[code appendString:@"\t; this is the means by which dynamic branching happens elsewhere — the map is stored as the low byte\n"];
@@ -440,46 +459,59 @@ NSString *stringify(const std::vector<Operation> &operations) {
 	[code appendString:@"\t; fastest way of implementing that step subject to the bounds of my imagination.\n"];
 	[code appendString:@"\t;\n\n"];
 
-	[code appendString:@"\tORG 0\n\tDUMP 16, 0\n"];
-	[code appendString:[self tileDeclarationPairLeft:@"" right:@"full" count:tiles.size() page:16]];
-	[code appendString:[self tiles:@"full" slice:0 source:tiles page:16]];
+	const auto post = [&](NSString *tiles) {
+//		dispatch_sync(dispatch_get_main_queue(), ^{
+//			self.progressIndicator.doubleValue += 100.0 / 8.0;
+			[code appendString:tiles];
+//		});
+	};
 
-	[code appendString:@"\tORG 0\n\tDUMP 17, 0\n"];
-	[code appendString:[self tileDeclarationPairLeft:@"left_7" right:@"right_1" count:tiles.size() page:17]];
-	[code appendString:[self tiles:@"left_7" slice:-1 source:tiles page:17]];
-	[code appendString:[self tiles:@"right_1" slice:7 source:tiles page:17]];
+	//
+	// The following two deliberate take copies of the base tiles because the serialisers are stateful.
+	//
+	const auto prepare_full = [&post, self](std::vector<TileSerialiser<TileSize>> tiles) {
+		NSMutableString *subcode = [[NSMutableString alloc] init];
+		[subcode appendString:@"\tORG 0\n\tDUMP 16, 0\n"];
+		[subcode appendString:[self tileDeclarationPairLeft:@"" right:@"full" count:tiles.size() page:16]];
+		[subcode appendString:[self tiles:@"full" slice:0 source:tiles page:16]];
+		post(subcode);
+	};
 
-	[code appendString:@"\tORG 0\n\tDUMP 18, 0\n"];
-	[code appendString:[self tileDeclarationPairLeft:@"left_6" right:@"right_2" count:tiles.size() page:18]];
-	[code appendString:[self tiles:@"left_6" slice:-2 source:tiles page:18]];
-	[code appendString:[self tiles:@"right_2" slice:6 source:tiles page:18]];
+	const auto prepare_sliced = [&post, self](std::vector<TileSerialiser<TileSize>> tiles, int page, int left_size) {
+		NSMutableString *subcode = [[NSMutableString alloc] init];
+		[subcode appendFormat:@"\tORG 0\n\tDUMP %d, 0\n", page];
+		NSString *left = [NSString stringWithFormat:@"left_%d", left_size];
+		NSString *right = [NSString stringWithFormat:@"right_%d", 8 - left_size];
+		[subcode appendString:[self tileDeclarationPairLeft:left right:right count:tiles.size() page:page]];
+		[subcode appendString:[self tiles:left slice:left_size - 8 source:tiles page:17]];
+		[subcode appendString:[self tiles:right slice:left_size source:tiles page:17]];
+		post(subcode);
+	};
 
-	[code appendString:@"\tORG 0\n\tDUMP 19, 0\n"];
-	[code appendString:[self tileDeclarationPairLeft:@"left_5" right:@"right_3" count:tiles.size() page:19]];
-	[code appendString:[self tiles:@"left_5" slice:-3 source:tiles page:19]];
-	[code appendString:[self tiles:@"right_3" slice:5 source:tiles page:19]];
+//	const auto group = dispatch_group_create();
+//	dispatch_group_async(group, dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+		prepare_full(tiles);
+//	});
 
-	[code appendString:@"\tORG 0\n\tDUMP 20, 0\n"];
-	[code appendString:[self tileDeclarationPairLeft:@"left_4" right:@"right_4" count:tiles.size() page:20]];
-	[code appendString:[self tiles:@"left_4" slice:-4 source:tiles page:20]];
-	[code appendString:[self tiles:@"right_4" slice:4 source:tiles page:20]];
+	for(int c = 0; c < 7; c++) {
+//		dispatch_group_async(group, dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+			prepare_sliced(tiles, 17 + c, 7 - c);
+//		});
+	}
 
-	[code appendString:@"\tORG 0\n\tDUMP 21, 0\n"];
-	[code appendString:[self tileDeclarationPairLeft:@"left_3" right:@"right_5" count:tiles.size() page:21]];
-	[code appendString:[self tiles:@"left_3" slice:-5 source:tiles page:21]];
-	[code appendString:[self tiles:@"right_5" slice:3 source:tiles page:21]];
-
-	[code appendString:@"\tORG 0\n\tDUMP 22, 0\n"];
-	[code appendString:[self tileDeclarationPairLeft:@"left_2" right:@"right_6" count:tiles.size() page:22]];
-	[code appendString:[self tiles:@"left_2" slice:-6 source:tiles page:22]];
-	[code appendString:[self tiles:@"right_6" slice:2 source:tiles page:22]];
-
-	[code appendString:@"\tORG 0\n\tDUMP 23, 0\n"];
-	[code appendString:[self tileDeclarationPairLeft:@"left_1" right:@"right_7" count:tiles.size() page:23]];
-	[code appendString:[self tiles:@"left_1" slice:-7 source:tiles page:23]];
-	[code appendString:[self tiles:@"right_7" slice:1 source:tiles page:23]];
-
-	[code writeToFile:[directory stringByAppendingPathComponent:@"tiles.z80s"] atomically:NO encoding:NSUTF8StringEncoding error:nil];
+//	self.progressIndicator.doubleValue = 0.0;
+//	self.progressIndicator.hidden = NO;
+//	dispatch_async(dispatch_get_main_queue(), ^{
+//		dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+//		dispatch_async(dispatch_get_main_queue(), ^{
+			[code
+				writeToFile:[directory stringByAppendingPathComponent:@"tiles.z80s"]
+				atomically:NO
+				encoding:NSUTF8StringEncoding
+				error:nil];
+			self.progressIndicator.hidden = YES;
+//		});
+//	});
 }
 
 - (void)compileSprites:(std::vector<SpriteSerialiser> &)sprites directory:(NSString *)directory {
@@ -668,7 +700,7 @@ NSString *stringify(const std::vector<Operation> &operations) {
 			while(mask < 16) {
 				if(c & mask) {
 					append_offset();
-					offset = 128;
+					offset = 15*128;
 
 					const auto slot = load_slot++;
 					[code appendFormat:@"\t\tld a, (ix - %d)\n", ix_offset];

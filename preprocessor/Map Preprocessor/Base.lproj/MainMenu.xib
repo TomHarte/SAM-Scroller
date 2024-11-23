@@ -17,6 +17,7 @@
             <connections>
                 <outlet property="convertMapView" destination="EUh-EE-TvI" id="UTb-iC-otc"/>
                 <outlet property="extractTilesView" destination="CVu-Xh-Qa0" id="Jy8-Jo-Ikb"/>
+                <outlet property="progressIndicator" destination="wAj-g6-A9z" id="3dI-C3-uRb"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
                 <outlet property="workFolderTextField" destination="aJR-Qn-h5f" id="Zuy-c8-jT7"/>
             </connections>
@@ -114,7 +115,7 @@
             <rect key="contentRect" x="335" y="390" width="480" height="274"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1470" height="924"/>
             <view key="contentView" misplaced="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="274"/>
+                <rect key="frame" x="0.0" y="0.0" width="480" height="288"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bCS-hA-hRT">
@@ -174,13 +175,18 @@
                             <action selector="convertAssets:" target="Voe-Tx-rLC" id="r9G-ua-Kot"/>
                         </connections>
                     </button>
+                    <progressIndicator hidden="YES" maxValue="100" doubleValue="65" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="wAj-g6-A9z">
+                        <rect key="frame" x="176" y="19" width="164" height="22"/>
+                    </progressIndicator>
                 </subviews>
                 <constraints>
                     <constraint firstItem="GwW-bl-mPk" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="WRI-Zr-t1q" secondAttribute="trailing" constant="12" symbolic="YES" id="1N3-6C-ebP"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="aJR-Qn-h5f" secondAttribute="trailing" id="1xQ-ag-3lb"/>
+                    <constraint firstItem="wAj-g6-A9z" firstAttribute="leading" secondItem="WRI-Zr-t1q" secondAttribute="trailing" constant="8" symbolic="YES" id="5sA-2h-4Zw"/>
                     <constraint firstItem="CVu-Xh-Qa0" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="9qD-Vu-kzH"/>
                     <constraint firstItem="CVu-Xh-Qa0" firstAttribute="height" secondItem="EUh-EE-TvI" secondAttribute="height" id="BHb-ex-Bdx"/>
                     <constraint firstAttribute="bottom" secondItem="WRI-Zr-t1q" secondAttribute="bottom" constant="20" symbolic="YES" id="LGN-S4-n8D"/>
+                    <constraint firstAttribute="bottom" secondItem="wAj-g6-A9z" secondAttribute="bottom" constant="20" symbolic="YES" id="NUl-z3-pPB"/>
                     <constraint firstAttribute="trailing" secondItem="CVu-Xh-Qa0" secondAttribute="trailing" constant="20" symbolic="YES" id="PwW-xq-tWa"/>
                     <constraint firstItem="EUh-EE-TvI" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="QLj-QR-Lbm"/>
                     <constraint firstAttribute="trailing" secondItem="EUh-EE-TvI" secondAttribute="trailing" constant="20" symbolic="YES" id="RTe-rV-smS"/>
@@ -192,9 +198,11 @@
                     <constraint firstItem="aJR-Qn-h5f" firstAttribute="centerY" secondItem="bCS-hA-hRT" secondAttribute="centerY" id="dAq-u6-tag"/>
                     <constraint firstAttribute="bottom" secondItem="GwW-bl-mPk" secondAttribute="bottom" constant="20" symbolic="YES" id="eI1-pF-dD9"/>
                     <constraint firstItem="WRI-Zr-t1q" firstAttribute="top" secondItem="EUh-EE-TvI" secondAttribute="bottom" constant="20" symbolic="YES" id="eJ4-wu-AJ1"/>
+                    <constraint firstItem="wAj-g6-A9z" firstAttribute="centerY" secondItem="GwW-bl-mPk" secondAttribute="centerY" id="edG-Ye-d6N"/>
                     <constraint firstItem="bCS-hA-hRT" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" symbolic="YES" id="k1z-AH-asv"/>
                     <constraint firstItem="WRI-Zr-t1q" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="qGD-pZ-ANo"/>
                     <constraint firstAttribute="trailing" secondItem="CVu-Xh-Qa0" secondAttribute="trailing" constant="20" symbolic="YES" id="tuh-4O-llJ"/>
+                    <constraint firstItem="GwW-bl-mPk" firstAttribute="leading" secondItem="wAj-g6-A9z" secondAttribute="trailing" constant="8" symbolic="YES" id="xA1-ks-Qlk"/>
                 </constraints>
             </view>
             <point key="canvasLocation" x="200" y="367.5"/>

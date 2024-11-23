@@ -101,6 +101,9 @@ struct Operation {
 		JP,
 		RET,
 
+		SET7,
+		RES7,
+
 		BLANK_LINE,
 		NONE,
 		LABEL,
@@ -149,16 +152,19 @@ struct Operation {
 	NSString *text() const {
 		NSMutableString *text = [[NSMutableString alloc] init];
 		switch(type) {
-			case Type::LD:		[text appendString:@"ld"];		break;
-			case Type::INC:		[text appendString:@"inc"];		break;
-			case Type::DEC:		[text appendString:@"dec"];		break;
-			case Type::ADD:		[text appendString:@"add"];		break;
-			case Type::SUB:		[text appendString:@"sub"];		break;
-			case Type::OR:		[text appendString:@"or"];		break;
-			case Type::XOR:		[text appendString:@"xor"];		break;
-			case Type::AND:		[text appendString:@"and"];		break;
-			case Type::PUSH:	[text appendString:@"push"];	break;
-			case Type::JP:		[text appendString:@"jp"];		break;
+			case Type::LD:		[text appendString:@"ld"];			break;
+			case Type::INC:		[text appendString:@"inc"];			break;
+			case Type::DEC:		[text appendString:@"dec"];			break;
+			case Type::ADD:		[text appendString:@"add"];			break;
+			case Type::SUB:		[text appendString:@"sub"];			break;
+			case Type::OR:		[text appendString:@"or"];			break;
+			case Type::XOR:		[text appendString:@"xor"];			break;
+			case Type::AND:		[text appendString:@"and"];			break;
+			case Type::PUSH:	[text appendString:@"push"];		break;
+			case Type::JP:		[text appendString:@"jp"];			break;
+
+			case Type::SET7:	[text appendString:@"set 7,"];		break;
+			case Type::RES7:	[text appendString:@"res 7,"];		break;
 
 			case Type::NONE:
 			case Type::BLANK_LINE:	return @"";
@@ -246,6 +252,9 @@ struct Operation {
 			case Type::RLCA:
 			case Type::RRCA:
 			case Type::CPL:		return 1;
+
+			case Type::RES7:
+			case Type::SET7:	return 2;
 
 			case Type::JP:
 			case Type::RET:		return 3;
