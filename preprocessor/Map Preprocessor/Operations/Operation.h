@@ -77,10 +77,14 @@ struct Operand {
 
 	NSString *text() const {
 		switch(type) {
-			case Type::Direct:			return [NSString stringWithFormat:@"%s", Register::name(std::get<Register::Name>(value))];
-			case Type::Indirect:		return [NSString stringWithFormat:@"(%s)", Register::name(std::get<Register::Name>(value))];
-			case Type::Label:			return [NSString stringWithFormat:@"%s", std::get<std::string>(value).c_str()];
-			case Type::LabelIndirect:	return [NSString stringWithFormat:@"(%s)", std::get<std::string>(value).c_str()];
+			case Type::Direct:
+				return [NSString stringWithFormat:@"%s", Register::name(std::get<Register::Name>(value))];
+			case Type::Indirect:
+				return [NSString stringWithFormat:@"(%s)", Register::name(std::get<Register::Name>(value))];
+			case Type::Label:
+				return [NSString stringWithFormat:@"%s", std::get<std::string>(value).c_str()];
+			case Type::LabelIndirect:
+				return [NSString stringWithFormat:@"(%s)", std::get<std::string>(value).c_str()];
 			case Type::Immediate:
 				if(const uint8_t *value8 = std::get_if<uint8_t>(&value)) {
 					return [NSString stringWithFormat:@"0x%02x", *value8];

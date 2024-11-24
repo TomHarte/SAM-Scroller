@@ -174,8 +174,10 @@ NSString *stringify(const std::vector<Operation> &operations) {
 						bytesPerRow:accessor.bytes_per_row()
 						bitsPerPixel:0];
 
-				NSData *const data = [image_representation representationUsingType:NSBitmapImageFileTypePNG properties:@{}];
-				NSString *const name = [directory stringByAppendingPathComponent:[NSString stringWithFormat:@"tiles/%d.png", it->second]];
+				NSData *const data =
+					[image_representation representationUsingType:NSBitmapImageFileTypePNG properties:@{}];
+				NSString *const name =
+					[directory stringByAppendingPathComponent:[NSString stringWithFormat:@"tiles/%d.png", it->second]];
 				[data
 					writeToFile:name
 					atomically:NO];
@@ -188,8 +190,11 @@ NSString *stringify(const std::vector<Operation> &operations) {
 	NSMutableString *map = [[NSMutableString alloc] init];
 	[map appendFormat:@"\tmap:\n"];
 	for(auto &column : columns) {
-		[map appendFormat:@"\t\tdb 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x\n",
-			column[0], column[1], column[2], column[3], column[4], column[5], column[6], column[7], column[8], column[9], column[10], column[11]];
+		[map appendFormat:
+			@"\t\tdb 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x\n",
+			column[0], column[1], column[2], column[3],
+			column[4], column[5], column[6], column[7],
+			column[8], column[9], column[10], column[11]];
 	}
 
 	[map appendFormat:@"\n\tdiffs:\n"];
@@ -253,7 +258,12 @@ NSString *stringify(const std::vector<Operation> &operations) {
 	return code;
 }
 
-- (NSString *)tiles:(NSString *)name slice:(int)slice source:(std::vector<TileSerialiser<TileSize>> &)tiles page:(int)page {
+- (NSString *)
+	tiles:(NSString *)name
+	slice:(int)slice
+	source:(std::vector<TileSerialiser<TileSize>> &)tiles
+	page:(int)page
+{
 	NSMutableString *code = [[NSMutableString alloc] init];
 	for(auto &tile: tiles) {
 		tile.set_slice(slice);
@@ -269,7 +279,12 @@ NSString *stringify(const std::vector<Operation> &operations) {
 			trial.push_back(Operation::label([[NSString stringWithFormat:@"@%@_%d", name, tile.index()] UTF8String]));
 			trial.push_back(Operation::ld(Operand::label_indirect("@+return+1"), Operand::direct(Register::Name::DE)));
 			if(c & 1) {
-				trial.push_back(Operation::ld(Operand::label_indirect("@+reload_ix+2"), Operand::direct(Register::Name::IX)));
+				trial.push_back(
+					Operation::ld(
+						Operand::label_indirect("@+reload_ix+2"),
+						Operand::direct(Register::Name::IX)
+					)
+				);
 			}
 			trial.push_back(Operation::ld(Register::Name::SP, Register::Name::HL));
 
@@ -333,11 +348,21 @@ NSString *stringify(const std::vector<Operation> &operations) {
 								trial.push_back(set.load(action.reg, action.value));
 								[[fallthrough]];
 							case RegisterEvent::Type::Reuse:
-								trial.push_back(Operation::ld(Operand::indirect(Register::Name::HL), Operand::direct(action.reg)));
+								trial.push_back(
+									Operation::ld(
+										Operand::indirect(Register::Name::HL),
+										Operand::direct(action.reg)
+									)
+								);
 							break;
 
 							case RegisterEvent::Type::UseConstant:
-								trial.push_back(Operation::ld(Operand::indirect(Register::Name::HL), Operand::immediate<uint8_t>(action.value)));
+								trial.push_back(
+									Operation::ld(
+										Operand::indirect(Register::Name::HL),
+										Operand::immediate<uint8_t>(action.value)
+									)
+								);
 							break;
 						}
 					} break;
@@ -346,7 +371,12 @@ NSString *stringify(const std::vector<Operation> &operations) {
 
 			if(c & 1) {
 				trial.push_back(Operation::label("@reload_ix"));
-				trial.push_back(Operation::ld(Operand::direct(Register::Name::IX), Operand::immediate<uint16_t>(0x1234)));
+				trial.push_back(
+					Operation::ld(
+						Operand::direct(Register::Name::IX),
+						Operand::immediate<uint16_t>(0x1234)
+					)
+				);
 			}
 			trial.push_back(Operation::label("@return"));
 			trial.push_back(Operation::jp(0x1234));
@@ -438,27 +468,31 @@ NSString *stringify(const std::vector<Operation> &operations) {
 
 - (void)compileTiles:(std::vector<TileSerialiser<TileSize>> &)tiles directory:(NSString *)directory {
 	NSMutableString *code = [[NSMutableString alloc] init];
-	[code appendString:@"\t; The following tile outputters are automatically generated.\n"];
-	[code appendString:@"\t;\n"];
-	[code appendString:@"\t; Input:\n"];
-	[code appendString:@"\t;	* for tiles that are an even number of byes wide, HL points to one after the lower right corner of the output location;\n"];
-	[code appendString:@"\t;	* for tiles that are an odd number of bytes wide, HL points to the lower right corner of the output location;\n"];
-	[code appendString:@"\t;	* DE is a link register, indicating where the function should return to.\n"];
-	[code appendString:@"\t;\n"];
-	[code appendString:@"\t; Rules:\n"];
-	[code appendString:@"\t;	* IX should be preserved; and\n"];
-	[code appendString:@"\t;	* SP is overtly available for any use the outputter prefers.\n"];
-	[code appendString:@"\t;\n"];
-	[code appendString:@"\t; At exit:\n"];
-	[code appendString:@"\t;	* HL will be 1 line earlier than it was at input.\n"];
-	[code appendString:@"\t; i.e. if stacking tiles from bottom to top, the caller will need to subtract a\n"];
-	[code appendString:@"\t; further 15*128 from HL before calling the next outputter.\n"];
-	[code appendString:@"\t;\n"];
-	[code appendString:@"\t; Each set of tiles is preceded by a long sequence of JP statements that jump to each tile in turn;\n"];
-	[code appendString:@"\t; this is the means by which dynamic branching happens elsewhere — the map is stored as the low byte\n"];
-	[code appendString:@"\t; of JP that branches into the tile to be drawn. Although slightly circuitous, this proved to be the\n"];
-	[code appendString:@"\t; fastest way of implementing that step subject to the bounds of my imagination.\n"];
-	[code appendString:@"\t;\n\n"];
+	[code appendString:
+		@"\t; The following tile outputters are automatically generated.\n"
+		@"\t;\n"
+		@"\t; Input:\n"
+		@"\t;	* for tiles that are an even number of byes wide, HL points to one after the lower right corner of the "
+				@"output location;\n"
+		@"\t;	* for tiles that are an odd number of bytes wide, HL points to the lower right corner of the output "
+				@"location;\n"
+		@"\t;	* DE is a link register, indicating where the function should return to.\n"
+		@"\t;\n"
+		@"\t; Rules:\n"
+		@"\t;	* IX should be preserved; and\n"
+		@"\t;	* SP is overtly available for any use the outputter prefers.\n"
+		@"\t;\n"
+		@"\t; At exit:\n"
+		@"\t;	* HL will be 1 line earlier than it was at input.\n"
+		@"\t; i.e. if stacking tiles from bottom to top, the caller will need to subtract a\n"
+		@"\t; further 15*128 from HL before calling the next outputter.\n"
+		@"\t;\n"
+		@"\t; Each set of tiles is preceded by a long sequence of JP statements that jump to each tile in turn;\n"
+		@"\t; this is the means by which dynamic branching happens elsewhere — the map is stored as the low byte\n"
+		@"\t; of JP that branches into the tile to be drawn. Although slightly circuitous, this proved to be the\n"
+		@"\t; fastest way of implementing that step subject to the bounds of my imagination.\n"
+		@"\t;\n\n"
+	];
 
 	const auto post = [&](NSString *tiles) {
 //		dispatch_sync(dispatch_get_main_queue(), ^{
@@ -623,7 +657,11 @@ NSString *stringify(const std::vector<Operation> &operations) {
 		[code appendString:stringify(operations)];
 	}
 
-	[code writeToFile:[directory stringByAppendingPathComponent:@"sprites.z80s"] atomically:NO encoding:NSUTF8StringEncoding error:nil];
+	[code
+		writeToFile:[directory stringByAppendingPathComponent:@"sprites.z80s"]
+		atomically:NO
+		encoding:NSUTF8StringEncoding
+		error:nil];
 }
 
 - (void)writePalette:(const std::vector<uint8_t> &)palette file:(NSString *)file {
@@ -644,23 +682,25 @@ NSString *stringify(const std::vector<Operation> &operations) {
 - (void)writeColumnFunctions:(NSString *)directory {
 	NSMutableString *code = [[NSMutableString alloc] init];
 
-	[code appendString:@"\t; The following routines are automatically generated. Each one performs the\n"];
-	[code appendString:@"\t; action of drawing only the subset of tiles marked as dirty according to the\n"];
-	[code appendString:@"\t; four bit code implied by its function number.\n"];
-	[code appendString:@"\t;\n"];
-	[code appendString:@"\t; i.e."];
-	[code appendString:@"\t;	* draw_left_sliver0 draws zero tiles because all dirty bits are clear;\n"];
-	[code appendString:@"\t;	* draw_left_sliver1 draws the first tile in its collection of four, but no others;\n"];
-	[code appendString:@"\t;	* draw_left_sliver9 draws the first and fourth tiles; and\n"];
-	[code appendString:@"\t;	* draw_left_sliver15 draws all four tiles.\n"];
-	[code appendString:@"\t; In all cases the first tile is the one lowest down the screen."];
-	[code appendString:@"\t;\n"];
-	[code appendString:@"\t; At exit:\n"];
-	[code appendString:@"\t;	* IX has been decremented by four; and\n"];
-	[code appendString:@"\t;	* HL points to the start address for the first tile above this group, if any.\n"];
-	[code appendString:@"\t;\n"];
-	[code appendString:@"\t; An initial sequence of JP statements provides for fast dispatch into the appropriate sliver.\n"];
-	[code appendString:@"\t;\n\n"];
+	[code appendString:
+		@"\t; The following routines are automatically generated. Each one performs the\n"
+		@"\t; action of drawing only the subset of tiles marked as dirty according to the\n"
+		@"\t; four bit code implied by its function number.\n"
+		@"\t;\n"
+		@"\t; i.e."
+		@"\t;	* draw_left_sliver0 draws zero tiles because all dirty bits are clear;\n"
+		@"\t;	* draw_left_sliver1 draws the first tile in its collection of four, but no others;\n"
+		@"\t;	* draw_left_sliver9 draws the first and fourth tiles; and\n"
+		@"\t;	* draw_left_sliver15 draws all four tiles.\n"
+		@"\t; In all cases the first tile is the one lowest down the screen."
+		@"\t;\n"
+		@"\t; At exit:\n"
+		@"\t;	* IX has been decremented by four; and\n"
+		@"\t;	* HL points to the start address for the first tile above this group, if any.\n"
+		@"\t;\n"
+		@"\t; An initial sequence of JP statements provides for fast dispatch into the appropriate sliver.\n"
+		@"\t;\n\n"
+	];
 
 	[code appendString:@"\tds align 256\n"];
 	[code appendString:@"\tleft_slivers:\n"];
@@ -726,7 +766,11 @@ NSString *stringify(const std::vector<Operation> &operations) {
 		}
 	}
 
-	[code writeToFile:[directory stringByAppendingPathComponent:@"slivers.z80s"] atomically:NO encoding:NSUTF8StringEncoding error:nil];
+	[code
+		writeToFile:[directory stringByAppendingPathComponent:@"slivers.z80s"]
+		atomically:NO
+		encoding:NSUTF8StringEncoding
+		error:nil];
 }
 
 @end
