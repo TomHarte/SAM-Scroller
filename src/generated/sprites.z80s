@@ -2001,3 +2001,589 @@
 		ld (hl), d
 		ret
 
+	clippable_1:
+		ld bc, 0x0100
+		add hl, bc
+
+		ld (hl), 0x04
+		ld d, 0x4a
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), 0x4e
+		inc h
+		ld (hl), 0x04
+		ld bc, 0xfd80
+		add hl, bc
+
+		ld (hl), d
+		inc h
+		ld (hl), 0x49
+		inc h
+		ld (hl), 0x04
+		inc c
+		add hl, bc
+
+	.clippable_1_column1:
+		ld (hl), 0x44
+		ld a, 0xaa
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), 0x9e
+		inc h
+		ld (hl), 0xee
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), 0x04
+		ld bc, 0xfb80
+		add hl, bc
+
+		ld e, 0xa4
+		ld (hl), e
+		inc h
+		ld (hl), 0xea
+		inc h
+		ld (hl), 0xee
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), 0x04
+		inc h
+		ld (hl), 0x04
+		ld bc, 0xf981
+		add hl, bc
+
+	.clippable_1_column2:
+		ld (hl), 0x04
+		inc h
+		ld (hl), 0xd4
+		inc h
+		ld (hl), 0x4d
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), 0xee
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), 0x04
+		ld bc, 0xf780
+		add hl, bc
+
+		ld (hl), 0x4d
+		inc h
+		ld (hl), 0xd4
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), 0xee
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), 0x04
+		ld bc, 0xf681
+		add hl, bc
+
+	.clippable_1_column3:
+		ld (hl), 0x40
+		inc h
+		ld (hl), 0xdd
+		inc h
+		ld (hl), 0xd4
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), 0xee
+		inc h
+		ld (hl), 0xae
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), d
+		dec c
+		add hl, bc
+
+		ld (hl), 0xd4
+		inc h
+		ld (hl), 0xdd
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), 0xae
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), 0x04
+		inc c
+		add hl, bc
+
+	.clippable_1_column4:
+		ld (hl), 0x40
+		inc h
+		ld (hl), 0x40
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), 0x44
+		ld bc, 0x0200
+		add hl, bc
+
+		ld (hl), 0x44
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), d
+		ld bc, 0xf680
+		add hl, bc
+
+		ld (hl), 0x40
+		inc h
+		ld (hl), 0x44
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), 0xea
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), 0x44
+		ld bc, 0x0200
+		add hl, bc
+
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), 0x04
+		ld bc, 0xf681
+		add hl, bc
+
+	.clippable_1_column5:
+		ld (hl), 0x44
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), 0x04
+		ld bc, 0x0200
+		add hl, bc
+
+		ld (hl), e
+		ld bc, 0xf780
+		add hl, bc
+
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), 0x40
+		inc h
+		ld (hl), 0x40
+		inc h
+		ld (hl), 0x44
+		ld bc, 0xf681
+		add hl, bc
+
+	.clippable_1_column6:
+		ld (hl), 0x40
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), 0x44
+		ld bc, 0xf780
+		add hl, bc
+
+		ld (hl), e
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), d
+		ld bc, 0xf881
+		add hl, bc
+
+	.clippable_1_column7:
+		ld (hl), 0x40
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), 0x40
+		inc h
+		ld (hl), 0x40
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), a
+		dec c
+		add hl, bc
+
+		ld a, 0x40
+		ld (hl), a
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), d
+		ret
+
+	clippable_0:
+		ld bc, 0x0500
+		add hl, bc
+
+		ld (hl), 0x04
+		inc h
+		ld (hl), 0x4a
+		inc h
+		ld (hl), 0x4e
+		inc h
+		ld (hl), 0x04
+		ld b, 0x02
+		add hl, bc
+
+		ld a, 0xaa
+		ld (hl), a
+		inc h
+		ld (hl), 0x4a
+		ld bc, 0xfa80
+		add hl, bc
+
+		ld (hl), 0x4a
+		inc h
+		ld (hl), 0x49
+		inc h
+		ld (hl), 0x04
+		ld bc, 0x0200
+		add hl, bc
+
+		ld d, 0x44
+		ld (hl), d
+		inc h
+		ld (hl), d
+		ld e, 0xa4
+		inc h
+		ld (hl), e
+		ld bc, 0xf981
+		add hl, bc
+
+	.clippable_0_column1:
+		ld (hl), d
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), 0x9e
+		inc h
+		ld (hl), 0xee
+		inc h
+		ld (hl), 0x04
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), 0x4a
+		ld bc, 0xfa80
+		add hl, bc
+
+		ld (hl), e
+		inc h
+		ld (hl), 0xea
+		inc h
+		ld (hl), 0xee
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), 0x4a
+		ld bc, 0xf881
+		add hl, bc
+
+	.clippable_0_column2:
+		ld (hl), 0x04
+		inc h
+		ld (hl), 0xd4
+		inc h
+		ld (hl), 0x4d
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), 0xee
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), 0x40
+		ld bc, 0xf980
+		add hl, bc
+
+		ld (hl), 0x4d
+		inc h
+		ld (hl), 0xd4
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), 0xee
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), 0x40
+		ld bc, 0xf881
+		add hl, bc
+
+	.clippable_0_column3:
+		ld (hl), 0x40
+		inc h
+		ld (hl), 0xdd
+		inc h
+		ld (hl), 0xd4
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), 0xee
+		inc h
+		ld (hl), 0x4e
+		inc h
+		ld (hl), 0x4a
+		ld bc, 0xf980
+		add hl, bc
+
+		ld (hl), 0xd4
+		inc h
+		ld (hl), 0xdd
+		inc h
+		ld (hl), 0x4a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), 0x4e
+		inc h
+		ld (hl), 0x04
+		inc h
+		ld (hl), d
+		inc c
+		add hl, bc
+
+	.clippable_0_column4:
+		ld (hl), 0x40
+		inc h
+		ld (hl), 0x40
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), 0x4a
+		inc h
+		ld (hl), 0x4a
+		inc h
+		ld (hl), a
+		ld bc, 0xfa80
+		add hl, bc
+
+		ld (hl), 0x40
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), 0xe4
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), d
+		inc c
+		add hl, bc
+
+	.clippable_0_column5:
+		ld (hl), d
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		ld bc, 0xfb80
+		add hl, bc
+
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), d
+		inc h
+		ld (hl), d
+		ld bc, 0xfa81
+		add hl, bc
+
+	.clippable_0_column6:
+		ld (hl), 0x40
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), 0x4a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		ld bc, 0xfb80
+		add hl, bc
+
+		ld (hl), e
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), a
+		inc h
+		ld (hl), d
+		inc c
+		add hl, bc
+
+	.clippable_0_column7:
+		ld a, 0x40
+		ld (hl), a
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), a
+		ld bc, 0xfc80
+		add hl, bc
+
+		ld (hl), a
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), e
+		inc h
+		ld (hl), a
+		ret
+

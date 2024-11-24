@@ -581,7 +581,12 @@ NSString *stringify(const std::vector<Operation> &operations) {
 
 	for(auto &sprite: sprites) {
 		std::vector<Operation> operations;
-		operations.push_back(Operation::label([[NSString stringWithFormat:@"sprite_%d", sprite.index()] UTF8String]));
+		const bool is_clippable = sprite.order() != SpriteSerialiser::Order::RowsFirstDownward;
+		operations.push_back(
+			Operation::label
+				([NSString stringWithFormat:@"%s_%d", is_clippable ? "clippable" : "sprite", sprite.index()].UTF8String
+			)
+		);
 
 		// Obtain register allocations.
 		OptionalRegisterAllocator<uint8_t> register_allocator(
@@ -607,6 +612,13 @@ NSString *stringify(const std::vector<Operation> &operations) {
 
 		// Generate code.
 		bool moved = true;
+		std::optional<size_t> current_x;
+		struct ColumnCapture {
+			RegisterSet registers;
+			size_t initial_y;
+			size_t next_operation;
+		};
+		std::vector<ColumnCapture> column_captures;
 		uint16_t hl = 0;
 		time = 0;
 		sprite.reset();
@@ -632,6 +644,26 @@ NSString *stringify(const std::vector<Operation> &operations) {
 				operations.push_back(set.load(Register::Name::BC, offset));
 				operations.push_back(Operation::add(Register::Name::HL, Register::Name::BC));
 				operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
+
+				// If this is a clippable object and this x/y is the first on a new column,
+				// label loation and capture current register state.
+				if(is_clippable && current_x && *current_x != event.content.move.x) {
+					operations.push_back(
+						Operation::label(
+							[NSString
+								stringWithFormat:@".clippable_%d_column%zu",
+									sprite.index(), event.content.move.x
+							].UTF8String
+						)
+					);
+
+					column_captures.push_back(ColumnCapture{
+						.registers = set,
+						.initial_y = event.content.move.y,
+						.next_operation = operations.size(),
+					});
+				}
+				current_x = event.content.move.x;
 			} else {
 				if(!moved) {
 					switch(sprite.order()) {
@@ -671,7 +703,10 @@ NSString *stringify(const std::vector<Operation> &operations) {
 		operations.push_back(Operation::nullary(Operation::Type::RET));
 		operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
 
-		NSLog(@"%d has cost %zu", sprite.index(), cost(operations));
+		if(is_clippable) {
+			// TODO.
+		}
+
 		[code appendString:stringify(operations)];
 	}
 
