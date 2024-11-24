@@ -479,7 +479,7 @@ NSString *stringify(const std::vector<Operation> &operations) {
 
 	// Compile all.
 	[self compileSprites:sprites directory:directory];
-//	[self compileTiles:tiles directory:directory];
+	[self compileTiles:tiles directory:directory];
 }
 
 - (void)compileTiles:(std::vector<TileSerialiser<TileSize>> &)tiles directory:(NSString *)directory {
@@ -669,7 +669,7 @@ NSString *stringify(const std::vector<Operation> &operations) {
 							Operation::label(
 								[NSString
 									stringWithFormat:@"@clippable_%d_column%zu",
-										sprite.index(), event.content.move.x
+										sprite.index(), last_move[0]
 								].UTF8String
 							)
 						);

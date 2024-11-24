@@ -2024,7 +2024,7 @@
 		inc c
 		add hl, bc
 
-	@clippable_1_column68:
+	@clippable_1_column1:
 		ld (hl), 0x44
 		ld a, 0xaa
 		inc h
@@ -2055,7 +2055,7 @@
 		ld bc, 0xf981
 		add hl, bc
 
-	@clippable_1_column4:
+	@clippable_1_column2:
 		ld (hl), 0x04
 		inc h
 		ld (hl), 0xd4
@@ -2100,7 +2100,7 @@
 		ld bc, 0xf681
 		add hl, bc
 
-	@clippable_1_column64:
+	@clippable_1_column3:
 		ld (hl), 0x40
 		inc h
 		ld (hl), 0xdd
@@ -2149,7 +2149,7 @@
 		inc c
 		add hl, bc
 
-	@clippable_1_column64:
+	@clippable_1_column4:
 		ld (hl), 0x40
 		inc h
 		ld (hl), 0x40
@@ -2198,7 +2198,7 @@
 		ld bc, 0xf681
 		add hl, bc
 
-	@clippable_1_column68:
+	@clippable_1_column5:
 		ld (hl), 0x44
 		inc h
 		ld (hl), a
@@ -2243,7 +2243,7 @@
 		ld bc, 0xf681
 		add hl, bc
 
-	@clippable_1_column64:
+	@clippable_1_column6:
 		ld (hl), 0x40
 		inc h
 		ld (hl), a
@@ -2286,7 +2286,7 @@
 		ld bc, 0xf881
 		add hl, bc
 
-	@clippable_1_column64:
+	@clippable_1_column7:
 		ld (hl), 0x40
 		inc h
 		ld (hl), e
@@ -2479,7 +2479,7 @@
 		ld bc, 0xf981
 		add hl, bc
 
-	@clippable_0_column68:
+	@clippable_0_column1:
 		ld (hl), d
 		inc h
 		ld (hl), a
@@ -2512,7 +2512,7 @@
 		ld bc, 0xf881
 		add hl, bc
 
-	@clippable_0_column4:
+	@clippable_0_column2:
 		ld (hl), 0x04
 		inc h
 		ld (hl), 0xd4
@@ -2549,7 +2549,7 @@
 		ld bc, 0xf881
 		add hl, bc
 
-	@clippable_0_column64:
+	@clippable_0_column3:
 		ld (hl), 0x40
 		inc h
 		ld (hl), 0xdd
@@ -2586,7 +2586,7 @@
 		inc c
 		add hl, bc
 
-	@clippable_0_column64:
+	@clippable_0_column4:
 		ld (hl), 0x40
 		inc h
 		ld (hl), 0x40
@@ -2619,7 +2619,7 @@
 		inc c
 		add hl, bc
 
-	@clippable_0_column68:
+	@clippable_0_column5:
 		ld (hl), d
 		inc h
 		ld (hl), a
@@ -2648,7 +2648,7 @@
 		ld bc, 0xfa81
 		add hl, bc
 
-	@clippable_0_column64:
+	@clippable_0_column6:
 		ld (hl), 0x40
 		inc h
 		ld (hl), a
@@ -2678,7 +2678,7 @@
 		add hl, bc
 
 		ld a, 0x40
-	@clippable_0_column64:
+	@clippable_0_column7:
 		ld (hl), a
 		inc h
 		ld (hl), e
