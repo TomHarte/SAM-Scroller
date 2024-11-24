@@ -77,10 +77,14 @@ struct Operand {
 
 	NSString *text() const {
 		switch(type) {
-			case Type::Direct:			return [NSString stringWithFormat:@"%s", Register::name(std::get<Register::Name>(value))];
-			case Type::Indirect:		return [NSString stringWithFormat:@"(%s)", Register::name(std::get<Register::Name>(value))];
-			case Type::Label:			return [NSString stringWithFormat:@"%s", std::get<std::string>(value).c_str()];
-			case Type::LabelIndirect:	return [NSString stringWithFormat:@"(%s)", std::get<std::string>(value).c_str()];
+			case Type::Direct:
+				return [NSString stringWithFormat:@"%s", Register::name(std::get<Register::Name>(value))];
+			case Type::Indirect:
+				return [NSString stringWithFormat:@"(%s)", Register::name(std::get<Register::Name>(value))];
+			case Type::Label:
+				return [NSString stringWithFormat:@"%s", std::get<std::string>(value).c_str()];
+			case Type::LabelIndirect:
+				return [NSString stringWithFormat:@"(%s)", std::get<std::string>(value).c_str()];
 			case Type::Immediate:
 				if(const uint8_t *value8 = std::get_if<uint8_t>(&value)) {
 					return [NSString stringWithFormat:@"0x%02x", *value8];
@@ -100,6 +104,7 @@ struct Operation {
 		PUSH,
 		JP,
 		RET,
+		CALL,
 
 		SET7,
 		RES7,
@@ -107,6 +112,7 @@ struct Operation {
 		BLANK_LINE,
 		NONE,
 		LABEL,
+		DS_ALIGN,
 	} type;
 	std::optional<Operand> destination;
 	std::optional<Operand> source;
@@ -148,6 +154,24 @@ struct Operation {
 			.destination = Operand::immediate(destination),
 		};
 	}
+	static Operation jp(const char *destination) {
+		return Operation{
+			.type = Type::JP,
+			.destination = Operand::label(destination),
+		};
+	}
+	static Operation call(const char *destination) {
+		return Operation{
+			.type = Type::CALL,
+			.destination = Operand::label(destination),
+		};
+	}
+	static Operation ds_align(uint16_t alignment) {
+		return Operation{
+			.type = Type::DS_ALIGN,
+			.destination = Operand::immediate(alignment),
+		};
+	}
 
 	NSString *text() const {
 		NSMutableString *text = [[NSMutableString alloc] init];
@@ -162,6 +186,7 @@ struct Operation {
 			case Type::AND:		[text appendString:@"and"];			break;
 			case Type::PUSH:	[text appendString:@"push"];		break;
 			case Type::JP:		[text appendString:@"jp"];			break;
+			case Type::CALL:	[text appendString:@"call"];		break;
 
 			case Type::SET7:	[text appendString:@"set 7,"];		break;
 			case Type::RES7:	[text appendString:@"res 7,"];		break;
@@ -173,7 +198,8 @@ struct Operation {
 			case Type::CPL:		return @"cpl";
 			case Type::RET:		return @"ret";
 
-			case Type::LABEL:	return [NSString stringWithFormat:@"%@:", destination->text()];
+			case Type::DS_ALIGN:	[text appendString:@"DS ALIGN"];	break;
+			case Type::LABEL:		return [NSString stringWithFormat:@"%@:", destination->text()];
 		}
 
 		if(destination) {
@@ -259,6 +285,9 @@ struct Operation {
 			case Type::JP:
 			case Type::RET:		return 3;
 
+			case Type::CALL:	return 5;
+
+			case Type::DS_ALIGN:
 			case Type::LABEL:
 			case Type::BLANK_LINE:
 			case Type::NONE:	return 0;

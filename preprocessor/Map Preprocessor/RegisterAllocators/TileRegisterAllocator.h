@@ -1,6 +1,6 @@
 //
 //  RegisterAllocator.h
-//  Gryzor Preprocessor
+//  Map Preprocessor
 //
 //  Created by Thomas Harte on 29/10/2024.
 //
@@ -26,7 +26,10 @@ struct RegisterEvent {
 template <int TileSize>
 class TileRegisterAllocator {
 	static constexpr auto RegistersSansIX = { Register::Name::BC, Register::Name::DE, Register::Name::IY };
-	static constexpr auto RegistersPlusIX = { Register::Name::BC, Register::Name::DE, Register::Name::IY, Register::Name::IX };
+	static constexpr auto RegistersPlusIX = {
+		Register::Name::BC, Register::Name::DE,
+		Register::Name::IY, Register::Name::IX
+	};
 
 public:
 	TileRegisterAllocator(TileSerialiser<TileSize> &serialiser, bool permit_ix) :

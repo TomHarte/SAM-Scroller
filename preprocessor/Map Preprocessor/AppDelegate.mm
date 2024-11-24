@@ -1,6 +1,6 @@
 //
 //  AppDelegate.m
-//  Gryzor Preprocessor
+//  Map Preprocessor
 //
 //  Created by Thomas Harte on 18/10/2024.
 //
@@ -25,7 +25,6 @@
 #include <vector>
 
 static constexpr int TileSize = 16;
-const auto SpriteSerialisationOrder = SpriteSerialiser::Order::RowsFirstDownward;
 
 namespace {
 
@@ -44,6 +43,10 @@ NSString *stringify(const std::vector<Operation> &operations) {
 		}
 		[code appendString:operation.text()];
 		[code appendString:@"\n"];
+
+		if(operation.type == Operation::Type::RET) {
+			[code appendString:@"\n"];
+		}
 	}
 
 	return code;
@@ -174,8 +177,10 @@ NSString *stringify(const std::vector<Operation> &operations) {
 						bytesPerRow:accessor.bytes_per_row()
 						bitsPerPixel:0];
 
-				NSData *const data = [image_representation representationUsingType:NSBitmapImageFileTypePNG properties:@{}];
-				NSString *const name = [directory stringByAppendingPathComponent:[NSString stringWithFormat:@"tiles/%d.png", it->second]];
+				NSData *const data =
+					[image_representation representationUsingType:NSBitmapImageFileTypePNG properties:@{}];
+				NSString *const name =
+					[directory stringByAppendingPathComponent:[NSString stringWithFormat:@"tiles/%d.png", it->second]];
 				[data
 					writeToFile:name
 					atomically:NO];
@@ -188,8 +193,11 @@ NSString *stringify(const std::vector<Operation> &operations) {
 	NSMutableString *map = [[NSMutableString alloc] init];
 	[map appendFormat:@"\tmap:\n"];
 	for(auto &column : columns) {
-		[map appendFormat:@"\t\tdb 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x\n",
-			column[0], column[1], column[2], column[3], column[4], column[5], column[6], column[7], column[8], column[9], column[10], column[11]];
+		[map appendFormat:
+			@"\t\tdb 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x\n",
+			column[0], column[1], column[2], column[3],
+			column[4], column[5], column[6], column[7],
+			column[8], column[9], column[10], column[11]];
 	}
 
 	[map appendFormat:@"\n\tdiffs:\n"];
@@ -253,7 +261,12 @@ NSString *stringify(const std::vector<Operation> &operations) {
 	return code;
 }
 
-- (NSString *)tiles:(NSString *)name slice:(int)slice source:(std::vector<TileSerialiser<TileSize>> &)tiles page:(int)page {
+- (NSString *)
+	tiles:(NSString *)name
+	slice:(int)slice
+	source:(std::vector<TileSerialiser<TileSize>> &)tiles
+	page:(int)page
+{
 	NSMutableString *code = [[NSMutableString alloc] init];
 	for(auto &tile: tiles) {
 		tile.set_slice(slice);
@@ -269,7 +282,12 @@ NSString *stringify(const std::vector<Operation> &operations) {
 			trial.push_back(Operation::label([[NSString stringWithFormat:@"@%@_%d", name, tile.index()] UTF8String]));
 			trial.push_back(Operation::ld(Operand::label_indirect("@+return+1"), Operand::direct(Register::Name::DE)));
 			if(c & 1) {
-				trial.push_back(Operation::ld(Operand::label_indirect("@+reload_ix+2"), Operand::direct(Register::Name::IX)));
+				trial.push_back(
+					Operation::ld(
+						Operand::label_indirect("@+reload_ix+2"),
+						Operand::direct(Register::Name::IX)
+					)
+				);
 			}
 			trial.push_back(Operation::ld(Register::Name::SP, Register::Name::HL));
 
@@ -333,11 +351,21 @@ NSString *stringify(const std::vector<Operation> &operations) {
 								trial.push_back(set.load(action.reg, action.value));
 								[[fallthrough]];
 							case RegisterEvent::Type::Reuse:
-								trial.push_back(Operation::ld(Operand::indirect(Register::Name::HL), Operand::direct(action.reg)));
+								trial.push_back(
+									Operation::ld(
+										Operand::indirect(Register::Name::HL),
+										Operand::direct(action.reg)
+									)
+								);
 							break;
 
 							case RegisterEvent::Type::UseConstant:
-								trial.push_back(Operation::ld(Operand::indirect(Register::Name::HL), Operand::immediate<uint8_t>(action.value)));
+								trial.push_back(
+									Operation::ld(
+										Operand::indirect(Register::Name::HL),
+										Operand::immediate<uint8_t>(action.value)
+									)
+								);
 							break;
 						}
 					} break;
@@ -346,7 +374,12 @@ NSString *stringify(const std::vector<Operation> &operations) {
 
 			if(c & 1) {
 				trial.push_back(Operation::label("@reload_ix"));
-				trial.push_back(Operation::ld(Operand::direct(Register::Name::IX), Operand::immediate<uint16_t>(0x1234)));
+				trial.push_back(
+					Operation::ld(
+						Operand::direct(Register::Name::IX),
+						Operand::immediate<uint16_t>(0x1234)
+					)
+				);
 			}
 			trial.push_back(Operation::label("@return"));
 			trial.push_back(Operation::jp(0x1234));
@@ -391,15 +424,23 @@ NSString *stringify(const std::vector<Operation> &operations) {
 	return [self imageFiles:[directory stringByAppendingPathComponent:@"sprites"]];
 }
 
+- (NSArray<NSString *> *)clippableFiles:(NSString *)directory {
+	return [self imageFiles:[directory stringByAppendingPathComponent:@"clippables"]];
+}
+
 - (void)encode:(NSString *)directory {
 	// Get list of all PNGs.
-	NSArray<NSString *> *tile_files = [self tileFiles:directory];
-	NSArray<NSString *> *sprite_files = [self spriteFiles:directory];
+	NSArray<NSString *> *tileFiles = [self tileFiles:directory];
+	NSArray<NSString *> *spriteFiles = [self spriteFiles:directory];
+	NSArray<NSString *> *clippableFiles = [self clippableFiles:directory];
+
+	NSArray<NSString *> *allFiles =
+		[[tileFiles arrayByAddingObjectsFromArray:spriteFiles] arrayByAddingObjectsFromArray:clippableFiles];
 
 	// Build palette based on tiles and sprites.
 	Palettiser palettiser(4);	// TODO: super-hack here; I'm supplying a rotation I picked to make sure that
 								// colour 0 is the background one. That needs to be automated.
-	for(NSString *file in [tile_files arrayByAddingObjectsFromArray:sprite_files]) {
+	for(NSString *file in allFiles) {
 		NSData *fileData = [NSData dataWithContentsOfFile:file];
 		const PixelAccessor accessor([[NSImage alloc] initWithData:fileData]);
 		palettiser.add_colours(accessor);
@@ -408,7 +449,7 @@ NSString *stringify(const std::vector<Operation> &operations) {
 
 	// Prepare lists of tiles and sprites for future dicing and writing.
 	std::vector<TileSerialiser<TileSize>> tiles;
-	for(NSString *file in tile_files) {
+	for(NSString *file in tileFiles) {
 		NSData *fileData = [NSData dataWithContentsOfFile:file];
 		PixelAccessor accessor([[NSImage alloc] initWithData:fileData]);
 		tiles.emplace_back(
@@ -418,14 +459,23 @@ NSString *stringify(const std::vector<Operation> &operations) {
 	}
 
 	std::vector<SpriteSerialiser> sprites;
-	for(NSString *file in sprite_files) {
+	for(NSString *file in spriteFiles) {
 		NSData *fileData = [NSData dataWithContentsOfFile:file];
 		PixelAccessor accessor([[NSImage alloc] initWithData:fileData]);
 		sprites.emplace_back(
 			[[file lastPathComponent] intValue],
 			accessor,
 			palette.source_mapping,
-			SpriteSerialisationOrder);
+			SpriteSerialiser::Order::RowsFirstDownward);
+	}
+	for(NSString *file in clippableFiles) {
+		NSData *fileData = [NSData dataWithContentsOfFile:file];
+		PixelAccessor accessor([[NSImage alloc] initWithData:fileData]);
+		sprites.emplace_back(
+			[[file lastPathComponent] intValue],
+			accessor,
+			palette.source_mapping,
+			SpriteSerialiser::Order::ColumnsFirstRightward);
 	}
 
 	// Write palette, in Sam format.
@@ -438,27 +488,31 @@ NSString *stringify(const std::vector<Operation> &operations) {
 
 - (void)compileTiles:(std::vector<TileSerialiser<TileSize>> &)tiles directory:(NSString *)directory {
 	NSMutableString *code = [[NSMutableString alloc] init];
-	[code appendString:@"\t; The following tile outputters are automatically generated.\n"];
-	[code appendString:@"\t;\n"];
-	[code appendString:@"\t; Input:\n"];
-	[code appendString:@"\t;	* for tiles that are an even number of byes wide, HL points to one after the lower right corner of the output location;\n"];
-	[code appendString:@"\t;	* for tiles that are an odd number of bytes wide, HL points to the lower right corner of the output location;\n"];
-	[code appendString:@"\t;	* DE is a link register, indicating where the function should return to.\n"];
-	[code appendString:@"\t;\n"];
-	[code appendString:@"\t; Rules:\n"];
-	[code appendString:@"\t;	* IX should be preserved; and\n"];
-	[code appendString:@"\t;	* SP is overtly available for any use the outputter prefers.\n"];
-	[code appendString:@"\t;\n"];
-	[code appendString:@"\t; At exit:\n"];
-	[code appendString:@"\t;	* HL will be 1 line earlier than it was at input.\n"];
-	[code appendString:@"\t; i.e. if stacking tiles from bottom to top, the caller will need to subtract a\n"];
-	[code appendString:@"\t; further 15*128 from HL before calling the next outputter.\n"];
-	[code appendString:@"\t;\n"];
-	[code appendString:@"\t; Each set of tiles is preceded by a long sequence of JP statements that jump to each tile in turn;\n"];
-	[code appendString:@"\t; this is the means by which dynamic branching happens elsewhere — the map is stored as the low byte\n"];
-	[code appendString:@"\t; of JP that branches into the tile to be drawn. Although slightly circuitous, this proved to be the\n"];
-	[code appendString:@"\t; fastest way of implementing that step subject to the bounds of my imagination.\n"];
-	[code appendString:@"\t;\n\n"];
+	[code appendString:
+		@"\t; The following tile outputters are automatically generated.\n"
+		@"\t;\n"
+		@"\t; Input:\n"
+		@"\t;	* for tiles that are an even number of byes wide, HL points to one after the lower right corner of the "
+				@"output location;\n"
+		@"\t;	* for tiles that are an odd number of bytes wide, HL points to the lower right corner of the output "
+				@"location;\n"
+		@"\t;	* DE is a link register, indicating where the function should return to.\n"
+		@"\t;\n"
+		@"\t; Rules:\n"
+		@"\t;	* IX should be preserved; and\n"
+		@"\t;	* SP is overtly available for any use the outputter prefers.\n"
+		@"\t;\n"
+		@"\t; At exit:\n"
+		@"\t;	* HL will be 1 line earlier than it was at input.\n"
+		@"\t; i.e. if stacking tiles from bottom to top, the caller will need to subtract a\n"
+		@"\t; further 15*128 from HL before calling the next outputter.\n"
+		@"\t;\n"
+		@"\t; Each set of tiles is preceded by a long sequence of JP statements that jump to each tile in turn;\n"
+		@"\t; this is the means by which dynamic branching happens elsewhere — the map is stored as the low byte\n"
+		@"\t; of JP that branches into the tile to be drawn. Although slightly circuitous, this proved to be the\n"
+		@"\t; fastest way of implementing that step subject to the bounds of my imagination.\n"
+		@"\t;\n\n"
+	];
 
 	const auto post = [&](NSString *tiles) {
 //		dispatch_sync(dispatch_get_main_queue(), ^{
@@ -518,18 +572,25 @@ NSString *stringify(const std::vector<Operation> &operations) {
 - (void)compileSprites:(std::vector<SpriteSerialiser> &)sprites directory:(NSString *)directory {
 	NSMutableString *code = [[NSMutableString alloc] init];
 
-	[code appendString:@"\t; The following sprite outputters are automatically generated. They are intended to\n"];
-	[code appendString:@"\t; be CALLed in the ordinary Z80 fashion.\n"];
-	[code appendString:@"\t;\n"];
-	[code appendString:@"\t; Input:\n"];
-	[code appendString:@"\t;	* HL is the screen address of the top-left corner of the sprite.\n"];
-	[code appendString:@"\t;\n"];
-	[code appendString:@"\t; Each outputter potentially overwrites the contents of all registers.\n"];
-	[code appendString:@"\t;\n\n"];
+	[code appendString:
+		@"\t; The following sprite outputters are automatically generated. They are intended to\n"
+		@"\t; be CALLed in the ordinary Z80 fashion.\n"
+		@"\t;\n"
+		@"\t; Input:\n"
+		@"\t;	* HL is the screen address of the top-left corner of the sprite.\n"
+		@"\t;\n"
+		@"\t; Each outputter potentially overwrites the contents of all registers.\n"
+		@"\t;\n\n"
+	];
 
 	for(auto &sprite: sprites) {
 		std::vector<Operation> operations;
-		operations.push_back(Operation::label([[NSString stringWithFormat:@"sprite_%d", sprite.index()] UTF8String]));
+		const bool is_clippable = sprite.order() != SpriteSerialiser::Order::RowsFirstDownward;
+		operations.push_back(
+			Operation::label
+				([NSString stringWithFormat:@"%s_%d", is_clippable ? "clippable" : "sprite", sprite.index()].UTF8String
+			)
+		);
 
 		// Obtain register allocations.
 		OptionalRegisterAllocator<uint8_t> register_allocator(
@@ -555,6 +616,14 @@ NSString *stringify(const std::vector<Operation> &operations) {
 
 		// Generate code.
 		bool moved = true;
+		std::optional<size_t> current_x;
+		size_t last_move[2];
+		struct ColumnCapture {
+			RegisterSet registers;
+			size_t initial_y;
+			size_t next_operation;
+		};
+		std::vector<ColumnCapture> column_captures;
 		uint16_t hl = 0;
 		time = 0;
 		sprite.reset();
@@ -580,9 +649,12 @@ NSString *stringify(const std::vector<Operation> &operations) {
 				operations.push_back(set.load(Register::Name::BC, offset));
 				operations.push_back(Operation::add(Register::Name::HL, Register::Name::BC));
 				operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
+
+				last_move[0] = event.content.move.x;
+				last_move[1] = event.content.move.y;
 			} else {
 				if(!moved) {
-					switch(SpriteSerialisationOrder) {
+					switch(sprite.order()) {
 						case SpriteSerialiser::Order::RowsFirstDownward:
 							operations.push_back(Operation::unary(Operation::Type::INC, Register::Name::L));
 							++hl;
@@ -593,6 +665,26 @@ NSString *stringify(const std::vector<Operation> &operations) {
 							hl += 256;
 						break;
 					}
+				} else {
+					// If this is a clippable object and this x/y is the first on a new column,
+					// label loation and capture current register state.
+					if(is_clippable && current_x && *current_x != last_move[0]) {
+						operations.push_back(
+							Operation::label(
+								[NSString
+									stringWithFormat:@"@clippable_%d_column%zu",
+										sprite.index(), last_move[0]
+								].UTF8String
+							)
+						);
+
+						column_captures.push_back(ColumnCapture{
+							.registers = set,
+							.initial_y = last_move[1],
+							.next_operation = operations.size(),
+						});
+					}
+					current_x = last_move[0];
 				}
 				moved = false;
 
@@ -617,13 +709,170 @@ NSString *stringify(const std::vector<Operation> &operations) {
 		}
 
 		operations.push_back(Operation::nullary(Operation::Type::RET));
-		operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
 
-		NSLog(@"%d has cost %zu", sprite.index(), cost(operations));
+		if(is_clippable) {
+			operations.push_back(Operation::ds_align(256));
+			operations.push_back(
+				Operation::label(
+					[NSString
+						stringWithFormat:@"@clippable_%d_dispatch",
+							sprite.index()
+					].UTF8String
+				)
+			);
+
+			// Write late starts.
+			int x = 1;
+			for(const auto &column: column_captures) {
+				operations.push_back(Operation::ds_align(16));
+				operations.push_back(
+					Operation::label(
+						[NSString
+							stringWithFormat:@"clippable_%d_start_after%d",
+								sprite.index(), x
+						].UTF8String
+					)
+				);
+
+				// Job here is to establish state...
+
+				// Update HL to point to the start of this line.
+				const uint16_t target = (column.initial_y * 128) + x;
+				operations.push_back(Operation::ld(
+					Operand::direct(Register::Name::BC),
+					Operand::immediate<uint16_t>(target)
+				));
+				operations.push_back(Operation::add(Register::Name::HL, Register::Name::BC));
+
+				// Write out captured registers.
+				for(auto reg: {Register::Name::A, Register::Name::BC, Register::Name::DE}) {
+					if(Register::size(reg) == 1) {
+						if(const auto value = column.registers.value<uint8_t>(reg)) {
+							operations.push_back(Operation::ld(
+								Operand::direct(reg),
+								Operand::immediate<uint8_t>(*value)
+							));
+						}
+						continue;
+					}
+
+					if(const auto value = column.registers.value<uint16_t>(reg)) {
+						operations.push_back(Operation::ld(
+							Operand::direct(reg),
+							Operand::immediate<uint16_t>(*value)
+						));
+						continue;
+					}
+
+					const auto high = Register::high_part(reg);
+					const auto low = Register::low_part(reg);
+					if(const auto value = column.registers.value<uint8_t>(high)) {
+						operations.push_back(Operation::ld(
+							Operand::direct(high),
+							Operand::immediate<uint8_t>(*value)
+						));
+					}
+					if(const auto value = column.registers.value<uint8_t>(low)) {
+						operations.push_back(Operation::ld(
+							Operand::direct(low),
+							Operand::immediate<uint8_t>(*value)
+						));
+					}
+				}
+
+				// Jump to proper destination.
+				operations.push_back(Operation::jp(
+					[NSString stringWithFormat:@"@-clippable_%d_column%d", sprite.index(), x].UTF8String
+				));
+
+				// Track columns.
+				++x;
+			}
+
+			// Write early stops.
+			x = 1;
+			for(const auto &column: column_captures) {
+				operations.push_back(Operation::ds_align(16));
+				operations.push_back(
+					Operation::label(
+						[NSString
+							stringWithFormat:@"clippable_%d_stop_after%d",
+								sprite.index(), x
+						].UTF8String
+					)
+				);
+
+				// Insert an early RET.
+				operations.push_back(Operation::ld(
+					Operand::direct(Register::Name::A),
+					Operand::immediate<uint8_t>(0xc9)
+				));
+				operations.push_back(Operation::ld(
+					Operand::label_indirect(
+						[NSString stringWithFormat:@"@-clippable_%d_column%d", sprite.index(), x].UTF8String
+					),
+					Operand::direct(Register::Name::A)
+				));
+
+				// Call into the main routine.
+				operations.push_back(Operation::call(
+					[NSString stringWithFormat:@"clippable_%d", sprite.index()].UTF8String
+				));
+
+				// Return the original value at the label, which is a huge hassle because I can think of no way to
+				// get the assembler to substitute the proper opcode for me.
+				//
+				// Luckily it should always be a LD (HL), <something>.
+				const auto &operation = operations[column.next_operation];
+				assert(operation.type == Operation::Type::LD);
+				assert(
+					operation.destination &&
+					operation.source &&
+					operation.destination->type == Operand::Type::Indirect &&
+					std::get<Register::Name>(operation.destination->value) == Register::Name::HL
+				);
+				const auto opcode = [&]{
+					if(operation.source->type == Operand::Type::Immediate) {
+						return 0x36;
+					}
+					assert(operation.source->type == Operand::Type::Direct);
+					switch (std::get<Register::Name>(operation.source->value)) {
+						case Register::Name::A:	return 0x77;
+						case Register::Name::B:	return 0x70;
+						case Register::Name::C:	return 0x71;
+						case Register::Name::D:	return 0x72;
+						case Register::Name::E:	return 0x73;
+
+						default:
+							assert(false);
+					}
+				}();
+
+				operations.push_back(Operation::ld(
+					Operand::direct(Register::Name::A),
+					Operand::immediate<uint8_t>(opcode)
+				));
+				operations.push_back(Operation::ld(
+					Operand::label_indirect(
+						[NSString stringWithFormat:@"@-clippable_%d_column%d", sprite.index(), x].UTF8String
+					),
+					Operand::direct(Register::Name::A)
+				));
+
+				// Return.
+				operations.push_back(Operation::nullary(Operation::Type::RET));
+				++x;
+			}
+		}
+
 		[code appendString:stringify(operations)];
 	}
 
-	[code writeToFile:[directory stringByAppendingPathComponent:@"sprites.z80s"] atomically:NO encoding:NSUTF8StringEncoding error:nil];
+	[code
+		writeToFile:[directory stringByAppendingPathComponent:@"sprites.z80s"]
+		atomically:NO
+		encoding:NSUTF8StringEncoding
+		error:nil];
 }
 
 - (void)writePalette:(const std::vector<uint8_t> &)palette file:(NSString *)file {
@@ -644,23 +893,25 @@ NSString *stringify(const std::vector<Operation> &operations) {
 - (void)writeColumnFunctions:(NSString *)directory {
 	NSMutableString *code = [[NSMutableString alloc] init];
 
-	[code appendString:@"\t; The following routines are automatically generated. Each one performs the\n"];
-	[code appendString:@"\t; action of drawing only the subset of tiles marked as dirty according to the\n"];
-	[code appendString:@"\t; four bit code implied by its function number.\n"];
-	[code appendString:@"\t;\n"];
-	[code appendString:@"\t; i.e."];
-	[code appendString:@"\t;	* draw_left_sliver0 draws zero tiles because all dirty bits are clear;\n"];
-	[code appendString:@"\t;	* draw_left_sliver1 draws the first tile in its collection of four, but no others;\n"];
-	[code appendString:@"\t;	* draw_left_sliver9 draws the first and fourth tiles; and\n"];
-	[code appendString:@"\t;	* draw_left_sliver15 draws all four tiles.\n"];
-	[code appendString:@"\t; In all cases the first tile is the one lowest down the screen."];
-	[code appendString:@"\t;\n"];
-	[code appendString:@"\t; At exit:\n"];
-	[code appendString:@"\t;	* IX has been decremented by four; and\n"];
-	[code appendString:@"\t;	* HL points to the start address for the first tile above this group, if any.\n"];
-	[code appendString:@"\t;\n"];
-	[code appendString:@"\t; An initial sequence of JP statements provides for fast dispatch into the appropriate sliver.\n"];
-	[code appendString:@"\t;\n\n"];
+	[code appendString:
+		@"\t; The following routines are automatically generated. Each one performs the\n"
+		@"\t; action of drawing only the subset of tiles marked as dirty according to the\n"
+		@"\t; four bit code implied by its function number.\n"
+		@"\t;\n"
+		@"\t; i.e."
+		@"\t;	* draw_left_sliver0 draws zero tiles because all dirty bits are clear;\n"
+		@"\t;	* draw_left_sliver1 draws the first tile in its collection of four, but no others;\n"
+		@"\t;	* draw_left_sliver9 draws the first and fourth tiles; and\n"
+		@"\t;	* draw_left_sliver15 draws all four tiles.\n"
+		@"\t; In all cases the first tile is the one lowest down the screen."
+		@"\t;\n"
+		@"\t; At exit:\n"
+		@"\t;	* IX has been decremented by four; and\n"
+		@"\t;	* HL points to the start address for the first tile above this group, if any.\n"
+		@"\t;\n"
+		@"\t; An initial sequence of JP statements provides for fast dispatch into the appropriate sliver.\n"
+		@"\t;\n\n"
+	];
 
 	[code appendString:@"\tds align 256\n"];
 	[code appendString:@"\tleft_slivers:\n"];
@@ -726,7 +977,11 @@ NSString *stringify(const std::vector<Operation> &operations) {
 		}
 	}
 
-	[code writeToFile:[directory stringByAppendingPathComponent:@"slivers.z80s"] atomically:NO encoding:NSUTF8StringEncoding error:nil];
+	[code
+		writeToFile:[directory stringByAppendingPathComponent:@"slivers.z80s"]
+		atomically:NO
+		encoding:NSUTF8StringEncoding
+		error:nil];
 }
 
 @end
