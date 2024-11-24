@@ -569,6 +569,159 @@ NSString *stringify(const std::vector<Operation> &operations) {
 //	});
 }
 
+struct ColumnCapture {
+	RegisterSet registers;
+	size_t initial_y;
+	size_t next_operation;
+};
+
+- (void)
+	appendClippableDispatchGroupFor:(const std::vector<ColumnCapture> &)columns
+	to:(std::vector<Operation> &)operations
+	sourceOperations:(const std::vector<Operation> &)sourceOperations
+	index:(int)index
+{
+	operations.push_back(Operation::ds_align(256));
+	operations.push_back(
+		Operation::label([NSString stringWithFormat:@"@clippable_%d_dispatch", index].UTF8String)
+	);
+
+	// Write late starts.
+	int x = 1;
+	for(const auto &column: columns) {
+		operations.push_back(Operation::ds_align(16));
+		operations.push_back(
+			Operation::label([NSString stringWithFormat:@"clippable_%d_start_after%d", index, x].UTF8String)
+		);
+
+		// Job here is to establish state...
+
+		// Update HL to point to the start of this line.
+		const uint16_t target = (column.initial_y * 128) + x;
+		operations.push_back(Operation::ld(
+			Operand::direct(Register::Name::BC),
+			Operand::immediate<uint16_t>(target)
+		));
+		operations.push_back(Operation::add(Register::Name::HL, Register::Name::BC));
+
+		// Write out captured registers.
+		for(auto reg: {Register::Name::A, Register::Name::BC, Register::Name::DE}) {
+			if(Register::size(reg) == 1) {
+				if(const auto value = column.registers.value<uint8_t>(reg)) {
+					operations.push_back(Operation::ld(
+						Operand::direct(reg),
+						Operand::immediate<uint8_t>(*value)
+					));
+				}
+				continue;
+			}
+
+			if(const auto value = column.registers.value<uint16_t>(reg)) {
+				operations.push_back(Operation::ld(
+					Operand::direct(reg),
+					Operand::immediate<uint16_t>(*value)
+				));
+				continue;
+			}
+
+			const auto high = Register::high_part(reg);
+			const auto low = Register::low_part(reg);
+			if(const auto value = column.registers.value<uint8_t>(high)) {
+				operations.push_back(Operation::ld(
+					Operand::direct(high),
+					Operand::immediate<uint8_t>(*value)
+				));
+			}
+			if(const auto value = column.registers.value<uint8_t>(low)) {
+				operations.push_back(Operation::ld(
+					Operand::direct(low),
+					Operand::immediate<uint8_t>(*value)
+				));
+			}
+		}
+
+		// Jump to proper destination.
+		operations.push_back(Operation::jp(
+			[NSString stringWithFormat:@"@-clippable_%d_column%d", index, x].UTF8String
+		));
+
+		// Track columns.
+		++x;
+	}
+
+	// Write early stops.
+	x = 1;
+	for(const auto &column: columns) {
+		operations.push_back(Operation::ds_align(16));
+		operations.push_back(
+			Operation::label(
+				[NSString stringWithFormat:@"clippable_%d_stop_after%d", index, x].UTF8String
+			)
+		);
+
+		// Insert an early RET.
+		operations.push_back(Operation::ld(
+			Operand::direct(Register::Name::A),
+			Operand::immediate<uint8_t>(0xc9)
+		));
+		operations.push_back(Operation::ld(
+			Operand::label_indirect(
+				[NSString stringWithFormat:@"@-clippable_%d_column%d", index, x].UTF8String
+			),
+			Operand::direct(Register::Name::A)
+		));
+
+		// Call into the main routine.
+		operations.push_back(Operation::call(
+			[NSString stringWithFormat:@"clippable_%d", index].UTF8String
+		));
+
+		// Return the original value at the label, which is a huge hassle because I can think of no way to
+		// get the assembler to substitute the proper opcode for me.
+		//
+		// Luckily it should always be a LD (HL), <something>.
+		const auto &operation = sourceOperations[column.next_operation];
+		assert(operation.type == Operation::Type::LD);
+		assert(
+			operation.destination &&
+			operation.source &&
+			operation.destination->type == Operand::Type::Indirect &&
+			std::get<Register::Name>(operation.destination->value) == Register::Name::HL
+		);
+		const auto opcode = [&]{
+			if(operation.source->type == Operand::Type::Immediate) {
+				return 0x36;
+			}
+			assert(operation.source->type == Operand::Type::Direct);
+			switch (std::get<Register::Name>(operation.source->value)) {
+				case Register::Name::A:	return 0x77;
+				case Register::Name::B:	return 0x70;
+				case Register::Name::C:	return 0x71;
+				case Register::Name::D:	return 0x72;
+				case Register::Name::E:	return 0x73;
+
+				default:
+					assert(false);
+			}
+		}();
+
+		operations.push_back(Operation::ld(
+			Operand::direct(Register::Name::A),
+			Operand::immediate<uint8_t>(opcode)
+		));
+		operations.push_back(Operation::ld(
+			Operand::label_indirect(
+				[NSString stringWithFormat:@"@-clippable_%d_column%d", index, x].UTF8String
+			),
+			Operand::direct(Register::Name::A)
+		));
+
+		// Return.
+		operations.push_back(Operation::nullary(Operation::Type::RET));
+		++x;
+	}
+}
+
 - (void)compileSprites:(std::vector<SpriteSerialiser> &)sprites directory:(NSString *)directory {
 	NSMutableString *code = [[NSMutableString alloc] init];
 
@@ -583,6 +736,7 @@ NSString *stringify(const std::vector<Operation> &operations) {
 		@"\t;\n\n"
 	];
 
+	std::vector<Operation> clippable_dispatches;
 	for(auto &sprite: sprites) {
 		std::vector<Operation> operations;
 		const bool is_clippable = sprite.order() != SpriteSerialiser::Order::RowsFirstDownward;
@@ -618,11 +772,6 @@ NSString *stringify(const std::vector<Operation> &operations) {
 		bool moved = true;
 		std::optional<size_t> current_x;
 		size_t last_move[2];
-		struct ColumnCapture {
-			RegisterSet registers;
-			size_t initial_y;
-			size_t next_operation;
-		};
 		std::vector<ColumnCapture> column_captures;
 		uint16_t hl = 0;
 		time = 0;
@@ -678,6 +827,9 @@ NSString *stringify(const std::vector<Operation> &operations) {
 							)
 						);
 
+						// TODO: mark end of column separately from start of next, to cut off a few
+						// redundant operations when arranging an early exit.
+
 						column_captures.push_back(ColumnCapture{
 							.registers = set,
 							.initial_y = last_move[1],
@@ -709,164 +861,28 @@ NSString *stringify(const std::vector<Operation> &operations) {
 		}
 
 		operations.push_back(Operation::nullary(Operation::Type::RET));
-
-		if(is_clippable) {
-			operations.push_back(Operation::ds_align(256));
-			operations.push_back(
-				Operation::label(
-					[NSString
-						stringWithFormat:@"@clippable_%d_dispatch",
-							sprite.index()
-					].UTF8String
-				)
-			);
-
-			// Write late starts.
-			int x = 1;
-			for(const auto &column: column_captures) {
-				operations.push_back(Operation::ds_align(16));
-				operations.push_back(
-					Operation::label(
-						[NSString
-							stringWithFormat:@"clippable_%d_start_after%d",
-								sprite.index(), x
-						].UTF8String
-					)
-				);
-
-				// Job here is to establish state...
-
-				// Update HL to point to the start of this line.
-				const uint16_t target = (column.initial_y * 128) + x;
-				operations.push_back(Operation::ld(
-					Operand::direct(Register::Name::BC),
-					Operand::immediate<uint16_t>(target)
-				));
-				operations.push_back(Operation::add(Register::Name::HL, Register::Name::BC));
-
-				// Write out captured registers.
-				for(auto reg: {Register::Name::A, Register::Name::BC, Register::Name::DE}) {
-					if(Register::size(reg) == 1) {
-						if(const auto value = column.registers.value<uint8_t>(reg)) {
-							operations.push_back(Operation::ld(
-								Operand::direct(reg),
-								Operand::immediate<uint8_t>(*value)
-							));
-						}
-						continue;
-					}
-
-					if(const auto value = column.registers.value<uint16_t>(reg)) {
-						operations.push_back(Operation::ld(
-							Operand::direct(reg),
-							Operand::immediate<uint16_t>(*value)
-						));
-						continue;
-					}
-
-					const auto high = Register::high_part(reg);
-					const auto low = Register::low_part(reg);
-					if(const auto value = column.registers.value<uint8_t>(high)) {
-						operations.push_back(Operation::ld(
-							Operand::direct(high),
-							Operand::immediate<uint8_t>(*value)
-						));
-					}
-					if(const auto value = column.registers.value<uint8_t>(low)) {
-						operations.push_back(Operation::ld(
-							Operand::direct(low),
-							Operand::immediate<uint8_t>(*value)
-						));
-					}
-				}
-
-				// Jump to proper destination.
-				operations.push_back(Operation::jp(
-					[NSString stringWithFormat:@"@-clippable_%d_column%d", sprite.index(), x].UTF8String
-				));
-
-				// Track columns.
-				++x;
-			}
-
-			// Write early stops.
-			x = 1;
-			for(const auto &column: column_captures) {
-				operations.push_back(Operation::ds_align(16));
-				operations.push_back(
-					Operation::label(
-						[NSString
-							stringWithFormat:@"clippable_%d_stop_after%d",
-								sprite.index(), x
-						].UTF8String
-					)
-				);
-
-				// Insert an early RET.
-				operations.push_back(Operation::ld(
-					Operand::direct(Register::Name::A),
-					Operand::immediate<uint8_t>(0xc9)
-				));
-				operations.push_back(Operation::ld(
-					Operand::label_indirect(
-						[NSString stringWithFormat:@"@-clippable_%d_column%d", sprite.index(), x].UTF8String
-					),
-					Operand::direct(Register::Name::A)
-				));
-
-				// Call into the main routine.
-				operations.push_back(Operation::call(
-					[NSString stringWithFormat:@"clippable_%d", sprite.index()].UTF8String
-				));
-
-				// Return the original value at the label, which is a huge hassle because I can think of no way to
-				// get the assembler to substitute the proper opcode for me.
-				//
-				// Luckily it should always be a LD (HL), <something>.
-				const auto &operation = operations[column.next_operation];
-				assert(operation.type == Operation::Type::LD);
-				assert(
-					operation.destination &&
-					operation.source &&
-					operation.destination->type == Operand::Type::Indirect &&
-					std::get<Register::Name>(operation.destination->value) == Register::Name::HL
-				);
-				const auto opcode = [&]{
-					if(operation.source->type == Operand::Type::Immediate) {
-						return 0x36;
-					}
-					assert(operation.source->type == Operand::Type::Direct);
-					switch (std::get<Register::Name>(operation.source->value)) {
-						case Register::Name::A:	return 0x77;
-						case Register::Name::B:	return 0x70;
-						case Register::Name::C:	return 0x71;
-						case Register::Name::D:	return 0x72;
-						case Register::Name::E:	return 0x73;
-
-						default:
-							assert(false);
-					}
-				}();
-
-				operations.push_back(Operation::ld(
-					Operand::direct(Register::Name::A),
-					Operand::immediate<uint8_t>(opcode)
-				));
-				operations.push_back(Operation::ld(
-					Operand::label_indirect(
-						[NSString stringWithFormat:@"@-clippable_%d_column%d", sprite.index(), x].UTF8String
-					),
-					Operand::direct(Register::Name::A)
-				));
-
-				// Return.
-				operations.push_back(Operation::nullary(Operation::Type::RET));
-				++x;
-			}
-		}
-
 		[code appendString:stringify(operations)];
+
+		//
+		// If this was a clippable sprite, create a dispatch group.
+		//
+		if(is_clippable) {
+			[self
+				appendClippableDispatchGroupFor:column_captures
+				to:clippable_dispatches
+				sourceOperations:operations
+				index:sprite.index()];
+		}
 	}
+
+	[code appendString:
+		@"\t; From here downwards are dispatch groups for 'clippables', i.e. those sprites that have been\n"
+		@"\t; formulated such that they can be drawn with any number of columns removed from either the left-\n"
+		@"\t; right-hand sides.\n"
+		@"\n"
+	];
+	// TODO: much more exposition in the comment above.
+	[code appendString:stringify(clippable_dispatches)];
 
 	[code
 		writeToFile:[directory stringByAppendingPathComponent:@"sprites.z80s"]
