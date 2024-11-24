@@ -109,6 +109,10 @@ public:
 		return index_;
 	}
 
+	Order order() const {
+		return order_;
+	}
+
 private:
 	uint8_t index_;
 	PalettedPixelAccessor contents_;

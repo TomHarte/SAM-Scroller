@@ -25,7 +25,6 @@
 #include <vector>
 
 static constexpr int TileSize = 16;
-const auto SpriteSerialisationOrder = SpriteSerialiser::Order::RowsFirstDownward;
 
 namespace {
 
@@ -421,15 +420,23 @@ NSString *stringify(const std::vector<Operation> &operations) {
 	return [self imageFiles:[directory stringByAppendingPathComponent:@"sprites"]];
 }
 
+- (NSArray<NSString *> *)clippableFiles:(NSString *)directory {
+	return [self imageFiles:[directory stringByAppendingPathComponent:@"clippables"]];
+}
+
 - (void)encode:(NSString *)directory {
 	// Get list of all PNGs.
-	NSArray<NSString *> *tile_files = [self tileFiles:directory];
-	NSArray<NSString *> *sprite_files = [self spriteFiles:directory];
+	NSArray<NSString *> *tileFiles = [self tileFiles:directory];
+	NSArray<NSString *> *spriteFiles = [self spriteFiles:directory];
+	NSArray<NSString *> *clippableFiles = [self clippableFiles:directory];
+
+	NSArray<NSString *> *allFiles =
+		[[tileFiles arrayByAddingObjectsFromArray:spriteFiles] arrayByAddingObjectsFromArray:clippableFiles];
 
 	// Build palette based on tiles and sprites.
 	Palettiser palettiser(4);	// TODO: super-hack here; I'm supplying a rotation I picked to make sure that
 								// colour 0 is the background one. That needs to be automated.
-	for(NSString *file in [tile_files arrayByAddingObjectsFromArray:sprite_files]) {
+	for(NSString *file in allFiles) {
 		NSData *fileData = [NSData dataWithContentsOfFile:file];
 		const PixelAccessor accessor([[NSImage alloc] initWithData:fileData]);
 		palettiser.add_colours(accessor);
@@ -438,7 +445,7 @@ NSString *stringify(const std::vector<Operation> &operations) {
 
 	// Prepare lists of tiles and sprites for future dicing and writing.
 	std::vector<TileSerialiser<TileSize>> tiles;
-	for(NSString *file in tile_files) {
+	for(NSString *file in tileFiles) {
 		NSData *fileData = [NSData dataWithContentsOfFile:file];
 		PixelAccessor accessor([[NSImage alloc] initWithData:fileData]);
 		tiles.emplace_back(
@@ -448,14 +455,23 @@ NSString *stringify(const std::vector<Operation> &operations) {
 	}
 
 	std::vector<SpriteSerialiser> sprites;
-	for(NSString *file in sprite_files) {
+	for(NSString *file in spriteFiles) {
 		NSData *fileData = [NSData dataWithContentsOfFile:file];
 		PixelAccessor accessor([[NSImage alloc] initWithData:fileData]);
 		sprites.emplace_back(
 			[[file lastPathComponent] intValue],
 			accessor,
 			palette.source_mapping,
-			SpriteSerialisationOrder);
+			SpriteSerialiser::Order::RowsFirstDownward);
+	}
+	for(NSString *file in clippableFiles) {
+		NSData *fileData = [NSData dataWithContentsOfFile:file];
+		PixelAccessor accessor([[NSImage alloc] initWithData:fileData]);
+		sprites.emplace_back(
+			[[file lastPathComponent] intValue],
+			accessor,
+			palette.source_mapping,
+			SpriteSerialiser::Order::ColumnsFirstRightward);
 	}
 
 	// Write palette, in Sam format.
@@ -552,14 +568,16 @@ NSString *stringify(const std::vector<Operation> &operations) {
 - (void)compileSprites:(std::vector<SpriteSerialiser> &)sprites directory:(NSString *)directory {
 	NSMutableString *code = [[NSMutableString alloc] init];
 
-	[code appendString:@"\t; The following sprite outputters are automatically generated. They are intended to\n"];
-	[code appendString:@"\t; be CALLed in the ordinary Z80 fashion.\n"];
-	[code appendString:@"\t;\n"];
-	[code appendString:@"\t; Input:\n"];
-	[code appendString:@"\t;	* HL is the screen address of the top-left corner of the sprite.\n"];
-	[code appendString:@"\t;\n"];
-	[code appendString:@"\t; Each outputter potentially overwrites the contents of all registers.\n"];
-	[code appendString:@"\t;\n\n"];
+	[code appendString:
+		@"\t; The following sprite outputters are automatically generated. They are intended to\n"
+		@"\t; be CALLed in the ordinary Z80 fashion.\n"
+		@"\t;\n"
+		@"\t; Input:\n"
+		@"\t;	* HL is the screen address of the top-left corner of the sprite.\n"
+		@"\t;\n"
+		@"\t; Each outputter potentially overwrites the contents of all registers.\n"
+		@"\t;\n\n"
+	];
 
 	for(auto &sprite: sprites) {
 		std::vector<Operation> operations;
@@ -616,7 +634,7 @@ NSString *stringify(const std::vector<Operation> &operations) {
 				operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
 			} else {
 				if(!moved) {
-					switch(SpriteSerialisationOrder) {
+					switch(sprite.order()) {
 						case SpriteSerialiser::Order::RowsFirstDownward:
 							operations.push_back(Operation::unary(Operation::Type::INC, Register::Name::L));
 							++hl;
