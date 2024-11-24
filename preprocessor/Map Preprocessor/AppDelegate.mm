@@ -43,6 +43,10 @@ NSString *stringify(const std::vector<Operation> &operations) {
 		}
 		[code appendString:operation.text()];
 		[code appendString:@"\n"];
+
+		if(operation.type == Operation::Type::RET) {
+			[code appendString:@"\n"];
+		}
 	}
 
 	return code;
@@ -705,7 +709,6 @@ NSString *stringify(const std::vector<Operation> &operations) {
 		}
 
 		operations.push_back(Operation::nullary(Operation::Type::RET));
-		operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
 
 		if(is_clippable) {
 			operations.push_back(Operation::ds_align(256));

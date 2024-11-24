@@ -2392,6 +2392,7 @@
 		ld a, 0x36
 		ld (@-clippable_1_column1), a
 		ret
+
 		DS ALIGN 0x0010
 	clippable_1_stop_after2:
 		ld a, 0xc9
@@ -2400,6 +2401,7 @@
 		ld a, 0x36
 		ld (@-clippable_1_column2), a
 		ret
+
 		DS ALIGN 0x0010
 	clippable_1_stop_after3:
 		ld a, 0xc9
@@ -2408,6 +2410,7 @@
 		ld a, 0x36
 		ld (@-clippable_1_column3), a
 		ret
+
 		DS ALIGN 0x0010
 	clippable_1_stop_after4:
 		ld a, 0xc9
@@ -2416,6 +2419,7 @@
 		ld a, 0x36
 		ld (@-clippable_1_column4), a
 		ret
+
 		DS ALIGN 0x0010
 	clippable_1_stop_after5:
 		ld a, 0xc9
@@ -2424,6 +2428,7 @@
 		ld a, 0x36
 		ld (@-clippable_1_column5), a
 		ret
+
 		DS ALIGN 0x0010
 	clippable_1_stop_after6:
 		ld a, 0xc9
@@ -2432,6 +2437,7 @@
 		ld a, 0x36
 		ld (@-clippable_1_column6), a
 		ret
+
 		DS ALIGN 0x0010
 	clippable_1_stop_after7:
 		ld a, 0xc9
@@ -2440,6 +2446,7 @@
 		ld a, 0x36
 		ld (@-clippable_1_column7), a
 		ret
+
 	clippable_0:
 		ld bc, 0x0500
 		add hl, bc
@@ -2766,6 +2773,7 @@
 		ld a, 0x72
 		ld (@-clippable_0_column1), a
 		ret
+
 		DS ALIGN 0x0010
 	clippable_0_stop_after2:
 		ld a, 0xc9
@@ -2774,6 +2782,7 @@
 		ld a, 0x36
 		ld (@-clippable_0_column2), a
 		ret
+
 		DS ALIGN 0x0010
 	clippable_0_stop_after3:
 		ld a, 0xc9
@@ -2782,6 +2791,7 @@
 		ld a, 0x36
 		ld (@-clippable_0_column3), a
 		ret
+
 		DS ALIGN 0x0010
 	clippable_0_stop_after4:
 		ld a, 0xc9
@@ -2790,6 +2800,7 @@
 		ld a, 0x36
 		ld (@-clippable_0_column4), a
 		ret
+
 		DS ALIGN 0x0010
 	clippable_0_stop_after5:
 		ld a, 0xc9
@@ -2798,6 +2809,7 @@
 		ld a, 0x72
 		ld (@-clippable_0_column5), a
 		ret
+
 		DS ALIGN 0x0010
 	clippable_0_stop_after6:
 		ld a, 0xc9
@@ -2806,6 +2818,7 @@
 		ld a, 0x36
 		ld (@-clippable_0_column6), a
 		ret
+
 		DS ALIGN 0x0010
 	clippable_0_stop_after7:
 		ld a, 0xc9
@@ -2814,3 +2827,4 @@
 		ld a, 0x77
 		ld (@-clippable_0_column7), a
 		ret
+
