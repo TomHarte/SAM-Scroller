@@ -1,6 +1,6 @@
 //
 //  main.m
-//  Gryzor Preprocessor
+//  Map Preprocessor
 //
 //  Created by Thomas Harte on 18/10/2024.
 //

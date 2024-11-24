@@ -1,6 +1,6 @@
 //
 //  PixelAccessor.h
-//  Gryzor Preprocessor
+//  Map Preprocessor
 //
 //  Created by Thomas Harte on 26/10/2024.
 //
