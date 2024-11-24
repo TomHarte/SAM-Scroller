@@ -104,6 +104,7 @@ struct Operation {
 		PUSH,
 		JP,
 		RET,
+		CALL,
 
 		SET7,
 		RES7,
@@ -159,6 +160,12 @@ struct Operation {
 			.destination = Operand::label(destination),
 		};
 	}
+	static Operation call(const char *destination) {
+		return Operation{
+			.type = Type::CALL,
+			.destination = Operand::label(destination),
+		};
+	}
 	static Operation ds_align(uint16_t alignment) {
 		return Operation{
 			.type = Type::DS_ALIGN,
@@ -179,6 +186,7 @@ struct Operation {
 			case Type::AND:		[text appendString:@"and"];			break;
 			case Type::PUSH:	[text appendString:@"push"];		break;
 			case Type::JP:		[text appendString:@"jp"];			break;
+			case Type::CALL:	[text appendString:@"call"];		break;
 
 			case Type::SET7:	[text appendString:@"set 7,"];		break;
 			case Type::RES7:	[text appendString:@"res 7,"];		break;
@@ -276,6 +284,8 @@ struct Operation {
 
 			case Type::JP:
 			case Type::RET:		return 3;
+
+			case Type::CALL:	return 5;
 
 			case Type::DS_ALIGN:
 			case Type::LABEL:

@@ -613,6 +613,7 @@ NSString *stringify(const std::vector<Operation> &operations) {
 		// Generate code.
 		bool moved = true;
 		std::optional<size_t> current_x;
+		size_t last_move[2];
 		struct ColumnCapture {
 			RegisterSet registers;
 			size_t initial_y;
@@ -645,25 +646,8 @@ NSString *stringify(const std::vector<Operation> &operations) {
 				operations.push_back(Operation::add(Register::Name::HL, Register::Name::BC));
 				operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
 
-				// If this is a clippable object and this x/y is the first on a new column,
-				// label loation and capture current register state.
-				if(is_clippable && current_x && *current_x != event.content.move.x) {
-					operations.push_back(
-						Operation::label(
-							[NSString
-								stringWithFormat:@"@clippable_%d_column%zu",
-									sprite.index(), event.content.move.x
-							].UTF8String
-						)
-					);
-
-					column_captures.push_back(ColumnCapture{
-						.registers = set,
-						.initial_y = event.content.move.y,
-						.next_operation = operations.size(),
-					});
-				}
-				current_x = event.content.move.x;
+				last_move[0] = event.content.move.x;
+				last_move[1] = event.content.move.y;
 			} else {
 				if(!moved) {
 					switch(sprite.order()) {
@@ -677,6 +661,26 @@ NSString *stringify(const std::vector<Operation> &operations) {
 							hl += 256;
 						break;
 					}
+				} else {
+					// If this is a clippable object and this x/y is the first on a new column,
+					// label loation and capture current register state.
+					if(is_clippable && current_x && *current_x != last_move[0]) {
+						operations.push_back(
+							Operation::label(
+								[NSString
+									stringWithFormat:@"@clippable_%d_column%zu",
+										sprite.index(), event.content.move.x
+								].UTF8String
+							)
+						);
+
+						column_captures.push_back(ColumnCapture{
+							.registers = set,
+							.initial_y = last_move[1],
+							.next_operation = operations.size(),
+						});
+					}
+					current_x = last_move[0];
 				}
 				moved = false;
 
@@ -721,7 +725,7 @@ NSString *stringify(const std::vector<Operation> &operations) {
 				operations.push_back(
 					Operation::label(
 						[NSString
-							stringWithFormat:@"clippable_%d_after%d",
+							stringWithFormat:@"clippable_%d_start_after%d",
 								sprite.index(), x
 						].UTF8String
 					)
@@ -782,7 +786,80 @@ NSString *stringify(const std::vector<Operation> &operations) {
 				++x;
 			}
 
-			// TODO: write early stops.
+			// Write early stops.
+			x = 1;
+			for(const auto &column: column_captures) {
+				operations.push_back(Operation::ds_align(16));
+				operations.push_back(
+					Operation::label(
+						[NSString
+							stringWithFormat:@"clippable_%d_stop_after%d",
+								sprite.index(), x
+						].UTF8String
+					)
+				);
+
+				// Insert an early RET.
+				operations.push_back(Operation::ld(
+					Operand::direct(Register::Name::A),
+					Operand::immediate<uint8_t>(0xc9)
+				));
+				operations.push_back(Operation::ld(
+					Operand::label_indirect(
+						[NSString stringWithFormat:@"@-clippable_%d_column%d", sprite.index(), x].UTF8String
+					),
+					Operand::direct(Register::Name::A)
+				));
+
+				// Call into the main routine.
+				operations.push_back(Operation::call(
+					[NSString stringWithFormat:@"clippable_%d", sprite.index()].UTF8String
+				));
+
+				// Return the original value at the label, which is a huge hassle because I can think of no way to
+				// get the assembler to substitute the proper opcode for me.
+				//
+				// Luckily it should always be a LD (HL), <something>.
+				const auto &operation = operations[column.next_operation];
+				assert(operation.type == Operation::Type::LD);
+				assert(
+					operation.destination &&
+					operation.source &&
+					operation.destination->type == Operand::Type::Indirect &&
+					std::get<Register::Name>(operation.destination->value) == Register::Name::HL
+				);
+				const auto opcode = [&]{
+					if(operation.source->type == Operand::Type::Immediate) {
+						return 0x36;
+					}
+					assert(operation.source->type == Operand::Type::Direct);
+					switch (std::get<Register::Name>(operation.source->value)) {
+						case Register::Name::A:	return 0x77;
+						case Register::Name::B:	return 0x70;
+						case Register::Name::C:	return 0x71;
+						case Register::Name::D:	return 0x72;
+						case Register::Name::E:	return 0x73;
+
+						default:
+							assert(false);
+					}
+				}();
+
+				operations.push_back(Operation::ld(
+					Operand::direct(Register::Name::A),
+					Operand::immediate<uint8_t>(opcode)
+				));
+				operations.push_back(Operation::ld(
+					Operand::label_indirect(
+						[NSString stringWithFormat:@"@-clippable_%d_column%d", sprite.index(), x].UTF8String
+					),
+					Operand::direct(Register::Name::A)
+				));
+
+				// Return.
+				operations.push_back(Operation::nullary(Operation::Type::RET));
+				++x;
+			}
 		}
 
 		[code appendString:stringify(operations)];
