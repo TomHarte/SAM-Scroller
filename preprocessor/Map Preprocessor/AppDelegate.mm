@@ -479,7 +479,7 @@ NSString *stringify(const std::vector<Operation> &operations) {
 
 	// Compile all.
 	[self compileSprites:sprites directory:directory];
-	[self compileTiles:tiles directory:directory];
+//	[self compileTiles:tiles directory:directory];
 }
 
 - (void)compileTiles:(std::vector<TileSerialiser<TileSize>> &)tiles directory:(NSString *)directory {
@@ -651,7 +651,7 @@ NSString *stringify(const std::vector<Operation> &operations) {
 					operations.push_back(
 						Operation::label(
 							[NSString
-								stringWithFormat:@".clippable_%d_column%zu",
+								stringWithFormat:@"@clippable_%d_column%zu",
 									sprite.index(), event.content.move.x
 							].UTF8String
 						)
@@ -704,7 +704,85 @@ NSString *stringify(const std::vector<Operation> &operations) {
 		operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
 
 		if(is_clippable) {
-			// TODO.
+			operations.push_back(Operation::ds_align(256));
+			operations.push_back(
+				Operation::label(
+					[NSString
+						stringWithFormat:@"@clippable_%d_dispatch",
+							sprite.index()
+					].UTF8String
+				)
+			);
+
+			// Write late starts.
+			int x = 1;
+			for(const auto &column: column_captures) {
+				operations.push_back(Operation::ds_align(16));
+				operations.push_back(
+					Operation::label(
+						[NSString
+							stringWithFormat:@"clippable_%d_after%d",
+								sprite.index(), x
+						].UTF8String
+					)
+				);
+
+				// Job here is to establish state...
+
+				// Update HL to point to the start of this line.
+				const uint16_t target = (column.initial_y * 128) + x;
+				operations.push_back(Operation::ld(
+					Operand::direct(Register::Name::BC),
+					Operand::immediate<uint16_t>(target)
+				));
+				operations.push_back(Operation::add(Register::Name::HL, Register::Name::BC));
+
+				// Write out captured registers.
+				for(auto reg: {Register::Name::A, Register::Name::BC, Register::Name::DE}) {
+					if(Register::size(reg) == 1) {
+						if(const auto value = column.registers.value<uint8_t>(reg)) {
+							operations.push_back(Operation::ld(
+								Operand::direct(reg),
+								Operand::immediate<uint8_t>(*value)
+							));
+						}
+						continue;
+					}
+
+					if(const auto value = column.registers.value<uint16_t>(reg)) {
+						operations.push_back(Operation::ld(
+							Operand::direct(reg),
+							Operand::immediate<uint16_t>(*value)
+						));
+						continue;
+					}
+
+					const auto high = Register::high_part(reg);
+					const auto low = Register::low_part(reg);
+					if(const auto value = column.registers.value<uint8_t>(high)) {
+						operations.push_back(Operation::ld(
+							Operand::direct(high),
+							Operand::immediate<uint8_t>(*value)
+						));
+					}
+					if(const auto value = column.registers.value<uint8_t>(low)) {
+						operations.push_back(Operation::ld(
+							Operand::direct(low),
+							Operand::immediate<uint8_t>(*value)
+						));
+					}
+				}
+
+				// Jump to proper destination.
+				operations.push_back(Operation::jp(
+					[NSString stringWithFormat:@"@-clippable_%d_column%d", sprite.index(), x].UTF8String
+				));
+
+				// Track columns.
+				++x;
+			}
+
+			// TODO: write early stops.
 		}
 
 		[code appendString:stringify(operations)];

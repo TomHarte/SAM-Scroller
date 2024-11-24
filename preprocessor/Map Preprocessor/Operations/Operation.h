@@ -111,6 +111,7 @@ struct Operation {
 		BLANK_LINE,
 		NONE,
 		LABEL,
+		DS_ALIGN,
 	} type;
 	std::optional<Operand> destination;
 	std::optional<Operand> source;
@@ -152,6 +153,18 @@ struct Operation {
 			.destination = Operand::immediate(destination),
 		};
 	}
+	static Operation jp(const char *destination) {
+		return Operation{
+			.type = Type::JP,
+			.destination = Operand::label(destination),
+		};
+	}
+	static Operation ds_align(uint16_t alignment) {
+		return Operation{
+			.type = Type::DS_ALIGN,
+			.destination = Operand::immediate(alignment),
+		};
+	}
 
 	NSString *text() const {
 		NSMutableString *text = [[NSMutableString alloc] init];
@@ -177,7 +190,8 @@ struct Operation {
 			case Type::CPL:		return @"cpl";
 			case Type::RET:		return @"ret";
 
-			case Type::LABEL:	return [NSString stringWithFormat:@"%@:", destination->text()];
+			case Type::DS_ALIGN:	[text appendString:@"DS ALIGN"];	break;
+			case Type::LABEL:		return [NSString stringWithFormat:@"%@:", destination->text()];
 		}
 
 		if(destination) {
@@ -263,6 +277,7 @@ struct Operation {
 			case Type::JP:
 			case Type::RET:		return 3;
 
+			case Type::DS_ALIGN:
 			case Type::LABEL:
 			case Type::BLANK_LINE:
 			case Type::NONE:	return 0;
