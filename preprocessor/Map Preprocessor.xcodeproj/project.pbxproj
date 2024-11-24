@@ -135,7 +135,7 @@
 			dependencies = (
 			);
 			name = "Map Preprocessor";
-			productName = "Gryzor Preprocessor";
+			productName = "Map Preprocessor";
 			productReference = 4B797B142CC3363500E18E96 /* Map Preprocessor.app */;
 			productType = "com.apple.product-type.application";
 		};
