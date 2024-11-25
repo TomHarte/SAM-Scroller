@@ -1,9 +1,57 @@
 @player_walk_count:	db 0	; Counts number of frames the player has been walking on the ground for, affecting current frame.
 
+@clippable_x: db 130
+
 ;
 ; Draws the player sprite and flags appropriate dirty spots.
 ;
 draw_player_sprite:
+	; TEST! Draw a clippable that moves left-to-right and back again.
+	ld d, 0
+	ld a, START_X
+	ld h, clippable_0 >> 8
+	call draw_clippable
+
+	ld d, 12
+	ld a, START_X - 1
+	ld h, clippable_0 >> 8
+	call draw_clippable
+
+	ld d, 24
+	ld a, START_X - 2
+	ld h, clippable_0 >> 8
+	call draw_clippable
+
+	ld d, 36
+	ld a, START_X - 3
+	ld h, clippable_0 >> 8
+	call draw_clippable
+
+	ld d, 48
+	ld a, START_X - 4
+	ld h, clippable_0 >> 8
+	call draw_clippable
+
+	ld d, 60
+	ld a, START_X - 5
+	ld h, clippable_0 >> 8
+	call draw_clippable
+
+	ld d, 72
+	ld a, START_X - 6
+	ld h, clippable_0 >> 8
+	call draw_clippable
+
+	ld d, 84
+	ld a, START_X - 7
+	ld h, clippable_0 >> 8
+	call draw_clippable
+
+	ld d, 96
+	ld a, START_X - 8
+	ld h, clippable_0 >> 8
+	call draw_clippable
+
 	; Load y, subtract origin, multiply it by 128 and set the top bit.
 	ld l, 0
 	ld a, (player_current+Y_OFFSET+1)
@@ -110,15 +158,18 @@ draw_clippable:
 	ret nc
 
 	; Convert to a jump location, calculate screen location and go.
+	ld e, a
 	sub START_X + 128 - 7 + 8
 	rlca
 	rlca
 	rlca
 	rlca
 	ld l, a
+	ld a, e
 
 	; Copy and pasted from above. Pyz80 has no macros, I think?
 	sub START_X
+	add a
 	ld e, a
 	scf
 	rr d
@@ -128,20 +179,24 @@ draw_clippable:
 
 @test_left_clip:
 	; Exit early if clippable is entirely off the left-hand side of the display.
-	cp START_X - 8
+	cp START_X - 8 + 1
 	ret c
 
+	ld e, a
 	cpl
-	add START_X + 2
+	add START_X + 1
 	rlca
 	rlca
 	rlca
 	rlca
 	ld l, a
+	ld a, e
 
 	; Copy and pasted from above. Pyz80 has no macros, I think?
 	sub START_X
+	add a
 	ld e, a
+	dec d
 	scf
 	rr d
 	rr e
