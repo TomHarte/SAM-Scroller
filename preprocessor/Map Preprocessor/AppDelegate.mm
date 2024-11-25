@@ -583,10 +583,11 @@ struct ColumnCapture {
 {
 	operations.push_back(Operation::ds_align(256));
 	operations.push_back(
-		Operation::label([NSString stringWithFormat:@"@clippable_%d_dispatch", index].UTF8String)
+		Operation::label([NSString stringWithFormat:@"clippable_%d", index].UTF8String)
 	);
 
-	operations.push_back(Operation::jp([NSString stringWithFormat:@"clippable_%d", index].UTF8String));
+	operations.push_back(Operation::nullary(Operation::Type::EX_DE_HL));
+	operations.push_back(Operation::jp([NSString stringWithFormat:@"@-clippable_full_%d", index].UTF8String));
 	operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
 
 	// Write late starts.
@@ -734,7 +735,7 @@ struct ColumnCapture {
 		const bool is_clippable = sprite.order() != SpriteSerialiser::Order::RowsFirstDownward;
 		operations.push_back(
 			Operation::label
-				([NSString stringWithFormat:@"%s_%d", is_clippable ? "clippable" : "sprite", sprite.index()].UTF8String
+				([NSString stringWithFormat:@"%s_%d", is_clippable ? "@clippable_full" : "sprite", sprite.index()].UTF8String
 			)
 		);
 

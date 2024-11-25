@@ -2001,7 +2001,7 @@
 		ld (hl), d
 		ret
 
-	clippable_1:
+	@clippable_full_1:
 		ld bc, 0x0100
 		add hl, bc
 
@@ -2327,7 +2327,7 @@
 		ld (hl), d
 		ret
 
-	clippable_0:
+	@clippable_full_0:
 		ld bc, 0x0500
 		add hl, bc
 
@@ -2607,8 +2607,9 @@
 	; The clipping functions should be called with the nominal screen destination of the top left corner
 	; in DE.
 		DS ALIGN 0x0100
-	@clippable_1_dispatch:
-		jp clippable_1
+	clippable_1:
+		ex de, hl
+		jp @-clippable_full_1
 
 		DS ALIGN 0x0010
 	clippable_1_start_after1:
@@ -2750,8 +2751,9 @@
 		ret
 
 		DS ALIGN 0x0100
-	@clippable_0_dispatch:
-		jp clippable_0
+	clippable_0:
+		ex de, hl
+		jp @-clippable_full_0
 
 		DS ALIGN 0x0010
 	clippable_0_start_after1:
