@@ -109,6 +109,8 @@ struct Operation {
 		SET7,
 		RES7,
 
+		EX_DE_HL,
+
 		BLANK_LINE,
 		NONE,
 		LABEL,
@@ -193,10 +195,11 @@ struct Operation {
 
 			case Type::NONE:
 			case Type::BLANK_LINE:	return @"";
-			case Type::RRCA:	return @"rrca";
-			case Type::RLCA:	return @"rlca";
-			case Type::CPL:		return @"cpl";
-			case Type::RET:		return @"ret";
+			case Type::RRCA:		return @"rrca";
+			case Type::RLCA:		return @"rlca";
+			case Type::CPL:			return @"cpl";
+			case Type::RET:			return @"ret";
+			case Type::EX_DE_HL:	return @"ex de, hl";
 
 			case Type::DS_ALIGN:	[text appendString:@"DS ALIGN"];	break;
 			case Type::LABEL:		return [NSString stringWithFormat:@"%@:", destination->text()];
@@ -269,12 +272,13 @@ struct Operation {
 			break;
 
 			case Type::PUSH:	return 3 + destination->index_cost();
-			case Type::ADD:		return destination->size();
-
 			case Type::SUB:
 			case Type::XOR:
 			case Type::OR:
 			case Type::AND:
+			case Type::ADD:		return 1 + destination->size();
+
+			case Type::EX_DE_HL:
 			case Type::RLCA:
 			case Type::RRCA:
 			case Type::CPL:		return 1;

@@ -2590,66 +2590,98 @@
 	; From here downwards are dispatch groups for 'clippables', i.e. those sprites that have been
 	; formulated such that they can be drawn with any number of columns removed from either the left-
 	; right-hand sides.
-
+	;
+	; Each dispatch group is aligned to a 256-byte boundary in memory and consists primarily of
+	; a series of 16-byte routines, after an establishing 16-byte block.
+	;
+	; The first thing in the establishing block is a JP to the routine that draws the whole sprite.
+	; Immediately after that is a JP to the routine that will properly mark dirty bits for this sprite size.
+	;
+	; Call the first routine after the establishing block to output the sprite with the leftmost column
+	; removed. Call the second to output with the two leftmost columns removed. And so on, up to and
+	; including the seventh function.
+	;
+	; Call the eighth function to output the sprite with the rightmost column removed. Call the ninth
+	; to output with the two rightmost columns removed. Etc.
+	;
+	; The clipping functions should be called with the nominal screen destination of the top left corner
+	; in DE.
 		DS ALIGN 0x0100
 	@clippable_1_dispatch:
+		jp clippable_1
+
 		DS ALIGN 0x0010
 	clippable_1_start_after1:
+		ex de, hl
 		ld bc, 0x0101
 		add hl, bc
 		ld bc, 0xfd81
 		ld d, 0x4a
 		jp @-clippable_1_column1
+
 		DS ALIGN 0x0010
 	clippable_1_start_after2:
+		ex de, hl
 		ld bc, 0x0002
 		add hl, bc
 		ld a, 0xaa
 		ld bc, 0xf981
 		ld de, 0x4aa4
 		jp @-clippable_1_column2
+
 		DS ALIGN 0x0010
 	clippable_1_start_after3:
+		ex de, hl
 		ld bc, 0x0003
 		add hl, bc
 		ld a, 0xaa
 		ld bc, 0xf681
 		ld de, 0x4aa4
 		jp @-clippable_1_column3
+
 		DS ALIGN 0x0010
 	clippable_1_start_after4:
+		ex de, hl
 		ld bc, 0x0104
 		add hl, bc
 		ld a, 0xaa
 		ld bc, 0xf681
 		ld de, 0x4aa4
 		jp @-clippable_1_column4
+
 		DS ALIGN 0x0010
 	clippable_1_start_after5:
+		ex de, hl
 		ld bc, 0x0205
 		add hl, bc
 		ld a, 0xaa
 		ld bc, 0xf681
 		ld de, 0x4aa4
 		jp @-clippable_1_column5
+
 		DS ALIGN 0x0010
 	clippable_1_start_after6:
+		ex de, hl
 		ld bc, 0x0206
 		add hl, bc
 		ld a, 0xaa
 		ld bc, 0xf681
 		ld de, 0x4aa4
 		jp @-clippable_1_column6
+
 		DS ALIGN 0x0010
 	clippable_1_start_after7:
+		ex de, hl
 		ld bc, 0x0307
 		add hl, bc
 		ld a, 0xaa
 		ld bc, 0xf881
 		ld de, 0x4aa4
 		jp @-clippable_1_column7
+
 		DS ALIGN 0x0010
 	clippable_1_stop_after1:
+		ex de, hl
 		ld a, 0xc9
 		ld (@-clippable_1_column1), a
 		call clippable_1
@@ -2659,6 +2691,7 @@
 
 		DS ALIGN 0x0010
 	clippable_1_stop_after2:
+		ex de, hl
 		ld a, 0xc9
 		ld (@-clippable_1_column2), a
 		call clippable_1
@@ -2668,6 +2701,7 @@
 
 		DS ALIGN 0x0010
 	clippable_1_stop_after3:
+		ex de, hl
 		ld a, 0xc9
 		ld (@-clippable_1_column3), a
 		call clippable_1
@@ -2677,6 +2711,7 @@
 
 		DS ALIGN 0x0010
 	clippable_1_stop_after4:
+		ex de, hl
 		ld a, 0xc9
 		ld (@-clippable_1_column4), a
 		call clippable_1
@@ -2686,6 +2721,7 @@
 
 		DS ALIGN 0x0010
 	clippable_1_stop_after5:
+		ex de, hl
 		ld a, 0xc9
 		ld (@-clippable_1_column5), a
 		call clippable_1
@@ -2695,6 +2731,7 @@
 
 		DS ALIGN 0x0010
 	clippable_1_stop_after6:
+		ex de, hl
 		ld a, 0xc9
 		ld (@-clippable_1_column6), a
 		call clippable_1
@@ -2704,6 +2741,7 @@
 
 		DS ALIGN 0x0010
 	clippable_1_stop_after7:
+		ex de, hl
 		ld a, 0xc9
 		ld (@-clippable_1_column7), a
 		call clippable_1
@@ -2713,64 +2751,81 @@
 
 		DS ALIGN 0x0100
 	@clippable_0_dispatch:
+		jp clippable_0
+
 		DS ALIGN 0x0010
 	clippable_0_start_after1:
+		ex de, hl
 		ld bc, 0x0501
 		add hl, bc
 		ld a, 0xaa
 		ld bc, 0xf981
 		ld de, 0x44a4
 		jp @-clippable_0_column1
+
 		DS ALIGN 0x0010
 	clippable_0_start_after2:
+		ex de, hl
 		ld bc, 0x0402
 		add hl, bc
 		ld a, 0xaa
 		ld bc, 0xf881
 		ld de, 0x44a4
 		jp @-clippable_0_column2
+
 		DS ALIGN 0x0010
 	clippable_0_start_after3:
+		ex de, hl
 		ld bc, 0x0403
 		add hl, bc
 		ld a, 0xaa
 		ld bc, 0xf881
 		ld de, 0x44a4
 		jp @-clippable_0_column3
+
 		DS ALIGN 0x0010
 	clippable_0_start_after4:
+		ex de, hl
 		ld bc, 0x0504
 		add hl, bc
 		ld a, 0xaa
 		ld bc, 0xf981
 		ld de, 0x44a4
 		jp @-clippable_0_column4
+
 		DS ALIGN 0x0010
 	clippable_0_start_after5:
+		ex de, hl
 		ld bc, 0x0605
 		add hl, bc
 		ld a, 0xaa
 		ld bc, 0xfa81
 		ld de, 0x44a4
 		jp @-clippable_0_column5
+
 		DS ALIGN 0x0010
 	clippable_0_start_after6:
+		ex de, hl
 		ld bc, 0x0606
 		add hl, bc
 		ld a, 0xaa
 		ld bc, 0xfa81
 		ld de, 0x44a4
 		jp @-clippable_0_column6
+
 		DS ALIGN 0x0010
 	clippable_0_start_after7:
+		ex de, hl
 		ld bc, 0x0707
 		add hl, bc
 		ld a, 0x40
 		ld bc, 0xfb81
 		ld de, 0x44a4
 		jp @-clippable_0_column7
+
 		DS ALIGN 0x0010
 	clippable_0_stop_after1:
+		ex de, hl
 		ld a, 0xc9
 		ld (@-clippable_0_column1), a
 		call clippable_0
@@ -2780,6 +2835,7 @@
 
 		DS ALIGN 0x0010
 	clippable_0_stop_after2:
+		ex de, hl
 		ld a, 0xc9
 		ld (@-clippable_0_column2), a
 		call clippable_0
@@ -2789,6 +2845,7 @@
 
 		DS ALIGN 0x0010
 	clippable_0_stop_after3:
+		ex de, hl
 		ld a, 0xc9
 		ld (@-clippable_0_column3), a
 		call clippable_0
@@ -2798,6 +2855,7 @@
 
 		DS ALIGN 0x0010
 	clippable_0_stop_after4:
+		ex de, hl
 		ld a, 0xc9
 		ld (@-clippable_0_column4), a
 		call clippable_0
@@ -2807,6 +2865,7 @@
 
 		DS ALIGN 0x0010
 	clippable_0_stop_after5:
+		ex de, hl
 		ld a, 0xc9
 		ld (@-clippable_0_column5), a
 		call clippable_0
@@ -2816,6 +2875,7 @@
 
 		DS ALIGN 0x0010
 	clippable_0_stop_after6:
+		ex de, hl
 		ld a, 0xc9
 		ld (@-clippable_0_column6), a
 		call clippable_0
@@ -2825,6 +2885,7 @@
 
 		DS ALIGN 0x0010
 	clippable_0_stop_after7:
+		ex de, hl
 		ld a, 0xc9
 		ld (@-clippable_0_column7), a
 		call clippable_0

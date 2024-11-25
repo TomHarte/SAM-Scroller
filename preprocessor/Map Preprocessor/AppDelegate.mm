@@ -586,57 +586,47 @@ struct ColumnCapture {
 		Operation::label([NSString stringWithFormat:@"@clippable_%d_dispatch", index].UTF8String)
 	);
 
+	operations.push_back(Operation::jp([NSString stringWithFormat:@"clippable_%d", index].UTF8String));
+	operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
+
 	// Write late starts.
 	int x = 1;
 	for(const auto &column: columns) {
+		RegisterSet state;
 		operations.push_back(Operation::ds_align(16));
 		operations.push_back(
 			Operation::label([NSString stringWithFormat:@"clippable_%d_start_after%d", index, x].UTF8String)
 		);
+		operations.push_back(Operation::nullary(Operation::Type::EX_DE_HL));
 
 		// Job here is to establish state...
 
 		// Update HL to point to the start of this line.
 		const uint16_t target = (column.initial_y * 128) + x;
-		operations.push_back(Operation::ld(
-			Operand::direct(Register::Name::BC),
-			Operand::immediate<uint16_t>(target)
-		));
+		operations.push_back(state.load(Register::Name::BC, target));
 		operations.push_back(Operation::add(Register::Name::HL, Register::Name::BC));
 
 		// Write out captured registers.
 		for(auto reg: {Register::Name::A, Register::Name::BC, Register::Name::DE}) {
 			if(Register::size(reg) == 1) {
 				if(const auto value = column.registers.value<uint8_t>(reg)) {
-					operations.push_back(Operation::ld(
-						Operand::direct(reg),
-						Operand::immediate<uint8_t>(*value)
-					));
+					operations.push_back(state.load(reg, *value));
 				}
 				continue;
 			}
 
 			if(const auto value = column.registers.value<uint16_t>(reg)) {
-				operations.push_back(Operation::ld(
-					Operand::direct(reg),
-					Operand::immediate<uint16_t>(*value)
-				));
+				operations.push_back(state.load(reg, *value));
 				continue;
 			}
 
 			const auto high = Register::high_part(reg);
 			const auto low = Register::low_part(reg);
 			if(const auto value = column.registers.value<uint8_t>(high)) {
-				operations.push_back(Operation::ld(
-					Operand::direct(high),
-					Operand::immediate<uint8_t>(*value)
-				));
+				operations.push_back(state.load(high, *value));
 			}
 			if(const auto value = column.registers.value<uint8_t>(low)) {
-				operations.push_back(Operation::ld(
-					Operand::direct(low),
-					Operand::immediate<uint8_t>(*value)
-				));
+				operations.push_back(state.load(low, *value));
 			}
 		}
 
@@ -644,6 +634,7 @@ struct ColumnCapture {
 		operations.push_back(Operation::jp(
 			[NSString stringWithFormat:@"@-clippable_%d_column%d", index, x].UTF8String
 		));
+		operations.push_back(Operation::nullary(Operation::Type::BLANK_LINE));
 
 		// Track columns.
 		++x;
@@ -658,6 +649,7 @@ struct ColumnCapture {
 				[NSString stringWithFormat:@"clippable_%d_stop_after%d", index, x].UTF8String
 			)
 		);
+		operations.push_back(Operation::nullary(Operation::Type::EX_DE_HL));
 
 		// Insert an early RET.
 		operations.push_back(Operation::ld(
@@ -879,9 +871,23 @@ struct ColumnCapture {
 		@"\t; From here downwards are dispatch groups for 'clippables', i.e. those sprites that have been\n"
 		@"\t; formulated such that they can be drawn with any number of columns removed from either the left-\n"
 		@"\t; right-hand sides.\n"
-		@"\n"
+		@"\t;\n"
+		@"\t; Each dispatch group is aligned to a 256-byte boundary in memory and consists primarily of\n"
+		@"\t; a series of 16-byte routines, after an establishing 16-byte block.\n"
+		@"\t;\n"
+		@"\t; The first thing in the establishing block is a JP to the routine that draws the whole sprite.\n"
+		@"\t; Immediately after that is a JP to the routine that will properly mark dirty bits for this sprite size.\n"
+		@"\t;\n"
+		@"\t; Call the first routine after the establishing block to output the sprite with the leftmost column\n"
+		@"\t; removed. Call the second to output with the two leftmost columns removed. And so on, up to and\n"
+		@"\t; including the seventh function.\n"
+		@"\t;\n"
+		@"\t; Call the eighth function to output the sprite with the rightmost column removed. Call the ninth\n"
+		@"\t; to output with the two rightmost columns removed. Etc.\n"
+		@"\t;\n"
+		@"\t; The clipping functions should be called with the nominal screen destination of the top left corner\n"
+		@"\t; in DE.\n"
 	];
-	// TODO: much more exposition in the comment above.
 	[code appendString:stringify(clippable_dispatches)];
 
 	[code
