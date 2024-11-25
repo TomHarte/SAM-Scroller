@@ -79,3 +79,71 @@ draw_player_sprite:
 	ld a, (player_current+Y_OFFSET+1)
 	ld c, a
 	jp mark16x24
+
+
+;
+; Draws the clippable indicated by H in the location defined by D = y, A = x.
+;
+draw_clippable:
+	; Test for right boundary.
+	; The -8 embeds an assumption that clippables are 16px i.e. 8 bytes across.
+	cp START_X + 128 - 8
+	jp nc, @+test_right_clip
+
+	; Test for left boundary.
+	cp START_X
+	jp c, @+test_left_clip
+
+	; No clipping required. That was easy!
+	; Dispatch via the jump located at the start of the clippable page.
+	ld l, 0
+	sub START_X
+	ld e, a
+	scf
+	rr d
+	rr e
+	jp (hl)
+
+@test_right_clip:
+	; Exit early if clippable is entirely off the right-hand side of the display.
+	cp START_X + 128
+	ret nc
+
+	; Convert to a jump location, calculate screen location and go.
+	sub START_X + 128 - 7 + 8
+	rlca
+	rlca
+	rlca
+	rlca
+	ld l, a
+
+	; Copy and pasted from above. Pyz80 has no macros, I think?
+	sub START_X
+	ld e, a
+	scf
+	rr d
+	rr e
+
+	jp (hl)
+
+@test_left_clip:
+	; Exit early if clippable is entirely off the left-hand side of the display.
+	cp START_X - 8
+	ret c
+
+	cpl
+	add START_X + 2
+	rlca
+	rlca
+	rlca
+	rlca
+	ld l, a
+
+	; Copy and pasted from above. Pyz80 has no macros, I think?
+	sub START_X
+	ld e, a
+	scf
+	rr d
+	rr e
+
+	jp (hl)
