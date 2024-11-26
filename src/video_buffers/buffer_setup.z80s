@@ -6,8 +6,10 @@ column_count: EQU 17
 ; Establish addresses of various things after appropriate paging.
 ;
 ORG (32 + 24)*1024
+	ds 3
 	FLAGS_SIZE:		EQU 51
 	DIRTY_FLAGS:	ds FLAGS_SIZE
+	ds 3
 	BUFFER_CODE:
 
 ; TODO, possibly: make FLAGS_SIZE be 3*column_count, and

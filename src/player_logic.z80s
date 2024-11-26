@@ -349,31 +349,29 @@ ENDIF
 test_horizontal_bounds:
 	; Test edge-of-screen bounds first, as these apply in absolute terms.
 	ld a, (player_current+X_OFFSET+1)
-	cp 128 - 8 + 1
+	cp START_X + 128 - 8 + 1
 	jp c, @+no_constrain_right
 
-	cp 128 + 64 - 8				; In which case the proper bounds are on the left.
-	jp nc, @+constrain_left
-
-	ld a, 128 - 8
+	ld a, START_X + 128 - 8
 	ld (player_current+X_OFFSET+1), a
 	ld a, 0xff
 	ld (player_current+X_OFFSET), a
 	jp @+edges_done
 
 @no_constrain_right:
-	or a
-	jp p, @+edges_done
+	cp START_X
+	jp nc, @+edges_done
 
 @constrain_left:
-	xor a
+	ld a, START_X
 	ld (player_current+X_OFFSET+1), a
+	xor a
 	ld (player_current+X_OFFSET), a
 
 @edges_done:
 	; Check bounds and force a scroll if necessary.
 	ld a, (player_current+X_OFFSET+1)
-	cp 64 + 16 - 8
+	cp START_X + 64 + 16 - 8
 	jp c, @+no_scroll_right
 
 	call scroll_right
@@ -389,7 +387,7 @@ test_horizontal_bounds:
 
 @no_scroll_right:
 	ld a, (player_current+X_OFFSET+1)
-	cp 64 - 16
+	cp START_X + 64 - 16
 	ret nc
 
 	call scroll_left
@@ -411,6 +409,7 @@ test_horizontal_bounds:
 ;
 test_map_collisions_vertical:
 	call @+get_map_address
+	ex de, hl
 
 	; Test direction of vertical velocity; if none then no need to test
 	; for overlaps. If upward, test top row. Otherwise test bottom row.
@@ -420,8 +419,7 @@ test_map_collisions_vertical:
 	sbc hl, bc
 	ret z
 
-	ld h, d
-	ld l, e
+	ex de, hl
 
 	jp m, @+test_above
 	
@@ -474,12 +472,9 @@ test_map_collisions_vertical:
 ;
 test_map_collisions_horizontal:
 	call @+get_map_address
+	ex de, hl
 
-	; Test direction of horizontal velocity; if noen then no need to
-	; test for overlaps. Ditto if player is exactly aligned with a
-	; column, no need to test for horizontal overlaps. Otherwise
-	; either test to the left or to the right depending on
-	; sign of velocity.
+	; If player is aligned with a column, no need to test horizontally.
 	ld a, (player_current+X_OFFSET+1)
 	add a
 	ld b, a
@@ -488,15 +483,14 @@ test_map_collisions_horizontal:
 	and 0xf
 	ret z
 
+	; If player isn't moving horizontally, no need to test.
 	ld hl, (player_current+X_OFFSET)
 	ld bc, (player_previous+X_OFFSET)
 	or a
 	sbc hl, bc
 	ret z
 
-	ld h, d
-	ld l, e
-
+	ex de, hl
 	jp m, @+test_left
 
 	; Horizontal velocity is rightward. Test for overlap to right.
@@ -508,15 +502,15 @@ test_map_collisions_horizontal:
 
 	ld a, (scroll_offset)
 	ld b, a
-
 	ld a, (player_current+X_OFFSET+1)
+	sub START_X
 	add a
-
 	add b
 	and ~0xf
 	sub b
 
 	rrca
+	add START_X
 	ld (player_current+X_OFFSET+1), a
 	ld a, 0xff
 	ld (player_current+X_OFFSET), a
@@ -530,14 +524,15 @@ test_map_collisions_horizontal:
 	ld a, (scroll_offset)
 	ld b, a
 	ld a, (player_current+X_OFFSET+1)
+	sub START_X
 	add a
-
 	add b
 	and ~0xf
 	add 16
 	sub b
 
 	rrca
+	add START_X
 	ld (player_current+X_OFFSET+1), a
 	xor a
 	ld (player_current+X_OFFSET), a
@@ -640,12 +635,13 @@ ds align 256
 
 ;
 ; Gets the address into the tile map of the tile currently
-; overlapping the player's top left, returning it redundantly
-; in both HL and DE.
+; overlapping the player's top left, returning it
+; in DE.
 ;
 @get_map_address:
 	; Get x position relative to map.
 	ld a, (player_current+X_OFFSET+1)
+	sub START_X
 	ld b, a
 	ld a, (scroll_offset)
 	or a
@@ -681,9 +677,5 @@ ds align 256
 	rrca
 	ld c, a
 	add hl, bc		; HL should now point to the tile overlapping the top left of the player.
-
-	; Store a backup of HL.
-	ld d, h
-	ld e, l
 
 	ret
