@@ -22,6 +22,8 @@ mark16x24:
 	add e		; E = sprite X multiplied by three.
 
 	; Relocate into dirty flags.
+	; Assumption here: it's contained within a 256-byte page.
+	add DIRTY_FLAGS & 0xff
 	ld l, a
 	ld h, DIRTY_FLAGS >> 8
 
