@@ -75,26 +75,28 @@ Y_CEILING:	EQU 8		; Position at which player will bump his head in internal coor
 @clippable_x: db START_X + 64
 
 update_game_logic:
-	call update_player_logic
+	jp update_player_logic
 
-	ld a, (scroll_change)
-	rra
-	jp nc, @+no_left
 
+did_scroll_left1:
 	ld a, (@-clippable_x)
 	inc a
 	ld (@-clippable_x), a
-	jp @+no_scroll
+	ret
 
-@no_left:
-	rra
-	jp nc, @+no_scroll
 
+did_scroll_right1:
 	ld a, (@-clippable_x)
 	dec a
 	ld (@-clippable_x), a
+	ret
 
-@no_scroll:
+
+did_scroll_left8:
+	ret
+
+
+did_scroll_right8:
 	ret
 
 

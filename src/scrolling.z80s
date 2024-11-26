@@ -9,9 +9,13 @@ SCROLLED_RIGHT:	EQU 2
 scroll_change:	db SCROLLED_NONE
 
 ;
-; Scrolls the display one position to the left, if any space remains for scrolling in that direction.
+; Scrolls the display one position to the left, if any space remains
+; for scrolling in that direction.
 ;
 ; Intended for CALLing.
+;
+; Calls did_scroll_left1 if a scroll occurs; also calls did_scroll_left8
+; if a new column of tiles was revealed.
 ;
 ; At exit: C is clear if a scroll occurred; set otherwise.
 ;
@@ -29,9 +33,10 @@ scroll_left:
 	dec hl
 	ld (@-total_x), hl
 
-	; Record that a scroll left happened.
+	; Notify that a scroll left happened.
 	ld a, SCROLLED_LEFT
 	ld (scroll_change), a
+	call did_scroll_left1
 
 	;
 	; Subtract two from scroll offset.
@@ -58,13 +63,20 @@ scroll_left:
 	add hl, bc
 	ld (diff_address), hl
 
+	; That will have revealed a new column.
+	call did_scroll_left8
+
 	or a
 	ret
 
 ;
-; Scrolls the display one position to the right, if any space remains for scrolling in that direction.
+; Scrolls the display one position to the right, if any space remains
+; for scrolling in that direction.
 ;
 ; Intended for CALLing.
+;
+; Calls did_scroll_right1 if a scroll occurs; also calls did_scroll_right8
+; if a new column of tiles was revealed.
 ;
 ; At exit: C is clear if a scroll occurred; set otherwise.
 ;
@@ -85,9 +97,10 @@ scroll_right:
 	inc hl
 	ld (@-total_x), hl
 
-	; Record that a scroll right happened.
+	; Notify that a scroll right happened.
 	ld a, SCROLLED_RIGHT
 	ld (scroll_change), a
+	call did_scroll_right1
 
 	;
 	; Add two to scroll offset.
@@ -121,6 +134,9 @@ scroll_right:
 	ld bc, 3
 	add hl, bc
 	ld (diff_address), hl
+
+	; That will have revealed a new column.
+	call did_scroll_right8
 
 	or a
 	ret
