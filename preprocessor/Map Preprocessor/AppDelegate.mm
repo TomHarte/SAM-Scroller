@@ -595,9 +595,6 @@ struct ColumnCapture {
 	for(const auto &column: columns) {
 		RegisterSet state;
 		operations.push_back(Operation::ds_align(16));
-		operations.push_back(
-			Operation::label([NSString stringWithFormat:@"clippable_%d_start_after%d", index, x].UTF8String)
-		);
 		operations.push_back(Operation::nullary(Operation::Type::EX_DE_HL));
 
 		// Job here is to establish state...
@@ -642,14 +639,12 @@ struct ColumnCapture {
 	}
 
 	// Write early stops.
-	x = 1;
-	for(const auto &column: columns) {
+	x = 7;
+	auto col = columns.crbegin();
+	while(col != columns.crend()) {
+		const auto &column = *col;
+		++col;
 		operations.push_back(Operation::ds_align(16));
-		operations.push_back(
-			Operation::label(
-				[NSString stringWithFormat:@"clippable_%d_stop_after%d", index, x].UTF8String
-			)
-		);
 		operations.push_back(Operation::nullary(Operation::Type::EX_DE_HL));
 
 		// Insert an early RET.
@@ -666,7 +661,7 @@ struct ColumnCapture {
 
 		// Call into the main routine.
 		operations.push_back(Operation::call(
-			[NSString stringWithFormat:@"clippable_%d", index].UTF8String
+			[NSString stringWithFormat:@"@-clippable_full_%d", index].UTF8String
 		));
 
 		// Return the original value at the label, which is a huge hassle because I can think of no way to
@@ -711,7 +706,7 @@ struct ColumnCapture {
 
 		// Return.
 		operations.push_back(Operation::nullary(Operation::Type::RET));
-		++x;
+		--x;
 	}
 }
 
@@ -822,7 +817,6 @@ struct ColumnCapture {
 
 						// TODO: mark end of column separately from start of next, to cut off a few
 						// redundant operations when arranging an early exit.
-
 						column_captures.push_back(ColumnCapture{
 							.registers = set,
 							.initial_y = last_move[1],

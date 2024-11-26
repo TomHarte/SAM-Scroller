@@ -1,54 +1,16 @@
 @player_walk_count:	db 0	; Counts number of frames the player has been walking on the ground for, affecting current frame.
 
-@clippable_x: db 130
+@clippable_x: db 250
 
 ;
 ; Draws the player sprite and flags appropriate dirty spots.
 ;
 draw_player_sprite:
-	; TEST! Draw a clippable that moves left-to-right and back again.
-	ld d, 0
-	ld a, START_X
-	ld h, clippable_0 >> 8
-	call draw_clippable
-
+	; TEST! Draw a clippable that moves left-to-right and then overflows back to the left.
 	ld d, 12
-	ld a, START_X - 1
-	ld h, clippable_0 >> 8
-	call draw_clippable
-
-	ld d, 24
-	ld a, START_X - 2
-	ld h, clippable_0 >> 8
-	call draw_clippable
-
-	ld d, 36
-	ld a, START_X - 3
-	ld h, clippable_0 >> 8
-	call draw_clippable
-
-	ld d, 48
-	ld a, START_X - 4
-	ld h, clippable_0 >> 8
-	call draw_clippable
-
-	ld d, 60
-	ld a, START_X - 5
-	ld h, clippable_0 >> 8
-	call draw_clippable
-
-	ld d, 72
-	ld a, START_X - 6
-	ld h, clippable_0 >> 8
-	call draw_clippable
-
-	ld d, 84
-	ld a, START_X - 7
-	ld h, clippable_0 >> 8
-	call draw_clippable
-
-	ld d, 96
-	ld a, START_X - 8
+	ld a, (@-clippable_x)
+	inc a
+	ld (@-clippable_x), a
 	ld h, clippable_0 >> 8
 	call draw_clippable
 
@@ -135,7 +97,7 @@ draw_player_sprite:
 draw_clippable:
 	; Test for right boundary.
 	; The -8 embeds an assumption that clippables are 16px i.e. 8 bytes across.
-	cp START_X + 128 - 8
+	cp START_X + 128 - 7 + 1
 	jp nc, @+test_right_clip
 
 	; Test for left boundary.
@@ -146,6 +108,7 @@ draw_clippable:
 	; Dispatch via the jump located at the start of the clippable page.
 	ld l, 0
 	sub START_X
+	add a
 	ld e, a
 	scf
 	rr d
@@ -159,7 +122,7 @@ draw_clippable:
 
 	; Convert to a jump location, calculate screen location and go.
 	ld e, a
-	sub START_X + 128 - 7 + 8
+	sub START_X + (128 - 7) - 8
 	rlca
 	rlca
 	rlca
@@ -183,7 +146,7 @@ draw_clippable:
 	ret c
 
 	ld e, a
-	cpl
+	cpl			; TODO: can I rearrange the dispatch group to avoid this cpl?
 	add START_X + 1
 	rlca
 	rlca
