@@ -19,14 +19,8 @@ mark16x24:
 	rra
 
 	add b
-	sub START_X - 8
+	sub START_X - 8	; ASSUMPTION HERE about left padding of DIRTY_FLAGs.
 	ld b, a		; Now B = sprite x relative to tile map.
-
-	; TODO: as currently formulated, A can now be negative
-	; here if referring to the pre-DIRTY_FLAGS pad column.
-	;
-	; Fix so that A is strictly positive. Probably by
-
 
 	and 0xf8
 	rra
@@ -36,8 +30,7 @@ mark16x24:
 	add e		; E = sprite X multiplied by three.
 
 	; Relocate into dirty flags.
-	; Assumption here: it's contained within a 256-byte page.
-	; add DIRTY_FLAGS & 0xff
+	; Assumption here: it's contained at the start of a 256-byte page.
 	ld l, a
 	ld h, DIRTY_FLAGS >> 8
 
