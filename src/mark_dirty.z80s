@@ -1,3 +1,11 @@
+clip_mark16x24:
+	ld a, b
+	cp START_X - 7
+	ret c
+
+	cp START_X + 128
+	ret nc
+
 ;
 ; Marks dirty flags appropriately for a 16x24 sprite positioned at an B = x position, C = y position.
 ;
@@ -11,7 +19,7 @@ mark16x24:
 	rra
 
 	add b
-	sub START_X
+	sub START_X - 8	; ASSUMPTION HERE about left padding of DIRTY_FLAGs.
 	ld b, a		; Now B = sprite x relative to tile map.
 
 	and 0xf8
@@ -22,8 +30,7 @@ mark16x24:
 	add e		; E = sprite X multiplied by three.
 
 	; Relocate into dirty flags.
-	; Assumption here: it's contained within a 256-byte page.
-	add DIRTY_FLAGS & 0xff
+	; Assumption here: it's contained at the start of a 256-byte page.
 	ld l, a
 	ld h, DIRTY_FLAGS >> 8
 

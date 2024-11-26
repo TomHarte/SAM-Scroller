@@ -1,18 +1,23 @@
 @player_walk_count:	db 0	; Counts number of frames the player has been walking on the ground for, affecting current frame.
 
-; @clippable_x: db 250
+@clippable_x: db START_X + 128 - 7 ; 128 + 64
 
 ;
 ; Draws the player sprite and flags appropriate dirty spots.
 ;
 draw_player_sprite:
 	; TEST! Draw a clippable that moves left-to-right and then overflows back to the left.
-	; ld d, 12
-	; ld a, (@-clippable_x)
-	; inc a
-	; ld (@-clippable_x), a
-	; ld h, clippable_0 >> 8
-	; call draw_clippable
+	ld d, 12
+	ld a, (@-clippable_x)
+	inc a
+	ld (@-clippable_x), a
+	ld h, clippable_1 >> 8
+	call draw_clippable
+
+	ld a, (@-clippable_x)
+	ld b, a
+	ld c, 12 + START_Y
+	call clip_mark16x24
 
 	; Load y, subtract origin, multiply it by 128 and set the top bit.
 	ld l, 0
@@ -98,7 +103,7 @@ draw_player_sprite:
 draw_clippable:
 	; Test for right boundary.
 	; The -8 embeds an assumption that clippables are 16px i.e. 8 bytes across.
-	cp START_X + 128 - 7 + 1
+	cp START_X + 128 - 7; + 1
 	jp nc, @+test_right_clip
 
 	; Test for left boundary.
@@ -107,6 +112,12 @@ draw_clippable:
 
 	; No clipping required. That was easy!
 	; Dispatch via the jump located at the start of the clippable page.
+	; push de
+	; ld b, e
+	; ld c, d
+	; call mark16x24
+	; pop de
+
 	ld l, 0
 	sub START_X
 	add a
@@ -120,6 +131,12 @@ draw_clippable:
 	; Exit early if clippable is entirely off the right-hand side of the display.
 	cp START_X + 128
 	ret nc
+
+	; push de
+	; ld b, e
+	; ld c, d
+	; call mark16x24
+	; pop de
 
 	; Convert to a jump location, calculate screen location and go.
 	ld e, a
@@ -145,6 +162,12 @@ draw_clippable:
 	; Exit early if clippable is entirely off the left-hand side of the display.
 	cp START_X - 8 + 1
 	ret c
+
+	; push de
+	; ld b, e
+	; ld c, d
+	; call mark16x24
+	; pop de
 
 	ld e, a
 	cpl			; TODO: can I rearrange the dispatch group to avoid this cpl?
