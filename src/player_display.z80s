@@ -1,6 +1,6 @@
 @player_walk_count:	db 0	; Counts number of frames the player has been walking on the ground for, affecting current frame.
 
-@clippable_x: db START_X - 7 ; 128 + 64
+@clippable_x: db START_X + 128 - 7 ; 128 + 64
 
 ;
 ; Draws the player sprite and flags appropriate dirty spots.
@@ -11,7 +11,7 @@ draw_player_sprite:
 	ld a, (@-clippable_x)
 	inc a
 	ld (@-clippable_x), a
-	ld h, clippable_0 >> 8
+	ld h, clippable_1 >> 8
 	call draw_clippable
 
 	ld a, (@-clippable_x)
@@ -103,7 +103,7 @@ draw_player_sprite:
 draw_clippable:
 	; Test for right boundary.
 	; The -8 embeds an assumption that clippables are 16px i.e. 8 bytes across.
-	cp START_X + 128 - 7 + 1
+	cp START_X + 128 - 7; + 1
 	jp nc, @+test_right_clip
 
 	; Test for left boundary.
