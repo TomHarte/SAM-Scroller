@@ -1,3 +1,11 @@
+clip_mark16x24:
+	ld a, b
+	cp START_X - 7
+	ret c
+
+	cp START_X + 128
+	ret nc
+
 ;
 ; Marks dirty flags appropriately for a 16x24 sprite positioned at an B = x position, C = y position.
 ;
@@ -11,8 +19,14 @@ mark16x24:
 	rra
 
 	add b
-	sub START_X
+	sub START_X - 8
 	ld b, a		; Now B = sprite x relative to tile map.
+
+	; TODO: as currently formulated, A can now be negative
+	; here if referring to the pre-DIRTY_FLAGS pad column.
+	;
+	; Fix so that A is strictly positive. Probably by
+
 
 	and 0xf8
 	rra
@@ -23,7 +37,7 @@ mark16x24:
 
 	; Relocate into dirty flags.
 	; Assumption here: it's contained within a 256-byte page.
-	add DIRTY_FLAGS & 0xff
+	; add DIRTY_FLAGS & 0xff
 	ld l, a
 	ld h, DIRTY_FLAGS >> 8
 

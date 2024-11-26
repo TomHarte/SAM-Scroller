@@ -160,7 +160,8 @@ reset_scrolling:
 	jp draw_tiles
 
 @end_seed:
-	xor a
+;	xor a
+	ld a, 2
 	ld (scroll_offset), a
 
 @return:
