@@ -1,3 +1,7 @@
+;
+; Checks whether the sprite at C = y position, B = x position is within screen bounds and, if so,
+; segues into mark16x24.
+;
 clip_mark16x24:
 	ld a, b
 	cp START_X - 7
