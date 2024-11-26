@@ -640,8 +640,8 @@ ds align 256
 
 ;
 ; Gets the address into the tile map of the tile currently
-; overlapping the player's top left, returning it redundantly
-; in both HL and DE.
+; overlapping the player's top left, returning it
+; in DE.
 ;
 @get_map_address:
 	; Get x position relative to map.
@@ -682,8 +682,6 @@ ds align 256
 	ld c, a
 	add hl, bc		; HL should now point to the tile overlapping the top left of the player.
 
-	; Store a backup of HL.
-	ld d, h
-	ld e, l
+	ex de, hl
 
 	ret
