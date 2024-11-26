@@ -11,6 +11,7 @@ mark16x24:
 	rra
 
 	add b
+	sub START_X
 	ld b, a		; Now B = sprite x relative to tile map.
 
 	and 0xf8

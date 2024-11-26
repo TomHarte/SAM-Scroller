@@ -25,6 +25,7 @@ draw_player_sprite:
 
 	; Add x.
 	ld a, (player_current+X_OFFSET+1)
+	sub START_X
 	add l
 	ld l, a
 
@@ -42,7 +43,7 @@ draw_player_sprite:
 	cp 4*WALK_FRAME_DURATION
 	jp nz, @+pick_sprite
 
-	ld a, 0
+	xor a
 @pick_sprite:
 	ld (@player_walk_count), a
 
