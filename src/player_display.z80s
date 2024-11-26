@@ -1,18 +1,18 @@
 @player_walk_count:	db 0	; Counts number of frames the player has been walking on the ground for, affecting current frame.
 
-@clippable_x: db 250
+; @clippable_x: db 250
 
 ;
 ; Draws the player sprite and flags appropriate dirty spots.
 ;
 draw_player_sprite:
 	; TEST! Draw a clippable that moves left-to-right and then overflows back to the left.
-	ld d, 12
-	ld a, (@-clippable_x)
-	inc a
-	ld (@-clippable_x), a
-	ld h, clippable_0 >> 8
-	call draw_clippable
+	; ld d, 12
+	; ld a, (@-clippable_x)
+	; inc a
+	; ld (@-clippable_x), a
+	; ld h, clippable_0 >> 8
+	; call draw_clippable
 
 	; Load y, subtract origin, multiply it by 128 and set the top bit.
 	ld l, 0
