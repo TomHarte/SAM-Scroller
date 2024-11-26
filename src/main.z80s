@@ -113,11 +113,11 @@ draw_objects:
 	jp draw_player_sprite
 
 ; Code to include on the main program page.
-INC "generated/sprites.z80s"
 INC "game_loop.z80s"
-INC "player_display.z80s"
-INC "player_logic.z80s"
+INC "generated/sprites.z80s"
 INC "mark_dirty.z80s"
+INC "player/display.z80s"
+INC "player/logic.z80s"
 INC "scrolling.z80s"
 
 ; Code that goes elsewhere.
