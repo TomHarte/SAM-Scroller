@@ -72,7 +72,44 @@ Y_CEILING:	EQU 8		; Position at which player will bump his head in internal coor
 
 
 
+@clippable_x: db START_X + 64
+
+update_game_logic:
+	call update_player_logic
+
+	ld a, (scroll_change)
+	rra
+	jp nc, @+no_left
+
+	ld a, (@-clippable_x)
+	inc a
+	ld (@-clippable_x), a
+	jp @+no_scroll
+
+@no_left:
+	rra
+	jp nc, @+no_scroll
+
+	ld a, (@-clippable_x)
+	dec a
+	ld (@-clippable_x), a
+
+@no_scroll:
+	ret
+
+
 draw_objects:
+	; TEST! Draw a clippable that moves left-to-right and then overflows back to the left.
+	ld d, 112
+	ld a, (@-clippable_x)
+	ld h, clippable_1 >> 8
+	call draw_clippable
+
+	ld a, (@-clippable_x)
+	ld b, a
+	ld c, 112 + START_Y
+	call clip_mark16x24
+
 	jp draw_player_sprite
 
 ; Code to include on the main program page.
