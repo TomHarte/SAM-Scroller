@@ -1,9 +1,19 @@
 @player_walk_count:	db 0	; Counts number of frames the player has been walking on the ground for, affecting current frame.
 
+; @clippable_x: db 250
+
 ;
 ; Draws the player sprite and flags appropriate dirty spots.
 ;
 draw_player_sprite:
+	; TEST! Draw a clippable that moves left-to-right and then overflows back to the left.
+	; ld d, 12
+	; ld a, (@-clippable_x)
+	; inc a
+	; ld (@-clippable_x), a
+	; ld h, clippable_0 >> 8
+	; call draw_clippable
+
 	; Load y, subtract origin, multiply it by 128 and set the top bit.
 	ld l, 0
 	ld a, (player_current+Y_OFFSET+1)
@@ -79,3 +89,79 @@ draw_player_sprite:
 	ld a, (player_current+Y_OFFSET+1)
 	ld c, a
 	jp mark16x24
+
+
+;
+; Draws the clippable indicated by H in the location defined by D = y, A = x.
+;
+draw_clippable:
+	; Test for right boundary.
+	; The -8 embeds an assumption that clippables are 16px i.e. 8 bytes across.
+	cp START_X + 128 - 7 + 1
+	jp nc, @+test_right_clip
+
+	; Test for left boundary.
+	cp START_X
+	jp c, @+test_left_clip
+
+	; No clipping required. That was easy!
+	; Dispatch via the jump located at the start of the clippable page.
+	ld l, 0
+	sub START_X
+	add a
+	ld e, a
+	scf
+	rr d
+	rr e
+	jp (hl)
+
+@test_right_clip:
+	; Exit early if clippable is entirely off the right-hand side of the display.
+	cp START_X + 128
+	ret nc
+
+	; Convert to a jump location, calculate screen location and go.
+	ld e, a
+	sub START_X + (128 - 7) - 8
+	rlca
+	rlca
+	rlca
+	rlca
+	ld l, a
+	ld a, e
+
+	; Copy and pasted from above. Pyz80 has no macros, I think?
+	sub START_X
+	add a
+	ld e, a
+	scf
+	rr d
+	rr e
+
+	jp (hl)
+
+@test_left_clip:
+	; Exit early if clippable is entirely off the left-hand side of the display.
+	cp START_X - 8 + 1
+	ret c
+
+	ld e, a
+	cpl			; TODO: can I rearrange the dispatch group to avoid this cpl?
+	add START_X + 1
+	rlca
+	rlca
+	rlca
+	rlca
+	ld l, a
+	ld a, e
+
+	; Copy and pasted from above. Pyz80 has no macros, I think?
+	sub START_X
+	add a
+	ld e, a
+	dec d
+	scf
+	rr d
+	rr e
+
+	jp (hl)
