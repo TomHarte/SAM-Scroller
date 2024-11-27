@@ -231,7 +231,31 @@ NEXT @find_slot
 	ret
 
 did_scroll_left8:
+	; Check whether events_to_right needs to regress.
+	; i.e. whether the event one position earlier in the
+	; list is now to the right of the display.
+	ld hl, (events_to_right)
+	ld bc, -EVENT_SIZE
+	add hl, bc
+	ld (@+load_position + 1), hl
+@load_position:
+	ld hl, (0x1234)
+	ex de, hl			; DE is now the position of the preceding event.
+
+	ld hl, (scroll_column)
+	ld bc, column_count
+	add hl, bc			; HL is now the position of the right edge of the display.
+
+	or a
+	sbc hl, de
+	jr nc, @+no_regress
+
+	ld hl, (@-load_position + 1)
+	ld (events_to_right), hl
+
+@no_regress:
 	; TODO: check event list potentially to spawn new objects.
+
 
 	ret
 
