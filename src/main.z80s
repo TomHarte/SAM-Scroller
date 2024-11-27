@@ -81,18 +81,19 @@ objects:
 	dw 0, 0						; Previous position.
 	db 0						; Image. Set to 0 to disable object.
 	jp @-no_function			; Function pointer for 'update object'
-	ds 4						; Spare storage, usable by update object function for state. Sized arbitrarily,
-								; albeit that currently it neatly makes objects 16 bytes. Might grow or shrink later,
-								; as I learn more about my actual usage.
+	dw 0						; Source ID; used to avoid double spawning.
+	ds 4						; Spare storage, usable by update object function for state. Sized arbitrarily.
 NEXT @object_content
+@end_objects:
 
 ; Various offsets within an object.
 Object.Position:			EQU 0
 Object.PreviousPosition:	EQU 4
 Object.Image:				EQU 8
 Object.Jump:				EQU 9
-Object.OwnedState:			EQU 12
-OBJECT_SIZE:				EQU 16
+Object.SourceID:			EQU 12
+Object.OwnedState:			EQU 14
+OBJECT_SIZE:				EQU (@-end_objects - objects) / NUM_OBJECTS
 
 OBJECT_CULL_THRESHOLD:		EQU 32		; The number of byte columns an object must be beyond the edge of the screen
 										; to be culled from the active list.
@@ -186,6 +187,49 @@ NEXT @test_object
 	ret
 
 
+;
+; Finds an object slot for the object with source ID as per HL, if no slot is currently
+; allocated to that object and if one is available.
+;
+; Returns carry clear if no slot is available. Carry set otherwise.
+; If carry is set, IX points to the available slot.
+;
+@find_object_slot:
+@test_presence: EQU FOR NUM_OBJECTS
+	@object: EQU objects + @test_presence * OBJECT_SIZE
+	ld a, (@object + Object.Image)
+	or a
+	jp z, @+next_object
+
+	ld a, (@object + Object.SourceID)
+	cp h
+	jp nz, @+next_object
+
+	ld a, (@object + Object.SourceID + 1)
+	cp l
+	ret z
+
+@next_object:
+NEXT @test_presence
+
+@find_slot: EQU FOR NUM_OBJECTS
+	@object: EQU objects + @find_slot * OBJECT_SIZE
+	ld a, (@object + Object.Image)
+	or a
+	jp nz, @+next_object
+
+	; Available slot found; return.
+	ld ix, @object
+	scf
+	ret
+
+@next_object:
+NEXT @find_slot
+
+	; No free slot found.
+	or a
+	ret
+
 did_scroll_left8:
 	; TODO: check event list potentially to spawn new objects.
 
@@ -199,42 +243,21 @@ did_scroll_right8:
 	ld a, (scroll_column)
 	add 17
 	cp 50
-	jp nz, @+not_15
+	ret nz
 
 	; Find an empty object slot.
+	ld hl, 0
+	call @-find_object_slot
+	ret nc
 
-@test_object: EQU FOR NUM_OBJECTS
-	@object: EQU objects + @test_object * OBJECT_SIZE
-	ld a, (@object + Object.Image)
-	or a
-	jp nz, @+next_object
-
-	ld ix, @object
-	jp @+object_found
-
-@next_object:
-NEXT @test_object
-
-	; If here then no object found. Stop.
-	jp @+not_15
-
-@object_found:
 	; Install at IX.
-	ld (ix + Object.Image), clippable_0 >> 8
-
 	ld (ix + Object.Position + Position.x + 0), 0
 	ld (ix + Object.Position + Position.x + 1), START_X + 17 * 8		; i.e. in the allotted column.
 
 	ld (ix + Object.Position + Position.y + 0), 0
 	ld (ix + Object.Position + Position.y + 1), START_Y + 120			; Where I happen to know the ground is.
 
-	ld (ix + Object.Jump + 1), @+update_frog & 0xff
-	ld (ix + Object.Jump + 2), @+update_frog >> 8						; Apply frog logic, whatever that currently is.
-
-	call @+seed_frog
-
-@not_15:
-	ret
+	jp @+seed_frog
 
 
 draw_objects:
@@ -277,6 +300,11 @@ NEXT @test_object
 
 
 @seed_frog:
+	ld (ix + Object.Image), clippable_0 >> 8
+
+	ld (ix + Object.Jump + 1), @+update_frog & 0xff
+	ld (ix + Object.Jump + 2), @+update_frog >> 8
+
 	ld (ix + Object.OwnedState), 0
 	ret
 
