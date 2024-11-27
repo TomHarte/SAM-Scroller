@@ -1,12 +1,18 @@
-scroll_offset:	db 0
-map_address: dw map + 12*(column_count)
-diff_address: dw diffs + 3*(column_count - 1)
-@total_x: dw 0
+scroll_offset:	db 0	; Offset within the current column, in pixels. So always a multiple of two in the range 0–15.
+scroll_column:	db 0	; The column currently visible in the leftmost part of the screen (or about to be if moving left).
+
+map_address:	dw map + 12*(column_count)
+diff_address:	dw diffs + 3*(column_count - 1)
+
+@total_x: 		dw 0	; A 16-bit counter of total scroll offset; essentially combines scroll_offset and scroll_column.
+						; Possibly vestigial; I need to figure out whether this still actually helps much.
+
 
 SCROLLED_NONE:	EQU 0
 SCROLLED_LEFT:	EQU 1
 SCROLLED_RIGHT:	EQU 2
-scroll_change:	db SCROLLED_NONE
+scroll_change:	db SCROLLED_NONE		; A field indicating what scroll, if any, most-recently occurred. Will hold one
+										; of the enumerations defined above.
 
 ;
 ; Scrolls the display one position to the left, if any space remains
@@ -63,6 +69,10 @@ scroll_left:
 	add hl, bc
 	ld (diff_address), hl
 
+	ld a, (scroll_column)
+	dec a
+	ld (scroll_column), a
+
 	; That will have revealed a new column.
 	call did_scroll_left8
 
@@ -87,8 +97,7 @@ scroll_right:
 	;
 	ld hl, (@-total_x)
 	ld bc, (((diffs - map) / 12) - column_count) * 8
-	scf
-	ccf
+	or a
 	sbc hl, bc
 	scf
 	ret z
@@ -134,6 +143,10 @@ scroll_right:
 	ld bc, 3
 	add hl, bc
 	ld (diff_address), hl
+
+	ld a, (scroll_column)
+	inc a
+	ld (scroll_column), a
 
 	; That will have revealed a new column.
 	call did_scroll_right8

@@ -74,12 +74,13 @@ Y_CEILING:	EQU 8		; Position at which player will bump his head in internal coor
 
 NUM_OBJECTS:		EQU 4		; Currently: allow at max four objects. Which is probably optimistic.
 
+@no_function:		ret
 objects:
 @object_content: 	EQU FOR NUM_OBJECTS
 	dw 0, 0						; Object position.
 	dw 0, 0						; Previous position.
 	db 0						; Image. Set to 0 to disable object.
-	call 0x1234					; Function pointer for 'update object'
+	jp @-no_function			; Function pointer for 'update object'
 	ds 4						; Spare storage, usable by update object function for state. Sized arbitrarily,
 								; albeit that currently it neatly makes objects 16 bytes. Might grow or shrink later,
 								; as I learn more about my actual usage.
@@ -89,7 +90,7 @@ NEXT @object_content
 Object.Position:			EQU 0
 Object.PreviousPosition:	EQU 4
 Object.Image:				EQU 8
-Object.Call:				EQU 9
+Object.Jump:				EQU 9
 Object.OwnedState:			EQU 12
 OBJECT_SIZE:				EQU 16
 
@@ -104,12 +105,28 @@ update_game_logic:
 	@object: EQU objects + @test_object * OBJECT_SIZE
 	ld a, (@object + Object.Image)
 	or a
-	jp z, @+no_object
+	jp z, @+next_object
 
 	; [Indirectly] call into the update function.
-	jp @object + Object.Call
+	call @object + Object.Jump
 
-@no_object:
+	;
+	; Check whether position has crossed a threshold into being so far
+	; off-screen that it is time to be culled.
+	;
+
+	ld a, (@object + Object.Position + Position.x + 1)
+	cp START_X - 8 - OBJECT_CULL_THRESHOLD
+	jp c, @+cull_object
+
+	cp START_X + 128 + OBJECT_CULL_THRESHOLD
+	jp c, @+next_object
+
+@cull_object:
+	xor a
+	ld (@object + Object.Image), a
+
+@next_object:
 NEXT @test_object
 
 	jp update_player_logic
@@ -163,7 +180,7 @@ did_scroll_right1:
 	dec a
 	ld (@object + Object.PreviousPosition + Position.x + 1), a
 
-@no_object:
+@next_object:
 NEXT @test_object
 	ret
 
@@ -177,6 +194,40 @@ did_scroll_left8:
 did_scroll_right8:
 	; TODO: check event list potentially to spawn new objects.
 
+	; HACK: check for appearance on the right of column 50 and seed an object if it appears.
+	ld a, (scroll_column)
+	add 17
+	cp 50
+	jp nz, @+not_15
+
+	; Find an empty object slot.
+
+@test_object: EQU FOR NUM_OBJECTS
+	@object: EQU objects + @test_object * OBJECT_SIZE
+	ld a, (@object + Object.Image)
+	or a
+	jp nz, @+next_object
+
+	ld ix, @object
+	jp @+object_found
+
+@next_object:
+NEXT @test_object
+
+	; If here then no object found. Stop.
+	jp @+not_15
+
+@object_found:
+	; Install at IX.
+	ld (ix + Object.Image), clippable_1 >> 8
+
+	ld (ix + Object.Position + Position.x + 0), 0
+	ld (ix + Object.Position + Position.x + 1), START_X + 17 * 8		; i.e. in the allotted column.
+
+	ld (ix + Object.Position + Position.y + 0), 0
+	ld (ix + Object.Position + Position.y + 1), START_Y + 60
+
+@not_15:
 	ret
 
 
@@ -190,40 +241,25 @@ draw_objects:
 	or a
 	jp z, @+next_object
 
-	; Draw the object and mark dirty.
+	; Draw the object.
 	ld h, a
-	sub START_Y
 	ld a, (@object + Object.Position + Position.y + 1)
+	sub START_Y
 	ld d, a
 	ld a, (@object + Object.Position + Position.x + 1)
+	ld e, a
 
-	;
-	; Check whether position has crossed a threshold into being so far
-	; off-screen that it is time to be culled.
-	;
-
-	cp START_X - 8 - OBJECT_CULL_THRESHOLD
-	jp m, @+cull_object
-
-	cp START_X + 128 + OBJECT_CULL_THRESHOLD
-	jp p, @+cull_object
-
-	;
-	; Object isn't being culled; proceed with drawing.
-	;
 	call draw_clippable		; TODO: if this could return a flag indicating whether the object was drawn, some work
 							; could be saved below?
+
+	; Also TODO: can this be moved to the update function? Should be safe
+	; as that occurs prior to any potential scrolling, but check.
 
 	ld a, (@object + Object.Position + Position.x + 1)
 	ld b, a
 	ld a, (@object + Object.Position + Position.y + 1)
 	ld c, a
 	call clip_mark16x24
-	jp @+next_object
-
-@cull_object:
-	xor a
-	ld (@object + Object.Image), a
 
 @next_object:
 NEXT @test_object
