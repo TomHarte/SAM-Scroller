@@ -309,7 +309,7 @@ NEXT @test_object
 
 frog_heights:
 @frog_table: EQU FOR 16
-	db -16*(sin(pi * @frog_table / 15.0) - sin(pi * ((@frog_table - 1) & 15) / 15.0))
+	db -10*(sin(pi * @frog_table / 15.0) - sin(pi * ((@frog_table - 1) & 15) / 15.0))
 NEXT @frog_table
 
 ; Code to include on the main program page.
