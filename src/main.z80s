@@ -72,46 +72,165 @@ Y_CEILING:	EQU 8		; Position at which player will bump his head in internal coor
 
 
 
-@clippable_x: db START_X + 64
+NUM_OBJECTS:		EQU 4		; Currently: allow at max four objects. Which is probably optimistic.
+
+objects:
+@object_content: 	EQU FOR NUM_OBJECTS
+	dw 0, 0						; Object position.
+	dw 0, 0						; Previous position.
+	db 0						; Image. Set to 0 to disable object.
+	call 0x1234					; Function pointer for 'update object'
+	ds 4						; Spare storage, usable by update object function for state. Sized arbitrarily,
+								; albeit that currently it neatly makes objects 16 bytes. Might grow or shrink later,
+								; as I learn more about my actual usage.
+NEXT @object_content
+
+; Various offsets within an object.
+Object.Position:			EQU 0
+Object.PreviousPosition:	EQU 4
+Object.Image:				EQU 8
+Object.Call:				EQU 9
+Object.OwnedState:			EQU 12
+OBJECT_SIZE:				EQU 16
+
+OBJECT_CULL_THRESHOLD:		EQU 32		; The number of byte columns an object must be beyond the edge of the screen
+										; to be culled from the active list.
 
 update_game_logic:
+	;
+	; Call update function on each and every active object.
+	;
+@test_object: EQU FOR NUM_OBJECTS
+	@object: EQU objects + @test_object * OBJECT_SIZE
+	ld a, (@object + Object.Image)
+	or a
+	jp z, @+no_object
+
+	; [Indirectly] call into the update function.
+	jp @object + Object.Call
+
+@no_object:
+NEXT @test_object
+
 	jp update_player_logic
 
 
 did_scroll_left1:
-	ld a, (@-clippable_x)
+	;
+	; Update positions of all active objects.
+	;
+@test_object: EQU FOR NUM_OBJECTS
+	@object: EQU objects + @test_object * OBJECT_SIZE
+	ld a, (@object + Object.Image)
+	or a
+	jp z, @+next_object
+
+	;
+	; Increment position.
+	;
+	ld a, (@object + Object.Position + Position.x + 1)
 	inc a
-	ld (@-clippable_x), a
+	ld (@object + Object.Position + Position.x + 1), a
+
+	ld a, (@object + Object.PreviousPosition + Position.x + 1)
+	inc a
+	ld (@object + Object.PreviousPosition + Position.x + 1), a
+
+@no_object:
+NEXT @test_object
+
 	ret
 
 
 did_scroll_right1:
-	ld a, (@-clippable_x)
+	;
+	; Update positions of all active objects.
+	;
+@test_object: EQU FOR NUM_OBJECTS
+	@object: EQU objects + @test_object * OBJECT_SIZE
+	ld a, (@object + Object.Image)
+	or a
+	jp z, @+next_object
+
+	;
+	; Decrement position.
+	;
+	ld a, (@object + Object.Position + Position.x + 1)
 	dec a
-	ld (@-clippable_x), a
+	ld (@object + Object.Position + Position.x + 1), a
+
+	ld a, (@object + Object.PreviousPosition + Position.x + 1)
+	dec a
+	ld (@object + Object.PreviousPosition + Position.x + 1), a
+
+@no_object:
+NEXT @test_object
 	ret
 
 
 did_scroll_left8:
+	; TODO: check event list potentially to spawn new objects.
+
 	ret
 
 
 did_scroll_right8:
+	; TODO: check event list potentially to spawn new objects.
+
 	ret
 
 
 draw_objects:
-	; TEST! Draw a clippable that moves left-to-right and then overflows back to the left.
-	ld d, 112
-	ld a, (@-clippable_x)
-	ld h, clippable_1 >> 8
-	call draw_clippable
+	;
+	; Draw all active objects.
+	;
+@test_object: EQU FOR NUM_OBJECTS
+	@object: EQU objects + @test_object * OBJECT_SIZE
+	ld a, (@object + Object.Image)
+	or a
+	jp z, @+next_object
 
-	ld a, (@-clippable_x)
+	; Draw the object and mark dirty.
+	ld h, a
+	sub START_Y
+	ld a, (@object + Object.Position + Position.y + 1)
+	ld d, a
+	ld a, (@object + Object.Position + Position.x + 1)
+
+	;
+	; Check whether position has crossed a threshold into being so far
+	; off-screen that it is time to be culled.
+	;
+
+	cp START_X - 8 - OBJECT_CULL_THRESHOLD
+	jp m, @+cull_object
+
+	cp START_X + 128 + OBJECT_CULL_THRESHOLD
+	jp p, @+cull_object
+
+	;
+	; Object isn't being culled; proceed with drawing.
+	;
+	call draw_clippable		; TODO: if this could return a flag indicating whether the object was drawn, some work
+							; could be saved below?
+
+	ld a, (@object + Object.Position + Position.x + 1)
 	ld b, a
-	ld c, 112 + START_Y
+	ld a, (@object + Object.Position + Position.y + 1)
+	ld c, a
 	call clip_mark16x24
+	jp @+next_object
 
+@cull_object:
+	xor a
+	ld (@object + Object.Image), a
+
+@next_object:
+NEXT @test_object
+
+	;
+	; Draw player.
+	;
 	jp draw_player_sprite
 
 ; Code to include on the main program page.

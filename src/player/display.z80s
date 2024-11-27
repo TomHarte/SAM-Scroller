@@ -6,7 +6,7 @@
 draw_player_sprite:
 	; Load y, subtract origin, multiply it by 128 and set the top bit.
 	ld l, 0
-	ld a, (player_current+Y_OFFSET+1)
+	ld a, (player_current+Position.y+1)
 	sub START_Y
 	scf
 	rra
@@ -14,7 +14,7 @@ draw_player_sprite:
 	ld h, a
 
 	; Add x.
-	ld a, (player_current+X_OFFSET+1)
+	ld a, (player_current+Position.x+1)
 	sub START_X
 	add l
 	ld l, a
@@ -75,9 +75,9 @@ draw_player_sprite:
 	;
 	; Mark proper dirty bits.
 	;
-	ld a, (player_current+X_OFFSET+1)
+	ld a, (player_current+Position.x+1)
 	ld b, a
-	ld a, (player_current+Y_OFFSET+1)
+	ld a, (player_current+Position.y+1)
 	ld c, a
 	jp mark16x24
 
