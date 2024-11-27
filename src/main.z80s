@@ -202,11 +202,11 @@ NEXT @test_object
 	jp z, @+next_object
 
 	ld a, (@object + Object.SourceID)
-	cp h
+	cp l
 	jp nz, @+next_object
 
 	ld a, (@object + Object.SourceID + 1)
-	cp l
+	cp h
 	ret z
 
 @next_object:
@@ -255,9 +255,14 @@ did_scroll_right8:
 	ret nz
 
 	; We're go to enact the next event. So do so.
-	ld hl, (events_to_right)	; Use address of event as a source ID.
-	call @-find_object_slot
-	ret nc
+	ld hl, (events_to_right)
+	call @-find_object_slot			; Use address of event as a source ID.
+	jp nc, @+advance_cursor
+
+	; Advance cursor inline to save marginally on stack costs.
+	ld bc, EVENT_SIZE
+	add hl, bc
+	ld (events_to_right), hl
 
 	; Install at IX.
 	ld (ix + Object.Position + Position.x + 0), 0
@@ -266,7 +271,16 @@ did_scroll_right8:
 	ld (ix + Object.Position + Position.y + 0), 0
 	ld (ix + Object.Position + Position.y + 1), START_Y + 120			; Where I happen to know the ground is.
 
+	ld (ix + Object.SourceID), l
+	ld (ix + Object.SourceID + 1), h									; Set source ID.
+
 	jp @+seed_frog
+
+@advance_cursor:
+	ld bc, EVENT_SIZE
+	add hl, bc
+	ld (events_to_right), hl
+	ret
 
 
 draw_objects:
