@@ -283,12 +283,18 @@ did_scroll_right8:
 	call @-find_object_slot			; Use address of event as a source ID.
 	jp nc, @+advance_cursor
 
-	; Advance cursor inline to save marginally on stack costs.
-	ld bc, EVENT_SIZE
-	add hl, bc
-	ld (events_to_right), hl
+	; Call event function to check that this is really an object.
+	inc hl
+	inc hl
+	ld e, (hl)
+	inc hl
+	ld d, (hl)
+	ex de, hl
 
-	; Install at IX.
+	call call_hl
+	jp nc, @+advance_cursor
+
+	; Insert at IX.
 	ld (ix + Object.Position + Position.x + 0), 0
 	ld (ix + Object.Position + Position.x + 1), START_X + 17 * 8		; i.e. in the allotted column.
 
@@ -298,9 +304,8 @@ did_scroll_right8:
 	ld (ix + Object.SourceID), l
 	ld (ix + Object.SourceID + 1), h									; Set source ID.
 
-	jp @+seed_frog
-
 @advance_cursor:
+	ld hl, (events_to_right)
 	ld bc, EVENT_SIZE
 	add hl, bc
 	ld (events_to_right), hl
@@ -388,26 +393,28 @@ frog_heights:
 	db -10*(sin(pi * @frog_table / 15.0) - sin(pi * ((@frog_table - 1) & 15) / 15.0))
 NEXT @frog_table
 
+call_hl:
+	jp (hl)
 
 ;
 ; Defines the layout of an 'event', which is tied to the appearance of a screen column
 ; and usually but not necessarily involves the addition of an object.
 ;
 Event.Column:			EQU 0
-Event.InitialY:			EQU 2
-Event.SetupFunction:	EQU 3
-EVENT_SIZE:				EQU Event.SetupFunction + 2
+Event.SetupFunction:	EQU 2
+Event.InitialY:			EQU 3
+EVENT_SIZE:				EQU Event.InitialY + 2
 
 events:
 	; A non-event in column 0; this gives the left list somewhere to anchor to.
 	dw 0
-	db 0
 	dw @-no_function
+	db 0
 
 	; A frog in column 50.
 	dw 50
-	db START_Y + 120
 	dw @-seed_frog
+	db START_Y + 120
 
 	; A terminating event, which is so far out of bounds as never to trigger.
 	dw 0xffff
