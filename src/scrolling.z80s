@@ -1,5 +1,5 @@
 scroll_offset:	db 0	; Offset within the current column, in pixels. So always a multiple of two in the range 0–15.
-scroll_column:	db 0	; The column currently visible in the leftmost part of the screen (or about to be if moving left).
+scroll_column:	dw 0	; The column currently visible in the leftmost part of the screen (or about to be if moving left).
 
 map_address:	dw map + 12*(column_count)
 diff_address:	dw diffs + 3*(column_count - 1)
@@ -69,9 +69,9 @@ scroll_left:
 	add hl, bc
 	ld (diff_address), hl
 
-	ld a, (scroll_column)
-	dec a
-	ld (scroll_column), a
+	ld hl, (scroll_column)
+	dec hl
+	ld (scroll_column), hl
 
 	; That will have revealed a new column.
 	call did_scroll_left8
@@ -144,9 +144,9 @@ scroll_right:
 	add hl, bc
 	ld (diff_address), hl
 
-	ld a, (scroll_column)
-	inc a
-	ld (scroll_column), a
+	ld hl, (scroll_column)
+	inc hl
+	ld (scroll_column), hl
 
 	; That will have revealed a new column.
 	call did_scroll_right8

@@ -306,6 +306,7 @@ NEXT @test_object
 	ld (ix + Object.Jump + 2), @+update_frog >> 8
 
 	ld (ix + Object.OwnedState), 0
+	scf
 	ret
 
 @update_frog:
@@ -339,6 +340,33 @@ frog_heights:
 @frog_table: EQU FOR 16
 	db -10*(sin(pi * @frog_table / 15.0) - sin(pi * ((@frog_table - 1) & 15) / 15.0))
 NEXT @frog_table
+
+
+;
+; Defines the layout of an 'event', which is tied to the appearance of a screen column
+; and usually but not necessarily involves the addition of an object.
+;
+Event.Column:			EQU 0
+Event.InitialY:			EQU 2
+Event.SetupFunction:	EQU 3
+EVENT_SIZE:				EQU Event.SetupFunction + 2
+
+events:
+	; A non-event in column 0; this gives the left list somewhere to anchor to.
+	dw 0
+	db 0
+	dw @-no_function
+
+	; A frog in column 50.
+	dw 50
+	db START_Y + 120
+	dw @-seed_frog
+
+	; A terminating event, which is so far out of bounds as never to trigger.
+	dw 0xffff
+
+events_to_left:		dw events					; Points to the next event that should occur on the left.
+events_to_right:	dw events + EVENT_SIZE		; Points to the next event that should occur on the right.
 
 ; Code to include on the main program page.
 INC "game_loop.z80s"
