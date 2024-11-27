@@ -237,16 +237,25 @@ did_scroll_left8:
 
 
 did_scroll_right8:
-	; TODO: check event list potentially to spawn new objects.
+	; Get current column on right of screen into DE.
+	ld hl, (scroll_column)
+	ld bc, column_count
+	add hl, bc
+	ex de, hl
 
-	; HACK: check for appearance on the right of column 50 and seed an object if it appears.
-	ld a, (scroll_column)
-	add 17
-	cp 50
+	; Get column of next rightward event in HL.
+	ld hl, (events_to_right)
+	ld (@+column_load+1), hl
+@column_load:
+	ld hl, (0x1234)
+
+	; Compare and exit if not equal.
+	or a
+	sbc hl, de
 	ret nz
 
-	; Find an empty object slot.
-	ld hl, 0
+	; We're go to enact the next event. So do so.
+	ld hl, (events_to_right)	; Use address of event as a source ID.
 	call @-find_object_slot
 	ret nc
 
