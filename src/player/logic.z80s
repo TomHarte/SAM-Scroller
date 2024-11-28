@@ -46,10 +46,12 @@ HORIZONTAL_GROUND_STRENGTH:	EQU 256 >> HORIZONTAL_GROUND_DAMPING
 ;	jumping over the top of the frame is standard platformer behaviour but dipping
 ;	below the bottom isn't so common. So that gives 8 rows below and 56 above.
 ;
+POSITION_SIZE:	EQU 4
+Position.x:		EQU 0
+Position.y:		EQU 2
+
 player_current:		dw 64 << 8, (START_Y + 64) << 8
 player_previous:	dw 64 << 8, (START_Y + 64) << 8
-X_OFFSET:	EQU 0
-Y_OFFSET:	EQU 2
 
 player_flags:		db 0	; Indicates current player status – which direction they're facing and whether they're on solid ground.
 
@@ -66,7 +68,7 @@ SCREEN_TOP:			EQU START_Y	; TODO: if and when player sprite can safely go off to
 ; my inexperience in this stuff and a desire to build from smaller blocks. Better code
 ; distribution may follow.
 ;
-update_game_logic:
+update_player_logic:
 	; Horizontal and vertical steps are performed disjointly in order to avoid having to
 	; answer the question: what's correct if the player has moved into a block diagonally?
 	call apply_inherent_forces_vertical
@@ -117,9 +119,9 @@ apply_input_vertical:
 
 @apply_jump:
 	ex de, hl
-	ld hl, (player_current+Y_OFFSET)
+	ld hl, (player_current+Position.y)
 	add hl, de
-	ld (player_current+Y_OFFSET), hl
+	ld (player_current+Position.y), hl
 
 	ld hl, PER_FRAME_JUMP_DECREMENT
 	add hl, de
@@ -145,7 +147,7 @@ apply_input_horizontal:
 	; Check also for left/right input
 	;
 	; Check for horizontal motion.
-	ld hl, (player_current+X_OFFSET)
+	ld hl, (player_current+Position.x)
 	ld bc, 0xfffe
 	in a, (c)
 
@@ -190,7 +192,7 @@ apply_input_horizontal:
 	add hl, bc
 
 @no_right:
-	ld (player_current+X_OFFSET), hl
+	ld (player_current+Position.x), hl
 	ret
 
 
@@ -210,7 +212,7 @@ reset_on_ground_flag:
 ;
 test_vertical_bounds:
 	; Test for bottom of screen
-	ld a, (player_current+Y_OFFSET+1)
+	ld a, (player_current+Position.y+1)
 	cp START_Y + 192 - 24
 	jp nc, @+collide_with_bottom
 
@@ -223,7 +225,7 @@ test_vertical_bounds:
 	; Player is at bottom of screen, so is on the ground.
 	; Set bottom of screen as location and set the ON_GROUND flag.
 	ld hl, (START_Y + 192 - 24) << 8
-	ld (player_current+Y_OFFSET), hl
+	ld (player_current+Position.y), hl
 
 	ld a, (player_flags)
 	or FLAG_ON_GROUND
@@ -233,7 +235,7 @@ test_vertical_bounds:
 @collide_with_top:
 	; Player is at top of screen. Just set maximum position.
 	ld hl, SCREEN_TOP << 8
-	ld (player_current+Y_OFFSET), hl
+	ld (player_current+Position.y), hl
 	ret
 
 
@@ -243,9 +245,9 @@ test_vertical_bounds:
 apply_inherent_forces_vertical:
 	; Grab current and previous positions, overwriting the old value of
 	; previous with the old value of current.
-	ld hl, (player_current+Y_OFFSET)
-	ld bc, (player_previous+Y_OFFSET)
-	ld (player_previous+Y_OFFSET), hl
+	ld hl, (player_current+Position.y)
+	ld bc, (player_previous+Position.y)
+	ld (player_previous+Position.y), hl
 
 	; Let DE = implied velocity.
 	or a
@@ -262,13 +264,13 @@ NEXT @vertical_damp
 	sbc hl, de
 
 	ex de, hl
-	ld hl, (player_current+Y_OFFSET)
+	ld hl, (player_current+Position.y)
 	add hl, de
 
 	; Apply gravity.
 	ld bc, GRAVITY_STRENGTH
 	add hl, bc
-	ld (player_current+Y_OFFSET), hl
+	ld (player_current+Position.y), hl
 	ret
 
 
@@ -279,9 +281,9 @@ NEXT @vertical_damp
 apply_inherent_forces_horizontal:
 	; As before, load current and previous positions, and overwrite
 	; old previous with old current.
-	ld hl, (player_current+X_OFFSET)
-	ld bc, (player_previous+X_OFFSET)
-	ld (player_previous+X_OFFSET), hl
+	ld hl, (player_current+Position.x)
+	ld bc, (player_previous+Position.x)
+	ld (player_previous+Position.x), hl
 
 	; Let DE = implied velocity.
 	or a
@@ -336,9 +338,9 @@ ENDIF
 	; Apply dampening factor to velocity and apply velocity to position.
 	sbc hl, de
 	ex de, hl
-	ld hl, (player_current+X_OFFSET)
+	ld hl, (player_current+Position.x)
 	add hl, de
-	ld (player_current+X_OFFSET), hl
+	ld (player_current+Position.x), hl
 	ret
 
 
@@ -348,14 +350,14 @@ ENDIF
 ;
 test_horizontal_bounds:
 	; Test edge-of-screen bounds first, as these apply in absolute terms.
-	ld a, (player_current+X_OFFSET+1)
+	ld a, (player_current+Position.x+1)
 	cp START_X + 128 - 8 + 1
 	jp c, @+no_constrain_right
 
 	ld a, START_X + 128 - 8
-	ld (player_current+X_OFFSET+1), a
+	ld (player_current+Position.x+1), a
 	ld a, 0xff
-	ld (player_current+X_OFFSET), a
+	ld (player_current+Position.x), a
 	jp @+edges_done
 
 @no_constrain_right:
@@ -364,42 +366,42 @@ test_horizontal_bounds:
 
 @constrain_left:
 	ld a, START_X
-	ld (player_current+X_OFFSET+1), a
+	ld (player_current+Position.x+1), a
 	xor a
-	ld (player_current+X_OFFSET), a
+	ld (player_current+Position.x), a
 
 @edges_done:
 	; Check bounds and force a scroll if necessary.
-	ld a, (player_current+X_OFFSET+1)
+	ld a, (player_current+Position.x+1)
 	cp START_X + 64 + 16 - 8
 	jp c, @+no_scroll_right
 
 	call scroll_right
 	jp c, @+no_scroll_right
 
-	ld a, (player_current+X_OFFSET+1)
+	ld a, (player_current+Position.x+1)
 	dec a
-	ld (player_current+X_OFFSET+1), a
+	ld (player_current+Position.x+1), a
 
-	ld a, (player_previous+X_OFFSET+1)
+	ld a, (player_previous+Position.x+1)
 	dec a
-	ld (player_previous+X_OFFSET+1), a
+	ld (player_previous+Position.x+1), a
 
 @no_scroll_right:
-	ld a, (player_current+X_OFFSET+1)
+	ld a, (player_current+Position.x+1)
 	cp START_X + 64 - 16
 	ret nc
 
 	call scroll_left
 	ret c
 
-	ld a, (player_current+X_OFFSET+1)
+	ld a, (player_current+Position.x+1)
 	inc a
-	ld (player_current+X_OFFSET+1), a
+	ld (player_current+Position.x+1), a
 
-	ld a, (player_previous+X_OFFSET+1)
+	ld a, (player_previous+Position.x+1)
 	inc a
-	ld (player_previous+X_OFFSET+1), a
+	ld (player_previous+Position.x+1), a
 
 	ret
 
@@ -413,8 +415,8 @@ test_map_collisions_vertical:
 
 	; Test direction of vertical velocity; if none then no need to test
 	; for overlaps. If upward, test top row. Otherwise test bottom row.
-	ld hl, (player_current+Y_OFFSET)
-	ld bc, (player_previous+Y_OFFSET)
+	ld hl, (player_current+Position.y)
+	ld bc, (player_previous+Position.y)
 	or a
 	sbc hl, bc
 	ret z
@@ -425,7 +427,7 @@ test_map_collisions_vertical:
 	
 	; Vertical velocity is downward. Test for overlap at feet.
 	; Task one: determine which map square contain the feet.
-	ld a, (player_current+Y_OFFSET+1)
+	ld a, (player_current+Position.y+1)
 	and 0xf
 	cp 8
 	jp c, @+no_middle
@@ -442,14 +444,14 @@ test_map_collisions_vertical:
 	ld (player_flags), a
 
 	; Push player up above platform below.
-	ld a, (player_current+Y_OFFSET+1)
+	ld a, (player_current+Position.y+1)
 	add 8
 	and ~0xf
 	sub 8
-	ld (player_current+Y_OFFSET+1), a
+	ld (player_current+Position.y+1), a
 
 	xor a
-	ld (player_current+Y_OFFSET), a
+	ld (player_current+Position.y), a
 	ret
 
 @test_above:
@@ -458,12 +460,12 @@ test_map_collisions_vertical:
 	ret c
 
 	; Push player down below platform above.
-	ld a, (player_current+Y_OFFSET+1)
+	ld a, (player_current+Position.y+1)
 	and ~0xf
 	add 0x10
-	ld (player_current+Y_OFFSET+1), a
+	ld (player_current+Position.y+1), a
 	xor a
-	ld (player_current+Y_OFFSET), a
+	ld (player_current+Position.y), a
 	ret
 
 
@@ -475,7 +477,7 @@ test_map_collisions_horizontal:
 	ex de, hl
 
 	; If player is aligned with a column, no need to test horizontally.
-	ld a, (player_current+X_OFFSET+1)
+	ld a, (player_current+Position.x+1)
 	add a
 	ld b, a
 	ld a, (scroll_offset)
@@ -484,8 +486,8 @@ test_map_collisions_horizontal:
 	ret z
 
 	; If player isn't moving horizontally, no need to test.
-	ld hl, (player_current+X_OFFSET)
-	ld bc, (player_previous+X_OFFSET)
+	ld hl, (player_current+Position.x)
+	ld bc, (player_previous+Position.x)
 	or a
 	sbc hl, bc
 	ret z
@@ -502,7 +504,7 @@ test_map_collisions_horizontal:
 
 	ld a, (scroll_offset)
 	ld b, a
-	ld a, (player_current+X_OFFSET+1)
+	ld a, (player_current+Position.x+1)
 	sub START_X
 	add a
 	add b
@@ -511,9 +513,9 @@ test_map_collisions_horizontal:
 
 	rrca
 	add START_X
-	ld (player_current+X_OFFSET+1), a
+	ld (player_current+Position.x+1), a
 	ld a, 0xff
-	ld (player_current+X_OFFSET), a
+	ld (player_current+Position.x), a
 	ret
 
 @test_left:
@@ -523,7 +525,7 @@ test_map_collisions_horizontal:
 
 	ld a, (scroll_offset)
 	ld b, a
-	ld a, (player_current+X_OFFSET+1)
+	ld a, (player_current+Position.x+1)
 	sub START_X
 	add a
 	add b
@@ -533,9 +535,9 @@ test_map_collisions_horizontal:
 
 	rrca
 	add START_X
-	ld (player_current+X_OFFSET+1), a
+	ld (player_current+Position.x+1), a
 	xor a
-	ld (player_current+X_OFFSET), a
+	ld (player_current+Position.x), a
 	ret
 
 
@@ -550,7 +552,7 @@ test_map_collisions_horizontal:
 	ret nc
 
 	; If there's no second column to check, don't check it.
-	ld a, (player_current+X_OFFSET+1)
+	ld a, (player_current+Position.x+1)
 	add a
 	ld b, a
 	ld a, (scroll_offset)
@@ -581,7 +583,7 @@ test_map_collisions_horizontal:
 	call @+is_solid
 	ret nc
 
-	ld a, (player_current+Y_OFFSET+1)
+	ld a, (player_current+Position.y+1)
 	and 0xf
 	cp 9
 	ret c
@@ -640,7 +642,7 @@ ds align 256
 ;
 @get_map_address:
 	; Get x position relative to map.
-	ld a, (player_current+X_OFFSET+1)
+	ld a, (player_current+Position.x+1)
 	sub START_X
 	ld b, a
 	ld a, (scroll_offset)
@@ -668,7 +670,7 @@ ds align 256
 	add hl, bc
 
 	; Shift down Y in search of first hit row.
-	ld a, (player_current+Y_OFFSET+1)
+	ld a, (player_current+Position.y+1)
 	sub START_Y
 	and 0xf0
 	rrca

@@ -72,15 +72,518 @@ Y_CEILING:	EQU 8		; Position at which player will bump his head in internal coor
 
 
 
+NUM_OBJECTS:		EQU 4		; Currently: allow at max four objects. Which is probably optimistic.
+
+@no_function:		ret
+objects:
+@object_content: 	EQU FOR NUM_OBJECTS
+	dw 0, 0						; Object position.
+	dw 0, 0						; Previous position.
+	db 0						; Image. Set to 0 to disable object.
+	jp @-no_function			; Function pointer for 'update object'
+	dw 0						; Source ID; used to avoid double spawning.
+	ds 4						; Spare storage, usable by update object function for state. Sized arbitrarily.
+NEXT @object_content
+@end_objects:
+
+; Various offsets within an object.
+Object.Position:			EQU 0
+Object.PreviousPosition:	EQU 4
+Object.Image:				EQU 8
+Object.Jump:				EQU 9
+Object.SourceID:			EQU 12
+Object.OwnedState:			EQU 14
+OBJECT_SIZE:				EQU (@-end_objects - objects) / NUM_OBJECTS
+
+OBJECT_CULL_THRESHOLD:		EQU 32		; The number of byte columns an object must be beyond the edge of the screen
+										; to be culled from the active list.
+
+update_game_logic:
+	;
+	; Call update function on each and every active object.
+	;
+@test_object: EQU FOR NUM_OBJECTS
+	@object: EQU objects + @test_object * OBJECT_SIZE
+	ld a, (@object + Object.Image)
+	or a
+	jp z, @+next_object
+
+	; [Indirectly] call into the update function.
+	ld ix, @object
+	call @object + Object.Jump
+
+	;
+	; Check whether position has crossed a threshold into being so far
+	; off-screen that it is time to be culled.
+	;
+
+	ld a, (@object + Object.Position + Position.x + 1)
+	cp START_X - 8 - OBJECT_CULL_THRESHOLD
+	jp c, @+cull_object
+
+	cp START_X + 128 + OBJECT_CULL_THRESHOLD
+	jp c, @+next_object
+
+@cull_object:
+	xor a
+	ld (@object + Object.Image), a
+
+@next_object:
+NEXT @test_object
+
+	jp update_player_logic
+
+
+did_scroll_left1:
+	;
+	; Update positions of all active objects.
+	;
+@test_object: EQU FOR NUM_OBJECTS
+	@object: EQU objects + @test_object * OBJECT_SIZE
+	ld a, (@object + Object.Image)
+	or a
+	jp z, @+next_object
+
+	;
+	; Increment position.
+	;
+	ld a, (@object + Object.Position + Position.x + 1)
+	inc a
+	ld (@object + Object.Position + Position.x + 1), a
+
+	ld a, (@object + Object.PreviousPosition + Position.x + 1)
+	inc a
+	ld (@object + Object.PreviousPosition + Position.x + 1), a
+
+@next_object:
+NEXT @test_object
+
+	ret
+
+
+did_scroll_right1:
+	;
+	; Update positions of all active objects.
+	;
+@test_object: EQU FOR NUM_OBJECTS
+	@object: EQU objects + @test_object * OBJECT_SIZE
+	ld a, (@object + Object.Image)
+	or a
+	jp z, @+next_object
+
+	;
+	; Decrement position.
+	;
+	ld a, (@object + Object.Position + Position.x + 1)
+	dec a
+	ld (@object + Object.Position + Position.x + 1), a
+
+	ld a, (@object + Object.PreviousPosition + Position.x + 1)
+	dec a
+	ld (@object + Object.PreviousPosition + Position.x + 1), a
+
+@next_object:
+NEXT @test_object
+	ret
+
+
+;
+; Finds an object slot for the object with source ID as per HL, if no slot is currently
+; allocated to that object and if one is available.
+;
+; Returns carry clear if no slot is available. Carry set otherwise.
+; If carry is set, IX points to the available slot.
+;
+@find_object_slot:
+@test_presence: EQU FOR NUM_OBJECTS
+	@object: EQU objects + @test_presence * OBJECT_SIZE
+	ld a, (@object + Object.Image)
+	or a
+	jp z, @+next_object
+
+	ld a, (@object + Object.SourceID)
+	cp l
+	jp nz, @+next_object
+
+	ld a, (@object + Object.SourceID + 1)
+	cp h
+	ret z
+
+@next_object:
+NEXT @test_presence
+
+@find_slot: EQU FOR NUM_OBJECTS
+	@object: EQU objects + @find_slot * OBJECT_SIZE
+	ld a, (@object + Object.Image)
+	or a
+	jp nz, @+next_object
+
+	; Available slot found; return.
+	ld ix, @object
+	scf
+	ret
+
+@next_object:
+NEXT @find_slot
+
+	; No free slot found.
+	or a
+	ret
+
+did_scroll_left8:
+	; Check whether events_to_right needs to regress.
+	; i.e. whether the event one position earlier in the
+	; list is now to the right of the display.
+	ld hl, (events_to_right)
+	ld bc, -EVENT_SIZE
+	add hl, bc
+	ld (@+load_position + 1), hl
+@load_position:
+	ld hl, (0x1234)
+	ex de, hl			; DE is now the position of the preceding event.
+
+	ld hl, (scroll_column)
+	ld bc, column_count
+	add hl, bc			; HL is now the position of the right edge of the display.
+
+	or a
+	sbc hl, de
+	jr nc, @+no_regress
+
+	ld hl, (@-load_position + 1)
+	ld (events_to_right), hl
+
+@no_regress:
+
+	;
+	; Work potentially regressing the to-the-right cursor is now complete;
+	; proceed with checking for new events on the left.
+	;
+
+	; Get current column on right of screen into DE.
+	ld hl, (scroll_column)
+	ex de, hl
+
+	; Get column of next rightward event in HL.
+	ld hl, (events_to_left)
+	ld (@+column_load+1), hl
+@column_load:
+	ld hl, (0x1234)
+
+	; Compare and exit if not equal.
+	or a
+	sbc hl, de
+	ret nz
+
+	; We're go to enact the next event. So do so.
+	ld hl, (events_to_left)
+	call @-find_object_slot			; Use address of event as a source ID.
+	jp nc, @+regress_cursor
+	ld (@+reload_source_id + 1), hl
+
+	; Call event function to check that this is really an object.
+	inc hl
+	inc hl
+	ld e, (hl)
+	inc hl
+	ld d, (hl)
+	ex de, hl
+
+	call call_hl
+	jp nc, @+regress_cursor
+
+	; Insert at IX.
+	ld (ix + Object.Position + Position.x + 0), 0
+	ld (ix + Object.Position + Position.x + 1), START_X - 8			; i.e. in the allotted column.
+
+	ex de, hl
+	inc hl
+	ld a, (hl)
+	ld (ix + Object.Position + Position.y + 0), 0
+	ld (ix + Object.Position + Position.y + 1), a
+
+@reload_source_id:
+	ld hl, 0x1234
+	ld (ix + Object.SourceID), l
+	ld (ix + Object.SourceID + 1), h								; Set source ID.
+
+@regress_cursor:
+	ld hl, (events_to_left)
+	ld bc, -EVENT_SIZE
+	add hl, bc
+	ld (events_to_left), hl
+	ret
+
+
+did_scroll_right8:
+	; Check whether events_to_left needs to advance.
+	; i.e. whether the event one position earlier in the
+	; list is now to the left of the display.
+	ld hl, (events_to_left)
+	ld bc, EVENT_SIZE
+	add hl, bc
+	ld (@+load_position + 1), hl
+@load_position:
+	ld hl, (0x1234)
+	ex de, hl			; DE is now the position of the next event.
+
+	ld hl, (scroll_column)
+	scf					; To do the equivalent of inc hl.
+	sbc hl, de
+	jr c, @+no_advance
+
+	ld hl, (@-load_position + 1)
+	ld (events_to_left), hl
+@no_advance:
+
+	;
+	; Work potentially advancing the to-the-left cursor is now complete;
+	; proceed with checking for new events on the right.
+	;
+
+	; Get current column on right of screen into DE.
+	ld hl, (scroll_column)
+	ld bc, column_count
+	add hl, bc
+	ex de, hl
+
+	; Get column of next rightward event in HL.
+	ld hl, (events_to_right)
+	ld (@+column_load+1), hl
+@column_load:
+	ld hl, (0x1234)
+
+	; Compare and exit if not equal.
+	or a
+	sbc hl, de
+	ret nz
+
+	; We're go to enact the next event. So do so.
+	ld hl, (events_to_right)
+	call @-find_object_slot			; Use address of event as a source ID.
+	jp nc, @+advance_cursor
+	ld (@+reload_source_id + 1), hl
+
+	; Call event function to check that this is really an object.
+	inc hl
+	inc hl
+	ld e, (hl)
+	inc hl
+	ld d, (hl)
+	ex de, hl
+
+	call call_hl
+	jp nc, @+advance_cursor
+
+	; Insert at IX.
+	ld (ix + Object.Position + Position.x + 0), 0
+	ld (ix + Object.Position + Position.x + 1), START_X + 17 * 8		; i.e. in the allotted column.
+
+	ex de, hl
+	inc hl
+	ld a, (hl)
+	ld (ix + Object.Position + Position.y + 0), 0
+	ld (ix + Object.Position + Position.y + 1), a
+
+@reload_source_id:
+	ld hl, 0x1234
+	ld (ix + Object.SourceID), l
+	ld (ix + Object.SourceID + 1), h									; Set source ID.
+
+@advance_cursor:
+	ld hl, (events_to_right)
+	ld bc, EVENT_SIZE
+	add hl, bc
+	ld (events_to_right), hl
+	ret
+
+
 draw_objects:
+	;
+	; Draw all active objects.
+	;
+@test_object: EQU FOR NUM_OBJECTS
+	@object: EQU objects + @test_object * OBJECT_SIZE
+	ld a, (@object + Object.Image)
+	or a
+	jp z, @+next_object
+
+	; Draw the object.
+	ld h, a
+	ld a, (@object + Object.Position + Position.y + 1)
+	sub START_Y
+	ld d, a
+	ld a, (@object + Object.Position + Position.x + 1)
+	ld e, a
+
+	call draw_clippable		; TODO: if this could return a flag indicating whether the object was drawn, some work
+							; could be saved below?
+
+	; Also TODO: can this be moved to the update function? Should be safe
+	; as that occurs prior to any potential scrolling, but check.
+
+	ld a, (@object + Object.Position + Position.x + 1)
+	ld b, a
+	ld a, (@object + Object.Position + Position.y + 1)
+	ld c, a
+	call clip_mark16x24
+
+@next_object:
+NEXT @test_object
+
+	;
+	; Draw player.
+	;
 	jp draw_player_sprite
 
+
+@seed_frog:
+	ld (ix + Object.Image), clippable_0 >> 8
+
+	ld (ix + Object.Jump + 1), @+update_frog & 0xff
+	ld (ix + Object.Jump + 2), @+update_frog >> 8
+
+	ld (ix + Object.OwnedState), 0
+	scf
+	ret
+
+@update_frog:
+	; Just switch sprite based on a timer. No great logic here.
+	ld a, (ix + Object.OwnedState)
+	inc a
+	ld (ix + Object.OwnedState), a
+
+	and 16
+	jp nz, @+first_frame
+
+	ld (ix + Object.Image), clippable_0 >> 8
+	ret
+
+@first_frame:
+	ld (ix + Object.Image), clippable_1 >> 8
+
+	ld a, (ix + Object.OwnedState)
+	and 15
+
+	ld hl, frog_heights
+	ld c, a
+	ld b, 0
+	add hl, bc
+	ld a, (hl)
+	add a, (ix + Object.Position + Position.y + 1)
+	ld (ix + Object.Position + Position.y + 1), a
+	ret
+
+frog_heights:
+@frog_table: EQU FOR 16
+	db -10*(sin(pi * @frog_table / 15.0) - sin(pi * ((@frog_table - 1) & 15) / 15.0))
+NEXT @frog_table
+
+call_hl:
+	jp (hl)
+
+;
+; Defines the layout of an 'event', which is tied to the appearance of a screen column
+; and usually but not necessarily involves the addition of an object.
+;
+Event.Column:			EQU 0
+Event.SetupFunction:	EQU 2
+Event.InitialY:			EQU 3
+EVENT_SIZE:				EQU Event.InitialY + 2
+
+events:
+	; A non-event in column 0; this gives the left list somewhere to anchor to.
+	dw 0
+	dw @-no_function
+	db 0
+
+	; 1
+	dw 19
+	dw @-seed_frog
+	db START_Y + 120
+
+	; 2
+	dw 50
+	dw @-seed_frog
+	db START_Y + 120
+
+	; 3
+	dw 70
+	dw @-seed_frog
+	db START_Y + 72
+
+	; 4
+	dw 80
+	dw @-seed_frog
+	db START_Y + 120
+
+	; 5
+	dw 85
+	dw @-seed_frog
+	db START_Y + 120
+
+	; 6
+	dw 105
+	dw @-seed_frog
+	db START_Y + 120
+
+	; 7
+	dw 126
+	dw @-seed_frog
+	db START_Y + 104
+
+	; 8
+	dw 133
+	dw @-seed_frog
+	db START_Y + 72
+
+	; 9
+	dw 148
+	dw @-seed_frog
+	db START_Y + 120
+
+	; 10
+	dw 171
+	dw @-seed_frog
+	db START_Y + 120
+
+	; 11
+	dw 187
+	dw @-seed_frog
+	db START_Y + 120
+
+	; 12
+	; dw 207
+	; dw @-seed_frog
+	; db START_Y + 120
+
+	; 13
+	dw 223
+	dw @-seed_frog
+	db START_Y + 120
+
+	; 14
+	dw 240
+	dw @-seed_frog
+	db START_Y + 152
+
+	; 15
+	dw 258
+	dw @-seed_frog
+	db START_Y + 152
+
+	; A terminating event, which is so far out of bounds as never to trigger.
+	dw 0xffff
+
+events_to_left:		dw events					; Points to the next event that should occur on the left.
+events_to_right:	dw events + EVENT_SIZE		; Points to the next event that should occur on the right.
+
 ; Code to include on the main program page.
-INC "generated/sprites.z80s"
 INC "game_loop.z80s"
-INC "player_display.z80s"
-INC "player_logic.z80s"
+INC "generated/sprites.z80s"
 INC "mark_dirty.z80s"
+INC "player/display.z80s"
+INC "player/logic.z80s"
 INC "scrolling.z80s"
 
 ; Code that goes elsewhere.

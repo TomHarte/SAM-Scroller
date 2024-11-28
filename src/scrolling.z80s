@@ -1,17 +1,27 @@
-scroll_offset:	db 0
-map_address: dw map + 12*(column_count)
-diff_address: dw diffs + 3*(column_count - 1)
-@total_x: dw 0
+scroll_offset:	db 0	; Offset within the current column, in pixels. So always a multiple of two in the range 0–15.
+scroll_column:	dw 0	; The column currently visible in the leftmost part of the screen (or about to be if moving left).
+
+map_address:	dw map + 12*(column_count)
+diff_address:	dw diffs + 3*(column_count - 1)
+
+@total_x: 		dw 0	; A 16-bit counter of total scroll offset; essentially combines scroll_offset and scroll_column.
+						; Possibly vestigial; I need to figure out whether this still actually helps much.
+
 
 SCROLLED_NONE:	EQU 0
 SCROLLED_LEFT:	EQU 1
 SCROLLED_RIGHT:	EQU 2
-scroll_change:	db SCROLLED_NONE
+scroll_change:	db SCROLLED_NONE		; A field indicating what scroll, if any, most-recently occurred. Will hold one
+										; of the enumerations defined above.
 
 ;
-; Scrolls the display one position to the left, if any space remains for scrolling in that direction.
+; Scrolls the display one position to the left, if any space remains
+; for scrolling in that direction.
 ;
 ; Intended for CALLing.
+;
+; Calls did_scroll_left1 if a scroll occurs; also calls did_scroll_left8
+; if a new column of tiles was revealed.
 ;
 ; At exit: C is clear if a scroll occurred; set otherwise.
 ;
@@ -29,9 +39,10 @@ scroll_left:
 	dec hl
 	ld (@-total_x), hl
 
-	; Record that a scroll left happened.
+	; Notify that a scroll left happened.
 	ld a, SCROLLED_LEFT
 	ld (scroll_change), a
+	call did_scroll_left1
 
 	;
 	; Subtract two from scroll offset.
@@ -58,13 +69,24 @@ scroll_left:
 	add hl, bc
 	ld (diff_address), hl
 
+	ld hl, (scroll_column)
+	dec hl
+	ld (scroll_column), hl
+
+	; That will have revealed a new column.
+	call did_scroll_left8
+
 	or a
 	ret
 
 ;
-; Scrolls the display one position to the right, if any space remains for scrolling in that direction.
+; Scrolls the display one position to the right, if any space remains
+; for scrolling in that direction.
 ;
 ; Intended for CALLing.
+;
+; Calls did_scroll_right1 if a scroll occurs; also calls did_scroll_right8
+; if a new column of tiles was revealed.
 ;
 ; At exit: C is clear if a scroll occurred; set otherwise.
 ;
@@ -75,8 +97,7 @@ scroll_right:
 	;
 	ld hl, (@-total_x)
 	ld bc, (((diffs - map) / 12) - column_count) * 8
-	scf
-	ccf
+	or a
 	sbc hl, bc
 	scf
 	ret z
@@ -85,9 +106,10 @@ scroll_right:
 	inc hl
 	ld (@-total_x), hl
 
-	; Record that a scroll right happened.
+	; Notify that a scroll right happened.
 	ld a, SCROLLED_RIGHT
 	ld (scroll_change), a
+	call did_scroll_right1
 
 	;
 	; Add two to scroll offset.
@@ -121,6 +143,13 @@ scroll_right:
 	ld bc, 3
 	add hl, bc
 	ld (diff_address), hl
+
+	ld hl, (scroll_column)
+	inc hl
+	ld (scroll_column), hl
+
+	; That will have revealed a new column.
+	call did_scroll_right8
 
 	or a
 	ret
@@ -161,7 +190,7 @@ reset_scrolling:
 
 @end_seed:
 ;	xor a
-	ld a, 2
+	ld a, 8
 	ld (scroll_offset), a
 
 @return:
