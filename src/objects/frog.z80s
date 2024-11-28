@@ -1,0 +1,41 @@
+seed_frog:
+	ld (ix + Object.Image), clippable_0 >> 8
+
+	ld (ix + Object.Jump + 1), @+update_frog & 0xff
+	ld (ix + Object.Jump + 2), @+update_frog >> 8
+
+	ld (ix + Object.OwnedState), 0
+	scf
+	ret
+
+@update_frog:
+	; Just switch sprite based on a timer. No great logic here.
+	ld a, (ix + Object.OwnedState)
+	inc a
+	ld (ix + Object.OwnedState), a
+
+	and 16
+	jp nz, @+first_frame
+
+	ld (ix + Object.Image), clippable_0 >> 8
+	ret
+
+@first_frame:
+	ld (ix + Object.Image), clippable_1 >> 8
+
+	ld a, (ix + Object.OwnedState)
+	and 15
+
+	ld hl, frog_heights
+	ld c, a
+	ld b, 0
+	add hl, bc
+	ld a, (hl)
+	add a, (ix + Object.Position + Position.y + 1)
+	ld (ix + Object.Position + Position.y + 1), a
+	ret
+
+frog_heights:
+@frog_table: EQU FOR 16
+	db -10*(sin(pi * @frog_table / 15.0) - sin(pi * ((@frog_table - 1) & 15) / 15.0))
+NEXT @frog_table
