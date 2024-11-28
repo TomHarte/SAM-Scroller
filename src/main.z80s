@@ -254,13 +254,90 @@ did_scroll_left8:
 	ld (events_to_right), hl
 
 @no_regress:
-	; TODO: check event list potentially to spawn new objects.
 
+	;
+	; Work potentially regressing the to-the-right cursor is now complete;
+	; proceed with checking for new events on the left.
+	;
 
+	; Get current column on right of screen into DE.
+	ld hl, (scroll_column)
+	ex de, hl
+
+	; Get column of next rightward event in HL.
+	ld hl, (events_to_left)
+	ld (@+column_load+1), hl
+@column_load:
+	ld hl, (0x1234)
+
+	; Compare and exit if not equal.
+	or a
+	sbc hl, de
+	ret nz
+
+	; We're go to enact the next event. So do so.
+	ld hl, (events_to_left)
+	call @-find_object_slot			; Use address of event as a source ID.
+	jp nc, @+regress_cursor
+
+	; Call event function to check that this is really an object.
+	inc hl
+	inc hl
+	ld e, (hl)
+	inc hl
+	ld d, (hl)
+	inc hl
+	ex de, hl
+
+	call call_hl
+	jp nc, @+regress_cursor
+
+	; Insert at IX.
+	ld (ix + Object.Position + Position.x + 0), 0
+	ld (ix + Object.Position + Position.x + 1), START_X - 8			; i.e. in the allotted column.
+
+	ex de, hl
+	ld a, (hl)
+	ld (ix + Object.Position + Position.y + 0), 0
+	ld (ix + Object.Position + Position.y + 1), a
+
+	ld (ix + Object.SourceID), l
+	ld (ix + Object.SourceID + 1), h								; Set source ID.
+
+@regress_cursor:
+	ld hl, (events_to_left)
+	ld bc, -EVENT_SIZE
+	add hl, bc
+	ld (events_to_left), hl
 	ret
 
 
 did_scroll_right8:
+	; Check whether events_to_left needs to advance.
+	; i.e. whether the event one position earlier in the
+	; list is now to the left of the display.
+	ld hl, (events_to_left)
+	ld bc, EVENT_SIZE
+	add hl, bc
+	ld (@+load_position + 1), hl
+@load_position:
+	ld hl, (0x1234)
+	ex de, hl			; DE is now the position of the next event.
+
+	ld hl, (scroll_column)
+	scf					; To do the equivalent of inc hl.
+	sbc hl, de
+	jr c, @+no_advance
+
+	ld hl, (@-load_position + 1)
+	ld (events_to_left), hl
+@no_advance:
+
+	;
+	; Work potentially advancing the to-the-left cursor is now complete;
+	; proceed with checking for new events on the right.
+	;
+
 	; Get current column on right of screen into DE.
 	ld hl, (scroll_column)
 	ld bc, column_count
@@ -289,6 +366,7 @@ did_scroll_right8:
 	ld e, (hl)
 	inc hl
 	ld d, (hl)
+	inc hl
 	ex de, hl
 
 	call call_hl
@@ -298,8 +376,10 @@ did_scroll_right8:
 	ld (ix + Object.Position + Position.x + 0), 0
 	ld (ix + Object.Position + Position.x + 1), START_X + 17 * 8		; i.e. in the allotted column.
 
+	ex de, hl
+	ld a, (hl)
 	ld (ix + Object.Position + Position.y + 0), 0
-	ld (ix + Object.Position + Position.y + 1), START_Y + 120			; Where I happen to know the ground is.
+	ld (ix + Object.Position + Position.y + 1), a
 
 	ld (ix + Object.SourceID), l
 	ld (ix + Object.SourceID + 1), h									; Set source ID.
