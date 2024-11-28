@@ -59,10 +59,6 @@ Y_CEILING:	EQU 8		; Position at which player will bump his head in internal coor
 	jp reset_scrolling
 @enter_loop:
 
-	; Reenable the display.
-	ld a, %00000000
-	out (BORDER), a
-
 ;
 ; Initial setup tasks are done now.
 ;

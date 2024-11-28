@@ -1,4 +1,5 @@
-@next_vmpr: db 0
+@next_vmpr: db 0b01100000		; Seed this with a mode 4 page as it'll be posted before the display is re-enabled,
+								; and display disable doesn't work in some of the other modes.
 
 ;
 ; Main game loop.
@@ -132,6 +133,23 @@ ENDIF
 	call draw_sprites
 
 ;
-; Loop for end of frame
+; Dynamically reprogram this JP to ensure that the display isn't enabled until the second
 ;
+@repeat_jp:
+	jp @+end_first_frame
+
+
+@end_first_frame:
+	ld hl, @+end_second_frame
+	ld (@-repeat_jp + 1), hl
+	jp @-repeat_loop
+
+@end_second_frame:
+	ld hl, @-repeat_loop
+	ld (@-repeat_jp + 1), hl
+
+	; Reenable the display.
+	ld a, %00000000
+	out (BORDER), a
+
 	jp @-repeat_loop
