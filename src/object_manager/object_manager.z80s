@@ -328,7 +328,7 @@ did_scroll_right8:
 
 	; Insert at IX.
 	ld (ix + Object.Position + Position.x + 0), 0
-	ld (ix + Object.Position + Position.x + 1), START_X + 17 * 8		; i.e. in the allotted column.
+	ld (ix + Object.Position + Position.x + 1), START_X + 17 * 8 - 1	; i.e. in the allotted column.
 
 	ex de, hl
 	inc hl
