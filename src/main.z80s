@@ -279,6 +279,7 @@ did_scroll_left8:
 	ld hl, (events_to_left)
 	call @-find_object_slot			; Use address of event as a source ID.
 	jp nc, @+regress_cursor
+	ld (@+reload_source_id + 1), hl
 
 	; Call event function to check that this is really an object.
 	inc hl
@@ -286,7 +287,6 @@ did_scroll_left8:
 	ld e, (hl)
 	inc hl
 	ld d, (hl)
-	inc hl
 	ex de, hl
 
 	call call_hl
@@ -297,10 +297,12 @@ did_scroll_left8:
 	ld (ix + Object.Position + Position.x + 1), START_X - 8			; i.e. in the allotted column.
 
 	ex de, hl
-	ld a, (hl)
+	inc hl
 	ld (ix + Object.Position + Position.y + 0), 0
 	ld (ix + Object.Position + Position.y + 1), a
 
+@reload_source_id:
+	ld hl, 0x1234
 	ld (ix + Object.SourceID), l
 	ld (ix + Object.SourceID + 1), h								; Set source ID.
 
@@ -359,6 +361,7 @@ did_scroll_right8:
 	ld hl, (events_to_right)
 	call @-find_object_slot			; Use address of event as a source ID.
 	jp nc, @+advance_cursor
+	ld (@+reload_source_id + 1), hl
 
 	; Call event function to check that this is really an object.
 	inc hl
@@ -366,7 +369,6 @@ did_scroll_right8:
 	ld e, (hl)
 	inc hl
 	ld d, (hl)
-	inc hl
 	ex de, hl
 
 	call call_hl
@@ -377,10 +379,13 @@ did_scroll_right8:
 	ld (ix + Object.Position + Position.x + 1), START_X + 17 * 8		; i.e. in the allotted column.
 
 	ex de, hl
+	inc hl
 	ld a, (hl)
 	ld (ix + Object.Position + Position.y + 0), 0
 	ld (ix + Object.Position + Position.y + 1), a
 
+@reload_source_id:
+	ld hl, 0x1234
 	ld (ix + Object.SourceID), l
 	ld (ix + Object.SourceID + 1), h									; Set source ID.
 
