@@ -1,0 +1,83 @@
+events:
+	; A non-event in column 0; this gives the left list somewhere to anchor to.
+	dw 0
+	dw just_ret
+	db 0
+
+	; 1
+	dw 19
+	dw seed_frog
+	db START_Y + 120
+
+	; 2
+	dw 50
+	dw seed_frog
+	db START_Y + 120
+
+	; 3
+	dw 70
+	dw seed_frog
+	db START_Y + 72
+
+	; 4
+	dw 80
+	dw seed_frog
+	db START_Y + 120
+
+	; 5
+	dw 85
+	dw seed_frog
+	db START_Y + 120
+
+	; 6
+	dw 105
+	dw seed_frog
+	db START_Y + 120
+
+	; 7
+	dw 126
+	dw seed_frog
+	db START_Y + 104
+
+	; 8
+	dw 133
+	dw seed_frog
+	db START_Y + 72
+
+	; 9
+	dw 148
+	dw seed_frog
+	db START_Y + 120
+
+	; 10
+	dw 171
+	dw seed_frog
+	db START_Y + 120
+
+	; 11
+	dw 187
+	dw seed_frog
+	db START_Y + 120
+
+	; 12
+	; dw 207
+	; dw seed_frog
+	; db START_Y + 120
+
+	; 13
+	dw 223
+	dw seed_frog
+	db START_Y + 120
+
+	; 14
+	dw 240
+	dw seed_frog
+	db START_Y + 152
+
+	; 15
+	dw 258
+	dw seed_frog
+	db START_Y + 152
+
+	; A terminating event, which is so far out of bounds as never to trigger.
+	dw 0xffff
