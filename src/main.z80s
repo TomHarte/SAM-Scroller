@@ -71,15 +71,23 @@ Y_CEILING:	EQU 8		; Position at which player will bump his head in internal coor
 	jp game_loop
 
 
+
+;
+; Standard conveniences.
+;
 just_ret:		ret
 call_hl:		jp (hl)
 
+
+;
+; Two methods called out to from the main game loop; just dispatch the call-outs to
+; the various interested parties.
+;
 update_game_logic:
 	call update_objects
 	jp update_player_logic
 
-
-draw_objects:
+draw_sprites:
 	call draw_active_objects
 	jp draw_player_sprite
 

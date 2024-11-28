@@ -129,7 +129,7 @@ ENDIF
 	;
 	; Add sprites.
 	;
-	call draw_objects
+	call draw_sprites
 
 ;
 ; Loop for end of frame
