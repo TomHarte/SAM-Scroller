@@ -190,7 +190,7 @@ reset_scrolling:
 
 @end_seed:
 ;	xor a
-	ld a, 2
+	ld a, 8
 	ld (scroll_offset), a
 
 @return:
