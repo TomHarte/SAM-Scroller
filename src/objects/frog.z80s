@@ -5,7 +5,6 @@ seed_frog:
 	ld (ix + Object.Jump + 2), @+update_frog >> 8
 
 	ld (ix + Object.OwnedState), 0
-	scf
 	ret
 
 @update_frog:

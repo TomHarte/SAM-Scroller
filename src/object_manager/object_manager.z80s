@@ -235,7 +235,7 @@ did_scroll_left8:
 	jp nc, @+regress_cursor
 	ld (@+reload_source_id + 1), hl
 
-	; Call event function to check that this is really an object.
+	; Call event function to install object.
 	inc hl
 	inc hl
 	ld e, (hl)
@@ -244,7 +244,6 @@ did_scroll_left8:
 	ex de, hl
 
 	call call_hl
-	jp nc, @+regress_cursor
 
 	; Insert at IX.
 	ld (ix + Object.Position + Position.x + 0), 0
@@ -324,7 +323,7 @@ did_scroll_right8:
 	jp nc, @+advance_cursor
 	ld (@+reload_source_id + 1), hl
 
-	; Call event function to check that this is really an object.
+	; Call event function to install object.
 	inc hl
 	inc hl
 	ld e, (hl)
@@ -333,7 +332,6 @@ did_scroll_right8:
 	ex de, hl
 
 	call call_hl
-	jp nc, @+advance_cursor
 
 	; Insert at IX.
 	ld (ix + Object.Position + Position.x + 0), 0
