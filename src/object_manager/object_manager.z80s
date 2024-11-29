@@ -199,10 +199,13 @@ did_scroll_left8:
 
 	or a
 	sbc hl, de
-	jr nc, @+no_regress
+	jp nc, @+no_regress
 
 	ld hl, (@-load_position + 1)
 	ld (events_to_right), hl
+
+	; Test again, in case multiple events are in the same column.
+	jp did_scroll_left8
 
 @no_regress:
 
@@ -263,7 +266,9 @@ did_scroll_left8:
 	ld bc, -EVENT_SIZE
 	add hl, bc
 	ld (events_to_left), hl
-	ret
+
+	; Test again, in case multiple events are in the same column.
+	jp @-no_regress
 
 
 did_scroll_right8:
@@ -281,10 +286,14 @@ did_scroll_right8:
 	ld hl, (scroll_column)
 	scf					; To do the equivalent of inc hl.
 	sbc hl, de
-	jr c, @+no_advance
+	jp c, @+no_advance
 
 	ld hl, (@-load_position + 1)
 	ld (events_to_left), hl
+
+	; Test again, in case multiple events are in the same column.
+	jp did_scroll_right8
+
 @no_advance:
 
 	;
@@ -346,7 +355,9 @@ did_scroll_right8:
 	ld bc, EVENT_SIZE
 	add hl, bc
 	ld (events_to_right), hl
-	ret
+
+	; Test again, in case multiple events are in the same column.
+	jp @-no_advance
 
 
 ;
