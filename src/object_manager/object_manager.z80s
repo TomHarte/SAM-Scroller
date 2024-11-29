@@ -3,9 +3,15 @@
 ; and usually but not necessarily involves the addition of an object.
 ;
 Event.Column:			EQU 0
-Event.SetupFunction:	EQU 2
-Event.InitialY:			EQU 3
-EVENT_SIZE:				EQU Event.InitialY + 2
+Event.Flags:			EQU 2		; A bitfield, as defined below.
+Event.SetupFunction:	EQU 3
+Event.InitialY:			EQU 5
+EVENT_SIZE:				EQU Event.InitialY + 1
+
+Event.Flags.NO_OBJECT:	EQU 1		; Set this bit to have SetupFunction called at the named moment, but no
+									; attempt at inserting an object into the list. So the event list can be
+									; used for position-triggered events and not exclusively for
+									; on-screen objects.
 
 include "event_list.z80s"
 
@@ -199,10 +205,13 @@ did_scroll_left8:
 
 	or a
 	sbc hl, de
-	jr nc, @+no_regress
+	jp nc, @+no_regress
 
 	ld hl, (@-load_position + 1)
 	ld (events_to_right), hl
+
+	; Test again, in case multiple events are in the same column.
+	jp did_scroll_left8
 
 @no_regress:
 
@@ -228,20 +237,25 @@ did_scroll_left8:
 
 	; We're go to enact the next event. So do so.
 	ld hl, (events_to_left)
+
+	; Test for need to insert an object.
+	inc hl
+	inc hl
+	ld a, (hl)
+	rra
+	jr c, @+no_object
+
 	call @-find_object_slot			; Use address of event as a source ID.
 	jp nc, @+regress_cursor
 	ld (@+reload_source_id + 1), hl
 
-	; Call event function to check that this is really an object.
-	inc hl
+	; Call event function and install object.
 	inc hl
 	ld e, (hl)
 	inc hl
 	ld d, (hl)
 	ex de, hl
-
 	call call_hl
-	jp nc, @+regress_cursor
 
 	; Insert at IX.
 	ld (ix + Object.Position + Position.x + 0), 0
@@ -258,12 +272,25 @@ did_scroll_left8:
 	ld (ix + Object.SourceID), l
 	ld (ix + Object.SourceID + 1), h								; Set source ID.
 
+	jp @+regress_cursor
+
+@no_object:
+	; Just call event function.
+	inc hl
+	ld e, (hl)
+	inc hl
+	ld d, (hl)
+	ex de, hl
+	call call_hl
+
 @regress_cursor:
 	ld hl, (events_to_left)
 	ld bc, -EVENT_SIZE
 	add hl, bc
 	ld (events_to_left), hl
-	ret
+
+	; Test again, in case multiple events are in the same column.
+	jp @-no_regress
 
 
 did_scroll_right8:
@@ -281,10 +308,14 @@ did_scroll_right8:
 	ld hl, (scroll_column)
 	scf					; To do the equivalent of inc hl.
 	sbc hl, de
-	jr c, @+no_advance
+	jp c, @+no_advance
 
 	ld hl, (@-load_position + 1)
 	ld (events_to_left), hl
+
+	; Test again, in case multiple events are in the same column.
+	jp did_scroll_right8
+
 @no_advance:
 
 	;
@@ -311,20 +342,25 @@ did_scroll_right8:
 
 	; We're go to enact the next event. So do so.
 	ld hl, (events_to_right)
+
+	; Test for need to insert an object.
+	inc hl
+	inc hl
+	ld a, (hl)
+	rra
+	jr c, @+no_object
+
 	call @-find_object_slot			; Use address of event as a source ID.
 	jp nc, @+advance_cursor
 	ld (@+reload_source_id + 1), hl
 
-	; Call event function to check that this is really an object.
-	inc hl
+	; Call event function and install object.
 	inc hl
 	ld e, (hl)
 	inc hl
 	ld d, (hl)
 	ex de, hl
-
 	call call_hl
-	jp nc, @+advance_cursor
 
 	; Insert at IX.
 	ld (ix + Object.Position + Position.x + 0), 0
@@ -341,12 +377,25 @@ did_scroll_right8:
 	ld (ix + Object.SourceID), l
 	ld (ix + Object.SourceID + 1), h									; Set source ID.
 
+	jp @+advance_cursor
+
+@no_object:
+	; Just call event function.
+	inc hl
+	ld e, (hl)
+	inc hl
+	ld d, (hl)
+	ex de, hl
+	call call_hl
+
 @advance_cursor:
 	ld hl, (events_to_right)
 	ld bc, EVENT_SIZE
 	add hl, bc
 	ld (events_to_right), hl
-	ret
+
+	; Test again, in case multiple events are in the same column.
+	jp @-no_advance
 
 
 ;

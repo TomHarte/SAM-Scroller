@@ -1,61 +1,79 @@
 events:
 	; A non-event in column 0; this gives the left list somewhere to anchor to.
 	dw 0
+	db 0
 	dw just_ret
 	db 0
 
 	; 1
 	dw 19
+	db 0
 	dw seed_frog
 	db START_Y + 120
 
+	; 1.5
+	; dw 19
+	; db Event.Flags.NO_OBJECT
+	; dw just_ret
+	; db START_Y
+
 	; 2
 	dw 50
+	db 0
 	dw seed_frog
 	db START_Y + 120
 
 	; 3
 	dw 70
+	db 0
 	dw seed_frog
 	db START_Y + 72
 
 	; 4
 	dw 80
+	db 0
 	dw seed_frog
 	db START_Y + 120
 
 	; 5
 	dw 85
+	db 0
 	dw seed_frog
 	db START_Y + 120
 
 	; 6
 	dw 105
+	db 0
 	dw seed_frog
 	db START_Y + 120
 
 	; 7
 	dw 126
+	db 0
 	dw seed_frog
 	db START_Y + 104
 
 	; 8
 	dw 133
+	db 0
 	dw seed_frog
 	db START_Y + 72
 
 	; 9
 	dw 148
+	db 0
 	dw seed_frog
 	db START_Y + 120
 
 	; 10
 	dw 171
+	db 0
 	dw seed_frog
 	db START_Y + 120
 
 	; 11
 	dw 187
+	db 0
 	dw seed_frog
 	db START_Y + 120
 
@@ -66,16 +84,19 @@ events:
 
 	; 13
 	dw 223
+	db 0
 	dw seed_frog
 	db START_Y + 120
 
 	; 14
 	dw 240
+	db 0
 	dw seed_frog
 	db START_Y + 152
 
 	; 15
 	dw 258
+	db 0
 	dw seed_frog
 	db START_Y + 152
 
